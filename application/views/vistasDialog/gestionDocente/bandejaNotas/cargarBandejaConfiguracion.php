@@ -22,7 +22,7 @@
                                                         <td><CENTER><?=$dato['peso']*100;?>% </CENTER></td>
                                                         <td>
                                                             <CENTER>                                                                
-                                                                <a href="#">Eliminar</a>
+                                                                <a href="##">Eliminar</a>
                                                             </CENTER>
                                                         </td>
                                                   </tr>                     
