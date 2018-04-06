@@ -1,0 +1,133 @@
+/* Nuevo login 2017 */
+
+.tipografia {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.login {
+    width: 100%;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    min-height: 250px;
+    float: left;
+    padding-bottom: 20px;
+    margin-top: 10px;
+}
+
+.login .borde-superior {
+    width: 100%;
+    height: 10px;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-border-top-left-radius: 8px;
+    -moz-border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.login .borde-interior {
+    height: 2px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.login .logo {
+    margin-bottom: 20px;
+}
+
+.login .logo .escudo {
+    margin: 0px auto;
+    max-width: 100%;
+}
+
+@media (min-width: 768px) {
+    .tipografia {
+        position: absolute;
+        top: 40px;
+    }
+    
+    .login {
+        margin-top: 20%;
+    }
+    
+    .login .logo .escudo {
+        max-width: 80%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .login {
+        margin-top: 50%;
+    }
+}
+
+.login #frmLogin .form-group .campo .input-text {
+    padding: 4px 30px 4px 30px;
+    background-color: transparent;
+    border: 0px;
+    -webkit-border-radius:0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    width: 100%;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login #frmLogin .form-group .campo small.help-block {
+    position: absolute;
+    bottom: -9px;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    font-weight: 600;
+}
+
+.login #frmLogin .form-group .campo i.form-control-feedback {
+    top: 9px;
+    right: 9px;
+}
+
+.login #frmLogin .form-group .campo .input-text:focus {
+    outline: none;
+}
+
+.login #frmLogin .form-group .campo .input-text:focus ~ .input-text-line {
+    left: 0%;
+    right: 0%;
+}
+
+.login #frmLogin .form-group .campo .input-text-line {
+    position: absolute;
+    height: 2px;
+    transition: all 0.3s ease;
+    bottom: 20px;
+    left: 50%;
+    right: 50%;
+    margin: 0px 15px;
+}
+
+.login #frmLogin .form-group .campo label.fa {
+    position: absolute;
+    top: 6px;
+    left: 16px;
+    font-size: 18px;
+}
+
+.login #frmLogin .form-group button[type="submit"] {
+    margin-top: 10px;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    width: 100%;
+}
+
+.marca-producto {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
