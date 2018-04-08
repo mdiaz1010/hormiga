@@ -66,6 +66,11 @@ class Usuarios_model extends CI_Model{
         $this->db->where('id_persona',$id);
         $this->db->update('maeusuarios');        
     }
+    public function editar_configuracion_nota($datos,$lista){
+        $this->db->set($datos);
+        $this->db->where($lista);
+        $this->db->update('rel_notas_detalle');     
+    }    
     public function cambiardat($datos,$id){
         $this->db->set($datos);
         $this->db->where('id',$id);
@@ -956,7 +961,7 @@ class Usuarios_model extends CI_Model{
         return $query->result_array();             
     }     
     public function suma_notas($id_grado,$id_curso,$id_profesor){
-        $this->db->select('sum(peso) as acumulado')->from('rel_notas_detalle')->where('id_grado='.$id_grado.'  and id_curso='.$id_curso.' and id_profesor='.$id_profesor.' and ano='.date('Y'));
+        $this->db->select('sum(peso) as acumulado')->from('rel_notas_detalle')->where('id_grado='.$id_grado.'  and id_curso='.$id_curso.' and id_profesor='.$id_profesor.' and estado=1 and ano='.date('Y'));
         return $this->db->get()->row_array();
 
     }
@@ -1226,9 +1231,10 @@ class Usuarios_model extends CI_Model{
                  ->from("maenotas ma")
                  ->join("relnotas rl","on ma.id=rl.id_nota")
                  ->where("rl.estado=1 and ma.ano=".date('Y')."    and ma.pe is null and rl.id_curso=".$curso." and rl.id_grado=".$grado)
-                 ->order_by('ma.nom_notas,ma.id_bimestre');  
+                 ->order_by('ma.nom_notas','ASC');  
         return $this->db->get()->result_array();        
     } 
+
     public function busquedaNotas6($ano) { 
         $this->db->distinct();
         $this->db->select("ma.id,ma.nom_notas,ma.des_notas,ma.id_bimestre,ma.pe")
