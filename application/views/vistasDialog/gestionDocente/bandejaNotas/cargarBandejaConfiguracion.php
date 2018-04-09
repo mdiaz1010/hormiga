@@ -30,6 +30,13 @@
                                     </tbody>
 </table>
 </form>
+<div class="container">
+        <center>
+            <strong>
+                <h3><?=$bodyData->formula?></h3>
+            </strong>
+        </center>
+</div>
 <script>
 $(".eliminarPeso").click(function(){
     var curso=$("#grado").val();

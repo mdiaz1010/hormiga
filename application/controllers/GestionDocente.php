@@ -685,16 +685,28 @@ class GestionDocente extends CI_Controller {
         $ano=$this->input->post('ano');
 
         $informacion= $this->Docente_model->busqueda_notas_configuradas($grado,$curso,$nota,$profesor,$ano);
-
+        $formulas   = $this->Docente_model->formulario_capacidades($grado,$nota,$profesor,$ano,$curso);
+     
+        if(!empty($formulas)){
+        $form_nombre= implode('+',array_column($formulas,'form'));
+        $formula_final= $formulas[0]['des_notas'].'='.$form_nombre;
+        }
+     
+        
         if(isset($informacion)==true){
             $busqueda= array('curso'=>$curso,'grado'=>$grado,'ano'=>$ano,'profesor'=>$profesor,'nota'=>$nota);
             $respuesta=1;$results=1;        
             }else{
              echo "No existe información";die();
         }
-              
+        if(empty($formula_final)){
+        $this->htmlData['bodyData']->formula                          ='';    
+        }else{
+        $this->htmlData['bodyData']->formula                          =$formula_final;
+        }      
 
-        $this->htmlData['bodyData']->datos_usuario                    =$busqueda;  
+
+        $this->htmlData['bodyData']->datos_usuario                    =$busqueda;
         $this->htmlData['bodyData']->datos                            =$informacion;  
         $this->load->view('vistasDialog/gestionDocente/bandejaNotas/cargarBandejaConfiguracion',$this->htmlData);
     }

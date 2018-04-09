@@ -960,6 +960,7 @@ class Usuarios_model extends CI_Model{
         $query = $this->db->get();
         return $query->result_array();             
     }     
+
     public function suma_notas($id_grado,$id_curso,$id_profesor){
         $this->db->select('sum(peso) as acumulado')->from('rel_notas_detalle')->where('id_grado='.$id_grado.'  and id_curso='.$id_curso.' and id_profesor='.$id_profesor.' and estado=1 and ano='.date('Y'));
         return $this->db->get()->row_array();
