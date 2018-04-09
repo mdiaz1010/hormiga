@@ -115,9 +115,9 @@ var peso      = $("#peso").val();
 if(abreviacion==='' || descripcion==='' || peso===''){
   alert('Rellenar los campos obligatorios *'); return true;
 }
-$.post('valido_abreviacion_notas',{abreviacion:abreviacion},function(datos){
+$.post('valido_abreviacion_notas',{grado:grado,curso:curso,abreviacion:abreviacion,profesor:profesor,ano:ano,nota:nota},function(datos){
 
-  if(datos==1){
+  if(datos==="1"){
     alert("Esta abreviación ya se encuentra registrada, por favor cambiar el nombre");
   }else{
 

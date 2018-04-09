@@ -575,9 +575,20 @@ class GestionDocente extends CI_Controller {
     } 
     public function valido_abreviacion_notas(){
         $this->load->model("Usuarios_model",'',TRUE);
+        $grado      =$this->input->post('grado');    
+        $curso      =$this->input->post('curso');
+        $nota       =$this->input->post('nota');
+        $profesor   =$this->input->post('profesor');
+        $ano        =$this->input->post('ano');        
         $abreviacion= strtoupper ($this->input->post('abreviacion'));
-        $respuesta  = $this->Usuarios_model->validar_abreviacion($abreviacion);
-        print_r($respuesta); die();
+        $respuesta  = $this->Usuarios_model->validar_abreviacion($grado,$curso,$nota,$profesor,$ano,$abreviacion);
+        if(empty($respuesta)){
+            $mensaje=0;
+           echo  json_encode($mensaje);
+        }else{
+            $mensaje=1;
+            echo json_encode($mensaje);
+        }
     }
     public function registrar_configuracion_nota(){
         $this->load->model("Docente_model",'',TRUE);
