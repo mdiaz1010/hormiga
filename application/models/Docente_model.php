@@ -18,6 +18,7 @@ class Docente_model extends CI_Model{
                    and id_grado      ='.$grado.'
                    and id_curso      ='.$curso.'
                    and id_nota       in ('.$nota.')
+                   and estado= 1
                    and id_profesor   ='.$profesor)        ;        
                  return $this->db->get()->result_array() ;   
     }   

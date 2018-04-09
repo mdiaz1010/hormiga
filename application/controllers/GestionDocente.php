@@ -554,9 +554,25 @@ class GestionDocente extends CI_Controller {
          $respuesta=0;$results=0;   
         }
         $this->htmlData['bodyData']->datos                    =$busqueda;  
-        $this->htmlData['bodyData']->acumulado                =((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec;
+        $this->htmlData['bodyData']->acumulado                =(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;
         $this->load->view('vistasDialog/gestionDocente/bandejaNotas/bandejaConfiguracion',$this->htmlData);
-    }       
+    }      
+    public function cambiar_estado_configuracion(){
+        $this->load->model("Usuarios_model",'',TRUE);        
+        $grado       =$this->input->post('grado');
+        $nota       =$this->input->post('nota');
+        $profesor   =$this->input->post('profesor');
+        $curso        =$this->input->post('curso');
+        $abreviacion=$this->input->post('abreviacion'); 
+        $list_cambio=array('estado'=>0,'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
+        $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'abreviacion'=>$abreviacion,'ano'=>date('Y'));
+        #print_r($list_datos);die();
+        if($this->Usuarios_model->editar_configuracion_nota($list_cambio,$list_datos)){
+            echo "edicion exitosa";
+        }else{
+            echo "fallo en la eliminacion";
+        }
+    } 
     public function registrar_configuracion_nota(){
         $this->load->model("Docente_model",'',TRUE);
         $this->load->model("Usuarios_model",'',TRUE);
@@ -569,6 +585,25 @@ class GestionDocente extends CI_Controller {
         $list_nota= explode(',',$nota);        
         $descripcion=$this->input->post('descripcion');
         $peso       =$this->input->post('peso');        
+        if(is_null($peso)){
+            $sum_peso=0;
+        }else{
+            $sum_peso=array_sum($peso)*100; 
+        }
+    ## validacion
+        $cantidad_bi= (int)$this->Usuarios_model->getbi(); 
+        $cantidad_sec=(int)$this->Usuarios_model->getsec($grado,$profesor,$curso);     
+        $suma_nota= $this->Usuarios_model->suma_notas($grado,$curso,$profesor);
+        $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;    
+        
+        
+        $sum_final= (int)$suma_bd+($sum_peso);
+        if($sum_final!=100){
+            $mensaje="La suma total debe de ser igual a 100";
+            echo json_encode($mensaje);
+            die();
+        }
+        $mensaje=1;
         $i=0;
         $data= array('profesor'=>$profesor,'curso'=>$curso,'grado'=>$grado);
         $list_seccion = $this->Usuarios_model->busquedaCursoSeccionProf($data);
@@ -586,6 +621,7 @@ class GestionDocente extends CI_Controller {
                         'abreviacion'   =>strtoupper($abreviado),
                         'descripcion'   =>strtoupper($descripcion[$i]),
                         'peso'          =>$peso[$i],
+                        'estado'        =>1,
                         'fec_creacion'  =>date('Y-m-d'),
                         'usu_creacion'  =>$this->session->webCasSession->usuario->USUARIO
                         
@@ -598,7 +634,7 @@ class GestionDocente extends CI_Controller {
         $i++;
   
     }
-
+    echo json_encode($mensaje);
     }
     public function comboCursoGradoProf(){
         $this->load->model("Usuarios_model",'',TRUE);

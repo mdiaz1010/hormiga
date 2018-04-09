@@ -154,8 +154,10 @@ $("#btnRegistroFin").click(function(){
                 valor = parseFloat(peso[i]);    
                 total = total+valor;
             };       
+    
     total=total+parseInt(acumulado);    
-    if(total==1){
+  
+    
         var grado   = $("#grado").val();
         var curso   = $("#curso").val();
         var nota    = $("#nota").val();
@@ -166,17 +168,22 @@ $("#btnRegistroFin").click(function(){
                                             url : "registrar_configuracion_nota",
                                             data : $("#registrarNotasConf").serialize(),
                                             success : function(datos){
-                                              $("#divGrilla").load("cargarConfiguracionNotas",{ grado:grado,curso:curso,nota:nota,profesor:profesor,ano:ano });                     
-                                              $("#configuracion_nota")[0].reset();
-                                              $('#result_error').html("");
+                                              if(datos==1){
+                                                  $("#divGrilla").load("cargarConfiguracionNotas",{ grado:grado,curso:curso,nota:nota,profesor:profesor,ano:ano });                     
+                                                  $("#configuracion_nota")[0].reset();
+                                                  $('#result_error').html("");
+                                              }else{
+                                                  $("#configuracion_nota")[0].reset();
+                                                  $('#result_error').html("");                                                
+                                                  alert(datos); return true;
+                                              }
+                                              
+
                                                                                  }		    					
                                             
                                     });   
         
-    }else{
-        alert("No se pueden guardar los cambios debido a que la suma de los pesos deben de ser igual al 100%");return true;
-    }    
-
+    
                  
 });
 
