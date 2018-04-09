@@ -81,18 +81,24 @@
         
         
         <table>
+              <thead align="center">
                 <tr align="center">
-                
-                        <td > <p class="circulo"></p>   </td>
+                <td>  </td>
+                        <td colspan="2"> <p class="circulo"></p>   </td>
                         
-                        <td colspan="2">   Nota eliminada       </td>
+                        <td >   Nota eliminada       </td>
                         
                 </tr>
-                <tr >
-                </tr>
+
+                <tr ></tr>
+
                 <tr align="center">
-                        <td>  <p class="circulo2"></p>   </td>
-                        <td colspan="2"> Nota  registrada    </td>
+                <td></td>
+                        <td colspan="2">  <p class="circulo2"></p>   </td>
+
+                        <td > Nota  registrada    </td>
+                </tr>                
+                </thead>        
         </table>
         
       </div>

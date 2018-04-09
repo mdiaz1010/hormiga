@@ -965,6 +965,14 @@ class Usuarios_model extends CI_Model{
         return $this->db->get()->row_array();
 
     }
+    public function validar_abreviacion($grado,$curso,$nota,$profesor,$ano,$abreviacion){
+        $this->db->distinct();
+        $this->db->select('id')
+        ->from('rel_notas_detalle')
+        ->where('id_grado='.$grado.'  and id_curso='.$curso.' and id_nota in( '.$nota.') and id_profesor='.$profesor.' and estado=1 and ano='.$ano.' and abreviacion="'.$abreviacion.'"');   
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function busquedaSeccion($data) {          
         $this->db->distinct();
         $this->db->select('id_seccion')
