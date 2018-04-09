@@ -16,7 +16,7 @@
                                     </thead>
                                     <tbody>       
                                          <?php $i=0; foreach($bodyData->datos as $dato): ?>
-                                                  <tr id="<?=$dato['abreviacion']?>">                                   
+                                                  <tr id="<?=$dato['abreviacion']?>" bgcolor="#A9F5A9">                                   
                                                         <td><CENTER><?=$dato['abreviacion'];?> </CENTER></td>
                                                         <td><CENTER><?=$dato['descripcion'];?> </CENTER></td>
                                                         <td><CENTER><?=$dato['peso']*100;?>% </CENTER></td>
@@ -38,8 +38,8 @@ $(".eliminarPeso").click(function(){
     var profesor=$("#profesor").val();
     var codigo = $(this).data('codigo');
     $.post('cambiar_estado_configuracion',{grado:grado,curso:curso,nota:nota,profesor:profesor,abreviacion:codigo});
-    $("#"+codigo).attr("bgcolor","#F7819F");
-    $("#"+codigo).attr("style","color:white");
+    $("#"+codigo).attr("bgcolor","#F8E0E0");
+    
 });
 </script>
 
