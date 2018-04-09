@@ -573,6 +573,12 @@ class GestionDocente extends CI_Controller {
             echo "fallo en la eliminacion";
         }
     } 
+    public function valido_abreviacion_notas(){
+        $this->load->model("Usuarios_model",'',TRUE);
+        $abreviacion= strtoupper ($this->input->post('abreviacion'));
+        $respuesta  = $this->Usuarios_model->validar_abreviacion($abreviacion);
+        print_r($respuesta); die();
+    }
     public function registrar_configuracion_nota(){
         $this->load->model("Docente_model",'',TRUE);
         $this->load->model("Usuarios_model",'',TRUE);
@@ -584,7 +590,13 @@ class GestionDocente extends CI_Controller {
         $abreviacion=$this->input->post('abreviacion');
         $list_nota= explode(',',$nota);        
         $descripcion=$this->input->post('descripcion');
-        $peso       =$this->input->post('peso');        
+        $peso       =$this->input->post('peso');    
+        
+        if(empty($abreviacion) || empty($peso) || empty ($descripcion)){
+            $mensaje="No se ha ingresado informacion nueva";
+            echo json_encode($mensaje);
+            die();            
+        }    
         if(is_null($peso)){
             $sum_peso=0;
         }else{
@@ -597,7 +609,7 @@ class GestionDocente extends CI_Controller {
         $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;    
         
         
-        $sum_final= (int)$suma_bd+($sum_peso);
+        $sum_final= (int)$suma_bd+(int)($sum_peso);
         if($sum_final!=100){
             $mensaje="La suma total debe de ser igual a 100";
             echo json_encode($mensaje);

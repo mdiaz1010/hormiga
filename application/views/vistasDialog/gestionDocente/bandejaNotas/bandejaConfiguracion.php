@@ -115,15 +115,27 @@ var peso      = $("#peso").val();
 if(abreviacion==='' || descripcion==='' || peso===''){
   alert('Rellenar los campos obligatorios *'); return true;
 }
-var concatenarFilas='';
-    concatenarFilas+='<tr id="contFilas'+contador+'">';
-    concatenarFilas+='<td><CENTER>'+abreviacion.toUpperCase()+ '<input type="hidden" name="abreviacion[]"   data-cantdet="'+contador+'" id="abreviacion'+contador+'"     value="'+abreviacion+'" ></CENTER></td>';
-    concatenarFilas+='<td><CENTER>'+descripcion.toUpperCase()+ '<input type="hidden" name="descripcion[]"   data-cantdet="'+contador+'" id="descripcion'+contador+'"     value="'+descripcion+'" ></CENTER></td>';
-    concatenarFilas+='<td><CENTER>'+peso+ '%<input type="hidden" name="peso[]"   data-cantdet="'+contador+'" id="peso'+contador+'"     value="'+(peso/100)+'" ></CENTER></td>';
-    concatenarFilas+='<td><CENTER><a href="javascript:" title="Anular" class="fa fa-remove eliminar" data-codigo="'+contador+'"></a></CENTER></td>';
-    concatenarFilas+='</tr>';
-    $("#configuracion_nota")[0].reset();
-    $("#configuracion").append(concatenarFilas);
+$.post('valido_abreviacion_notas',{abreviacion:abreviacion},function(datos){
+
+  if(datos==1){
+    alert("Esta abreviación ya se encuentra registrada, por favor cambiar el nombre");
+  }else{
+
+    var concatenarFilas='';
+        concatenarFilas+='<tr id="contFilas'+contador+'">';
+        concatenarFilas+='<td><CENTER>'+abreviacion.toUpperCase()+ '<input type="hidden" name="abreviacion[]"   data-cantdet="'+contador+'" id="abreviacion'+contador+'"     value="'+abreviacion+'" ></CENTER></td>';
+        concatenarFilas+='<td><CENTER>'+descripcion.toUpperCase()+ '<input type="hidden" name="descripcion[]"   data-cantdet="'+contador+'" id="descripcion'+contador+'"     value="'+descripcion+'" ></CENTER></td>';
+        concatenarFilas+='<td><CENTER>'+peso+ '%<input type="hidden" name="peso[]"   data-cantdet="'+contador+'" id="peso'+contador+'"     value="'+(peso/100)+'" ></CENTER></td>';
+        concatenarFilas+='<td><CENTER><a href="javascript:" title="Anular" class="fa fa-remove eliminar" data-codigo="'+contador+'"></a></CENTER></td>';
+        concatenarFilas+='</tr>';
+        $("#configuracion_nota")[0].reset();
+        $("#configuracion").append(concatenarFilas);
+
+
+  }
+
+
+});
   /*
   $.ajax({
                 type : "POST",
