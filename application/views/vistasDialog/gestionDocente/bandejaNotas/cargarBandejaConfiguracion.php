@@ -22,12 +22,16 @@
                                                         <td><CENTER><?=$dato['peso']*100;?>% </CENTER></td>
                                                         <td >
                                                             <CENTER>                                                                
-                                                                <a href="javascript:" data-codigo='<?=$dato['abreviacion'];?>' class='eliminarPeso'>Eliminar</a>
+                                                                <input name="txtmarcado[]" id="txtmarcado" data-codigo='<?=$dato['abreviacion'];?>' data-peso='<?=$dato['peso']*100?>' class='eliminarPeso' type="checkbox">
+                                                                
                                                             </CENTER>
                                                         </td>
                                                   </tr>                     
                                          <?php endforeach; ?>                                                                        
                                     </tbody>
+                                    <input type="hidden" name="not" id="not" >
+                                    <input type="hidden" name="descontar" id="descontar" >
+                                    
 </table>
 </form>
 <div class="container">
@@ -38,17 +42,34 @@
         </center>
 </div>
 <script>
+
 $(".eliminarPeso").click(function(){
-    var curso=$("#grado").val();
+    var arrayMarcado=[];
+    var arrayPeso=0;
+    $("input[name='txtmarcado[]']:checked").each(function() {			
+			var value = $(this).val();
+            var codigo = $(this).data('codigo');	
+            var peso = $(this).data('peso');	
+                        arrayPeso=parseInt(arrayPeso)+parseInt(peso);   
+                        arrayMarcado.push(codigo);
+		    	
+		});      
+
+    list_final= arrayMarcado.join();
+
+
+    var grado=$("#grado").val();
     var curso=$("#curso").val();
     var nota=$("#nota").val();
-    var profesor=$("#profesor").val();
     var codigo = $(this).data('codigo');
+    cod='';
+    $("#not").val(list_final);
+    $("#descontar").val(parseInt(arrayPeso));
+
+    cod+=codigo+","
+    $("#not").val();
+    var profesor=$("#profesor").val();
     $("#"+codigo).attr("bgcolor","#F8E0E0");
-   /*
-    $.post('cambiar_estado_configuracion',{grado:grado,curso:curso,nota:nota,profesor:profesor,abreviacion:codigo});
-    */
+
     });
 </script>
-
-

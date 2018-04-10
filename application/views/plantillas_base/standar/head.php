@@ -24,9 +24,9 @@
     <script src="<?= base_url('publico/html_libs/bootstrap/dist/js/bootstrap.min.js')?>"></script>
     <!-- FastClick -->
     <script src="<?= base_url('publico/html_libs/fastclick/lib/fastclick.js')?>"></script>
-        <script src="<?= base_url('publico/js/jquery.dataTables.js')?>"></script>
-        <script src="<?= base_url('publico/js/dataTables.bootstrap.js')?>"></script>
-        <link href="<?= base_url('publico/css/dataTables.bootstrap.css')?>" rel="stylesheet">
+        <script src="<?= base_url('vendor/datatables/datatables/js/jquery.dataTables.js')?>"></script>
+        <script src="<?= base_url('vendor/datatables/datatables/js/dataTables.bootstrap.js')?>"></script>
+        <link href="<?= base_url('vendor/datatables/datatables/css/dataTables.bootstrap.css')?>" rel="stylesheet">
     
     <!-- dialog-->
     <script   src="<?= base_url('publico/js/jquery-ui.js')?>"></script>

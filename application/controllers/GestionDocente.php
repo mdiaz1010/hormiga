@@ -564,14 +564,16 @@ class GestionDocente extends CI_Controller {
         $profesor   =$this->input->post('profesor');
         $curso        =$this->input->post('curso');
         $abreviacion=$this->input->post('abreviacion'); 
+        foreach($abreviacion as $abre){
         $list_cambio=array('estado'=>0,'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
-        $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'abreviacion'=>$abreviacion,'ano'=>date('Y'));
+        $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'abreviacion'=>$abre,'ano'=>date('Y'));
         #print_r($list_datos);die();
         if($this->Usuarios_model->editar_configuracion_nota($list_cambio,$list_datos)){
             echo "edicion exitosa";
         }else{
             echo "fallo en la eliminacion";
         }
+    }
     } 
     public function valido_abreviacion_notas(){
         $this->load->model("Usuarios_model",'',TRUE);
@@ -619,13 +621,13 @@ class GestionDocente extends CI_Controller {
         $suma_nota= $this->Usuarios_model->suma_notas($grado,$curso,$profesor);
         $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;    
         
-        
+        /*
         $sum_final= (int)$suma_bd+(int)($sum_peso);
         if($sum_final!=100){
             $mensaje="La suma total debe de ser igual a 100";
             echo json_encode($mensaje);
             die();
-        }
+        }*/
         $mensaje=1;
         $i=0;
         $data= array('profesor'=>$profesor,'curso'=>$curso,'grado'=>$grado);

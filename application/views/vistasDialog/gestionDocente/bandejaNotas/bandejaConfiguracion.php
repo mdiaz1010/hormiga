@@ -165,20 +165,31 @@ $.post('valido_abreviacion_notas',{grado:grado,curso:curso,abreviacion:abreviaci
 </script>
 <script>
 $("#btnRegistroFin").click(function(){
-
+    var eliminar= $("#not").val();
+    
     var peso        = $('input[name="peso[]"]').map(function(){ 
                     return this.value; 
                 }).get();
-
+    var descontar=0;
+    descontar   = $("#descontar").val();
+    
     total=0;    
             for(i=0;i<peso.length;i++){
                 valor = parseFloat(peso[i]);    
                 total = total+valor;
             };       
-    
-    total=total+parseInt(acumulado);    
-  
-    
+    total=total*100;
+    if(descontar==''){
+      total=parseInt(total)+parseInt(acumulado)  
+    }else{
+      total=parseInt(total)+parseInt(acumulado)-parseInt(descontar);    
+    }
+
+     /*
+    $.post('cambiar_estado_configuracion',{grado:grado,curso:curso,nota:nota,profesor:profesor,abreviacion:codigo});
+    */
+
+    if(total=="100"){
         var grado   = $("#grado").val();
         var curso   = $("#curso").val();
         var nota    = $("#nota").val();
@@ -190,6 +201,7 @@ $("#btnRegistroFin").click(function(){
                                             data : $("#registrarNotasConf").serialize(),
                                             success : function(datos){
                                               if(datos==1){
+                                                  $.post('cambiar_estado_configuracion',{grado:grado,curso:curso,nota:nota,profesor:profesor,abreviacion:eliminar});
                                                   $("#divGrilla").load("cargarConfiguracionNotas",{ grado:grado,curso:curso,nota:nota,profesor:profesor,ano:ano });                     
                                                   $("#configuracion_nota")[0].reset();
                                                   $('#result_error').html("");
@@ -204,7 +216,9 @@ $("#btnRegistroFin").click(function(){
                                             
                                     });   
         
-    
+    }else{
+      alert("La suma total debe de ser igual a 100"); return true;
+    }
                  
 });
 
