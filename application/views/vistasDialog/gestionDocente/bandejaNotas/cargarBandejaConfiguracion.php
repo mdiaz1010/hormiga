@@ -33,7 +33,7 @@
 <div class="container">
         <center>
             <strong>
-                <h3><?=$bodyData->formula?></h3>
+                <h5><?=$bodyData->formula?></h5>
             </strong>
         </center>
 </div>
@@ -44,10 +44,11 @@ $(".eliminarPeso").click(function(){
     var nota=$("#nota").val();
     var profesor=$("#profesor").val();
     var codigo = $(this).data('codigo');
-    $.post('cambiar_estado_configuracion',{grado:grado,curso:curso,nota:nota,profesor:profesor,abreviacion:codigo});
     $("#"+codigo).attr("bgcolor","#F8E0E0");
-    
-});
+   /*
+    $.post('cambiar_estado_configuracion',{grado:grado,curso:curso,nota:nota,profesor:profesor,abreviacion:codigo});
+    */
+    });
 </script>
 
 

@@ -112,6 +112,15 @@ contador++  ;
 var abreviacion= $("#abreviacion").val();
 var descripcion= $("#descripcion").val();
 var peso      = $("#peso").val();
+
+    var abreviacion_ = $('input[name="abreviacion[]"]').map(function(){ 
+                    return this.value; 
+                }).get();                
+    
+    var index= abreviacion_.indexOf(abreviacion);
+if(index!==-1){
+  alert('No se permite ingresar la misma abreviacion'); return true;
+}
 if(abreviacion==='' || descripcion==='' || peso===''){
   alert('Rellenar los campos obligatorios *'); return true;
 }
@@ -157,10 +166,10 @@ $.post('valido_abreviacion_notas',{grado:grado,curso:curso,abreviacion:abreviaci
 <script>
 $("#btnRegistroFin").click(function(){
 
-    var peso = $('input[name="peso[]"]').map(function(){ 
+    var peso        = $('input[name="peso[]"]').map(function(){ 
                     return this.value; 
                 }).get();
-    
+
     total=0;    
             for(i=0;i<peso.length;i++){
                 valor = parseFloat(peso[i]);    
