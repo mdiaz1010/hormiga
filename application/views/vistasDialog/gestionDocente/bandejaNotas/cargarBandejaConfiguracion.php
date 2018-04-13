@@ -23,7 +23,7 @@
                                                         <td >
                                                             <CENTER>                                                                
                                                                 <input name="txtmarcado[]" id="txtmarcado" data-codigo='<?=$dato['abreviacion'];?>' data-peso='<?=$dato['peso']*100?>' class='eliminarPeso' type="checkbox">
-                                                                
+                                                                <input type="hidden" name="abre[]" id="abre" value="<?=$dato['abreviacion'];?>">
                                                             </CENTER>
                                                         </td>
                                                   </tr>                     
@@ -46,26 +46,36 @@
 $(".eliminarPeso").click(function(){
     var arrayMarcado=[];
     var arrayPeso=0;
-
+    var arrayTotal=[];
+    $("input[name='abre[]']").each(function() {			
+			var value       = $(this).val();
+            arrayTotal.push(value);
+       
+		});      
+    
+    
     $("input[name='txtmarcado[]']:checked").each(function() {			
 			var value       = $(this).val();
             var codigo      = $(this).data('codigo');
             var peso        = $(this).data('peso');	
-            $("input[name='txtmarcado[]']:checked").change(function(){
-                
+
                             arrayPeso=parseInt(arrayPeso)+parseInt(peso);   
-                            arrayMarcado.push(codigo);
-                            if( $("input[name='txtmarcado[]']:checked").is(':checked')) { 
-                                $("#"+codigo).attr("bgcolor","#F8E0E0");	
-                            }else{
-                                $("#"+codigo).attr("bgcolor","#A9F5A9");
-                            }
-
-            });
-
+              var color=              arrayMarcado.push(codigo);
        
 		});      
-
+    for(var i=0; i<arrayMarcado.length;i++){
+        $("#"+arrayMarcado[i]).attr("bgcolor","#F8E0E0");	
+    }
+    var difference = [];    
+                   
+     
+    jQuery.grep(arrayTotal, function(el) {
+        if (jQuery.inArray(el, arrayMarcado) == -1) difference.push(el);
+});
+     
+    for(var j=0; j<difference.length;j++){
+        $("#"+difference[j]).attr("bgcolor","#A9F5A9");	
+    }
     list_final= arrayMarcado.join();
 
 
