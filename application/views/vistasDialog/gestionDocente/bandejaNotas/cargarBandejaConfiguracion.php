@@ -60,7 +60,7 @@ $(".eliminarPeso").click(function(){
                             }else{
                                 $("#"+codigo).attr("bgcolor","#A9F5A9");
                             }
-                            
+
             });
 
        
