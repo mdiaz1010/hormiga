@@ -22,25 +22,75 @@
                                                         <td><CENTER><?=$dato['peso']*100;?>% </CENTER></td>
                                                         <td >
                                                             <CENTER>                                                                
-                                                                <a href="javascript:" data-codigo='<?=$dato['abreviacion'];?>' class='eliminarPeso'>Eliminar</a>
+                                                                <input name="txtmarcado[]" id="txtmarcado" data-codigo='<?=$dato['abreviacion'];?>' data-peso='<?=$dato['peso']*100?>' class='eliminarPeso' type="checkbox">
+                                                                <input type="hidden" name="abre[]" id="abre" value="<?=$dato['abreviacion'];?>">
                                                             </CENTER>
                                                         </td>
                                                   </tr>                     
                                          <?php endforeach; ?>                                                                        
                                     </tbody>
+                                    <input type="hidden" name="not" id="not" >
+                                    <input type="hidden" name="descontar" id="descontar" >
+                                    
 </table>
 </form>
+<div class="container">
+        <center>
+            <strong>
+                <h5><?=$bodyData->formula?></h5>
+            </strong>
+        </center>
+</div>
 <script>
+
 $(".eliminarPeso").click(function(){
-    var curso=$("#grado").val();
+    var arrayMarcado=[];
+    var arrayPeso=0;
+    var arrayTotal=[];
+    $("input[name='abre[]']").each(function() {			
+			var value       = $(this).val();
+            arrayTotal.push(value);
+       
+		});      
+    
+    
+    $("input[name='txtmarcado[]']:checked").each(function() {			
+			var value       = $(this).val();
+            var codigo      = $(this).data('codigo');
+            var peso        = $(this).data('peso');	
+
+                            arrayPeso=parseInt(arrayPeso)+parseInt(peso);   
+              var color=              arrayMarcado.push(codigo);
+       
+		});      
+    for(var i=0; i<arrayMarcado.length;i++){
+        $("#"+arrayMarcado[i]).attr("bgcolor","#F8E0E0");	
+    }
+    var difference = [];    
+                   
+     
+    jQuery.grep(arrayTotal, function(el) {
+        if (jQuery.inArray(el, arrayMarcado) == -1) difference.push(el);
+});
+     
+    for(var j=0; j<difference.length;j++){
+        $("#"+difference[j]).attr("bgcolor","#A9F5A9");	
+    }
+    list_final= arrayMarcado.join();
+
+
+    var grado=$("#grado").val();
     var curso=$("#curso").val();
     var nota=$("#nota").val();
-    var profesor=$("#profesor").val();
     var codigo = $(this).data('codigo');
-    $.post('cambiar_estado_configuracion',{grado:grado,curso:curso,nota:nota,profesor:profesor,abreviacion:codigo});
-    $("#"+codigo).attr("bgcolor","#F8E0E0");
+    cod='';
+    $("#not").val(list_final);
+    $("#descontar").val(parseInt(arrayPeso));
+
     
-});
+    $("#not").val();
+    var profesor=$("#profesor").val();
+   
+
+    });
 </script>
-
-

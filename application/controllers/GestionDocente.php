@@ -563,15 +563,17 @@ class GestionDocente extends CI_Controller {
         $nota       =$this->input->post('nota');
         $profesor   =$this->input->post('profesor');
         $curso        =$this->input->post('curso');
-        $abreviacion=$this->input->post('abreviacion'); 
+        $abreviacion=explode(',',$this->input->post('abreviacion')); 
+        foreach($abreviacion as $abre){
         $list_cambio=array('estado'=>0,'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
-        $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'abreviacion'=>$abreviacion,'ano'=>date('Y'));
+        $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'abreviacion'=>$abre,'ano'=>date('Y'));
         #print_r($list_datos);die();
         if($this->Usuarios_model->editar_configuracion_nota($list_cambio,$list_datos)){
             echo "edicion exitosa";
         }else{
             echo "fallo en la eliminacion";
         }
+    }
     } 
     public function valido_abreviacion_notas(){
         $this->load->model("Usuarios_model",'',TRUE);
@@ -602,6 +604,7 @@ class GestionDocente extends CI_Controller {
         $list_nota= explode(',',$nota);        
         $descripcion=$this->input->post('descripcion');
         $peso       =$this->input->post('peso');    
+        $descontar  =$this->input->post('descontar');    
         
         if(empty($abreviacion) || empty($peso) || empty ($descripcion)){
             $mensaje="No se ha ingresado informacion nueva";
@@ -620,7 +623,7 @@ class GestionDocente extends CI_Controller {
         $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;    
         
         
-        $sum_final= (int)$suma_bd+(int)($sum_peso);
+        $sum_final= (int)$suma_bd+(int)($sum_peso)-(int)$descontar;
         if($sum_final!=100){
             $mensaje="La suma total debe de ser igual a 100";
             echo json_encode($mensaje);
@@ -685,16 +688,28 @@ class GestionDocente extends CI_Controller {
         $ano=$this->input->post('ano');
 
         $informacion= $this->Docente_model->busqueda_notas_configuradas($grado,$curso,$nota,$profesor,$ano);
-
+        $formulas   = $this->Docente_model->formulario_capacidades($grado,$nota,$profesor,$ano,$curso);
+     
+        if(!empty($formulas)){
+        $form_nombre= implode('+',array_column($formulas,'form'));
+        $formula_final= $formulas[0]['des_notas'].'='.$form_nombre;
+        }
+     
+        
         if(isset($informacion)==true){
             $busqueda= array('curso'=>$curso,'grado'=>$grado,'ano'=>$ano,'profesor'=>$profesor,'nota'=>$nota);
             $respuesta=1;$results=1;        
             }else{
              echo "No existe información";die();
         }
-              
+        if(empty($formula_final)){
+        $this->htmlData['bodyData']->formula                          ='';    
+        }else{
+        $this->htmlData['bodyData']->formula                          =$formula_final;
+        }      
 
-        $this->htmlData['bodyData']->datos_usuario                    =$busqueda;  
+
+        $this->htmlData['bodyData']->datos_usuario                    =$busqueda;
         $this->htmlData['bodyData']->datos                            =$informacion;  
         $this->load->view('vistasDialog/gestionDocente/bandejaNotas/cargarBandejaConfiguracion',$this->htmlData);
     }

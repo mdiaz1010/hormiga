@@ -22,7 +22,15 @@ class Docente_model extends CI_Model{
                    and id_profesor   ='.$profesor)        ;        
                  return $this->db->get()->result_array() ;   
     }   
-
+    public function formulario_capacidades($grado,$nota,$profesor,$ano,$curso){
+        $this->db->distinct();
+        $this->db->select('ma.des_notas,concat(rd.abreviacion," * ",rd.peso) as form')
+                 ->from('rel_notas_detalle rd')
+                 ->join('maenotas ma','on rd.id_nota = ma.id')
+                 ->where('rd.id_grado='.$grado.' and rd.id_nota in ('.$nota.') and rd.id_profesor='.$profesor.' and rd.estado=1 and rd.ano='.$ano.' and rd.id_curso='.$curso)
+                 ->order_by('form','asc');
+                 return $this->db->get()->result_array();
+    }
     public function crosstabcantidad($busqueda){
         $sql="";
         switch ($busqueda['id_bimestre']) {
