@@ -563,7 +563,7 @@ class GestionDocente extends CI_Controller {
         $nota       =$this->input->post('nota');
         $profesor   =$this->input->post('profesor');
         $curso        =$this->input->post('curso');
-        $abreviacion=$this->input->post('abreviacion'); 
+        $abreviacion=explode(',',$this->input->post('abreviacion')); 
         foreach($abreviacion as $abre){
         $list_cambio=array('estado'=>0,'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
         $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'abreviacion'=>$abre,'ano'=>date('Y'));
@@ -604,6 +604,7 @@ class GestionDocente extends CI_Controller {
         $list_nota= explode(',',$nota);        
         $descripcion=$this->input->post('descripcion');
         $peso       =$this->input->post('peso');    
+        $descontar  =$this->input->post('descontar');    
         
         if(empty($abreviacion) || empty($peso) || empty ($descripcion)){
             $mensaje="No se ha ingresado informacion nueva";
@@ -621,13 +622,13 @@ class GestionDocente extends CI_Controller {
         $suma_nota= $this->Usuarios_model->suma_notas($grado,$curso,$profesor);
         $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;    
         
-        /*
-        $sum_final= (int)$suma_bd+(int)($sum_peso);
+        
+        $sum_final= (int)$suma_bd+(int)($sum_peso)-(int)$descontar;
         if($sum_final!=100){
             $mensaje="La suma total debe de ser igual a 100";
             echo json_encode($mensaje);
             die();
-        }*/
+        }
         $mensaje=1;
         $i=0;
         $data= array('profesor'=>$profesor,'curso'=>$curso,'grado'=>$grado);

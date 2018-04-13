@@ -173,23 +173,10 @@ $("#btnRegistroFin").click(function(){
     var descontar=0;
     descontar   = $("#descontar").val();
     
-    total=0;    
-            for(i=0;i<peso.length;i++){
-                valor = parseFloat(peso[i]);    
-                total = total+valor;
-            };       
-    total=total*100;
-    if(descontar==''){
-      total=parseInt(total)+parseInt(acumulado)  
-    }else{
-      total=parseInt(total)+parseInt(acumulado)-parseInt(descontar);    
-    }
 
-     /*
-    $.post('cambiar_estado_configuracion',{grado:grado,curso:curso,nota:nota,profesor:profesor,abreviacion:codigo});
-    */
+    
 
-    if(total=="100"){
+    
         var grado   = $("#grado").val();
         var curso   = $("#curso").val();
         var nota    = $("#nota").val();
@@ -216,9 +203,7 @@ $("#btnRegistroFin").click(function(){
                                             
                                     });   
         
-    }else{
-      alert("La suma total debe de ser igual a 100"); return true;
-    }
+    
                  
 });
 

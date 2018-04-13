@@ -46,13 +46,22 @@
 $(".eliminarPeso").click(function(){
     var arrayMarcado=[];
     var arrayPeso=0;
+    var i=0;
     $("input[name='txtmarcado[]']:checked").each(function() {			
-			var value = $(this).val();
-            var codigo = $(this).data('codigo');	
-            var peso = $(this).data('peso');	
-                        arrayPeso=parseInt(arrayPeso)+parseInt(peso);   
-                        arrayMarcado.push(codigo);
-		    	
+			var value       = $(this).val();
+            var codigo      = $(this).data('codigo');
+            var peso        = $(this).data('peso');	
+       
+                            arrayPeso=parseInt(arrayPeso)+parseInt(peso);   
+                            arrayMarcado.push(codigo);
+            alert(arrayMarcado[i]); return true;
+            if($("input[name='txtmarcado[]']:checked").checked){
+                $("#"+codigo).attr("bgcolor","#F8E0E0");	
+            }else{
+                $("#"+codigo).attr("bgcolor","#A9F5A9");	
+            }
+            i++;
+                    
 		});      
 
     list_final= arrayMarcado.join();
@@ -66,10 +75,10 @@ $(".eliminarPeso").click(function(){
     $("#not").val(list_final);
     $("#descontar").val(parseInt(arrayPeso));
 
-    cod+=codigo+","
+    
     $("#not").val();
     var profesor=$("#profesor").val();
-    $("#"+codigo).attr("bgcolor","#F8E0E0");
+   
 
     });
 </script>
