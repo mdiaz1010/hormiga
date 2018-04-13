@@ -46,22 +46,24 @@
 $(".eliminarPeso").click(function(){
     var arrayMarcado=[];
     var arrayPeso=0;
-    var i=0;
+
     $("input[name='txtmarcado[]']:checked").each(function() {			
 			var value       = $(this).val();
             var codigo      = $(this).data('codigo');
             var peso        = $(this).data('peso');	
-       
+            $("input[name='txtmarcado[]']:checked").change(function(){
+                
                             arrayPeso=parseInt(arrayPeso)+parseInt(peso);   
                             arrayMarcado.push(codigo);
-            alert(arrayMarcado[i]); return true;
-            if($("input[name='txtmarcado[]']:checked").checked){
-                $("#"+codigo).attr("bgcolor","#F8E0E0");	
-            }else{
-                $("#"+codigo).attr("bgcolor","#A9F5A9");	
-            }
-            i++;
-                    
+                            if( $("input[name='txtmarcado[]']:checked").is(':checked')) { 
+                                $("#"+codigo).attr("bgcolor","#F8E0E0");	
+                            }else{
+                                $("#"+codigo).attr("bgcolor","#A9F5A9");
+                            }
+                            
+            });
+
+       
 		});      
 
     list_final= arrayMarcado.join();
