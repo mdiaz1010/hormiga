@@ -53,7 +53,7 @@ $(".eliminarPeso").click(function(){
        
 		});      
     
-    
+    //nuevo
     $("input[name='txtmarcado[]']:checked").each(function() {			
 			var value       = $(this).val();
             var codigo      = $(this).data('codigo');
