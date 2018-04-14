@@ -67,7 +67,7 @@ configuraciones={
       },
       {
         label: 'sdsd',
-        colspan: 3
+        colspan: 33
       }
     
     ]
