@@ -58,7 +58,7 @@ var bool ='';
 
 configuraciones={
     
-		data:data1,
+		//data:data1,
         nestedHeaders: [
     [
       {
@@ -72,20 +72,10 @@ configuraciones={
     
     ]
   ],stretchH: 'all',
-		colHeaders:["Apellidos y Nombres",'C1','C2','C3','C4','C5','PT'],
+		colHeaders:[<?=$bodyData->head?>],
 
         rowHeaders:true,
-		contextMenu:true,
-                colWidths: [400, 40, 40, 40, 40, 40, 60],
-		columns:[
-				 {data:"ape_pat_per",type:'text',readOnly:true,size:"40"},
-				 {data:"C1",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-				 {data:"C2",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-                 {data:"C3",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-				 {data:"C4",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-				 {data:"C5",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-				 {data:"PT",type:'text'   ,readOnly:true ,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}}
-		],
+		columns:<?=$bodyData->column?>,
                 afterValidate: function(isValid){bool=isValid;},
 		formulas:true,
                 afterCreateRow:function(index,numberOfRows){

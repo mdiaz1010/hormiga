@@ -519,13 +519,53 @@ class GestionDocente extends CI_Controller {
         $id_curso=$this->input->post("curso");
         $id_grado=$this->input->post("grado");
         $id_seccion=$this->input->post("seccion");
-        $id_bimestre=$this->input->post("bimestre");        
+        $id_bimestre=$this->input->post("bimestre");       
+        $id_profesor=$this->session->webCasSession->usuario->CODIGO;
         if(isset($id_curso)==true && isset($id_grado)==true && isset($id_seccion)==true && isset($id_bimestre)==true){
-        $busqueda= array('id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion,'id_bimestre'=>$id_bimestre,'ano'=>date('Y'));
+        $busqueda= array('id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion,'id_bimestre'=>$id_bimestre,'ano'=>date('Y'),'id_profesor'=>$id_profesor);
         $respuesta=1;$results=1;        
         }else{
          $respuesta=0;$results=0;   
         }
+        $head_notas = $this->Docente_model->head($busqueda);
+        $head       = '"Apellidos y Nombres","'.implode('","',array_column($head_notas,'abreviacion')).'"';
+    
+/*
+		columns:[
+				 {data:"ape_pat_per",type:'text',readOnly:true,size:"40"},
+				 {data:"C1",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
+				 {data:"C2",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
+                 {data:"C3",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
+				 {data:"C4",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
+				 {data:"C5",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
+				 {data:"PT",type:'text'   ,readOnly:true ,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}}
+		],
+
+*/
+        $column_i=                
+            array(
+                                        'data'=>"ape_pat_per",
+                                        'type'=>'text',
+                                        'readOnly'=>true                                     
+              )  ; 
+        foreach($head_notas as $columns){
+        $readOnly=false;    
+        $className='htCenter'; 
+        $validator=false;
+        $column[]= 
+                                    array(
+                                        'data'=>$columns['abreviacion'],
+                                        'type'=>'numeric',
+                                        'readOnly'=>$readOnly,
+                                        'className'=>$className,
+                                        'validator'=>str_replace("\'"," ",$validator)                                          ) ;
+                                          
+                                        }
+                                        array_unshift($column,$column_i);          
+                                        
+      //  echo json_encode($column); die();
+
+
         $datosTabla = $this->Docente_model->crosstabcantidad($busqueda);
         $cantidad=count($datosTabla);
         $this->htmlData['bodyData']->cantidad                   =$cantidad;        
@@ -533,6 +573,8 @@ class GestionDocente extends CI_Controller {
         $this->htmlData['bodyData']->tabla                      =$datosTabla;        
         $this->htmlData['bodyData']->respuesta                  =$respuesta;
         $this->htmlData['bodyData']->results                    =$results;            
+        $this->htmlData['bodyData']->head                       =$head;            
+        $this->htmlData['bodyData']->column                       =json_encode($column);
         $this->load->view('vistasDialog/gestionDocente/bandejaNotas/bandejaNotas',$this->htmlData);                     
     }            
     public function comboConfiguracionNota(){
@@ -541,9 +583,9 @@ class GestionDocente extends CI_Controller {
         $id_curso=$this->input->post("curso");
         $id_grado=$this->input->post("grado");
         $id_nota=$this->input->post("nota");  
-        $id_profesor=$this->session->webCasSession->usuario->CODIGO;      
+        $id_profesor=$this->session->webCasSession->usuario->CODIGO;
         
-        $suma_nota= $this->Usuarios_model->suma_notas($id_grado,$id_curso,$id_profesor);
+        $suma_nota= $this->Usuarios_model->suma_notas($id_grado,$id_curso,$id_profesor,$id_nota);
         $cantidad_bi= (int)$this->Usuarios_model->getbi(); 
         $cantidad_sec=(int)$this->Usuarios_model->getsec($id_grado,$id_profesor,$id_curso); 
         if(isset($id_curso)==true && isset($id_grado)==true &&  isset($id_nota)==true){
@@ -616,11 +658,12 @@ class GestionDocente extends CI_Controller {
     ## validacion
         $cantidad_bi= (int)$this->Usuarios_model->getbi(); 
         $cantidad_sec=(int)$this->Usuarios_model->getsec($grado,$profesor,$curso);     
-        $suma_nota= $this->Usuarios_model->suma_notas($grado,$curso,$profesor);
+        $suma_nota= $this->Usuarios_model->suma_notas($grado,$curso,$profesor,$nota);
         $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;    
         
         
         $sum_final= (int)$suma_bd+(int)($sum_peso);
+        
         if($sum_final!=100){
             $mensaje="La suma total debe de ser igual a 100";
             echo json_encode($mensaje);

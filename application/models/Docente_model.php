@@ -22,7 +22,21 @@ class Docente_model extends CI_Model{
                    and id_profesor   ='.$profesor)        ;        
                  return $this->db->get()->result_array() ;   
     }   
-
+    public function head($busqueda){
+        $this->db->distinct();        
+        $this->db->select('ma.id_bimestre, ma.nom_notas,rnd.abreviacion')
+                 ->from('maenotas ma')
+                 ->join('rel_notas_detalle rnd','on ma.id=rnd.id_nota')
+                 ->where('     rnd.ano               ='.$busqueda['ano'].'
+                               and rnd.id_grado      ='.$busqueda['id_grado'].'
+                               and rnd.id_curso      ='.$busqueda['id_curso'].'
+                               and rnd.id_seccion    ='.$busqueda['id_seccion'].'
+                               and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
+                               and rnd.estado        = 1
+                               and rnd.id_profesor   ='.$busqueda['id_profesor'])        ;        
+                               return $this->db->get()->result_array() ;                          
+                 
+    }
     public function crosstabcantidad($busqueda){
         $sql="";
         switch ($busqueda['id_bimestre']) {
