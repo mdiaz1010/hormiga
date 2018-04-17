@@ -548,22 +548,46 @@ class GestionDocente extends CI_Controller {
                                         'type'=>'text',
                                         'readOnly'=>true                                     
               )  ; 
-        foreach($head_notas as $columns){
-        $readOnly=false;    
-        $className='htCenter'; 
-        $validator=false;
-        $column[]= 
-                                    array(
-                                        'data'=>$columns['abreviacion'],
-                                        'type'=>'numeric',
-                                        'readOnly'=>$readOnly,
-                                        'className'=>$className,
-                                        'validator'=>str_replace("\'"," ",$validator)                                          ) ;
-                                          
-                                        }
+        foreach($head_notas as $clave=> $columns){
+            $readOnly=false;    
+            $className='htCenter'; 
+            $validator=false;
+            $column[]= 
+                array(
+                    'data'=>$columns['abreviacion'],
+                    'type'=>'numeric',
+                    'readOnly'=>$readOnly,
+                    'className'=>$className,
+                    'validator'=>str_replace("\'"," ",$validator)
+                     );                                          
+                                           
+                                            
+            if((int)$clave!=(int)(count($head_notas)-1)){
+            if($head_notas[$clave]['nom_notas']!=$head_notas[$clave+1]['nom_notas']){
+                $column[]= 
+                array(
+                    'data'=>$columns['nom_notas'],
+                    'type'=>'numeric',
+                    'readOnly'=>true,
+                    'className'=>$className,
+                    'validator'=>str_replace("\'"," ",$validator)
+                     );                                          
+                   }
+                
+            }else{
+                $column[]= 
+                array(
+                    'data'=>$columns['nom_notas'],
+                    'type'=>'numeric',
+                    'readOnly'=>true,
+                    'className'=>$className,
+                    'validator'=>str_replace("\'"," ",$validator)
+                     );  
+            }
+        }
                                         array_unshift($column,$column_i);          
                                         
-      //  echo json_encode($column); die();
+        #echo json_encode($column); die();
 
 
         $datosTabla = $this->Docente_model->crosstabcantidad($busqueda);

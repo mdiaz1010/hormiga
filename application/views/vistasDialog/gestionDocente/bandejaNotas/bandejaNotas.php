@@ -73,8 +73,7 @@ configuraciones={
     ]
   ],stretchH: 'all',
 		colHeaders:[<?=$bodyData->head?>],
-
-        rowHeaders:true,
+    rowHeaders:true,
 		columns:<?=$bodyData->column?>,
                 afterValidate: function(isValid){bool=isValid;},
 		formulas:true,
