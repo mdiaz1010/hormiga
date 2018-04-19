@@ -24,7 +24,7 @@ class Docente_model extends CI_Model{
     }   
     public function head($busqueda){
         $this->db->distinct();        
-        $this->db->select('ma.id_bimestre, ma.nom_notas,rnd.abreviacion')
+        $this->db->select('ma.id_bimestre, ma.nom_notas,rnd.abreviacion,rnd.id_nota')
                  ->from('maenotas ma')
                  ->join('rel_notas_detalle rnd','on ma.id=rnd.id_nota')
                  ->where('     rnd.ano               ='.$busqueda['ano'].'
@@ -33,7 +33,8 @@ class Docente_model extends CI_Model{
                                and rnd.id_seccion    ='.$busqueda['id_seccion'].'
                                and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
                                and rnd.estado        = 1
-                               and rnd.id_profesor   ='.$busqueda['id_profesor'])        ;        
+                               and rnd.id_profesor   ='.$busqueda['id_profesor'])          
+                ->order_by("rnd.id_nota","asc")                    ;
                                return $this->db->get()->result_array() ;                          
                  
     }

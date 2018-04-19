@@ -528,7 +528,7 @@ class GestionDocente extends CI_Controller {
          $respuesta=0;$results=0;   
         }
         $head_notas = $this->Docente_model->head($busqueda);
-        $head       = '"Apellidos y Nombres","'.implode('","',array_column($head_notas,'abreviacion')).'"';
+        
     
 /*
 		columns:[
@@ -548,10 +548,12 @@ class GestionDocente extends CI_Controller {
                                         'type'=>'text',
                                         'readOnly'=>true                                     
               )  ; 
+            $head_not[]=  '"Apellidos y Nombres"';
         foreach($head_notas as $clave=> $columns){
             $readOnly=false;    
             $className='htCenter'; 
             $validator=false;
+            $head_not[]="'".$columns['abreviacion']."'";
             $column[]= 
                 array(
                     'data'=>$columns['abreviacion'],
@@ -564,6 +566,7 @@ class GestionDocente extends CI_Controller {
                                             
             if((int)$clave!=(int)(count($head_notas)-1)){
             if($head_notas[$clave]['nom_notas']!=$head_notas[$clave+1]['nom_notas']){
+                $head_not[]="'".$columns['nom_notas']."'";
                 $column[]= 
                 array(
                     'data'=>$columns['nom_notas'],
@@ -575,6 +578,7 @@ class GestionDocente extends CI_Controller {
                    }
                 
             }else{
+                $head_not[]="'".$columns['nom_notas']."'";
                 $column[]= 
                 array(
                     'data'=>$columns['nom_notas'],
@@ -586,9 +590,9 @@ class GestionDocente extends CI_Controller {
             }
         }
                                         array_unshift($column,$column_i);          
-                                        
-        #echo json_encode($column); die();
 
+        #echo json_encode($column); die();
+       
 
         $datosTabla = $this->Docente_model->crosstabcantidad($busqueda);
         $cantidad=count($datosTabla);
@@ -597,7 +601,7 @@ class GestionDocente extends CI_Controller {
         $this->htmlData['bodyData']->tabla                      =$datosTabla;        
         $this->htmlData['bodyData']->respuesta                  =$respuesta;
         $this->htmlData['bodyData']->results                    =$results;            
-        $this->htmlData['bodyData']->head                       =$head;            
+        $this->htmlData['bodyData']->head                       =implode(',',$head_not);
         $this->htmlData['bodyData']->column                       =json_encode($column);
         $this->load->view('vistasDialog/gestionDocente/bandejaNotas/bandejaNotas',$this->htmlData);                     
     }            
