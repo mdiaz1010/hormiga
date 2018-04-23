@@ -540,7 +540,7 @@ class GestionDocente extends CI_Controller {
 				 {data:"C5",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
 				 {data:"PT",type:'text'   ,readOnly:true ,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}}
 		],
-
+vamoss
 */
         $column_i=                
             array(

@@ -110,7 +110,7 @@ if(p==0){
   font_color = "#2874A6";      
   }
 }
-//console.log(ht.getDataAtCell(0,6));
+//console.log(ht.getDataAtCell(0,6)); hola
 if(p==6){
       cell_color = "#F5B7B1";
       
