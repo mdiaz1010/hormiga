@@ -548,12 +548,12 @@ vamoss
                                         'type'=>'text',
                                         'readOnly'=>true                                     
               )  ; 
-            $head_not[]=  '"Apellidos y Nombres"';
+            $head_not[]=  array('"Apellidos y Nombres"','on');
         foreach($head_notas as $clave=> $columns){
             $readOnly=false;    
             $className='htCenter'; 
             $validator=false;
-            $head_not[]="'".$columns['abreviacion']."'";
+            $head_not[]=array("'".$columns['abreviacion']."'",'off');
             $column[]= 
                 array(
                     'data'=>$columns['abreviacion'],
@@ -564,9 +564,9 @@ vamoss
                      );                                          
                                            
                                             
-            if((int)$clave!=(int)(count($head_notas)-1)){
+            if((int)$clave!=(int)(count($head_notas)-1) ){
             if($head_notas[$clave]['nom_notas']!=$head_notas[$clave+1]['nom_notas']){
-                $head_not[]="'".$columns['nom_notas']."'";
+                $head_not[]=array("'".$columns['nom_notas']."'",'on');
                 $column[]= 
                 array(
                     'data'=>$columns['nom_notas'],
@@ -578,7 +578,13 @@ vamoss
                    }
                 
             }else{
-                $head_not[]="'".$columns['nom_notas']."'";
+                if((int)$clave==(int)(count($head_notas)-1) ){
+                    $head_not[]=array("'".$columns['nom_notas']."'",'on');
+                }else{
+
+                    $head_not[]=array("'".$columns['nom_notas']."'",'off');
+                }
+                
                 $column[]= 
                 array(
                     'data'=>$columns['nom_notas'],
@@ -589,11 +595,9 @@ vamoss
                      );  
             }
         }
-                                        array_unshift($column,$column_i);          
-
-        #echo json_encode($column); die();
-       
-
+        array_unshift($column,$column_i);
+        $head=array_keys(array_diff(array_column($head_not,1),array('off')));
+        $cabecera=array_column($head_not,0);
         $datosTabla = $this->Docente_model->crosstabcantidad($busqueda);
         $cantidad=count($datosTabla);
         $this->htmlData['bodyData']->cantidad                   =$cantidad;        
@@ -601,8 +605,9 @@ vamoss
         $this->htmlData['bodyData']->tabla                      =$datosTabla;        
         $this->htmlData['bodyData']->respuesta                  =$respuesta;
         $this->htmlData['bodyData']->results                    =$results;            
-        $this->htmlData['bodyData']->head                       =implode(',',$head_not);
-        $this->htmlData['bodyData']->column                       =json_encode($column);
+        $this->htmlData['bodyData']->head                       =implode(',',$cabecera);
+        $this->htmlData['bodyData']->column                     =json_encode($column);
+        $this->htmlData['bodyData']->marcados                   =json_encode($head);
         $this->load->view('vistasDialog/gestionDocente/bandejaNotas/bandejaNotas',$this->htmlData);                     
     }            
     public function comboConfiguracionNota(){

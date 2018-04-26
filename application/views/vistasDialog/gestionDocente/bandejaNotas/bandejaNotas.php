@@ -39,7 +39,6 @@ echo "<div class='alert_result'>No se encuentra ningun alumno registrado.</div>"
  } ?>
 
 <script type="text/javascript">
-
 $('#DIVcargando').dialog({
         autoOpen: false,
         hide:'drop',
@@ -55,6 +54,7 @@ $('#DIVcargando').dialog({
 busqueda=<?=json_encode($bodyData->datos) ?>;
 data1= <?= json_encode($bodyData->tabla) ?>;
 var bool ='';
+var cabeceras =<?= $bodyData->marcados?>;
 
 configuraciones={
     
@@ -96,7 +96,7 @@ configuraciones={
 function render_color(ht){
   var valor;
   for(var i=0;i<ht.countRows();i++){
-    for(var p=0;p<ht.countCols();p++){
+    for(var p=0;p<ht.countCols();p++){  
    
  var ide=ht.getDataAtCell(i,p); 
 
@@ -110,18 +110,18 @@ if(p==0){
   font_color = "#2874A6";      
   }
 }
-//console.log(ht.getDataAtCell(0,6)); hola
-if(p==6){
-      cell_color = "#F5B7B1";
-      
-}else{
 
-      cell_color = "#D8D8D8";
+var cell_color = $.map(cabeceras, function(value, key) {
+     if (p==value)
+     {
+        return "#F5B7B1";
+    
+     }
+});
 
-}
 
-
-      $(ht.getCell(i,p)).css({"color": font_color, "background-color": cell_color});
+console.log(cell_color[0]);
+      $(ht.getCell(i,p)).css({"color": font_color, "background-color": cell_color[0]});
     }
 
   }
