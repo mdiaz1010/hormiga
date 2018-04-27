@@ -3,114 +3,114 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class GestionDocente extends CI_Controller {
 
-    public $htmlData = array(); 
+    public $htmlData = array();
     public function __construct() {
-        parent::__construct(); 
-        $this->load->library('export_excel');        
-        
+        parent::__construct();
+        $this->load->library('export_excel');
+
         $this->htmlData = array(
-            "body"=> get_class($this) 
+            "body"=> get_class($this)
             ,"bodyData"=> (object) array()
             ,"headData"=> (object) array("titulo"=>"Crear Cliente")
             ,"footerData"=> (object) array()
-        );               
-    }    
+        );
+    }
 
-    public function index() { 
+    public function index() {
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);//     
+        $this->load->model("Rol_model",'',TRUE);//
         $profesor= array('profesor'=>$this->session->webCasSession->usuario->CODIGO);
         $valores                                 = $this->Usuarios_model->busquedaGradoProf($profesor) ;
-        
-        if(count($valores)>0){            
-        $this->htmlData['bodyData']->respuesta     = 1 ;   
+
+        if(count($valores)>0){
+        $this->htmlData['bodyData']->respuesta     = 1 ;
         $arrayGrado=array_column($valores, 'id_grado');
         $bimestre=$this->Usuarios_model->busquedaBimestre();
-        $busqueda= implode(',',$arrayGrado); 
+        $busqueda= implode(',',$arrayGrado);
 
         $busquedaProf= $this->Usuarios_model->buscarGrados($busqueda);
-        $this->htmlData['bodyData']->bimestre     = $bimestre ; 
-        $this->htmlData['bodyData']->valores     = $busquedaProf ;      
+        $this->htmlData['bodyData']->bimestre     = $bimestre ;
+        $this->htmlData['bodyData']->valores     = $busquedaProf ;
         }else{
-        $this->htmlData['bodyData']->respuesta     = 0 ;     
+        $this->htmlData['bodyData']->respuesta     = 0 ;
         }
         $this->htmlData['body']                           .= "/gestionDocente/notas";
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET"; 
+        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('plantillas_base/standar/body',$this->htmlData);
     }
     public function dexcel(){
         $this->load->model("Usuarios_model",'',TRUE);
         $resultado= $this->Usuarios_model->getListPer();
-        $this->export_excel->to_excel($resultado, 'ARTE','CTA','COMPORT','COMU','EFIS','ETRA','EREL','FCC','HGE','INGL','MATE','PFRRHH');                
+        $this->export_excel->to_excel($resultado, 'ARTE','CTA','COMPORT','COMU','EFIS','ETRA','EREL','FCC','HGE','INGL','MATE','PFRRHH');
     }
-    public function material() { 
+    public function material() {
         $this->load->model("Usuarios_model",'',TRUE);
         $this->load->model("Rol_model",'',TRUE);//
         $profesor= array('profesor'=>$this->session->webCasSession->usuario->CODIGO);
         $valores                                 = $this->Usuarios_model->busquedaGradoProf($profesor) ;
-        if(count($valores)>0){        
+        if(count($valores)>0){
         $arrayGrado=array_column($valores, 'id_grado');
-        
+
         $bimestre=$this->Usuarios_model->busquedaBimestre();
-        $busqueda= implode(',',$arrayGrado); 
+        $busqueda= implode(',',$arrayGrado);
 
         $busquedaProf= $this->Usuarios_model->buscarGrados($busqueda);
-        $this->htmlData['bodyData']->respuesta     = 1 ; 
-        $this->htmlData['bodyData']->bimestre     = $bimestre ; 
-        $this->htmlData['bodyData']->valores     = $busquedaProf ;      
+        $this->htmlData['bodyData']->respuesta     = 1 ;
+        $this->htmlData['bodyData']->bimestre     = $bimestre ;
+        $this->htmlData['bodyData']->valores     = $busquedaProf ;
         }else{
-        $this->htmlData['bodyData']->respuesta     = 0 ;     
+        $this->htmlData['bodyData']->respuesta     = 0 ;
         }
         $this->htmlData['body']                          .= "/gestionDocente/material";
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET"; 
+        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('plantillas_base/standar/body',$this->htmlData);
-    }  
-    public function asistencia() { 
+    }
+    public function asistencia() {
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);//     
+        $this->load->model("Rol_model",'',TRUE);//
         $profesor= array('profesor'=>$this->session->webCasSession->usuario->CODIGO);
         $valores                                 = $this->Usuarios_model->busquedaGradoProf($profesor) ;
         $arrayGrado=array_column($valores, 'id_grado');
         if(count($valores)>0){
-        $this->htmlData['bodyData']->respuesta     = 1 ;     
+        $this->htmlData['bodyData']->respuesta     = 1 ;
         $bimestre=$this->Usuarios_model->busquedaBimestre();
-        $busqueda= implode(',',$arrayGrado); 
-        
+        $busqueda= implode(',',$arrayGrado);
+
         $busquedaProf= $this->Usuarios_model->buscarGrados($busqueda);
-        $this->htmlData['bodyData']->bimestre     = $bimestre ; 
-        $this->htmlData['bodyData']->valores     = $busquedaProf ;         
+        $this->htmlData['bodyData']->bimestre     = $bimestre ;
+        $this->htmlData['bodyData']->valores     = $busquedaProf ;
         }else{
-        $this->htmlData['bodyData']->respuesta     = 0 ;       
+        $this->htmlData['bodyData']->respuesta     = 0 ;
         }
         $this->htmlData['body']                           .= "/gestionDocente/asistencia";
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET"; 
+        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('plantillas_base/standar/body',$this->htmlData);
-    }       
-    public function registrarNotas() { 
+    }
+    public function registrarNotas() {
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);//     
-        $where= $this->input->post("busqueda");        
+        $this->load->model("Rol_model",'',TRUE);//
+        $where= $this->input->post("busqueda");
         $objetoNotas= $this->input->post("tblExcel");
-        
-        
-       
+
+
+
         switch ($where['id_bimestre']){
         case "1": $array= array('1'=>3,'2'=>6,'3'=>9,'4'=>12,'5'=>15); break;
         case "2": $array= array('1'=>2,'2'=>5,'3'=>8,'4'=>11,'5'=>14); break;
         case "3": $array= array('1'=>1,'2'=>4,'3'=>7,'4'=>10,'5'=>13); break;
         }
-        
-        
-        $j=0;    
-        foreach($objetoNotas as $contando){            
+
+
+        $j=0;
+        foreach($objetoNotas as $contando){
             $i=1;
-            
-            foreach($array as $id_nota){            
+
+            foreach($array as $id_nota){
               if($contando['C'.$i]!='' ){
                 if(is_numeric($contando['C'.$i])==true ){
                 if((int)$contando['C'.$i]>=0 && (int)$contando['C'.$i]<=20 ){
                 $cambio[$j]=array('nota'=>$contando['C'.$i],'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
-                $data[$j]  =array('id'=>$contando['C_'.$i]);                       
+                $data[$j]  =array('id'=>$contando['C_'.$i]);
                 $clausula=$this->Usuarios_model->buscarcodigonotas($data[$j]);
                 $this->Usuarios_model->cambioNotas($cambio[$j],$clausula);
                 $j++;
@@ -118,188 +118,188 @@ class GestionDocente extends CI_Controller {
                   }
                 }
                 $i++    ;
-            }   
+            }
     //    switch ($where['id_bimestre']){
     //    case "1": $array= array('1'=>3,'2'=>6,'3'=>9,'4'=>12,'5'=>15);$id_prom=array('id'=>$contando['P_P']);$this->Usuarios_model->promediar(implode($array,','),$id_prom);  break;
     //    case "2": $array= array('1'=>2,'2'=>5,'3'=>8,'4'=>11,'5'=>14);$id_prom=array('id'=>$contando['P_P']);$this->Usuarios_model->promediar(implode($array,','),$id_prom); break;
     //    case "3": $array= array('1'=>1,'2'=>4,'3'=>7,'4'=>10,'5'=>13);$id_prom=array('id'=>$contando['P_P']);$this->Usuarios_model->promediar(implode($array,','),$id_prom); break;
-    //    }                 
+    //    }
         }
-   
-       // 
 
-        
-    } 
-    public function reportPrincipal() { 
+       //
+
+
+    }
+    public function reportPrincipal() {
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);                                                                             
+        $this->load->model("Rol_model",'',TRUE);
         $profesor= $this->session->webCasSession->usuario->CODIGO;
         $ano     =date('Y');
         $resultado=  $this->Usuarios_model->getBusquedaAulaProf($profesor,$ano);
-        
+
         $i=0;
 
-        
-        foreach($resultado as $res){            
+
+        foreach($resultado as $res){
             $arrayResultado[$res->horario][$res->dia]=array('materia'=>trim($res->GRADO).'°'.$res->SECCION.' '.$res->descripcion);
             $color[$res->GRADO.'°'.$res->SECCION.' '.$res->descripcion]='#'.substr(md5(rand(20, 100)), 0, 6);
             $title[$res->GRADO.'°'.$res->SECCION.' '.$res->descripcion]=$res->CURSOS;
-            
+
             $i++;
         }
-    
+
         $horarioDia= $this->Usuarios_model->getDiass();
         $horarioHor= $this->Usuarios_model->getHorarioss();
         if(count($resultado)!=0){
         $this->htmlData['bodyData']->respuesta       = 0 ;
-        $this->htmlData['bodyData']->dias            = $horarioDia ;    
-        $this->htmlData['bodyData']->horas           = $horarioHor ;    
-        $this->htmlData['bodyData']->results         = $arrayResultado ;    
-        $this->htmlData['bodyData']->color           = $color ;    
-        $this->htmlData['bodyData']->curso           = $title ;  
+        $this->htmlData['bodyData']->dias            = $horarioDia ;
+        $this->htmlData['bodyData']->horas           = $horarioHor ;
+        $this->htmlData['bodyData']->results         = $arrayResultado ;
+        $this->htmlData['bodyData']->color           = $color ;
+        $this->htmlData['bodyData']->curso           = $title ;
         }else{
-        $this->htmlData['bodyData']->respuesta       = 1 ;    
+        $this->htmlData['bodyData']->respuesta       = 1 ;
         }
         $this->htmlData['body']                  .= "/reportes/reportPrincipal" ;
-        $this->htmlData['headData']->titulo       = "GESTION :: INTRANET"       ; 
+        $this->htmlData['headData']->titulo       = "GESTION :: INTRANET"       ;
         $this->load->view('plantillas_base/standar/body',$this->htmlData)       ;
-    }    
-    public function reportAsistencia() { 
+    }
+    public function reportAsistencia() {
         $this->load->model("Usuarios_model",'',TRUE)                            ;
-        $this->load->model("Rol_model",'',TRUE);//     
+        $this->load->model("Rol_model",'',TRUE);//
         $this->htmlData['body']                  .= "/reportes/reportAsistencia";
-        $this->htmlData['headData']->titulo       = "GESTION :: INTRANET"; 
+        $this->htmlData['headData']->titulo       = "GESTION :: INTRANET";
         $this->load->view('plantillas_base/standar/body',$this->htmlData);
-    }    
-    public function reportNotas() { 
+    }
+    public function reportNotas() {
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);//     
+        $this->load->model("Rol_model",'',TRUE);//
         $profesor= array('profesor'=>$this->session->webCasSession->usuario->CODIGO);
         $valores                                 = $this->Usuarios_model->busquedaGradoProf($profesor) ;
-        if(count($valores)>0){                 
-        $this->htmlData['bodyData']->respuesta     = 1 ;     
+        if(count($valores)>0){
+        $this->htmlData['bodyData']->respuesta     = 1 ;
         $arrayGrado=array_column($valores, 'id_grado');
         $bimestre=$this->Usuarios_model->busquedaBimestre();
-        $busqueda= implode(',',$arrayGrado); 
+        $busqueda= implode(',',$arrayGrado);
 
         $busquedaProf= $this->Usuarios_model->buscarGrados($busqueda);
-        $this->htmlData['bodyData']->bimestre     = $bimestre ; 
-        $this->htmlData['bodyData']->valores     = $busquedaProf ;       
+        $this->htmlData['bodyData']->bimestre     = $bimestre ;
+        $this->htmlData['bodyData']->valores     = $busquedaProf ;
         }else{
-        $this->htmlData['bodyData']->respuesta     = 0 ;         
+        $this->htmlData['bodyData']->respuesta     = 0 ;
         }
         $this->htmlData['body']                           .= "/reportes/reportNotas";
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET"; 
+        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('plantillas_base/standar/body',$this->htmlData);
-    }        
+    }
     public function comboSeccionProf(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);      
+        $this->load->model("Rol_model",'',TRUE);
         $id_grado=$this->input->post("grado");
-        $busqueda= array('profesor'=>$this->session->webCasSession->usuario->CODIGO,'grado'=>$id_grado);   
+        $busqueda= array('profesor'=>$this->session->webCasSession->usuario->CODIGO,'grado'=>$id_grado);
         $busquedaSeccion=$this->Usuarios_model->busquedaSeccionProf($busqueda);
         foreach($busquedaSeccion as $valor){
             $arraySeccion[]=$valor->id_seccion;
         }
-        $busquedaGrado= implode(',',$arraySeccion);   
+        $busquedaGrado= implode(',',$arraySeccion);
         $busquedaSecc= $this->Usuarios_model->buscarSecciones($busquedaGrado);
 		$html="<option value='' selected>Seleccione</option>";
                 foreach($busquedaSecc as $bus){
 			$html.="<option value='$bus->id'>$bus->nom_seccion</option>";
 		}
-		
+
 		echo $html;
 
     }
     public function comboCursoProf(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);      
+        $this->load->model("Rol_model",'',TRUE);
         $id_seccion=$this->input->post("seccion");
         $id_grado=$this->input->post("grado");
-        $busqueda= array('profesor'=>$this->session->webCasSession->usuario->CODIGO,'grado'=>$id_grado,'seccion'=>$id_seccion);   
+        $busqueda= array('profesor'=>$this->session->webCasSession->usuario->CODIGO,'grado'=>$id_grado,'seccion'=>$id_seccion);
         $busquedaCurso=$this->Usuarios_model->busquedaCursoProf($busqueda);
         foreach($busquedaCurso as $valor){
             $arraySeccion[]=$valor->id_curso;
         }
-        $busquedaCursos= implode(',',$arraySeccion);   
+        $busquedaCursos= implode(',',$arraySeccion);
         $busquedaSecc= $this->Usuarios_model->buscarCursos($busquedaCursos);
 		$html="<option value='' selected>Seleccione</option>";
                 foreach($busquedaSecc as $bus){
 			$html.="<option value='$bus->id'>$bus->nom_cursos</option>";
 		}
-		
+
 		echo $html;
 
-    }   
+    }
     function check_in_range($start_date, $end_date, $evaluame) {
         $start_ts = strtotime($start_date);
         $end_ts = strtotime($end_date);
         $user_ts = strtotime($evaluame);
         return (($user_ts >= $start_ts) && ($user_ts <= $end_ts));
     }
-    
+
     public function comboBimeProf(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);      
-        $busquedaBimestre=$this->Usuarios_model->busquedaBimestre();     
+        $this->load->model("Rol_model",'',TRUE);
+        $busquedaBimestre=$this->Usuarios_model->busquedaBimestre();
 		$html="<option value='' selected>Seleccione</option>";
                 foreach($busquedaBimestre as $bus){
                     if ($this->check_in_range($bus['fecini_bimestre'], $bus['fecfin_bimestre'], date('Y-m-d'))) {
                          $hidden='';
                     }else {
                         $hidden='disabled="true"';
-                        
-                    }                      
+
+                    }
 			$html.="<option ".$hidden." value='".$bus['id']."'>".$bus['nom_bimestre']."</option>";
 		}
 		echo $html;
     }
     public function comboConfiguracion(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);      
+        $this->load->model("Rol_model",'',TRUE);
         $grado=$this->input->post('grado');
         $curso=$this->input->post('seccion');
-        $cantidad_bimestre=$this->Usuarios_model->getbi();        
-        $busquedaBimestre=$this->Usuarios_model->busqueda_notas_config($grado,$curso);     
+        $cantidad_bimestre=$this->Usuarios_model->getbi();
+        $busquedaBimestre=$this->Usuarios_model->busqueda_notas_config($grado,$curso);
         $list_notas=array_unique(array_column($busquedaBimestre,'nom_notas'));
         #echo count($list_notas); die();
         $list_keys =array_chunk(array_column($busquedaBimestre,'id'),(int)$cantidad_bimestre);
         $i=0;
 		$html="<option value='' selected>Seleccione</option>";
-                foreach(array_unique($list_notas) as $bus){  
-                $id_notas= implode(',',$list_keys[$i]);                       
+                foreach(array_unique($list_notas) as $bus){
+                $id_notas= implode(',',$list_keys[$i]);
             $html.="<option  value='".$id_notas."'>".$bus."</option>";
             $i++;
 		}
 		echo $html;
-    }    
+    }
     public function comboBimeProf2(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);      
-        $busquedaBimestre=$this->Usuarios_model->busquedaBimestre();  
-       
+        $this->load->model("Rol_model",'',TRUE);
+        $busquedaBimestre=$this->Usuarios_model->busquedaBimestre();
+
 		$html="<option value='' selected>Seleccione</option>";
                 foreach($busquedaBimestre as $bus){
 			$html.="<option ".$hidden." value='".$bus['id']."'>".$bus['nom_bimestre']."</option>";
 		}
                 $html.="<option  value='codigo' >TOTAL</option>";
 		echo $html;
-    }        
+    }
     public function comboBandeNotReport(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);    
-        $id_grado=$this->input->post('grado');     
-        $bimestre=$this->input->post('bimestre');     
-        $id_curso=$this->input->post('curso');    
-        $id_seccion=$this->input->post('seccion');             
-        $busqueda= array('id_bimestre'=>$bimestre,'id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion,'id_bimestre'=>$bimestre);                                             
-        if($bimestre=='codigo'){            
-        $dotacionPresente =  $this->Usuarios_model->reporteNotasFinal($busqueda);    
-        }else{          
+        $this->load->model("Rol_model",'',TRUE);
+        $id_grado=$this->input->post('grado');
+        $bimestre=$this->input->post('bimestre');
+        $id_curso=$this->input->post('curso');
+        $id_seccion=$this->input->post('seccion');
+        $busqueda= array('id_bimestre'=>$bimestre,'id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion,'id_bimestre'=>$bimestre);
+        if($bimestre=='codigo'){
+        $dotacionPresente =  $this->Usuarios_model->reporteNotasFinal($busqueda);
+        }else{
         $dotacionPresente =  $this->Usuarios_model->reporteNotas2($busqueda);
-        
+
         }
-        
+
         $a=0;$b=0;$c=0;$d=0;
         foreach ($dotacionPresente as $notas){
         if((int)$notas['notas']>=17.5){
@@ -312,83 +312,83 @@ class GestionDocente extends CI_Controller {
             $d++;
         }
         }
-        
+
         $notas = array(
           0=>array('nombre'=>'Satisfactorio'        ,'nota'=>$a,'rango'=>'18,19,20'),
           1=>array('nombre'=>'Proceso'              ,'nota'=>$b,'rango'=>'14,15,16,17'),
           2=>array('nombre'=>'Inicio'               ,'nota'=>$c,'rango'=>'11,12,13'),
           3=>array('nombre'=>'Previo Inicio'        ,'nota'=>$d,'rango'=>'0 a 10'),
         );
-        
+
         $dotacionPresenteUltimaMarca = array(); // solo para identificar si la ultima marca fue entrada o salida
         $dotacionPresenteContador = 0; // cuenta solo las ultimas marcas q fueron entradas
         foreach ($dotacionPresente  as $dotacionPresenteTemp) {
-            
-            if(!isset($dotacionPresenteUltimaMarca[$dotacionPresenteTemp['id_alumno'] ]) ){ 
+
+            if(!isset($dotacionPresenteUltimaMarca[$dotacionPresenteTemp['id_alumno'] ]) ){
                 $bool = ($dotacionPresenteTemp['id_alumno'] = 10  )? TRUE :FALSE;
                 $dotacionPresenteUltimaMarca[$dotacionPresenteTemp['id_alumno'] ] = $bool;
-                
+
                 $dotacionPresenteContador = ($bool)? $dotacionPresenteContador +1: $dotacionPresenteContador ;
-            } 
+            }
         }
-        $this->htmlData['bodyData']->SECCION         = $id_seccion ;    
-        $this->htmlData['bodyData']->GRADO           = $id_grado ;    
-        $this->htmlData['bodyData']->CURSOS          = $id_curso ;    
-        $this->htmlData['bodyData']->BIMESTRE        = $bimestre ;    
-        $this->htmlData['bodyData']->notas           = $notas ;    
+        $this->htmlData['bodyData']->SECCION         = $id_seccion ;
+        $this->htmlData['bodyData']->GRADO           = $id_grado ;
+        $this->htmlData['bodyData']->CURSOS          = $id_curso ;
+        $this->htmlData['bodyData']->BIMESTRE        = $bimestre ;
+        $this->htmlData['bodyData']->notas           = $notas ;
         $this->htmlData['bodyData']->usuariosTotales = $this->Usuarios_model->reporteCantidad($busqueda);
         if($bimestre=='codigo'){
         $this->htmlData['bodyData']->merito          = $this->Usuarios_model->reporteNotasMerito2($busqueda);
         }else{
         $this->htmlData['bodyData']->merito          = $this->Usuarios_model->reporteNotasMerito($busqueda);
         }
-        
+
         $i=0;
-        
+
         foreach ($this->htmlData['bodyData']->merito as $meri){
-            
+
             $nombre=$this->Usuarios_model->busquedaProfesorN($meri->id_alumno);
             $codiAlumno[$meri->id_alumno]=$nombre[$i]->profesor;
-        
+
         }
 
         if($codiAlumno!=''){
         $this->htmlData['bodyData']->alumno          = $codiAlumno;
         }
-        $this->htmlData['bodyData']->datos =  $busqueda; 
+        $this->htmlData['bodyData']->datos =  $busqueda;
         $this->htmlData['bodyData']->lastEvents =  $this->Usuarios_model->reporteCantidad($busqueda);
-        $cantidad= $this->Usuarios_model->cantidadXbimestre($id_curso);        
-        $peso=($cantidad[0]->cantidad);              
-        $this->htmlData['bodyData']->estadisticasPaeArray =  $this->Usuarios_model->reporteNotas($busqueda,$peso);        
-        $this->htmlData['bodyData']->dotacionPresente = $dotacionPresenteContador;        
-        $this->load->view('vistasDialog/gestionDocente/bandejaReporteN/bandejaReporteN',$this->htmlData);                     
-    }     
+        $cantidad= $this->Usuarios_model->cantidadXbimestre($id_curso);
+        $peso=($cantidad[0]->cantidad);
+        $this->htmlData['bodyData']->estadisticasPaeArray =  $this->Usuarios_model->reporteNotas($busqueda,$peso);
+        $this->htmlData['bodyData']->dotacionPresente = $dotacionPresenteContador;
+        $this->load->view('vistasDialog/gestionDocente/bandejaReporteN/bandejaReporteN',$this->htmlData);
+    }
     public function comboBandeNotReportG1($grado,$seccion,$curso,$bimestre){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);                 
-        $busqueda= array('id_grado'=>$grado,'id_bimestre'=>$bimestre,'id_curso'=>$curso,'id_seccion'=>$seccion);        
-        if($bimestre=='codigo'){            
-        $meri =  $this->Usuarios_model->reporteNotasFinal10($busqueda);  
-      
+        $this->load->model("Rol_model",'',TRUE);
+        $busqueda= array('id_grado'=>$grado,'id_bimestre'=>$bimestre,'id_curso'=>$curso,'id_seccion'=>$seccion);
+        if($bimestre=='codigo'){
+        $meri =  $this->Usuarios_model->reporteNotasFinal10($busqueda);
+
         $bime="final del semestre escolar";
         }else{
         $cantidad= $this->Usuarios_model->cantidadXbimestre($busqueda['id_curso']);
-        $peso=($cantidad[0]->cantidad);              
+        $peso=($cantidad[0]->cantidad);
         $meri =  $this->Usuarios_model->reporteNotasMerito10($busqueda,$peso);
         $nom_bimes=$this->Usuarios_model->buscarBimestre($bimestre);
         $bime=$nom_bimes[0]->nom_bimestre;
         }
-        
-        
-      
-        
+
+
+
+
         $nom_grado=$this->Usuarios_model->buscarGrados($grado);
         $nom_secci=$this->Usuarios_model->buscarSecciones($seccion);
         $nom_curso=$this->Usuarios_model->buscarCursos($curso);
-        
-                    
+
+
         $this->load->library('Pdf');
-        $pdf = new Pdf(); 
+        $pdf = new Pdf();
         $datosHeader="COLEGIO POLITECNICO VILLA LOS REYES";
         $datosBody="Orden de merito del ".$nom_grado[0]->nom_grado.'ro '.$nom_secci[0]->nom_seccion.' de '.strtolower($nom_grado[0]->des_grado).
                 " del curso de ".strtoupper($nom_curso[0]->nom_cursos).' en el '.$bime;
@@ -408,9 +408,9 @@ class GestionDocente extends CI_Controller {
 
         $pdf->Ln(7);
         $x = 1;
-        
-           
-        
+
+
+
         foreach ($meri as $alumno){
           $pdf->Cell(15,5,$x++,'BL',0,'C',0);
           $pdf->Cell(80,5,utf8_decode($alumno->ape_pat_per),'B',0,'L',0);
@@ -422,56 +422,56 @@ class GestionDocente extends CI_Controller {
             $pdf->Cell(40,5,'INICIO','B',0,'L',0);
         }else{
             $pdf->Cell(40,5,'PREVIO INICIO','B',0,'L',0);
-        }          
+        }
           $pdf->Cell(22,5,utf8_decode($alumno->nota),'BR',0,'C',0);
 
           $pdf->Ln(5);
         }
         $pdf->Output("doc.pdf",'I');
-                
+
       }
-        
-        
-    
+
+
+
     public function comboBandeNotReportG2(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);                                                                             
+        $this->load->model("Rol_model",'',TRUE);
         $profesor= $this->session->webCasSession->usuario->CODIGO;
         $ano     =date('Y');
         $resultado=  $this->Usuarios_model->getBusquedaAulaProf($profesor,$ano);
-        
+
         $i=0;
 
-        
-        foreach($resultado as $res){            
+
+        foreach($resultado as $res){
             $arrayResultado[$res->horario][$res->dia]=array('materia'=>trim(substr($res->GRADO,0,5)).'°'.$res->SECCION.' '.$res->descripcion);
             $color[substr($res->GRADO,0,5).'°'.$res->SECCION.' '.$res->descripcion]='#'.substr(md5(rand(20, 100)), 0, 6);
             $title[substr($res->GRADO,0,5).'°'.$res->SECCION.' '.$res->descripcion]=$res->CURSOS;
-            
+
             $i++;
         }
-    
+
         $horarioDia= $this->Usuarios_model->getDiass();
         $horarioHor= $this->Usuarios_model->getHorarioss();
-        $this->htmlData['bodyData']->dias            = $horarioDia ;    
-        $this->htmlData['bodyData']->horas           = $horarioHor ;    
-        $this->htmlData['bodyData']->results         = $arrayResultado ;    
-        $this->htmlData['bodyData']->color           = $color ;    
-        $this->htmlData['bodyData']->curso           = $title ;    
+        $this->htmlData['bodyData']->dias            = $horarioDia ;
+        $this->htmlData['bodyData']->horas           = $horarioHor ;
+        $this->htmlData['bodyData']->results         = $arrayResultado ;
+        $this->htmlData['bodyData']->color           = $color ;
+        $this->htmlData['bodyData']->curso           = $title ;
         $this->htmlData['body']                  .= "/reportes/reportPrincipal" ;
-        $this->htmlData['headData']->titulo       = "GESTION :: INTRANET"       ; 
+        $this->htmlData['headData']->titulo       = "GESTION :: INTRANET"       ;
         $this->load->view('plantillas_base/standar/body',$this->htmlData)       ;
-        
+
     }
     public function comboBandeNotReportG3(){}
     public function comboBandeNotReportG(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);               
-        $this->load->view('vistasDialog/gestionDocente/bandejaReporteG/bandejaReporteG',$this->htmlData);                     
-    }     
+        $this->load->model("Rol_model",'',TRUE);
+        $this->load->view('vistasDialog/gestionDocente/bandejaReporteG/bandejaReporteG',$this->htmlData);
+    }
     public function comboBandeProf(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);  
+        $this->load->model("Rol_model",'',TRUE);
         $bimestre=$this->input->post("bimestre");
         $curso=$this->input->post("curso");
         $seccion=$this->input->post("seccion");
@@ -480,39 +480,39 @@ class GestionDocente extends CI_Controller {
         $this->htmlData['bodyData']->SECCION         = $seccion ;
         $this->htmlData['bodyData']->CURSOS          = $curso ;
         $this->htmlData['bodyData']->BIMESTRE        = $bimestre ;
-        $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/bandejaMaterial',$this->htmlData);                     
-    }       
+        $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/bandejaMaterial',$this->htmlData);
+    }
     public function configuracionNotas(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);//     
+        $this->load->model("Rol_model",'',TRUE);//
         $profesor= array('profesor'=>$this->session->webCasSession->usuario->CODIGO);
         $valores                                 = $this->Usuarios_model->busquedaGradoProf($profesor) ;
         $arrayGrado=array_column($valores, 'id_grado');
         if(count($valores)>0){
-        $this->htmlData['bodyData']->respuesta     = 1 ;     
+        $this->htmlData['bodyData']->respuesta     = 1 ;
         $bimestre=$this->Usuarios_model->busquedaBimestre();
-        $busqueda= implode(',',$arrayGrado); 
-        
+        $busqueda= implode(',',$arrayGrado);
+
         $busquedaProf= $this->Usuarios_model->buscarGrados($busqueda);
-        $this->htmlData['bodyData']->bimestre     = $bimestre ; 
-        $this->htmlData['bodyData']->valores     = $busquedaProf ;         
+        $this->htmlData['bodyData']->bimestre     = $bimestre ;
+        $this->htmlData['bodyData']->valores     = $busquedaProf ;
         }else{
-        $this->htmlData['bodyData']->respuesta     = 0 ;       
+        $this->htmlData['bodyData']->respuesta     = 0 ;
         }
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";        
-        $this->htmlData['body']                  .= "/configuracion/notas" ;         
-        $this->load->view('plantillas_base/standar/body',$this->htmlData);                  
+        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['body']                  .= "/configuracion/notas" ;
+        $this->load->view('plantillas_base/standar/body',$this->htmlData);
     }
     public function verdetalleAlumno(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);    
+        $this->load->model("Rol_model",'',TRUE);
         $codigo=$this->input->post("codigo");
         $alumno=$this->input->post("alu2");
         $curso=$this->input->post("curso");
         $resultado= $this->Usuarios_model->buscarAlumnoasi($codigo,$curso);
         $this->htmlData['bodyData']->results         = $resultado ;
-        $this->htmlData['bodyData']->alumno         = str_replace("-", " ",$alumno); 
-        $this->load->view('vistasDialog/gestionDocente/bandejaAsistencia/verDetalleAlumno',$this->htmlData);              
+        $this->htmlData['bodyData']->alumno         = str_replace("-", " ",$alumno);
+        $this->load->view('vistasDialog/gestionDocente/bandejaAsistencia/verDetalleAlumno',$this->htmlData);
     }
     public function comboBandeNota(){
         $this->load->model("Docente_model",'',TRUE);
@@ -520,27 +520,27 @@ class GestionDocente extends CI_Controller {
         $id_curso=$this->input->post("curso");
         $id_grado=$this->input->post("grado");
         $id_seccion=$this->input->post("seccion");
-        $id_bimestre=$this->input->post("bimestre");       
+        $id_bimestre=$this->input->post("bimestre");
         $id_profesor=$this->session->webCasSession->usuario->CODIGO;
         if(isset($id_curso)==true && isset($id_grado)==true && isset($id_seccion)==true && isset($id_bimestre)==true){
         $busqueda= array('id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion,'id_bimestre'=>$id_bimestre,'ano'=>date('Y'),'id_profesor'=>$id_profesor);
-        $respuesta=1;$results=1;        
+        $respuesta=1;$results=1;
         }else{
-         $respuesta=0;$results=0;   
+         $respuesta=0;$results=0;
         }
         $validacion_head=$this->Docente_model->head_validacion($busqueda);
         $head_notas=$this->Docente_model->head($busqueda);
-        $busquedaBimestre=$this->Usuarios_model->busqueda_notas_config($id_grado,$id_curso);  
-        $header_notas =array_unique(array_column($head_notas,'nom_notas'));  
-        $cant_notas=array_unique(array_column($busquedaBimestre,'nom_notas')); 
+        $busquedaBimestre=$this->Usuarios_model->busqueda_notas_config($id_grado,$id_curso);
+        $header_notas =array_unique(array_column($head_notas,'nom_notas'));
+        $cant_notas=array_unique(array_column($busquedaBimestre,'nom_notas'));
         if(count($header_notas)!=count($cant_notas)){
             if(count($header_notas)!=0){
-                echo "<center><strong style='color:red'>Falta configurar las siguientes capacidades: ".implode(',',array_diff(array_values($cant_notas),array_values($header_notas)))."</strong></center>";die();        
+                echo "<center><strong style='color:red'>Falta configurar las siguientes capacidades: ".implode(',',array_diff(array_values($cant_notas),array_values($header_notas)))."</strong></center>";die();
             }else{
                 echo "<center><strong style='color:red'>Por favor , configurar todas las capacidades.</strong></center>";die();
             }
         }
-    
+
 /*
 		columns:[
 				 {data:"ape_pat_per",type:'text',readOnly:true,size:"40"},
@@ -553,41 +553,41 @@ class GestionDocente extends CI_Controller {
 		],
 vamoss
 */
-        $column_i=                
+        $column_i=
             array(
                                         'data'=>"ape_pat_per",
                                         'type'=>'text',
-                                        'readOnly'=>true                                     
-              )  ; 
+                                        'readOnly'=>true
+              )  ;
             $head_not[]=  array('"Apellidos y Nombres"','on');
         foreach($head_notas as $clave=> $columns){
-            $readOnly=false;    
-            $className='htCenter'; 
+            $readOnly=false;
+            $className='htCenter';
             $validator=false;
             $head_not[]=array("'".$columns['abreviacion']."'",'off');
-            $column[]= 
+            $column[]=
                 array(
                     'data'=>$columns['abreviacion'],
                     'type'=>'numeric',
                     'readOnly'=>$readOnly,
                     'className'=>$className,
                     'validator'=>str_replace("\'"," ",$validator)
-                     );                                          
-                                           
-                                            
+                     );
+
+
             if((int)$clave!=(int)(count($head_notas)-1) ){
             if($head_notas[$clave]['nom_notas']!=$head_notas[$clave+1]['nom_notas']){
                 $head_not[]=array("'".$columns['nom_notas']."'",'on');
-                $column[]= 
+                $column[]=
                 array(
                     'data'=>$columns['nom_notas'],
                     'type'=>'numeric',
                     'readOnly'=>true,
                     'className'=>$className,
                     'validator'=>str_replace("\'"," ",$validator)
-                     );                                          
+                     );
                    }
-                
+
             }else{
                 if((int)$clave==(int)(count($head_notas)-1) ){
                     $head_not[]=array("'".$columns['nom_notas']."'",'on');
@@ -595,15 +595,15 @@ vamoss
 
                     $head_not[]=array("'".$columns['nom_notas']."'",'off');
                 }
-                
-                $column[]= 
+
+                $column[]=
                 array(
                     'data'=>$columns['nom_notas'],
                     'type'=>'numeric',
                     'readOnly'=>true,
                     'className'=>$className,
                     'validator'=>str_replace("\'"," ",$validator)
-                     );  
+                     );
             }
         }
         array_unshift($column,$column_i);
@@ -611,45 +611,45 @@ vamoss
         $cabecera=array_column($head_not,0);
         $datosTabla = $this->Docente_model->crosstabcantidad($busqueda);
         $cantidad=count($datosTabla);
-        $this->htmlData['bodyData']->cantidad                   =$cantidad;        
-        $this->htmlData['bodyData']->datos                      =$busqueda;        
-        $this->htmlData['bodyData']->tabla                      =$datosTabla;        
+        $this->htmlData['bodyData']->cantidad                   =$cantidad;
+        $this->htmlData['bodyData']->datos                      =$busqueda;
+        $this->htmlData['bodyData']->tabla                      =$datosTabla;
         $this->htmlData['bodyData']->respuesta                  =$respuesta;
-        $this->htmlData['bodyData']->results                    =$results;            
+        $this->htmlData['bodyData']->results                    =$results;
         $this->htmlData['bodyData']->head                       =implode(',',$cabecera);
         $this->htmlData['bodyData']->column                     =json_encode($column);
         $this->htmlData['bodyData']->marcados                   =json_encode($head);
-        $this->load->view('vistasDialog/gestionDocente/bandejaNotas/bandejaNotas',$this->htmlData);                     
-    }            
+        $this->load->view('vistasDialog/gestionDocente/bandejaNotas/bandejaNotas',$this->htmlData);
+    }
     public function comboConfiguracionNota(){
         $this->load->model("Docente_model",'',TRUE);
         $this->load->model("Usuarios_model",'',TRUE);
         $id_curso=$this->input->post("curso");
         $id_grado=$this->input->post("grado");
-        $id_nota=$this->input->post("nota");  
+        $id_nota=$this->input->post("nota");
         $id_profesor=$this->session->webCasSession->usuario->CODIGO;
-        
+
         $suma_nota= $this->Usuarios_model->suma_notas($id_grado,$id_curso,$id_profesor,$id_nota);
-        $cantidad_bi= (int)$this->Usuarios_model->getbi(); 
-        $cantidad_sec=(int)$this->Usuarios_model->getsec($id_grado,$id_profesor,$id_curso); 
+        $cantidad_bi= (int)$this->Usuarios_model->getbi();
+        $cantidad_sec=(int)$this->Usuarios_model->getsec($id_grado,$id_profesor,$id_curso);
         if(isset($id_curso)==true && isset($id_grado)==true &&  isset($id_nota)==true){
         $busqueda= array('curso'=>$id_curso,'grado'=>$id_grado,'ano'=>date('Y'),'profesor'=>$id_profesor,'nota'=>$id_nota);
-        
-        $respuesta=1;$results=1;        
+
+        $respuesta=1;$results=1;
         }else{
-         $respuesta=0;$results=0;   
+         $respuesta=0;$results=0;
         }
-        $this->htmlData['bodyData']->datos                    =$busqueda;  
+        $this->htmlData['bodyData']->datos                    =$busqueda;
         $this->htmlData['bodyData']->acumulado                =(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;
         $this->load->view('vistasDialog/gestionDocente/bandejaNotas/bandejaConfiguracion',$this->htmlData);
-    }      
+    }
     public function cambiar_estado_configuracion(){
-        $this->load->model("Usuarios_model",'',TRUE);        
+        $this->load->model("Usuarios_model",'',TRUE);
         $grado       =$this->input->post('grado');
         $nota       =$this->input->post('nota');
         $profesor   =$this->input->post('profesor');
         $curso        =$this->input->post('curso');
-        $abreviacion=$this->input->post('abreviacion'); 
+        $abreviacion=$this->input->post('abreviacion');
         $list_cambio=array('estado'=>0,'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
         $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'abreviacion'=>$abreviacion,'ano'=>date('Y'));
         #print_r($list_datos);die();
@@ -658,14 +658,14 @@ vamoss
         }else{
             echo "fallo en la eliminacion";
         }
-    } 
+    }
     public function valido_abreviacion_notas(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $grado      =$this->input->post('grado');    
+        $grado      =$this->input->post('grado');
         $curso      =$this->input->post('curso');
         $nota       =$this->input->post('nota');
         $profesor   =$this->input->post('profesor');
-        $ano        =$this->input->post('ano');        
+        $ano        =$this->input->post('ano');
         $abreviacion= strtoupper ($this->input->post('abreviacion'));
         $respuesta  = $this->Usuarios_model->validar_abreviacion($grado,$curso,$nota,$profesor,$ano,$abreviacion);
         if(empty($respuesta)){
@@ -679,35 +679,35 @@ vamoss
     public function registrar_configuracion_nota(){
         $this->load->model("Docente_model",'',TRUE);
         $this->load->model("Usuarios_model",'',TRUE);
-        $grado      =$this->input->post('grado');    
+        $grado      =$this->input->post('grado');
         $curso      =$this->input->post('curso');
         $nota       =$this->input->post('nota');
         $profesor   =$this->input->post('profesor');
         $ano        =$this->input->post('ano');
         $abreviacion=$this->input->post('abreviacion');
-        $list_nota= explode(',',$nota);        
+        $list_nota= explode(',',$nota);
         $descripcion=$this->input->post('descripcion');
-        $peso       =$this->input->post('peso');    
-        
+        $peso       =$this->input->post('peso');
+
         if(empty($abreviacion) || empty($peso) || empty ($descripcion)){
             $mensaje="No se ha ingresado informacion nueva";
             echo json_encode($mensaje);
-            die();            
-        }    
+            die();
+        }
         if(is_null($peso)){
             $sum_peso=0;
         }else{
-            $sum_peso=array_sum($peso)*100; 
+            $sum_peso=array_sum($peso)*100;
         }
     ## validacion
-        $cantidad_bi= (int)$this->Usuarios_model->getbi(); 
-        $cantidad_sec=(int)$this->Usuarios_model->getsec($grado,$profesor,$curso);     
+        $cantidad_bi= (int)$this->Usuarios_model->getbi();
+        $cantidad_sec=(int)$this->Usuarios_model->getsec($grado,$profesor,$curso);
         $suma_nota= $this->Usuarios_model->suma_notas($grado,$curso,$profesor,$nota);
-        $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;    
-        
-        
+        $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;
+
+
         $sum_final= (int)$suma_bd+(int)($sum_peso);
-        
+
         if($sum_final!=100){
             $mensaje="La suma total debe de ser igual a 100";
             echo json_encode($mensaje);
@@ -734,32 +734,32 @@ vamoss
                         'estado'        =>1,
                         'fec_creacion'  =>date('Y-m-d'),
                         'usu_creacion'  =>$this->session->webCasSession->usuario->USUARIO
-                        
+
                     );
                     if(!$this->Docente_model->registrar_nueva_configuracion($save_informacion)){
                         echo "Sucedió un incoveniente , verifique que cumplió con todo lo solicitado"; die();
-                    }                     
-                }                         
+                    }
+                }
             }
         $i++;
-  
+
     }
     echo json_encode($mensaje);
     }
     public function comboCursoGradoProf(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);      
+        $this->load->model("Rol_model",'',TRUE);
         $id_grado=$this->input->post("grado");
         $busqueda= array('profesor'=>$this->session->webCasSession->usuario->CODIGO,'grado'=>$id_grado);
         $busquedaSeccion=$this->Usuarios_model->busquedaCursoGradoProf($busqueda);
         $arraySeccion=array_column($busquedaSeccion,'id_curso');
-        $busquedaGrado= implode(',',$arraySeccion);   
+        $busquedaGrado= implode(',',$arraySeccion);
         $busquedaSecc= $this->Usuarios_model->buscarCursos($busquedaGrado);
 		$html="<option value='' selected>Seleccione</option>";
                 foreach($busquedaSecc as $bus){
 			$html.="<option value='$bus->id'>$bus->nom_cursos</option>";
 		}
-		
+
 		echo $html;
 
     }
@@ -775,35 +775,35 @@ vamoss
 
         if(isset($informacion)==true){
             $busqueda= array('curso'=>$curso,'grado'=>$grado,'ano'=>$ano,'profesor'=>$profesor,'nota'=>$nota);
-            $respuesta=1;$results=1;        
+            $respuesta=1;$results=1;
             }else{
              echo "No existe información";die();
         }
-              
 
-        $this->htmlData['bodyData']->datos_usuario                    =$busqueda;  
-        $this->htmlData['bodyData']->datos                            =$informacion;  
+
+        $this->htmlData['bodyData']->datos_usuario                    =$busqueda;
+        $this->htmlData['bodyData']->datos                            =$informacion;
         $this->load->view('vistasDialog/gestionDocente/bandejaNotas/cargarBandejaConfiguracion',$this->htmlData);
     }
     public function comboBandeAsis(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);        
+        $this->load->model("Rol_model",'',TRUE);
         $id_curso=$this->input->post("curso");
         $id_grado=$this->input->post("grado");
         $id_seccion=$this->input->post("seccion");
-        $busqueda= array('id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion);   
-        $resultado= $this->Usuarios_model->buscaralumno($busqueda); 
-        $validacionA= $this->Usuarios_model->validacionFechaAlumno($busqueda); 
+        $busqueda= array('id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion);
+        $resultado= $this->Usuarios_model->buscaralumno($busqueda);
+        $validacionA= $this->Usuarios_model->validacionFechaAlumno($busqueda);
 
         $contador=0;
         foreach ($validacionA as $vali){
            if(substr($vali->asistencia,0,10)==date('Y-m-d')){
                $contador++;
            }
-           
+
         }
-        
-        
+
+
         $i=0;
         foreach($resultado as $result){
             $alumnos[$i]=$result->id_alumno;
@@ -812,7 +812,7 @@ vamoss
         $resultado2= implode(',',$alumnos);
 
             $arrayporcentaje = $this->Usuarios_model->busquedaAsistencia($resultado2,$id_curso);
-            $arrayporcentajeP= $this->Usuarios_model->busquedaAsistenciaP($resultado2,$id_curso);            
+            $arrayporcentajeP= $this->Usuarios_model->busquedaAsistenciaP($resultado2,$id_curso);
 
 
         foreach ($arrayporcentaje as $porcentajet){
@@ -820,64 +820,64 @@ vamoss
         }
         foreach ($arrayporcentajeP as $porcentajep){
              $arrayporcentap[]= (int)$porcentajep->asistencia;
-        }     
+        }
 
         for($i=0;$i<count($alumnos);$i++){
-            if(isset($arrayporcentat[$i]['cantidad'])){  
-            if(isset($arrayporcentap[$i])){    
-        
-            $porcentaje[$arrayporcentat[$i]['id']]=((int)($arrayporcentap[$i])*100)/(int)($arrayporcentat[$i]['cantidad']);                                    
-            }else{                
-            $porcentaje[$i]=0;    
+            if(isset($arrayporcentat[$i]['cantidad'])){
+            if(isset($arrayporcentap[$i])){
+
+            $porcentaje[$arrayporcentat[$i]['id']]=((int)($arrayporcentap[$i])*100)/(int)($arrayporcentat[$i]['cantidad']);
+            }else{
+            $porcentaje[$i]=0;
             }
             }else{
-            $porcentaje[$i]=100;        
+            $porcentaje[$i]=100;
             }
         }
-       
-        $arrayalumno= $this->Usuarios_model->busquedaAlumnoN($resultado2);  
-        $this->htmlData['bodyData']->results         = $arrayalumno ;   
-        $this->htmlData['bodyData']->filtroc          = $busqueda['id_curso'] ;   
-        $this->htmlData['bodyData']->filtrog          = $busqueda['id_grado'] ;   
-        $this->htmlData['bodyData']->filtros          = $busqueda['id_seccion'] ;   
-        $this->htmlData['bodyData']->porcentaje       = $porcentaje ; 
-        $this->htmlData['bodyData']->contador       = $contador ; 
-        $this->load->view('vistasDialog/gestionDocente/bandejaAsistencia/bandejaAsistencia',$this->htmlData);                     
-    }            
+
+        $arrayalumno= $this->Usuarios_model->busquedaAlumnoN($resultado2);
+        $this->htmlData['bodyData']->results         = $arrayalumno ;
+        $this->htmlData['bodyData']->filtroc          = $busqueda['id_curso'] ;
+        $this->htmlData['bodyData']->filtrog          = $busqueda['id_grado'] ;
+        $this->htmlData['bodyData']->filtros          = $busqueda['id_seccion'] ;
+        $this->htmlData['bodyData']->porcentaje       = $porcentaje ;
+        $this->htmlData['bodyData']->contador       = $contador ;
+        $this->load->view('vistasDialog/gestionDocente/bandejaAsistencia/bandejaAsistencia',$this->htmlData);
+    }
     public function consultarDatosProf(){
         $this->load->model("Usuarios_model",'',TRUE);
         $this->load->model("Rol_model",'',TRUE);//
         $alumno=$this->session->webCasSession->usuario->CODIGO;
-        $datos=$this->Usuarios_model->busquedaDatos($alumno);  
+        $datos=$this->Usuarios_model->busquedaDatos($alumno);
         $alu= $this->session->webCasSession->usuario->CODIGO;
-        $alumnos=array('id_alumno'=>$alu);      
-        $valores  = $this->Usuarios_model->busquedaGradoSeccion($alumnos) ;     
-        
+        $alumnos=array('id_alumno'=>$alu);
+        $valores  = $this->Usuarios_model->busquedaGradoSeccion($alumnos) ;
+
         if(isset($datos[0]->ruta)==false){$valor='publico/media/user.png';}else{$valor=$datos[0]->ruta;}
         $arrayDatos= array('nombre'=>$datos[0]->nombre,'apepat'=>$datos[0]->apepat,'apemat'=>$datos[0]->apemat,
                            'direcc'=>$datos[0]->direcc,'docume'=>$datos[0]->docume,'claves'=>$datos[0]->claves,
                            'usuari'=>$datos[0]->usuari,'correo'=>$datos[0]->correo,'telefo'=>$datos[0]->telefo,
-                           'grados'=>"DOCENTE",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);        
+                           'grados'=>"DOCENTE",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $this->htmlData['body']                          .= "/miUsuario";
         $this->htmlData['bodyData']->results         = $arrayDatos ;
-        $this->htmlData['bodyData']->codigo          = $alumno ;        
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";         
-        $this->load->view('plantillas_base/standar/body',$this->htmlData);                 
-    }        
+        $this->htmlData['bodyData']->codigo          = $alumno ;
+        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->load->view('plantillas_base/standar/body',$this->htmlData);
+    }
     public function editarInfo(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);//              
-        $alumno=$this->session->webCasSession->usuario->CODIGO;     
-        $fecha  =$this->input->post('fecha');  
-        $direc  =$this->input->post('direccion');  
-        $clave  =$this->input->post('clave');  
-        $dni    =$this->input->post('documento');  
-        $email  =$this->input->post('email');  
-        $telefono  =$this->input->post('telefono');          
+        $this->load->model("Rol_model",'',TRUE);//
+        $alumno=$this->session->webCasSession->usuario->CODIGO;
+        $fecha  =$this->input->post('fecha');
+        $direc  =$this->input->post('direccion');
+        $clave  =$this->input->post('clave');
+        $dni    =$this->input->post('documento');
+        $email  =$this->input->post('email');
+        $telefono  =$this->input->post('telefono');
         $data=array('clav_usuario'=>$clave);
         $dato=array('direccion'=>$direc,'fecha_nac'=>$fecha,'documento'=>$dni);
         $datoC=array('des_correo'=>$email,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d'));
-        $datoT=array('num_tel'=>$telefono,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d'));        
+        $datoT=array('num_tel'=>$telefono,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d'));
 
         foreach($_FILES['images']['error'] as $key => $error){
             if($error == UPLOAD_ERR_OK){
@@ -890,113 +890,113 @@ vamoss
                 if(move_uploaded_file($_FILES['images']['tmp_name'][$key], $ruta)){
 
                 $archivo= array(
-                    'nombre'      =>$namegeneric, 
+                    'nombre'      =>$namegeneric,
                     'ruta'        =>$ruta,
                     'tipo'        =>$tipo,
-                    'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO            
-                        );                    
-              
-                    $this->Usuarios_model->cambiardat($archivo,$alumno) ;                                
+                    'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO
+                        );
+
+                    $this->Usuarios_model->cambiardat($archivo,$alumno) ;
                 }else{
-                    $errors= error_get_last(); 
-                    echo "COPY ERROR: ".$errors['type']; 
-                    echo "<br />\n".$errors['message']."<br />\n"; 
+                    $errors= error_get_last();
+                    echo "COPY ERROR: ".$errors['type'];
+                    echo "<br />\n".$errors['message']."<br />\n";
                 }
             }
-        }              
-        $this->Usuarios_model->cambiarclave($data,$alumno) ;  
-        $this->Usuarios_model->cambiardat($dato,$alumno) ;  
+        }
+        $this->Usuarios_model->cambiarclave($data,$alumno) ;
+        $this->Usuarios_model->cambiardat($dato,$alumno) ;
         $this->Usuarios_model->editartelefon($datoT,$alumno) ;
-        $this->Usuarios_model->editarcorreos($datoC,$alumno) ;        
+        $this->Usuarios_model->editarcorreos($datoC,$alumno) ;
 
-    }    
+    }
     public function editarMaterial(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);                       
-        $id=$this->input->post('id');   
-        $grado=$this->input->post('grado');     
-        $bimestre=$this->input->post('bimestre');     
-        $curso=$this->input->post('curso');    
-        $seccion=$this->input->post('seccion'); 
-        $arrayEliminar= array('grado'=>$grado,'bimestre'=>$bimestre,'curso'=>$curso,'seccion'=>$seccion);        
-        $archi=$this->Usuarios_model->editarMateriales1($id);        
+        $this->load->model("Rol_model",'',TRUE);
+        $id=$this->input->post('id');
+        $grado=$this->input->post('grado');
+        $bimestre=$this->input->post('bimestre');
+        $curso=$this->input->post('curso');
+        $seccion=$this->input->post('seccion');
+        $arrayEliminar= array('grado'=>$grado,'bimestre'=>$bimestre,'curso'=>$curso,'seccion'=>$seccion);
+        $archi=$this->Usuarios_model->editarMateriales1($id);
         $nomArchivo=$archi[0]->nom_archivo;
         $this->htmlData['bodyData']->id         = $id ;
-        $this->htmlData['bodyData']->arrayEliminar         = $arrayEliminar ;        
+        $this->htmlData['bodyData']->arrayEliminar         = $arrayEliminar ;
         $this->htmlData['bodyData']->nomArchivo         = $nomArchivo ;
-        $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/editarMaterial',$this->htmlData);             
+        $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/editarMaterial',$this->htmlData);
     }
     public function eliminarMaterial(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);   
-        $id=$this->input->post('id');     
-        $grado=$this->input->post('grado');     
-        $bimestre=$this->input->post('bimestre');     
-        $curso=$this->input->post('curso');    
-        $ruta=$this->input->post('ruta');    
-        $seccion=$this->input->post('seccion'); 
+        $this->load->model("Rol_model",'',TRUE);
+        $id=$this->input->post('id');
+        $grado=$this->input->post('grado');
+        $bimestre=$this->input->post('bimestre');
+        $curso=$this->input->post('curso');
+        $ruta=$this->input->post('ruta');
+        $seccion=$this->input->post('seccion');
         $arrayEliminar= array('grado'=>$grado,'bimestre'=>$bimestre,'curso'=>$curso,'seccion'=>$seccion,'ruta'=>$ruta);
         $this->htmlData['bodyData']->id         = $id ;
         $this->htmlData['bodyData']->arrayEliminar         = $arrayEliminar ;
-        $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/eliminarMateriales',$this->htmlData);          
-    }    
+        $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/eliminarMateriales',$this->htmlData);
+    }
     public function editarMateriales(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);                       
-        $id=$this->input->post('id'); 
-        $archivo=$this->input->post('archivo'); 
+        $this->load->model("Rol_model",'',TRUE);
+        $id=$this->input->post('id');
+        $archivo=$this->input->post('archivo');
         $data= array('nom_archivo'=>$archivo);
-        $this->Usuarios_model->editarMateriales2($id,$data);        
+        $this->Usuarios_model->editarMateriales2($id,$data);
     }
     public function eliminarMateriales(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);    
-        $id=$this->input->post('codigo');         
-        $ruta=$this->input->post('ruta'); 
+        $this->load->model("Rol_model",'',TRUE);
+        $id=$this->input->post('codigo');
+        $ruta=$this->input->post('ruta');
         if (!unlink($ruta)){
         echo ("Error deleting $file");die();
         }else{
             $this->Usuarios_model->eliminarMateriales($id);
-        }        
-    
-            
-    
-    }    
+        }
+
+
+
+    }
     public function verbandejaprof(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);           
-        $id_grado=$this->input->post('grado');     
-        $bimestre=$this->input->post('bimestre');     
-        $id_curso=$this->input->post('curso');    
-        $id_seccion=$this->input->post('seccion');         
-        $busqueda= array('id_bimestre'=>$bimestre,'id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion);                                     
-        $resultado= $this->Usuarios_model->buscardocumentos($busqueda);     
-        $this->htmlData['bodyData']->results         = $resultado ;  
-        $this->htmlData['bodyData']->arrayBusqueda         = $busqueda ;  
-        $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/bandejaMaterial2',$this->htmlData); 
+        $this->load->model("Rol_model",'',TRUE);
+        $id_grado=$this->input->post('grado');
+        $bimestre=$this->input->post('bimestre');
+        $id_curso=$this->input->post('curso');
+        $id_seccion=$this->input->post('seccion');
+        $busqueda= array('id_bimestre'=>$bimestre,'id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion);
+        $resultado= $this->Usuarios_model->buscardocumentos($busqueda);
+        $this->htmlData['bodyData']->results         = $resultado ;
+        $this->htmlData['bodyData']->arrayBusqueda         = $busqueda ;
+        $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/bandejaMaterial2',$this->htmlData);
     }
     public function subirArchivoProf(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);        
-        $seccion      = $this->input->post('seccion');     
-        $grado        = $this->input->post('grado');   
-        $curso        = $this->input->post('curso');      
-        $bimestre     = $this->input->post('bimestre');      
+        $this->load->model("Rol_model",'',TRUE);
+        $seccion      = $this->input->post('seccion');
+        $grado        = $this->input->post('grado');
+        $curso        = $this->input->post('curso');
+        $bimestre     = $this->input->post('bimestre');
         $archivo= array('seccion'=>$seccion,'grado'=>$grado,'curso'=>$curso,'bimestre'=>$bimestre);
-        
-        $this->htmlData['bodyData']->archivos          = $archivo;    
-        $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/subirArchivo',$this->htmlData);                     
 
-    }         
+        $this->htmlData['bodyData']->archivos          = $archivo;
+        $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/subirArchivo',$this->htmlData);
+
+    }
     public function registrarAsitencia(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);         
-        $seccion      = $this->input->post('id_seccion');     
-        $grado        = $this->input->post('id_grado');       
-        $curso        = $this->input->post('id_curso');       
-        $arrayAlumno  = $this->input->post('txtcodigo');    
-        $arrayMarcad  = $this->input->post('txtmarcado');     
-       
+        $this->load->model("Rol_model",'',TRUE);
+        $seccion      = $this->input->post('id_seccion');
+        $grado        = $this->input->post('id_grado');
+        $curso        = $this->input->post('id_curso');
+        $arrayAlumno  = $this->input->post('txtcodigo');
+        $arrayMarcad  = $this->input->post('txtmarcado');
+
         foreach ($arrayAlumno as $array){
             $insercion= array(
               "id_grado"=>$grado,
@@ -1010,10 +1010,10 @@ vamoss
               'fecha_val'=>date('Y-m-d'),
               'usu_creacion'=>$this->session->webCasSession->usuario->USUARIO
             );
-            
-            $this->Usuarios_model->insertAsitencia($insercion);             
-            
-             
+
+            $this->Usuarios_model->insertAsitencia($insercion);
+
+
         }
         $asistieronAl= implode(',',$arrayMarcad);
               $marcado= array('asistencia'=>'p');
@@ -1025,23 +1025,23 @@ vamoss
               "ano"=>date('Y'),
               "dia"=>date('d'),
               "mes"=>date('m'),
-              "marcado"=>$asistieronAl                  
-              ); 
-             if(count($arrayMarcad)>0){                  
-            $this->Usuarios_model->updateAsitencia($marcado,$asistieron);               
+              "marcado"=>$asistieronAl
+              );
+             if(count($arrayMarcad)>0){
+            $this->Usuarios_model->updateAsitencia($marcado,$asistieron);
             }
 
     }
     public function registrarArchivoProf(){
         $this->load->model("Usuarios_model",'',TRUE);
-        $this->load->model("Rol_model",'',TRUE);        
-        $seccion      = $this->input->post('txtseccion');     
-        $grado        = $this->input->post('txtgrado');   
-        $curso        = $this->input->post('txtcurso');      
+        $this->load->model("Rol_model",'',TRUE);
+        $seccion      = $this->input->post('txtseccion');
+        $grado        = $this->input->post('txtgrado');
+        $curso        = $this->input->post('txtcurso');
         $bimestre     = $this->input->post('txtbimestre');
         $nomarchi     = $this->input->post('txtarchivo');
         $desarchi     = $this->input->post('txtdescripcion');
-        
+
 
 
         $id_grado=$this->Usuarios_model->buscarGrados($grado);
@@ -1060,31 +1060,31 @@ vamoss
 
                 $archivo= array(
                     'nom_archivo' =>$nomarchi,
-                    'nombre'      =>$namegeneric, 
+                    'nombre'      =>$namegeneric,
                     'ruta'        =>$ruta,
                     'tipo'        =>$tipo,
                     'descripcion' =>$desarchi,
-                    'id_grado'    =>$grado,                    
+                    'id_grado'    =>$grado,
                     'id_seccion'  =>$seccion,
                     'id_curso'    =>$curso,
                     'id_bimestre' =>$bimestre,
                     'ano'         => date('Y'),
                     'usu_creacion'=>$this->session->webCasSession->usuario->USUARIO,
                     'fec_creacion'=>date('Y-m-d')
-                        );                    
-              
-                    $this->Usuarios_model->GuardarArchivoProf($archivo);                                        
+                        );
+
+                    $this->Usuarios_model->GuardarArchivoProf($archivo);
                 }else{
-                    $errors= error_get_last(); 
-                    echo "COPY ERROR: ".$errors['type']; 
-                    echo "<br />\n".$errors['message']."<br />\n"; 
+                    $errors= error_get_last();
+                    echo "COPY ERROR: ".$errors['type'];
+                    echo "<br />\n".$errors['message']."<br />\n";
                 }
             }
-        }      
-                
-        
+        }
 
-                
+
+
+
     }
 
 }

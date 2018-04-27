@@ -1,5 +1,5 @@
 <?php if($bodyData->respuesta==1){ ?>
-<div class="row">                
+<div class="row">
             <div class="col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -14,10 +14,10 @@
                   </div>
                   <div class="x_content">
 
-                                                           
+
             <form  method="post"  name="crearusuario" id="crearusuario" >
                 <div class="form-group" >
-                    
+
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                     Grado:
                     <select name="rol_grado"  class="form-control" id='rol_grado' required>
@@ -34,17 +34,17 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                     Seccion:
                     <select name="rol_seccion"  class="form-control" id='rol_seccion' required></select>
-                </label>                    
+                </label>
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                     Curso:
                     <select name="rol_curso"    class="form-control" id='rol_curso' required></select>
-                </label> 
+                </label>
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                     Bimestre:
                     <select name="rol_bimestre"    class="form-control" id='rol_bimestre' required></select>
-                </label>                     
+                </label>
                 </div>
-                       </form>   
+                       </form>
                 <div class="form-group" >
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                 <label>Fecha:</label>
@@ -54,20 +54,20 @@
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
                                     </div>
-                </label>                
+                </label>
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                 <label>Hora:</label>
-                                        <div class='input-group date' name="horadiv" id="horadiv"  >    
-                                         <input type='text' name="hora" id='hora' class="form-control "  disabled="true"/>                                           
+                                        <div class='input-group date' name="horadiv" id="horadiv"  >
+                                         <input type='text' name="hora" id='hora' class="form-control "  disabled="true"/>
                                         <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                         </span>
                                         </div>
-                </label>                    
+                </label>
                 </div>
-                                                                    
-                
-                                                                     
+
+
+
 
                   </div>
                 </div>
@@ -84,18 +84,18 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">                                                                    
-                      <div class="table-responsive" id="bandejaNotas"></div>                      
+                  <div class="x_content">
+                      <div class="table-responsive" id="bandejaNotas"></div>
                   </div>
                 </div>
               </div>
-</div>     
-<div id="DIVcargas"       title="EN PROCESO ... "> 
- Espere mientras se gestiona la informaci&oacute;n.   
+</div>
+<div id="DIVcargas"       title="EN PROCESO ... ">
+ Espere mientras se gestiona la informaci&oacute;n.
 <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
 </div>
-<script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionDocente_notas.js')?>"></script>   
+<script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionDocente_notas.js')?>"></script>
 <?php }else{
-echo "No cuenta con la información necesaria registrada para mostrar esta interfaz.";    
-    
+echo "No cuenta con la información necesaria registrada para mostrar esta interfaz.";
+
 } ?>

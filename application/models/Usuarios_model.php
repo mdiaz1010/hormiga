@@ -3,15 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
 class Usuarios_model extends CI_Model{
-    
+
     public function __construct() {
-        parent::__construct(); 
+        parent::__construct();
     }
-    
-    public function login($usuario ,$pass ) { 
+
+    public function login($usuario ,$pass ) {
         return
-                $this->db->select('  
-        ma.id           as CODIGO,    
+                $this->db->select('
+        ma.id           as CODIGO,
 	mu.nom_usuario	as USUARIO      ,
         ma.documento   as DOCUMENTO    ,
         mt.num_tel	as TELEFONO     ,
@@ -24,39 +24,39 @@ class Usuarios_model extends CI_Model{
                 ->join('maecorreos  mc','ma.id=mc.id_persona' )
                 ->join('maetelefono mt','ma.id=mt.id_persona')
                 ->join('maeusuarios mu','ma.id=mu.id_persona')
-                ->where(array('mu.nom_usuario'=>$usuario,'mu.clav_usuario'=>$pass))     
-                ->get()->result_object()  ;  
-        
+                ->where(array('mu.nom_usuario'=>$usuario,'mu.clav_usuario'=>$pass))
+                ->get()->result_object()  ;
+
     }
-    public function updateAsitencia($marcado,$datos) { 
+    public function updateAsitencia($marcado,$datos) {
         $this->db->set($marcado);
         $this->db->where(array(
               "id_grado"=>$datos['id_grado'],
               "id_seccion"=>$datos['id_seccion'],
-              "id_curso"=>$datos['id_curso'],              
+              "id_curso"=>$datos['id_curso'],
               "ano"=>date('Y'),
               "dia"=>date('d'),
-              "mes"=>date('m'),            
+              "mes"=>date('m'),
         ));
         $this->db->where("id_alumno in (".$datos['marcado'].")");
         $this->db->update('asistencia_alumno');
-    }           
-    public function updateAsitenciaAux($marcado,$datos) { 
+    }
+    public function updateAsitenciaAux($marcado,$datos) {
         $this->db->set($marcado);
         $this->db->where(array(
               "id_grado"=>$datos['id_grado'],
-              "id_seccion"=>$datos['id_seccion'],             
+              "id_seccion"=>$datos['id_seccion'],
               "ano"=>date('Y'),
               "dia"=>date('d'),
-              "mes"=>date('m'),            
+              "mes"=>date('m'),
         ));
         $this->db->where("id_alumno in (".$datos['marcado'].")");
         $this->db->update('asistencia_alumno_aux');
-    }              
+    }
     public function editarpersona($datos,$id) {
         $this->db->set($datos)->where('id',$id)->update('maepersona');
     }
-    public function editarcorreos($datos,$id) { 
+    public function editarcorreos($datos,$id) {
         $this->db->set($datos);
         $this->db->where('id_persona',$id);
         $this->db->update('maecorreos');
@@ -64,86 +64,86 @@ class Usuarios_model extends CI_Model{
     public function cambiarclave($datos,$id){
         $this->db->set($datos);
         $this->db->where('id_persona',$id);
-        $this->db->update('maeusuarios');        
+        $this->db->update('maeusuarios');
     }
     public function editar_configuracion_nota($datos,$lista){
         $this->db->set($datos);
         $this->db->where($lista);
-        $this->db->update('rel_notas_detalle');     
-    }    
+        $this->db->update('rel_notas_detalle');
+    }
     public function cambiardat($datos,$id){
         $this->db->set($datos);
         $this->db->where('id',$id);
-        $this->db->update('maepersona');                
+        $this->db->update('maepersona');
     }
-    public function editarusuario($datos,$id) { 
+    public function editarusuario($datos,$id) {
         $this->db->set($datos);
         $this->db->where('id_persona',$id);
         $this->db->update('maeusuarios');
-    }            
-    public function editartelefon($datos,$id) { 
+    }
+    public function editartelefon($datos,$id) {
         $this->db->set($datos);
         $this->db->where('id_persona',$id);
         $this->db->update('maetelefono');
-    }                
-    public function getList() { 
-        $this->db->distinct()
-                ->select('  
-        ma.id           as CODIGO,    
-        ma.ape_pat_per  as PROFESOR ,
-	mu.nom_usuario	as USUARIO      ,
-        mt.num_tel	as TELEFONO     ,
-        mc.des_correo	as CORREO	,
-        mu.role_usuario	as ROLES	,
-           case   mu.role_usuario	
-           when  2 then \'DIRECTOR\'
-           when  3 then \'SUB DIRECTOR\'
-           when  4 then \'PROFESOR\'
-           when  5 then \'AUXILIAR\'
-           when  6 then \'ALUMNO\'  END AS CARGO                                             
-                      ')
-                ->from('maepersona  ma')
-                ->join('maecorreos  mc','ma.id=mc.id_persona' )
-                ->join('maetelefono mt','ma.id=mt.id_persona')
-                ->join('maeusuarios mu','ma.id=mu.id_persona')
-                ->where('mu.role_usuario<>','1')
-                ->order_by('1','desc');             
-        
-        return $this->db->get()->result_object() ;  
     }
-    public function getListPer() { 
+    public function getList() {
         $this->db->distinct()
-                ->select('  
-        ma.id           as CODIGO,    
+                ->select('
+        ma.id           as CODIGO,
         ma.ape_pat_per  as PROFESOR ,
 	mu.nom_usuario	as USUARIO      ,
         mt.num_tel	as TELEFONO     ,
         mc.des_correo	as CORREO	,
         mu.role_usuario	as ROLES	,
-           case   mu.role_usuario	
+           case   mu.role_usuario
            when  2 then \'DIRECTOR\'
            when  3 then \'SUB DIRECTOR\'
            when  4 then \'PROFESOR\'
            when  5 then \'AUXILIAR\'
-           when  6 then \'ALUMNO\'  END AS CARGO                                             
+           when  6 then \'ALUMNO\'  END AS CARGO
                       ')
                 ->from('maepersona  ma')
                 ->join('maecorreos  mc','ma.id=mc.id_persona' )
                 ->join('maetelefono mt','ma.id=mt.id_persona')
                 ->join('maeusuarios mu','ma.id=mu.id_persona')
                 ->where('mu.role_usuario<>','1')
-                ->order_by('1','desc');             
-        
-        	$query = $this->db->get();					
+                ->order_by('1','desc');
+
+        return $this->db->get()->result_object() ;
+    }
+    public function getListPer() {
+        $this->db->distinct()
+                ->select('
+        ma.id           as CODIGO,
+        ma.ape_pat_per  as PROFESOR ,
+	mu.nom_usuario	as USUARIO      ,
+        mt.num_tel	as TELEFONO     ,
+        mc.des_correo	as CORREO	,
+        mu.role_usuario	as ROLES	,
+           case   mu.role_usuario
+           when  2 then \'DIRECTOR\'
+           when  3 then \'SUB DIRECTOR\'
+           when  4 then \'PROFESOR\'
+           when  5 then \'AUXILIAR\'
+           when  6 then \'ALUMNO\'  END AS CARGO
+                      ')
+                ->from('maepersona  ma')
+                ->join('maecorreos  mc','ma.id=mc.id_persona' )
+                ->join('maetelefono mt','ma.id=mt.id_persona')
+                ->join('maeusuarios mu','ma.id=mu.id_persona')
+                ->where('mu.role_usuario<>','1')
+                ->order_by('1','desc');
+
+        	$query = $this->db->get();
 		return $query;
-    }    
-    public function getBandeja() { 
+    }
+    public function getBandeja() {
         $this->db->distinct();
-        $this->db->select(  '                            
+        $this->db->select(  '
                             CONCAT(MG.nom_grado,\' \',MG.des_grado) as GRADO  ,
                             MS.nom_seccion as SECCION                         ,
                             MA.nom_cursos  as CURSOS                          ,
-                            ape_pat_per as PROFESOR 		            
+                            ape_pat_per as PROFESOR
                             '
                 )
                 ->from('relaula RE')
@@ -154,18 +154,18 @@ class Usuarios_model extends CI_Model{
                 ->where('RE.estado','1')
                 ->order_by('1','desc');
 
-        
+
         return $this->db->get()->result_object();
-    }    
-    public function getBusquedaAulaProf($id_profesor,$ano) { 
+    }
+    public function getBusquedaAulaProf($id_profesor,$ano) {
         $this->db->distinct();
         $this->db->select(  '
                             RE.horario as horario,
                             RE.dia as dia,
                             MG.nom_grado as GRADO  ,
                             MS.nom_seccion as SECCION                         ,
-                            MA.nom_cursos  as CURSOS                          ,                    
-                            MA.des_cursos  as descripcion                          
+                            MA.nom_cursos  as CURSOS                          ,
+                            MA.des_cursos  as descripcion
                             '
                 )
                 ->from('relaula RE')
@@ -176,18 +176,18 @@ class Usuarios_model extends CI_Model{
                 ->where('RE.estado=1 and RE.id_profesor='.$id_profesor.' and RE.ano='.$ano)
                 ->order_by('1,2','asc');
 
-        
+
         return $this->db->get()->result_object();
-    }       
-    public function getBusquedaAulaAlu($grado,$seccion,$ano) { 
+    }
+    public function getBusquedaAulaAlu($grado,$seccion,$ano) {
         $this->db->distinct();
         $this->db->select(  '
                             RE.horario as horario,
                             RE.dia as dia,
                             MG.nom_grado as GRADO  ,
                             MS.nom_seccion as SECCION                         ,
-                            MA.nom_cursos  as CURSOS                          ,                    
-                            MA.des_cursos  as descripcion                     
+                            MA.nom_cursos  as CURSOS                          ,
+                            MA.des_cursos  as descripcion
                             '
                 )
                 ->from('relaula RE')
@@ -198,13 +198,13 @@ class Usuarios_model extends CI_Model{
                 ->where('RE.estado=1 and MG.id='.$grado.' and MS.id='.$seccion.' and  RE.ano='.$ano)
                 ->order_by('1,2','asc');
 
-        
+
         return $this->db->get()->result_object();
-    }      
-    public function ultimoregistro() { 
-        $this->db->select(" MAX(id) as ultimo ")->from("maepersona");         
-        return $this->db->get()->result_object() ;  
-    }    
+    }
+    public function ultimoregistro() {
+        $this->db->select(" MAX(id) as ultimo ")->from("maepersona");
+        return $this->db->get()->result_object() ;
+    }
     public function comparacionGrado($ano,$grado,$bimestre){
         $this->db->select(" mu.nom_cursos as curso,mg.nom_grado as grado, ms.nom_seccion as seccion,rn.id_grado,rn.id_curso,rn.id_bimestre,rn.id_seccion,AVG(rn.nota) as nota,
                             (select count(*) from relaulalumno rl where rl.id_grado=rn.id_grado and rl.id_seccion=rn.id_seccion) as cantidad
@@ -216,8 +216,8 @@ class Usuarios_model extends CI_Model{
                             ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado." and rn.id_bimestre=".$bimestre." and mi.pe is not null and  mi.id_bimestre is not null")
                             ->group_by("rn.id_grado,rn.id_curso,rn.id_bimestre,rn.id_seccion")
                             ->order_by("rn.id_seccion,rn.id_curso","asc");
-        return $this->db->get()->result_object() ; 
-        
+        return $this->db->get()->result_object() ;
+
     }
     public function comparacionGrados($ano,$grado){
         $this->db->select(" mu.nom_cursos as curso,mg.nom_grado as grado, ms.nom_seccion as seccion,rn.id_grado,rn.id_curso,rn.id_bimestre,rn.id_seccion,sum(rn.nota) as nota,
@@ -230,12 +230,12 @@ class Usuarios_model extends CI_Model{
                             ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado." and mi.pe is not null and mi.id_bimestre is null")
                             ->group_by("id_grado,id_curso,id_bimestre,id_seccion")
                             ->order_by("rn.id_seccion,rn.id_curso","asc");
-        return $this->db->get()->result_object() ; 
-        
-    }    
+        return $this->db->get()->result_object() ;
+
+    }
     public function comparacionGradoCurso($ano,$grado,$bimestre){
-        $this->db->distinct();        
-        $this->db->select(" mu.nom_cursos as curso                            
+        $this->db->distinct();
+        $this->db->select(" mu.nom_cursos as curso
                           ")->from("relnotas rn ")
                             ->join("maegrados mg","on rn.id_grado=mg.id")
                             ->join("maenotas mi","on rn.id_nota=mi.id")
@@ -243,44 +243,44 @@ class Usuarios_model extends CI_Model{
                             ->join("maecursos mu","on rn.id_curso=mu.id")
                             ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado." and rn.id_bimestre=".$bimestre." and mi.pe is not null and mi.id_bimestre is not null")
                             ->order_by("mu.nom_cursos","asc");
-        return $this->db->get()->result_object() ; 
-        
-    }    
+        return $this->db->get()->result_object() ;
+
+    }
     public function comparacionGradoCursos($ano,$grado){
-        $this->db->distinct();        
-        $this->db->select(" mu.nom_cursos as curso                            
+        $this->db->distinct();
+        $this->db->select(" mu.nom_cursos as curso
                           ")->from("relnotas rn ")
-                            ->join("maenotas mi","on rn.id_nota=mi.id")                
+                            ->join("maenotas mi","on rn.id_nota=mi.id")
                             ->join("maegrados mg","on rn.id_grado=mg.id")
                             ->join("maeseccion ms","on rn.id_seccion=ms.id")
                             ->join("maecursos mu","on rn.id_curso=mu.id")
                             ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado."  and mi.pe is not null and mi.id_bimestre is not null")
                             ->order_by("mu.nom_cursos","asc");
-        return $this->db->get()->result_object() ; 
-        
-    }        
+        return $this->db->get()->result_object() ;
+
+    }
     public function puestoSalon($grado,$seccion){
         $this->db->select("re.id_alumno,AVG(re.nota) as nota");
         $this->db->from("relnotas re");
-        $this->db->join("maenotas ma","on re.id_nota=ma.id");        
+        $this->db->join("maenotas ma","on re.id_nota=ma.id");
         $this->db->where("re.estado=1 and  re.id_curso!=0 and re.id_grado=".$grado." and ma.pe is null and re.id_seccion=".$seccion." and re.ano=".date('Y'));
         $this->db->group_by('re.id_alumno');
-        $this->db->order_by('2','DESC') ; 
-        return $this->db->get()->result_object() ;         
+        $this->db->order_by('2','DESC') ;
+        return $this->db->get()->result_object() ;
     }
     public function puestoSalonTotal(){
         $this->db->distinct();
         $this->db->select("ma.ape_pat_per as alumno,CONCAT(mg.nom_grado,'°',me.nom_seccion) as grado,rl.id_alumno,round(avg(rl.nota),2) as nota ")->from("relnotas rl")
                 ->join("maenotas mn","on rl.id_nota=mn.id")
-                ->join("maepersona   ma","on rl.id_alumno =ma.id")   
+                ->join("maepersona   ma","on rl.id_alumno =ma.id")
                 ->join("maegrados    mg","on rl.id_grado  =mg.id")
-                ->join("maeseccion   me","on rl.id_seccion=me.id");                
+                ->join("maeseccion   me","on rl.id_seccion=me.id");
         $this->db->where("rl.estado=1 and rl.id_curso!=0 and mn.pe is null and mn.id_bimestre is not null and rl.ano=".date('Y'));
-        $this->db->group_by('rl.id_alumno,ma.ape_pat_per,mg.nom_grado,me.nom_seccion')->limit('5') ; 
+        $this->db->group_by('rl.id_alumno,ma.ape_pat_per,mg.nom_grado,me.nom_seccion')->limit('5') ;
         $this->db->order_by('4','DESC');
-        return $this->db->get()->result_array() ;         
-    }    
-    
+        return $this->db->get()->result_array() ;
+    }
+
     public function puestoGrado($grado){
         $this->db->distinct();
         $this->db->select("re.id_alumno,AVG(re.nota) as nota");
@@ -288,71 +288,71 @@ class Usuarios_model extends CI_Model{
         $this->db->join("maenotas ma","on re.id_nota=ma.id");
         $this->db->where("re.estado=1 and re.id_curso!=0 and re.id_grado=".$grado." and ma.pe is null and re.ano=".date('Y'));
         $this->db->group_by('re.id_alumno');
-        $this->db->order_by('2','DESC') ; 
-        return $this->db->get()->result_object() ;         
+        $this->db->order_by('2','DESC') ;
+        return $this->db->get()->result_object() ;
     }
     public function puestoColegio(){
         $this->db->select("re.id_alumno,AVG(re.nota) as nota");
         $this->db->from("relnotas re");
-        $this->db->join("maenotas ma","on re.id_nota=ma.id");              
-        $this->db->where('re.estado=1 and re.id_curso!=0 and ma.pe is null and re.ano='.date('Y'));   
+        $this->db->join("maenotas ma","on re.id_nota=ma.id");
+        $this->db->where('re.estado=1 and re.id_curso!=0 and ma.pe is null and re.ano='.date('Y'));
         $this->db->group_by('re.id_alumno');
-        $this->db->order_by('2','DESC') ; 
-        return $this->db->get()->result_object() ;         
+        $this->db->order_by('2','DESC') ;
+        return $this->db->get()->result_object() ;
     }
-    public function getGrados() { 
+    public function getGrados() {
         $this->db->select(" id,nom_grado,des_grado,usu_creacion,fec_creacion ");
         $this->db->from("maegrados");
-        $this->db->order_by('nom_grado','DESC') ; 
-        return $this->db->get()->result_object() ;  
-    }      
-    public function getGradosAno() { 
+        $this->db->order_by('nom_grado','DESC') ;
+        return $this->db->get()->result_object() ;
+    }
+    public function getGradosAno() {
         $this->db->distinct();
         $this->db->select("ano");
         $this->db->from("maenotas");
-        $this->db->order_by('ano','DESC') ; 
-        return $this->db->get()->result_object() ;  
-    }          
-    public function getSecciones() { 
+        $this->db->order_by('ano','DESC') ;
+        return $this->db->get()->result_object() ;
+    }
+    public function getSecciones() {
         $this->db->select(" id,nom_seccion,des_seccion,usu_creacion,fec_creacion ");
         $this->db->from("maeseccion");
-        $this->db->order_by('nom_seccion','DESC') ; 
-        return $this->db->get()->result_object() ;  
-    }      
-    public function getCursos() { 
+        $this->db->order_by('nom_seccion','DESC') ;
+        return $this->db->get()->result_object() ;
+    }
+    public function getCursos() {
         $this->db->select(" id,nom_cursos,des_cursos,usu_creacion,fec_creacion ");
         $this->db->from("maecursos");
-        $this->db->order_by('nom_cursos','DESC') ; 
-        return $this->db->get()->result_object() ;  
-    }        
-    public function getBimestre() { 
+        $this->db->order_by('nom_cursos','DESC') ;
+        return $this->db->get()->result_object() ;
+    }
+    public function getBimestre() {
         $this->db->select(" id,nom_bimestre,fecini_bimestre,fecfin_bimestre,ano ");
         $this->db->from("maebimestre");
-        $this->db->order_by('nom_bimestre','DESC') ; 
-        return $this->db->get()->result_object() ;  
-    }           
+        $this->db->order_by('nom_bimestre','DESC') ;
+        return $this->db->get()->result_object() ;
+    }
     public function getbi(){
         $this->db->select(" id,nom_bimestre,fecini_bimestre,fecfin_bimestre,ano ");
         $this->db->from("maebimestre");
-        $this->db->order_by('nom_bimestre','DESC') ; 
-        return $this->db->get()->num_rows() ;          
+        $this->db->order_by('nom_bimestre','DESC') ;
+        return $this->db->get()->num_rows() ;
     }
     public function getsec($grado,$profesor,$curso){
         $this->db->distinct();
         $this->db->select("id_seccion");
         $this->db->from("relaula");
         $this->db->where('id_grado='.$grado.' and id_profesor='.$profesor.' and id_curso='.$curso);
-        return $this->db->get()->num_rows() ;           
+        return $this->db->get()->num_rows() ;
     }
-    public function getNotas() { 
+    public function getNotas() {
         $this->db->select(" id,id_bimestre,nom_notas,des_notas,ano,pes_notas ");
         $this->db->from("maenotas");
-        $this->db->order_by('2','DESC') ; 
-        return $this->db->get()->result_object() ;  
-    }          
-    public function insertarGrados($datos) { 
-     
-        
+        $this->db->order_by('2','DESC') ;
+        return $this->db->get()->result_object() ;
+    }
+    public function insertarGrados($datos) {
+
+
      $data = array(
             'nom_grado'             => null,
             'des_grado'             => null,
@@ -360,121 +360,121 @@ class Usuarios_model extends CI_Model{
             'usu_creacion'          => null,
             'usu_modificacion'      => null
 
-        ); 
+        );
         foreach ($datos as $tempKey => $tempVal) {
             if (array_key_exists($tempKey, $data)) {
                 $data[$tempKey] = $tempVal;
-            } 
-        } 
-        return     $this->db->insert('maegrados', $data);     
-    }       
-    public function insertarSecciones($datos) {              
+            }
+        }
+        return     $this->db->insert('maegrados', $data);
+    }
+    public function insertarSecciones($datos) {
      $data = array(
             'nom_seccion'             => null,
             'des_seccion'             => null,
             'usu_creacion'            => null,
             'usu_modificacion'        => null
-        ); 
+        );
         foreach ($datos as $tempKey => $tempVal) {
             if (array_key_exists($tempKey, $data)) {
                 $data[$tempKey] = $tempVal;
-            } 
-        } 
-        return     $this->db->insert('maeseccion', $data);     
-    }        
-    public function insertarCursos($datos) {              
+            }
+        }
+        return     $this->db->insert('maeseccion', $data);
+    }
+    public function insertarCursos($datos) {
      $data = array(
             'nom_cursos'              => null,
             'des_cursos'              => null,
             'usu_creacion'            => null,
             'usu_modificacion'        => null
-        ); 
+        );
         foreach ($datos as $tempKey => $tempVal) {
             if (array_key_exists($tempKey, $data)) {
                 $data[$tempKey] = $tempVal;
-            } 
-        } 
-        return     $this->db->insert('maecursos', $data);     
-    }        
-    
-    public function insertarBimestre($datos) {              
+            }
+        }
+        return     $this->db->insert('maecursos', $data);
+    }
+
+    public function insertarBimestre($datos) {
     return  $this->db->insert('maebimestre',$datos);
-    }          
-     public function insertarNotas($datos) {              
+    }
+     public function insertarNotas($datos) {
     return  $this->db->insert('maenotas',$datos);
-    }        
-    public function buscardocumentos($data) { 
-        $this->db->select(" id,nom_archivo,nombre,ruta,ano,tipo,fec_creacion,fec_modificacion,descripcion ")->from("documentos_docentes"); 
+    }
+    public function buscardocumentos($data) {
+        $this->db->select(" id,nom_archivo,nombre,ruta,ano,tipo,fec_creacion,fec_modificacion,descripcion ")->from("documentos_docentes");
         $this->db->where(array('id_curso'=>$data['id_curso'],'id_grado'=>$data['id_grado'],'id_seccion'=>$data['id_seccion'],'id_bimestre'=>$data['id_bimestre'])) ;
         $this->db->order_by('fec_creacion','asc');
-        return $this->db->get()->result_array() ;  
-    }   
-    public function buscardocumentosasistencia($data) { 
-        $this->db->select(" id,id_asistencia,fecha_jus,nombre,ruta,ano,fec_creacion ")->from("documentos_asistencia"); 
+        return $this->db->get()->result_array() ;
+    }
+    public function buscardocumentosasistencia($data) {
+        $this->db->select(" id,id_asistencia,fecha_jus,nombre,ruta,ano,fec_creacion ")->from("documentos_asistencia");
         $this->db->where('id_asistencia='.$data.' and ano='.date('Y')) ;
         $this->db->order_by('fec_creacion','asc');
-        return $this->db->get()->result_object() ;  
-    }       
-    public function buscaralumno($data) {   
-        $this->db->select("id_alumno")->from("relaulalumno"); 
+        return $this->db->get()->result_object() ;
+    }
+    public function buscaralumno($data) {
+        $this->db->select("id_alumno")->from("relaulalumno");
         $this->db->where(array('id_grado'=>$data['id_grado'],'id_seccion'=>$data['id_seccion'],'ano'=>date('Y'))) ;
         $this->db->order_by('id_alumno','asc');
-        return $this->db->get()->result_object() ;          
-    }       
-    public function getClientes() { 
-        $this->db->select(" * ")->from("maeusuarios"); 
-        $this->db->where( 'role_usuario =' ,6 ) ;
-        return $this->db->get()->result_object() ;  
-    }    
-    public function busquedaHorario($codigo){
-        $this->db->select(" horario ")->from("relaula")->where("id_seccion",$codigo);         
-        return $this->db->get()->result_object() ;          
+        return $this->db->get()->result_object() ;
     }
-    public function reporteNotasFinal($data) { 
+    public function getClientes() {
+        $this->db->select(" * ")->from("maeusuarios");
+        $this->db->where( 'role_usuario =' ,6 ) ;
+        return $this->db->get()->result_object() ;
+    }
+    public function busquedaHorario($codigo){
+        $this->db->select(" horario ")->from("relaula")->where("id_seccion",$codigo);
+        return $this->db->get()->result_object() ;
+    }
+    public function reporteNotasFinal($data) {
         $this->db->select("re.id_alumno,re.nota as notas ")
                  ->from("relnotas re")
-                 ->join("maenotas ma","on re.id_nota=ma.id"); 
+                 ->join("maenotas ma","on re.id_nota=ma.id");
         $this->db->where(array('re.id_curso'=>$data['id_curso'],'re.id_grado'=>$data['id_grado'],'re.id_seccion'=>$data['id_seccion'],'re.ano'=>date('Y'))) ;
         $this->db->where('re.estado=1 and ma.pe is not null and ma.id_bimestre is null and re.ano='.date('Y'));
-        return $this->db->get()->result_array() ;  
-    }        
-    public function reporteNotasFinal10($data) { 
+        return $this->db->get()->result_array() ;
+    }
+    public function reporteNotasFinal10($data) {
         $this->db->select("ape_pat_per,rl.id_alumno,rl.nota as nota ")->from("relnotas rl")
                  ->join("maepersona ma","on rl.id_alumno=ma.id")
                  ->join("maenotas me","on rl.id_nota=me.id");
         $this->db->where(array('rl.id_curso'=>$data['id_curso'],'rl.id_grado'=>$data['id_grado'],'rl.id_seccion'=>$data['id_seccion'],'rl.ano'=>date('Y'))) ;
         $this->db->where('rl.estado=1 and me.pe is not null and me.id_bimestre is null');
-        return $this->db->get()->result_object() ;  
-    }            
-    public function reporteNotasMerito10($data,$peso) { 
+        return $this->db->get()->result_object() ;
+    }
+    public function reporteNotasMerito10($data,$peso) {
         $this->db->select("ma.ape_pat_per,rl.id_alumno,round(sum(rl.nota)/".$peso.",2) as nota")->from("relnotas rl")
              ->join("maepersona ma","on rl.id_alumno=ma.id")
-             ->join("maenotas me","on rl.id_nota=me.id");                
+             ->join("maenotas me","on rl.id_nota=me.id");
         $this->db->where(array('rl.id_curso'=>$data['id_curso'],'rl.id_grado'=>$data['id_grado'],'rl.id_seccion'=>$data['id_seccion'],'rl.id_bimestre'=>$data['id_bimestre'],'rl.ano'=>date('Y'))) ;
         $this->db->where('rl.estado=1 and me.pe is null');
         $this->db->group_by('rl.id_alumno,ma.ape_pat_per');
         $this->db->order_by('sum(rl.nota)','desc');
-        return $this->db->get()->result_object() ;  
-    }          
-    public function reporteNotas($data,$cantidad) {         
+        return $this->db->get()->result_object() ;
+    }
+    public function reporteNotas($data,$cantidad) {
         $this->db->select("re.id_alumno,round(sum(re.nota)/".$cantidad.") as notas ")
                 ->from("relnotas re")
-                ->join("maenotas ma","on re.id_nota=ma.id"); 
+                ->join("maenotas ma","on re.id_nota=ma.id");
         $this->db->where(array('re.id_curso'=>$data['id_curso'],'re.id_grado'=>$data['id_grado'],'re.id_seccion'=>$data['id_seccion'],'re.id_bimestre'=>$data['id_bimestre'],'re.ano'=>date('Y'))) ;
         $this->db->where('re.estado=1 and ma.pe is not null and ma.id_bimestre is not null');
         $this->db->group_by('re.id_alumno');
-        return $this->db->get()->result_object() ;  
-    }   
-    public function reporteNotas2($data) {         
+        return $this->db->get()->result_object() ;
+    }
+    public function reporteNotas2($data) {
         $this->db->select("re.id_alumno,round(avg(re.nota),2) as notas ")
                 ->from("relnotas re")
-                ->join("maenotas ma","on re.id_nota=ma.id"); 
+                ->join("maenotas ma","on re.id_nota=ma.id");
         $this->db->where(array('re.id_curso'=>$data['id_curso'],'re.id_grado'=>$data['id_grado'],'re.id_seccion'=>$data['id_seccion'],'re.id_bimestre'=>$data['id_bimestre'],'re.ano'=>date('Y'))) ;
         $this->db->where('re.estado=1 and ma.pe is not null and ma.id_bimestre is not null');
         $this->db->group_by('re.id_alumno');
-        return $this->db->get()->result_array() ;  
-    }       
-    public function reporteNotasAlu($data) { 
+        return $this->db->get()->result_array() ;
+    }
+    public function reporteNotasAlu($data) {
         $this->db->select("rl.id_bimestre as desc,AVG(rl.nota)
                 as nota ")->from("relnotas rl")
         ->join('maenotas  ma','on rl.id_nota=ma.id' );
@@ -482,9 +482,9 @@ class Usuarios_model extends CI_Model{
         $this->db->where('rl.estado=1 and ma.pe is  null and ma.id_bimestre is not null');
         $this->db->group_by('rl.id_alumno,rl.id_bimestre');
         $this->db->order_by('1','asc');
-        return $this->db->get()->result_array() ;  
-    }       
-    public function reporteNotasAluCurTol($data) { 
+        return $this->db->get()->result_array() ;
+    }
+    public function reporteNotasAluCurTol($data) {
         $this->db->select("rl.id_bimestre as desc,AVG(rl.nota) as nota,mc.nom_cursos as nombre ")->from("relnotas rl")
         ->join('maenotas  ma',' on rl.id_nota=ma.id' )
         ->join('maecursos mc',' on rl.id_curso=mc.id' );
@@ -492,9 +492,9 @@ class Usuarios_model extends CI_Model{
         $this->db->where('rl.estado=1 and ma.pe is  null and ma.id_bimestre is not null');
         $this->db->group_by('rl.id_grado,rl.id_seccion,rl.id_bimestre,rl.id_curso');
         $this->db->order_by('1','asc');
-        return $this->db->get()->result_object() ;  
-    }       
-    public function reporteNotasAluCur($data) { 
+        return $this->db->get()->result_object() ;
+    }
+    public function reporteNotasAluCur($data) {
         $this->db->select("rl.id_bimestre as desc,AVG(rl.nota) as nota,mc.nom_cursos as nombre ")->from("relnotas rl")
         ->join('maenotas  ma',' on rl.id_nota=ma.id' )
         ->join('maecursos mc',' on rl.id_curso=mc.id' );
@@ -502,158 +502,158 @@ class Usuarios_model extends CI_Model{
         $this->db->where('rl.estado=1 and ma.pe is  null and ma.id_bimestre is not null');
         $this->db->group_by('rl.ano,rl.id_bimestre,rl.id_curso,rl.id_alumno');
         $this->db->order_by('1','asc');
-        return $this->db->get()->result_object() ;  
-    }          
+        return $this->db->get()->result_object() ;
+    }
 
-    public function reporteNotasAluSal($data) { 
+    public function reporteNotasAluSal($data) {
         $this->db->select("rl.id_bimestre as desc,AVG(rl.nota) as nota ")->from("relnotas rl")
         ->join('maenotas  ma','mc on rl.id_nota=ma.id' );
         $this->db->where(array('rl.id_grado'=>$data['id_grado'],'rl.id_seccion'=>$data['id_seccion'], 'rl.ano'=>date('Y'))) ;
         $this->db->where('rl.estado=1 and rl.id_curso!=0 and ma.pe is  null and ma.id_bimestre is not null');
         $this->db->group_by('rl.id_grado,rl.id_seccion,rl.id_bimestre');
         $this->db->order_by('1','asc');
-        return $this->db->get()->result_array() ;  
-    } 
-    public function reporteNotasAluGra($data) { 
+        return $this->db->get()->result_array() ;
+    }
+    public function reporteNotasAluGra($data) {
         $this->db->select("rl.id_bimestre as desc,AVG(rl.nota) as nota ")->from("relnotas rl")
         ->join('maenotas  ma','mc on rl.id_nota=ma.id' );
         $this->db->where(array('rl.id_grado'=>$data['id_grado'], 'rl.ano'=>date('Y'))) ;
         $this->db->where('rl.estado=1 and  rl.id_curso!=0 and ma.pe is  null and ma.id_bimestre is not null');
         $this->db->group_by('rl.id_grado,rl.id_bimestre');
         $this->db->order_by('1','asc');
-        return $this->db->get()->result_array() ;  
-    }     
-    public function reporteNotasAluCol() { 
+        return $this->db->get()->result_array() ;
+    }
+    public function reporteNotasAluCol() {
         $this->db->select("rl.id_bimestre as desc,AVG(rl.nota) as nota ")->from("relnotas rl")
         ->join('maenotas  ma','mc on rl.id_nota=ma.id' );
         $this->db->where(array('rl.ano'=>date('Y'))) ;
         $this->db->where('rl.estado=1 and rl.id_curso!=0 and   ma.pe is  null and ma.id_bimestre is not null');
         $this->db->group_by('rl.id_bimestre');
         $this->db->order_by('1','asc');
-        return $this->db->get()->result_array() ;  
-    }      
-    public function reporteNotasMerito($data) { 
+        return $this->db->get()->result_array() ;
+    }
+    public function reporteNotasMerito($data) {
         $this->db->select("ma.ape_pat_per,rl.id_alumno,round(avg(rl.nota)) as nota")->from("relnotas rl")
-             ->join("maenotas me","on rl.id_nota=me.id")   
-             ->join("maepersona ma","on rl.id_alumno=ma.id")   ; 
+             ->join("maenotas me","on rl.id_nota=me.id")
+             ->join("maepersona ma","on rl.id_alumno=ma.id")   ;
         $this->db->where(array('rl.id_curso'=>$data['id_curso'],'rl.id_grado'=>$data['id_grado'],'rl.id_seccion'=>$data['id_seccion'],'rl.id_bimestre'=>$data['id_bimestre'],'rl.ano'=>date('Y'))) ;
         $this->db->where('rl.estado=1 and me.pe is  null and me.id_bimestre is not null');
         $this->db->group_by('rl.id_alumno,ma.ape_pat_per')->limit('3');
         $this->db->order_by('sum(rl.nota)','desc');
-        return $this->db->get()->result_object() ;  
-    }        
-      
-    public function reporteNotasMerito2($data) { 
-        $this->db->select("re.id_alumno,avg(re.nota) as nota")->from("relnotas re")->join("maenotas ma","on re.id_nota=ma.id")   ; 
+        return $this->db->get()->result_object() ;
+    }
+
+    public function reporteNotasMerito2($data) {
+        $this->db->select("re.id_alumno,avg(re.nota) as nota")->from("relnotas re")->join("maenotas ma","on re.id_nota=ma.id")   ;
         $this->db->where(array('re.id_curso'=>$data['id_curso'],'re.id_grado'=>$data['id_grado'],'re.id_seccion'=>$data['id_seccion'],'re.ano'=>date('Y'))) ;
         $this->db->where('re.estado=1 and ma.pe is not null and ma.id_bimestre is null');
         $this->db->group_by('re.id_alumno')->limit('3');
         $this->db->order_by('sum(re.nota)','desc');
-        return $this->db->get()->result_object() ;  
-    }      
+        return $this->db->get()->result_object() ;
+    }
     public function consultarano($data) {
-        $this->db->select("ano,id_grado,id_seccion")->from("relaulalumno"); 
+        $this->db->select("ano,id_grado,id_seccion")->from("relaulalumno");
         $this->db->where('id_alumno',$data) ;
-        return $this->db->get()->result_object() ;  
-    }          
+        return $this->db->get()->result_object() ;
+    }
     public function reporteCantidad($data) {
-        $this->db->select("count(*) as cantidad")->from("relaulalumno"); 
+        $this->db->select("count(*) as cantidad")->from("relaulalumno");
         $this->db->where(array('id_grado'=>$data['id_grado'],'id_seccion'=>$data['id_seccion'])) ;
         $this->db->where('ano',date('Y'));
-        return $this->db->get()->result_object() ;  
-    }       
+        return $this->db->get()->result_object() ;
+    }
     public function informacionAlumno($codigoAlumno,$grado,$seccion,$ano){
-        $data=$this->db->query("CALL puestos('".$codigoAlumno."','".$grado."','".$seccion."','".$ano."')");       
+        $data=$this->db->query("CALL puestos('".$codigoAlumno."','".$grado."','".$seccion."','".$ano."')");
         return $data->result();
     }
     public function promediar($array,$id_prom){
        $this->db->select('round(avg(nota),0) as nota' )->from('relnotas')->where('id_nota in ('.$array.')');
        $query=$this->db->get()->row_array();
-       
+
        $this->db->set($query)->where($id_prom)->update('relnotas');
     }
 
-    
+
     public function reporteCantidadToral() {
-        $this->db->select("count(*) as cantidad")->from("maepersona");       
-        return $this->db->get()->result() ;  
-    }           
+        $this->db->select("count(*) as cantidad")->from("maepersona");
+        return $this->db->get()->result() ;
+    }
     public function reporteCantidadCur($data) {
         $this->db->distinct();
-        $this->db->select("rl.id_curso as cantidad")->from("relnotas rl"); 
+        $this->db->select("rl.id_curso as cantidad")->from("relnotas rl");
         $this->db->where(array('rl.id_grado'=>$data['id_grado'],'rl.id_seccion'=>$data['id_seccion'])) ;
         $this->db->where("rl.estado=1  and rl.id_curso!=0");
         $this->db->where('rl.ano',date('Y'))
                  ->order_by('rl.id_curso','asc');
-        return $this->db->get()->result_object() ;  
-    }           
-    public function busquedaAsistencia($datos,$id_curso) { 
-        $this->db->select("count(id_alumno) as cantidad1,id_alumno")->from("asistencia_alumno"); 
+        return $this->db->get()->result_object() ;
+    }
+    public function busquedaAsistencia($datos,$id_curso) {
+        $this->db->select("count(id_alumno) as cantidad1,id_alumno")->from("asistencia_alumno");
         $this->db->where( 'id_alumno in ('.$datos.') and id_curso='.$id_curso.' and ano='.date('Y') ) ;
         $this->db->group_by('id_alumno');
-        return $this->db->get()->result_object() ;  
-    }      
+        return $this->db->get()->result_object() ;
+    }
     public function buscarInfo(){
-        $this->db->select("id,respuesta,id_grado,id_seccion,id_alumno,mensaje,fecha_val,fec_creacion")->from("asistencia_alumno_aux"); 
+        $this->db->select("id,respuesta,id_grado,id_seccion,id_alumno,mensaje,fecha_val,fec_creacion")->from("asistencia_alumno_aux");
         $this->db->where( 'mensaje is not null  and ano='.date('Y')  ) ;
-        $this->db->order_by('id_alumno','desc');        
-        return $this->db->get()->result_object() ;          
+        $this->db->order_by('id_alumno','desc');
+        return $this->db->get()->result_object() ;
     }
     public function buscarInfoG(){
-        $this->db->select("id,respuesta,id_grado,id_seccion,id_alumno,mensaje,fecha_val,fec_creacion")->from("asistencia_alumno_aux"); 
+        $this->db->select("id,respuesta,id_grado,id_seccion,id_alumno,mensaje,fecha_val,fec_creacion")->from("asistencia_alumno_aux");
         $this->db->where( 'mensaje is not null and date(fecha_val)=date(CURRENT_TIMESTAMP) and ano='.date('Y')  ) ;
-        $this->db->order_by('id_alumno','desc');        
-        return $this->db->get()->result_object() ;          
-    }    
+        $this->db->order_by('id_alumno','desc');
+        return $this->db->get()->result_object() ;
+    }
     public function buscarInfoCantidad(){
-        $this->db->select("count(*) as cantidad")->from("asistencia_alumno_aux"); 
-        $this->db->where( 'mensaje is not null and ano='.date('Y') ) ;        
-        $this->db->order_by('id_alumno','desc');        
-        return $this->db->get()->result_object() ;          
-    }    
+        $this->db->select("count(*) as cantidad")->from("asistencia_alumno_aux");
+        $this->db->where( 'mensaje is not null and ano='.date('Y') ) ;
+        $this->db->order_by('id_alumno','desc');
+        return $this->db->get()->result_object() ;
+    }
     public function buscarInfoCantidadRes(){
-        $this->db->select("count(*) as cantidad")->from("asistencia_alumno_aux"); 
-        $this->db->where( 'respuesta is not null and ano='.date('Y') ) ;        
-        $this->db->order_by('id_alumno','desc');        
-        return $this->db->get()->result_object() ;          
-    }        
-    public function busquedaAsistenciaAux($datos) { 
-        $this->db->select("count(id_alumno) as cantidad1, id_alumno")->from("asistencia_alumno_aux"); 
+        $this->db->select("count(*) as cantidad")->from("asistencia_alumno_aux");
+        $this->db->where( 'respuesta is not null and ano='.date('Y') ) ;
+        $this->db->order_by('id_alumno','desc');
+        return $this->db->get()->result_object() ;
+    }
+    public function busquedaAsistenciaAux($datos) {
+        $this->db->select("count(id_alumno) as cantidad1, id_alumno")->from("asistencia_alumno_aux");
         $this->db->where( 'id_alumno in ('.$datos.') and ano='.date('Y') ) ;
         $this->db->group_by('id_alumno');
-        $this->db->order_by('id_alumno','desc');        
-        return $this->db->get()->result_object() ;  
-    }          
-    public function busquedaAsistenciaP($datos,$id_curso) { 
-        $this->db->select("  count(id_alumno) as asistencia ")->from("asistencia_alumno"); 
+        $this->db->order_by('id_alumno','desc');
+        return $this->db->get()->result_object() ;
+    }
+    public function busquedaAsistenciaP($datos,$id_curso) {
+        $this->db->select("  count(id_alumno) as asistencia ")->from("asistencia_alumno");
         $this->db->where( 'id_alumno in ('.$datos.') and id_curso='.$id_curso.' and ano='.(int)date('Y').' and asistencia="p"') ;
         $this->db->group_by('id_alumno');
-        return $this->db->get()->result_object() ;  
-    }          
-    public function busquedaAsistenciaPAux($datos) { 
-        $this->db->select(" id_alumno, count(*) as asistencia ")->from("asistencia_alumno_aux"); 
+        return $this->db->get()->result_object() ;
+    }
+    public function busquedaAsistenciaPAux($datos) {
+        $this->db->select(" id_alumno, count(*) as asistencia ")->from("asistencia_alumno_aux");
         $this->db->where( 'id_alumno in ('.$datos.') and ano='.(int)date('Y').' and asistencia="p"') ;
         $this->db->group_by('id_alumno');
         $this->db->order_by('id_alumno','desc');
-        return $this->db->get()->result_object() ;  
-    }        
-    public function validacionFechaAlumno($data) { 
-        $this->db->select("  fecha_val as asistencia ")->from("asistencia_alumno"); 
+        return $this->db->get()->result_object() ;
+    }
+    public function validacionFechaAlumno($data) {
+        $this->db->select("  fecha_val as asistencia ")->from("asistencia_alumno");
         $this->db->where(array('id_curso'=>$data['id_curso'],'id_grado'=>$data['id_grado'],'id_seccion'=>$data['id_seccion'])) ;
-        return $this->db->get()->result_object() ;  
-    }     
-    public function validacionFechaAlumnoAux($data) { 
-        $this->db->select("  fecha_val as asistencia ")->from("asistencia_alumno_aux"); 
+        return $this->db->get()->result_object() ;
+    }
+    public function validacionFechaAlumnoAux($data) {
+        $this->db->select("  fecha_val as asistencia ")->from("asistencia_alumno_aux");
         $this->db->where(array('id_grado'=>$data['id_grado'],'id_seccion'=>$data['id_seccion'])) ;
-        return $this->db->get()->result_object() ;  
-    }         
-    public function buscarAlumnoasi($codigo,$curso) { 
+        return $this->db->get()->result_object() ;
+    }
+    public function buscarAlumnoasi($codigo,$curso) {
         $this->db->distinct();
-        $this->db->select("id,ano,dia,mes,asistencia,fecha_val,mensaje,respuesta")->from("asistencia_alumno"); 
+        $this->db->select("id,ano,dia,mes,asistencia,fecha_val,mensaje,respuesta")->from("asistencia_alumno");
         $this->db->where('id_alumno='.$codigo.' and id_curso='.$curso.' and ano='.date('Y'))
                  ->order_by('ano,mes,dia','asc');
-        return $this->db->get()->result_object() ;  
-    }      
+        return $this->db->get()->result_object() ;
+    }
     public function comparacionAsistenciaCant(){
         $this->db->distinct();
         $this->db->select("count(*) as cantidad")
@@ -662,7 +662,7 @@ class Usuarios_model extends CI_Model{
                 ->where("aa.asistencia!=aux.asistencia and aa.id_alumno is not null and date(aa.fecha_val)=date(CURRENT_TIMESTAMP) and date(aux.fecha_val)=date(CURRENT_TIMESTAMP)")
                  ->order_by("aa.fec_creacion","desc");
         return $this->db->get()->result_object();
-    } 
+    }
     public function comparacionAsistenciaCantAzul(){
         $this->db->distinct();
         $this->db->select("count(aux.tipo_obs) as cantidad")
@@ -671,11 +671,11 @@ class Usuarios_model extends CI_Model{
                 ->where("aa.asistencia!=aux.asistencia and aa.id_alumno is not null and date(aa.fecha_val)=date(CURRENT_TIMESTAMP) and date(aux.fecha_val)=date(CURRENT_TIMESTAMP)")
                  ->order_by("aa.fec_creacion","desc");
         return $this->db->get()->result_object();
-    }    
-    public function cantidadAsistenciaFalt(){        
+    }
+    public function cantidadAsistenciaFalt(){
         $this->db->select("count(distinct re.id_grado,re.id_seccion)-(select count(distinct aux.id_grado,aux.id_seccion) from asistencia_alumno_aux aux where date(aux.fecha_val)=date(CURRENT_TIMESTAMP)) as resultado")
-                 ->from("relaula re");        
-        return $this->db->get()->result_object();        
+                 ->from("relaula re");
+        return $this->db->get()->result_object();
     }
     public function comparacionAsistenciaTotal(){
         $this->db->distinct();
@@ -685,7 +685,7 @@ class Usuarios_model extends CI_Model{
                 ->where("aa.asistencia!=aux.asistencia")
                  ->order_by("2","desc");
         return $this->db->get()->result_object();
-    }    
+    }
     public function comparacionAsistencia(){
         $this->db->distinct();
         $this->db->select("aux.tipo_obs,aa.fecha_val,aa.fec_creacion,aux.id as id,aa.id_alumno,aa.id_grado as id_grado,aa.id_seccion as id_seccion,aa.id_curso as id_curso,aux.asistencia,aa.asistencia")
@@ -703,222 +703,222 @@ class Usuarios_model extends CI_Model{
                 ->where("aa.asistencia!=aux.asistencia and aa.ano=".date('Y'))
                  ->order_by("2","desc");
         return $this->db->get()->result_object();
-    }    
-    public function buscarAlumnoasiAux($codigo) { 
+    }
+    public function buscarAlumnoasiAux($codigo) {
         $this->db->distinct();
         $this->db->select("id,ano,dia,mes,asistencia,fecha_val,mensaje,
                 CASE respuesta
-                    WHEN 1 THEN 'SI'   
+                    WHEN 1 THEN 'SI'
                     WHEN 2 THEN 'NO'
-                END 
-                as respuesta")->from("asistencia_alumno_aux"); 
-        $this->db->where('id_alumno='.$codigo.'  and ano='.date('Y')) 
-                 ->order_by('ano,mes,dia','asc');        
-        return $this->db->get()->result_object() ;  
-    }          
-    public function buscarAlumnoasi2($codigo) { 
+                END
+                as respuesta")->from("asistencia_alumno_aux");
+        $this->db->where('id_alumno='.$codigo.'  and ano='.date('Y'))
+                 ->order_by('ano,mes,dia','asc');
+        return $this->db->get()->result_object() ;
+    }
+    public function buscarAlumnoasi2($codigo) {
         $this->db->distinct();
-        $this->db->select("id,ano,dia,mes,asistencia,fecha_val,mensaje")->from("asistencia_alumno"); 
+        $this->db->select("id,ano,dia,mes,asistencia,fecha_val,mensaje")->from("asistencia_alumno");
         $this->db->where('id_alumno='.$codigo.' and id_curso=1 and ano='.date('Y')) ;
-        return $this->db->get()->result_object() ;  
-    }       
-    public function getClienteLocal($id) { 
-        $this->db->select(" * ")->from("webusuarios"); 
+        return $this->db->get()->result_object() ;
+    }
+    public function getClienteLocal($id) {
+        $this->db->select(" * ")->from("webusuarios");
         $this->db->where( 'id =' ,$id ) ;
-        return $this->db->get()->result_object() ;  
-    }        
-    public function buscarGrados($id) { 
-        $this->db->select(" id,nom_grado,des_grado ")->from("maegrados"); 
+        return $this->db->get()->result_object() ;
+    }
+    public function buscarGrados($id) {
+        $this->db->select(" id,nom_grado,des_grado ")->from("maegrados");
         $this->db->where( 'id in ('.$id.')') ;
-            return $this->db->get()->result_object() ;  
-    }      
-    public function busquedaNotas3($id,$curso) { 
-        $this->db->select(" 
+            return $this->db->get()->result_object() ;
+    }
+    public function busquedaNotas3($id,$curso) {
+        $this->db->select("
                         re.id,
                         re.id_nota,
                         re.nota,
                         re.id_alumno,
                         re.id_bimestre,
-                        ma.pe                              
+                        ma.pe
                            ")
                  ->from("relnotas re")
                  ->join("maenotas ma","on re.id_nota=ma.id")
                  ->where( 're.estado=1 and re.id_alumno in ('.$id.') and re.id_curso='.$curso.' and re.ano='.date('Y'))
                  ->order_by('1','asc') ;
-        return $this->db->get()->result_object() ;  
-    }          
+        return $this->db->get()->result_object() ;
+    }
     public function bimestre(){
         $this->db->distinct();
         $this->db->select("id_bimestre")->from("maenotas")->where("id_bimestre is not null")->order_by("id_bimestre","asc");
         return $this->db->get()->result_object();
     }
-    public function busquedaNotas5($id,$ano) { 
+    public function busquedaNotas5($id,$ano) {
         $this->db->select(" re.id,re.id_nota,re.nota,re.id_alumno,re.id_curso,ma.pe,ma.id_bimestre ")
                  ->from("relnotas re")
-                 ->join("maenotas ma","on re.id_nota=ma.id",'left')                
+                 ->join("maenotas ma","on re.id_nota=ma.id",'left')
                  ->where('re.id_alumno in ('.$id.')  and re.ano='.$ano)
                  ->order_by('1','asc') ;
-        return $this->db->get()->result_object() ;  
-    }    
+        return $this->db->get()->result_object() ;
+    }
 
-    public function buscarSecciones($id) { 
-        $this->db->select(" id,nom_seccion,des_seccion ")->from("maeseccion"); 
+    public function buscarSecciones($id) {
+        $this->db->select(" id,nom_seccion,des_seccion ")->from("maeseccion");
         $this->db->where( 'id in ('.$id.')' )->order_by('nom_seccion','ASC')
                 ;
-        return $this->db->get()->result_object() ;  
-    }          
-    public function busquedaRespuesta() { 
+        return $this->db->get()->result_object() ;
+    }
+    public function busquedaRespuesta() {
         $this->db->select(" id,nom_justificada ")->from("maerespjustificada")->order_by('id','ASC');
-        return $this->db->get()->result_object() ;  
-    }        
+        return $this->db->get()->result_object() ;
+    }
     public function validarObs($codigo){
         $this->db->select("tipo_obs")->from("asistencia_alumno_aux")->where("id",$codigo);
-        return $this->db->get()->result_object() ;  
+        return $this->db->get()->result_object() ;
     }
-    public function buscarBimestres($id) { 
-        $this->db->select(" id,nom_bimestre")->from("maebimestre"); 
+    public function buscarBimestres($id) {
+        $this->db->select(" id,nom_bimestre")->from("maebimestre");
         $this->db->where( 'ano in ('.$id.')' ) ;
-        return $this->db->get()->result_object() ;  
-    }           
-    public function buscargradosAno($id) { 
-        $this->db->select("id,nom_grado,des_grado")->from("maegrados"); 
+        return $this->db->get()->result_object() ;
+    }
+    public function buscargradosAno($id) {
+        $this->db->select("id,nom_grado,des_grado")->from("maegrados");
         $this->db->where( 'ano in('.$id.') ' )
              ->order_by('2','asc');
-        return $this->db->get()->result_array() ;  
-    }         
-    public function buscarCursos($id) { 
-        $this->db->select(" id,nom_cursos,des_cursos ")->from("maecursos"); 
+        return $this->db->get()->result_array() ;
+    }
+    public function buscarCursos($id) {
+        $this->db->select(" id,nom_cursos,des_cursos ")->from("maecursos");
         $this->db->where( 'id in ('.$id.')' ) ;
-        return $this->db->get()->result_object() ;  
-    }      
-    public function buscarBimestre($id) { 
-        $this->db->select(" id,nom_bimestre,fecini_bimestre,fecfin_bimestre ")->from("maebimestre"); 
+        return $this->db->get()->result_object() ;
+    }
+    public function buscarBimestre($id) {
+        $this->db->select(" id,nom_bimestre,fecini_bimestre,fecfin_bimestre ")->from("maebimestre");
         $this->db->where( 'id in ('.$id.')' ) ;
-        return $this->db->get()->result_object() ;  
-    }       
-    public function buscarNota($id) { 
-        $this->db->select(" id,nom_notas,des_notas,pes_notas ")->from("maenotas"); 
+        return $this->db->get()->result_object() ;
+    }
+    public function buscarNota($id) {
+        $this->db->select(" id,nom_notas,des_notas,pes_notas ")->from("maenotas");
         $this->db->where( 'id in ('.$id.')' ) ;
-        return $this->db->get()->result_object() ;  
-    }        
-    public function editarGradosa($datos,$id) { 
+        return $this->db->get()->result_object() ;
+    }
+    public function editarGradosa($datos,$id) {
         $data = array(
             'nom_grado'    => null,
             'des_grado'    => null
-        ); 
+        );
         foreach ($datos as $tempKey => $tempVal) {
             if (array_key_exists($tempKey, $data)) {
                 $data[$tempKey] = $tempVal;
-            } 
-        } 
+            }
+        }
         $this->db->set($data);
         $this->db->where('id',$id);
         $this->db->update('maegrados');
     //    return $this->db->insert('WebUsuarios', $data);
-    }    
-    public function editarSeccionesa($datos,$id) { 
+    }
+    public function editarSeccionesa($datos,$id) {
         $data = array(
             'nom_seccion'    => null,
             'des_seccion'    => null
-        ); 
+        );
         foreach ($datos as $tempKey => $tempVal) {
             if (array_key_exists($tempKey, $data)) {
                 $data[$tempKey] = $tempVal;
-            } 
-        } 
+            }
+        }
         $this->db->set($data);
         $this->db->where('id',$id);
         $this->db->update('maeseccion');
     //    return $this->db->insert('WebUsuarios', $data);
-    }        
-    public function editarCursosa($datos,$id) { 
+    }
+    public function editarCursosa($datos,$id) {
         $data = array(
             'nom_cursos'    => null,
             'des_cursos'    => null
-        ); 
+        );
         foreach ($datos as $tempKey => $tempVal) {
             if (array_key_exists($tempKey, $data)) {
                 $data[$tempKey] = $tempVal;
-            } 
-        } 
+            }
+        }
         $this->db->set($data);
         $this->db->where('id',$id);
         $this->db->update('maecursos');
-    }       
-    public function editarBimestresa($datos,$id) { 
+    }
+    public function editarBimestresa($datos,$id) {
         $this->db->set($datos);
         $this->db->where('id',$id);
         $this->db->update('maebimestre');
-    }      
-    public function editarNotasa($datos,$id) { 
+    }
+    public function editarNotasa($datos,$id) {
         $this->db->set($datos);
         $this->db->where('id',$id);
         $this->db->update('maenotas');
-    }    
-    public function eliminarGradosa($id) { 
+    }
+    public function eliminarGradosa($id) {
         $this->db->where('id', $id);
         $this->db->delete('maegrados');
-    }       
-    public function editarMateriales1($id) { 
-        $this->db->select('nom_archivo')->from('documentos_docentes');        
+    }
+    public function editarMateriales1($id) {
+        $this->db->select('nom_archivo')->from('documentos_docentes');
         $this->db->where('id', $id);
         $query = $this->db->get();
-        return $query->result();     
-    }      
-    public function editarMateriales2($id,$data) { 
+        return $query->result();
+    }
+    public function editarMateriales2($id,$data) {
         $this->db->set($data);
         $this->db->where('id',$id);
         $this->db->update('documentos_docentes');
-        
-        $this->db->select('nom_archivo')->from('documentos_docentes');        
+
+        $this->db->select('nom_archivo')->from('documentos_docentes');
         $this->db->where('id', $id);
         $query = $this->db->get();
-        return $query->result();     
-    }          
-    public function eliminarMateriales($id) { 
+        return $query->result();
+    }
+    public function eliminarMateriales($id) {
         $this->db->where('id', $id);
         $this->db->delete('documentos_docentes');
-    }       
-    public function eliminarMaterialesAs($id) { 
+    }
+    public function eliminarMaterialesAs($id) {
         $this->db->where('id', $id);
         $this->db->delete('documentos_asistencia');
-    }         
-    public function guardarMensajeAl($data,$cambio) {          
+    }
+    public function guardarMensajeAl($data,$cambio) {
         $this->db->set($cambio);
         $this->db->where(array('id_alumno'=>$data['id_alumno'],'fecha_val'=>$data['fecha_val']));
         $this->db->update('asistencia_alumno');
     }
-    public function cambiarRespuesta($data,$grado,$seccion,$curso,$alumno,$fecha) {          
+    public function cambiarRespuesta($data,$grado,$seccion,$curso,$alumno,$fecha) {
         $this->db->set($data);
         $this->db->where('id_grado='.$grado.' and id_seccion='.$seccion.' and id_curso='.$curso.' and id_alumno='.$alumno.' and date(fecha_val) =\''.$fecha.'\'');
         $this->db->update('asistencia_alumno');
-    }      
-    public function cambiarObservacion($data,$cambio) {          
+    }
+    public function cambiarObservacion($data,$cambio) {
         $this->db->set($data);
         $this->db->where('id='.$cambio);
         $this->db->update('asistencia_alumno_aux');
-    }     
-    public function cambiarObservacionProf($data,$grado,$seccion,$curso,$alumno,$fecha) {          
+    }
+    public function cambiarObservacionProf($data,$grado,$seccion,$curso,$alumno,$fecha) {
         $this->db->set($data);
         $this->db->where('id_grado='.$grado.' and id_seccion='.$seccion.' and id_curso='.$curso.' and id_alumno='.$alumno.' and date(fecha_val) =\''.$fecha.'\'');
         $this->db->update('asistencia_alumno');
-    }         
-    public function cambiarRespuestaA($data,$cambio) {          
+    }
+    public function cambiarRespuestaA($data,$cambio) {
         $this->db->set($data);
         $this->db->where('id='.$cambio);
         $this->db->update('asistencia_alumno_aux');
-    }                
-    public function cambiarRespuestaAux($data,$cambio) {          
+    }
+    public function cambiarRespuestaAux($data,$cambio) {
         $this->db->set($cambio);
         $this->db->where(array('fecha_val'=>$data['fecha_val'],'id_alumno'=>$data['codigo']));
         $this->db->update('asistencia_alumno');
-    }            
-    public function guardarMensajeAlAux($data,$cambio) {          
+    }
+    public function guardarMensajeAlAux($data,$cambio) {
         $this->db->set($cambio);
         $this->db->where(array('id_alumno'=>$data['id_alumno'],'fecha_val'=>$data['fecha_val']));
         $this->db->update('asistencia_alumno_aux');
-    }        
-    public function eliminarAulasa($cambio,$data) {          
+    }
+    public function eliminarAulasa($cambio,$data) {
         $this->db->set($cambio);
         $this->db->where(array('id_curso'=>$data['curso'],'id_grado'=>$data['grado'],'id_seccion'=>$data['seccion']));
         $this->db->update('relaula');
@@ -927,39 +927,39 @@ class Usuarios_model extends CI_Model{
         $this->db->select('id')->from('relnotas')->where($data);
         return $this->db->get()->row_array();
     }
-    public function cambioNotas($cambio,$data) {                  
-        $this->db->set($cambio);        
+    public function cambioNotas($cambio,$data) {
+        $this->db->set($cambio);
         $this->db->where($data);
-        $this->db->update('relnotas');                                   
-    }      
-    public function insertcambioNotas($data) {          
-        return  $this->db->insert('relnotas', $data);               
-    }  
+        $this->db->update('relnotas');
+    }
+    public function insertcambioNotas($data) {
+        return  $this->db->insert('relnotas', $data);
+    }
 
-    public function buscarcambioNotas($data) {          
+    public function buscarcambioNotas($data) {
         $this->db->distinct();
         $this->db->select('id_grado')
                  ->from('relnotas')
                  ->where(array('id_curso'=>$data['id_curso'],'id_grado'=>$data['id_grado'],'id_seccion'=>$data['id_seccion'],'id_nota'=>$data['id_nota'],'id_alumno'=>$data['id_alumno'],'ano'=>$data['ano']));
         $this->db->where('estado=1');
-                 
-        $query = $this->db->get();
-        return $query->result();             
 
-    }      
-    public function cambioNotas2($cambio,$data) {          
+        $query = $this->db->get();
+        return $query->result();
+
+    }
+    public function cambioNotas2($cambio,$data) {
         $this->db->set($cambio);
         $this->db->where(array('id_curso'=>$data['id_curso'],'id_grado'=>$data['id_grado'],'id_seccion'=>$data['id_seccion'],'id_nota'=>$data['id_nota'],'id_alumno'=>$data['id_alumno'],'ano'=>$data['ano']));
         $this->db->update('relnotas');
-    }        
-    public function busquedaGradoProf($data) {          
+    }
+    public function busquedaGradoProf($data) {
         $this->db->distinct();
         $this->db->select('id_grado')
                 ->from('relaula')
-                ->where(array('id_profesor'=>$data['profesor'],'ano'=>date('Y')));   
+                ->where(array('id_profesor'=>$data['profesor'],'ano'=>date('Y')));
         $query = $this->db->get();
-        return $query->result_array();             
-    }     
+        return $query->result_array();
+    }
     public function suma_notas($id_grado,$id_curso,$id_profesor,$id_nota){
         $this->db->select('sum(peso) as acumulado')->from('rel_notas_detalle')->where('id_grado='.$id_grado.'  and id_curso='.$id_curso.' and id_profesor='.$id_profesor.' and id_nota in ('.$id_nota.') and estado=1 and ano='.date('Y') );
         return $this->db->get()->row_array();
@@ -969,183 +969,183 @@ class Usuarios_model extends CI_Model{
         $this->db->distinct();
         $this->db->select('id')
         ->from('rel_notas_detalle')
-        ->where('id_grado='.$grado.'  and id_curso='.$curso.' and id_nota in( '.$nota.') and id_profesor='.$profesor.' and estado=1 and ano='.$ano.' and abreviacion="'.$abreviacion.'"');   
+        ->where('id_grado='.$grado.'  and id_curso='.$curso.' and id_nota in( '.$nota.') and id_profesor='.$profesor.' and estado=1 and ano='.$ano.' and abreviacion="'.$abreviacion.'"');
         $query = $this->db->get();
         return $query->result_array();
     }
-    public function busquedaSeccion($data) {          
+    public function busquedaSeccion($data) {
         $this->db->distinct();
         $this->db->select('id_seccion')
                 ->from('relaula')
-                ->where('id_grado',$data);   
+                ->where('id_grado',$data);
         $query = $this->db->get();
-        return $query->result();             
-    }        
-    public function buscarmensaje($data) {          
+        return $query->result();
+    }
+    public function buscarmensaje($data) {
         $this->db->distinct();
         $this->db->select('mensaje')
                 ->from('asistencia_alumno_aux')
-                ->where('id='.$data);   
+                ->where('id='.$data);
         $query = $this->db->get();
-        return $query->result();             
-    }      
-    public function busquedaGradoSeccion($data) {          
+        return $query->result();
+    }
+    public function busquedaGradoSeccion($data) {
         $this->db->distinct();
         $this->db->select('id_grado,id_seccion')
                 ->from('relaulalumno')
-                ->where(array('id_alumno'=>$data['id_alumno']));   
+                ->where(array('id_alumno'=>$data['id_alumno']));
         $this->db->where('ano='.date('Y'));
         $query = $this->db->get();
-        return $query->row_array();             
-    }          
+        return $query->row_array();
+    }
     public function busquedaAno($codigo){
         $this->db->distinct();
         $this->db->select('ano')->from('relaulalumno')->where('id_alumno',$codigo)->order_by('ano','desc')->limit(1);
         return $this->db->get()->result();
     }
-    public function busquedaGradoSeccion2($data,$ano) {          
+    public function busquedaGradoSeccion2($data,$ano) {
         $this->db->distinct();
         $this->db->select('id_grado,id_seccion')
                 ->from('relaulalumno')
-                ->where(array('id_alumno'=>$data));   
+                ->where(array('id_alumno'=>$data));
         $this->db->where('ano='.$ano);
         $query = $this->db->get();
-        return $query->row_array();             
-    }     
-    public function busquedaSeccionProf($data) {          
+        return $query->row_array();
+    }
+    public function busquedaSeccionProf($data) {
         $this->db->distinct();
         $this->db->select('id_seccion')
                 ->from('relaula')
-                ->where(array('id_profesor'=>$data['profesor'],'id_grado'=>$data['grado']));   
+                ->where(array('id_profesor'=>$data['profesor'],'id_grado'=>$data['grado']));
         $query = $this->db->get();
-        return $query->result();             
-    }      
+        return $query->result();
+    }
     public function busquedaCursoGradoProf($data){
         $this->db->distinct();
         $this->db->select('id_curso')
                 ->from('relaula')
-                ->where(array('id_profesor'=>$data['profesor'],'id_grado'=>$data['grado'],'ano'=>date('Y')));   
+                ->where(array('id_profesor'=>$data['profesor'],'id_grado'=>$data['grado'],'ano'=>date('Y')));
         $query = $this->db->get();
-        return $query->result_array();             
-        
+        return $query->result_array();
+
     }
     public function busquedaCursoSeccionProf($data){
         $this->db->distinct();
         $this->db->select('id_seccion')
                 ->from('relaula')
-                ->where(array('id_profesor'=>$data['profesor'],'id_grado'=>$data['grado'],'id_curso'=>$data['curso'],'ano'=>date('Y')));   
+                ->where(array('id_profesor'=>$data['profesor'],'id_grado'=>$data['grado'],'id_curso'=>$data['curso'],'ano'=>date('Y')));
         $query = $this->db->get();
-        return $query->result_array();             
-        
-    }    
-    public function busquedaSeccionAux($data) {          
+        return $query->result_array();
+
+    }
+    public function busquedaSeccionAux($data) {
         $this->db->distinct();
         $this->db->select('id_seccion')
                 ->from('relaula')
-                ->where(array('id_grado'=>$data['grado']));   
+                ->where(array('id_grado'=>$data['grado']));
         $query = $this->db->get();
-        return $query->result();             
-    }         
-    public function busquedaCursoProf($data) {          
+        return $query->result();
+    }
+    public function busquedaCursoProf($data) {
         $this->db->distinct();
         $this->db->select('id_curso')
                 ->from('relaula')
-                ->where(array('id_profesor'=>$data['profesor'],'id_grado'=>$data['grado'],'id_seccion'=>$data['seccion']));   
+                ->where(array('id_profesor'=>$data['profesor'],'id_grado'=>$data['grado'],'id_seccion'=>$data['seccion']));
         $query = $this->db->get();
-        return $query->result();             
-    }      
-    public function busquedaCursoAlu($data) {          
+        return $query->result();
+    }
+    public function busquedaCursoAlu($data) {
         $this->db->distinct();
         $this->db->select('id_curso')
                 ->from('relaula')
-                ->where(array('id_grado'=>$data['grado'],'id_seccion'=>$data['seccion'],'ano'=>date('Y')));   
+                ->where(array('id_grado'=>$data['grado'],'id_seccion'=>$data['seccion'],'ano'=>date('Y')));
         $query = $this->db->get();
-        return $query->result();             
-    }          
-    public function busquedaCursoAlu2($data) {          
+        return $query->result();
+    }
+    public function busquedaCursoAlu2($data) {
         $this->db->distinct();
         $this->db->select('id_curso')
                 ->from('relaula')
-                ->where(array('id_grado'=>$data['grado'],'id_seccion'=>$data['seccion'],'ano'=>$data['ano']));   
+                ->where(array('id_grado'=>$data['grado'],'id_seccion'=>$data['seccion'],'ano'=>$data['ano']));
         $query = $this->db->get();
-        return $query->result();             
-    }     
-    public function busquedaCurso($data) {          
+        return $query->result();
+    }
+    public function busquedaCurso($data) {
         $this->db->distinct();
         $this->db->select('id_curso')
                 ->from('relaula')
-                ->where(array('id_grado'=>$data['id_grado'],'id_seccion'=>$data['id_seccion'],'ano'=>$data['ano']));   
+                ->where(array('id_grado'=>$data['id_grado'],'id_seccion'=>$data['id_seccion'],'ano'=>$data['ano']));
         $query = $this->db->get();
-        return $query->result();             
-    }          
-      
-    public function busquedaAulas($data) {          
+        return $query->result();
+    }
+
+    public function busquedaAulas($data) {
         $this->db
                 ->select('des_aula,id_profesor')
                 ->from('relaula')
                 ->where(array('id_curso'=>$data['curso'],'id_grado'=>$data['grado'],'id_seccion'=>$data['seccion']))
-                ->limit(1);   
+                ->limit(1);
         $query = $this->db->get();
-        return $query->result();             
-    }        
-    public function busquedaAulasS($data) {          
+        return $query->result();
+    }
+    public function busquedaAulasS($data) {
         $this->db->distinct()
                 ->select('horario')
                 ->from('relaula')
-                ->where(array('id_curso'=>$data['curso'],'id_grado'=>$data['grado'],'id_seccion'=>$data['seccion']));   
+                ->where(array('id_curso'=>$data['curso'],'id_grado'=>$data['grado'],'id_seccion'=>$data['seccion']));
         $query = $this->db->get();
-        return $query->result();             
-    } 
-        public function busquedaAulasD($data) {          
+        return $query->result();
+    }
+        public function busquedaAulasD($data) {
         $this->db->distinct()
                 ->select('dia')
                 ->from('relaula')
-                ->where(array('id_curso'=>$data['curso'],'id_grado'=>$data['grado'],'id_seccion'=>$data['seccion']));   
+                ->where(array('id_curso'=>$data['curso'],'id_grado'=>$data['grado'],'id_seccion'=>$data['seccion']));
         $query = $this->db->get();
-        return $query->result();             
-    }     
-    public function eliminarCursosa($id) { 
+        return $query->result();
+    }
+    public function eliminarCursosa($id) {
         $this->db->where('id', $id);
         $this->db->delete('maecursos');
-    }   
-    public function eliminarBimestresa($id) { 
+    }
+    public function eliminarBimestresa($id) {
         $this->db->where('id', $id);
         $this->db->delete('maebimestre');
-    }       
-    public function eliminarNotasa($id) { 
+    }
+    public function eliminarNotasa($id) {
         $this->db->where('id', $id);
         $this->db->delete('maenotas');
-    }           
-    public function eliminarAulass($data) { 
+    }
+    public function eliminarAulass($data) {
         $this->db->where(array('id_curso'=>(int)$data['curso'],'id_grado'=>(int)$data['grados'],'id_seccion'=>(int)$data['seccion']));
         $this->db->delete('relaula');
-    }       
-    public function eliminarSeccionesa($id) { 
+    }
+    public function eliminarSeccionesa($id) {
         $this->db->where('id', $id);
         $this->db->delete('maeseccion');
-    }           
-    public function busquedaProfesor($profesor) {                 
+    }
+    public function busquedaProfesor($profesor) {
         $campo='ape_pat_per';
         $this->db->select('id')->from('maepersona')->where($campo.'=', $profesor)->limit(1);
         $query = $this->db->get();
         if($query->num_rows() > 0 )
         {
             return $query->result();
-        }        
-    
-    }      
-    public function busquedaTotal() {                 
-        
+        }
+
+    }
+    public function busquedaTotal() {
+
         $this->db->select('mu.role_usuario as rol,count(*) as cantidad')
                  ->from('maepersona      ma')
                  ->join('maeusuarios     mu',' on ma.id=mu.id_persona')
                  ->join('webusuariosrol  we',' on mu.role_usuario=we.id')
                 ->group_by('mu.role_usuario');
-        return $this->db->get()->result_array() ;    
-        
-    
-    }      
-    public function busquedaDatos($codigo) {                         
+        return $this->db->get()->result_array() ;
+
+
+    }
+    public function busquedaDatos($codigo) {
         $this->db->select('
             ma.id           as codigo,
             ma.nom_per      as nombre,
@@ -1165,192 +1165,192 @@ class Usuarios_model extends CI_Model{
                  ->join('maeusuarios    me','on ma.id=me.id_persona' )
                  ->join('maecorreos     mc','on ma.id=mc.id_persona')
                  ->join('maetelefono    mt','on ma.id=mt.id_persona' )
-                 ->join('webusuariosrol wu','on me.role_usuario=wu.id')                
+                 ->join('webusuariosrol wu','on me.role_usuario=wu.id')
                  ->where('ma.id', (int)$codigo)->limit(1);
 
-        return $this->db->get()->result_object() ;     
+        return $this->db->get()->result_object() ;
 
-    
-    }    
-    public function getHorarioss(){                        
+
+    }
+    public function getHorarioss(){
         $this->db->select(" id as codigo, des_horario as horarios,turno as turnos");
         $this->db->from("maehorario");
-        $this->db->order_by('id','ASC') ; 
-        return $this->db->get()->result_object() ;          
-    }    
-    public function getHorariossid($codigo){                        
+        $this->db->order_by('id','ASC') ;
+        return $this->db->get()->result_object() ;
+    }
+    public function getHorariossid($codigo){
         $this->db->select(" id as codigo, des_horario as horarios,turno as turnos");
         $this->db->from("maehorario")->where("id",$codigo);
-        $this->db->order_by('id','ASC') ; 
-        return $this->db->get()->result_object() ;          
-    }        
-    public function getDiass(){                        
+        $this->db->order_by('id','ASC') ;
+        return $this->db->get()->result_object() ;
+    }
+    public function getDiass(){
         $this->db->select(" id as codigo, des_dia as dias");
         $this->db->from("maedias");
-        $this->db->order_by('id','ASC') ; 
-        return $this->db->get()->result_object() ;          
-    }        
-    public function busquedaProfesorN($profesor) {                 
+        $this->db->order_by('id','ASC') ;
+        return $this->db->get()->result_object() ;
+    }
+    public function busquedaProfesorN($profesor) {
         $campo='id';
         $this->db->select('ape_pat_per as profesor')->from('maepersona')->where($campo.'=', $profesor)->limit(1);
         $query = $this->db->get();
         if($query->num_rows() > 0 )
         {
             return $query->result();
-        }        
-    
-    }    
-    public function busquedaAlumnoN($alumno) {                         
+        }
+
+    }
+    public function busquedaAlumnoN($alumno) {
         $this->db->select('ape_pat_per as alumno,id ')->from('maepersona')->where("id in (".$alumno.")")->order_by("id","asc");
         $this->db->order_by('1','asc');
         $query = $this->db->get();
         if($query->num_rows() > 0 )
         {
             return $query->result();
-        }        
-    
-    }        
-    public function busquedaBimestre() {                 
+        }
+
+    }
+    public function busquedaBimestre() {
         $anio= date('Y');
         $this->db->distinct();
-        $this->db->select('id,nom_bimestre,fecini_bimestre,fecfin_bimestre')->from('maebimestre')->where('ano',(int)$anio)->order_by('nom_bimestre','asc');       
+        $this->db->select('id,nom_bimestre,fecini_bimestre,fecfin_bimestre')->from('maebimestre')->where('ano',(int)$anio)->order_by('nom_bimestre','asc');
         return $this->db->get()->result_array();
-    }      
-    public function busquedaBimestre2($anio) {                 
-        $this->db->select('id,nom_bimestre')->from('maebimestre')->where('ano',(int)$anio)->order_by('nom_bimestre','asc');       
+    }
+    public function busquedaBimestre2($anio) {
+        $this->db->select('id,nom_bimestre')->from('maebimestre')->where('ano',(int)$anio)->order_by('nom_bimestre','asc');
         return $this->db->get()->result();
-    }          
-    public function busquedaNotas($bimestre) {                 
-        $this->db->select('id,nom_notas,des_notas')->from('maenotas')->where('id_bimestre='.$bimestre.' and estado=1 and ano='.date('Y'))->order_by('id','asc');       
+    }
+    public function busquedaNotas($bimestre) {
+        $this->db->select('id,nom_notas,des_notas')->from('maenotas')->where('id_bimestre='.$bimestre.' and estado=1 and ano='.date('Y'))->order_by('id','asc');
         return $this->db->get()->result();
-    }        
-    public function busquedaNotas2($curso) { 
+    }
+    public function busquedaNotas2($curso) {
         $this->db->distinct();
         $this->db->select("ma.id,ma.nom_notas,ma.des_notas,ma.id_bimestre,ma.pe")
                  ->from("maenotas ma")
                  ->join("relnotas rl","on ma.id=rl.id_nota")
                  ->where("rl.estado=1 and ma.ano=".date('Y')."  and ma.estado=1 and ma.id_bimestre is not null and rl.id_curso=".$curso);
-        $this->db->order_by("id_bimestre,id","asc");       
+        $this->db->order_by("id_bimestre,id","asc");
         return $this->db->get()->result();
-    }           
+    }
     public function busqueda_notas_config($grado,$curso){#rl.id_bimestre seteado porque se sobre entiende que debe de cumplir para todos los trimestres
         $this->db->distinct();
         $this->db->select("ma.id,ma.nom_notas,ma.des_notas")
                  ->from("maenotas ma")
                  ->join("relnotas rl","on ma.id=rl.id_nota")
                  ->where("rl.estado=1 and ma.ano=".date('Y')."    and ma.pe is null and rl.id_curso=".$curso." and rl.id_grado=".$grado)
-                 ->order_by('ma.nom_notas','ASC');  
-        return $this->db->get()->result_array();        
-    } 
+                 ->order_by('ma.nom_notas','ASC');
+        return $this->db->get()->result_array();
+    }
 
-    public function busquedaNotas6($ano) { 
+    public function busquedaNotas6($ano) {
         $this->db->distinct();
         $this->db->select("ma.id,ma.nom_notas,ma.des_notas,ma.id_bimestre,ma.pe")
                  ->from("maenotas ma")
                  ->join("relnotas rl","on ma.id=rl.id_nota")
                  ->where("ma.ano=".$ano."  and ma.estado=1 and ma.id_bimestre is not null ");
-        $this->db->order_by("id_bimestre,id","asc");       
+        $this->db->order_by("id_bimestre,id","asc");
         return $this->db->get()->result();
-    }      
-    public function busquedaCurs($curso) {                 
+    }
+    public function busquedaCurs($curso) {
         $campo='nom_cursos';
         $this->db->select('id')->from('maecursos')->where($campo,$curso)->limit(1);
         $query = $this->db->get();
         return $query->result();
-    }      
-    public function busquedaSecc($seccion) {                 
+    }
+    public function busquedaSecc($seccion) {
         $campo='nom_seccion';
         $this->db->select('id')->from('maeseccion')->where($campo,$seccion)->limit(1);
         $query = $this->db->get();
-        return $query->result();                    
+        return $query->result();
     }
-    public function busquedaGrado($grado) {                 
+    public function busquedaGrado($grado) {
         $campo='nom_grado';
         $this->db->select('id')->from('maegrados')->where($campo,$grado)->limit(1);
         $query = $this->db->get();
-        return $query->result();                    
-    } 
+        return $query->result();
+    }
 
-    public function insertAsitencia($datos) {              
-    return  $this->db->insert('asistencia_alumno', $datos);       
-    }    
-    public function insertAsitenciaAux($datos) {              
-    return  $this->db->insert('asistencia_alumno_aux', $datos);       
-    }        
-    public function GuardarArchivoProf($datos) {           
-    return  $this->db->insert('documentos_docentes', $datos);       
+    public function insertAsitencia($datos) {
+    return  $this->db->insert('asistencia_alumno', $datos);
     }
-    public function GuardarArchivoAsis($datos) {           
-    return  $this->db->insert('documentos_asistencia', $datos);       
-    }    
-    public function registrarAula($datos) {           
-    return  $this->db->insert('relaula', $datos);       
+    public function insertAsitenciaAux($datos) {
+    return  $this->db->insert('asistencia_alumno_aux', $datos);
     }
-    public function insertarPersona($datos) {           
-      $this->db->insert('maepersona', $datos);       
-    }    
-    public function insertarCorreoss($datos) {           
-      $this->db->insert('maecorreos', $datos);       
-    }    
-    public function insertarTelefono($datos) {           
-      $this->db->insert('maetelefono', $datos);       
-    }        
-    public function insertarUsuarios($datos) {           
-      $this->db->insert('maeusuarios', $datos);       
-    }        
-    public function insertarAlumno($datos) {           
-      $this->db->insert('relaulalumno', $datos);       
-    }           
-    public function insertarrelnotas($datos) {           
-      $this->db->insert('relnotas', $datos);       
-    }           
-    public function recuperPersona() {           
-      
+    public function GuardarArchivoProf($datos) {
+    return  $this->db->insert('documentos_docentes', $datos);
+    }
+    public function GuardarArchivoAsis($datos) {
+    return  $this->db->insert('documentos_asistencia', $datos);
+    }
+    public function registrarAula($datos) {
+    return  $this->db->insert('relaula', $datos);
+    }
+    public function insertarPersona($datos) {
+      $this->db->insert('maepersona', $datos);
+    }
+    public function insertarCorreoss($datos) {
+      $this->db->insert('maecorreos', $datos);
+    }
+    public function insertarTelefono($datos) {
+      $this->db->insert('maetelefono', $datos);
+    }
+    public function insertarUsuarios($datos) {
+      $this->db->insert('maeusuarios', $datos);
+    }
+    public function insertarAlumno($datos) {
+      $this->db->insert('relaulalumno', $datos);
+    }
+    public function insertarrelnotas($datos) {
+      $this->db->insert('relnotas', $datos);
+    }
+    public function recuperPersona() {
+
         $this->db->select("id");
         $this->db->from("maepersona");
         $this->db->order_by("1","desc");
         $this->db->limit(1);
-        
-      return  $this->db->get()->result_object() ;   
-    }    
+
+      return  $this->db->get()->result_object() ;
+    }
     public function setPermiso($permisos,$ultimo) {
-        
+
 
      $usuario=(int)$ultimo+1;
-     
+
         for($i=0;$i<count($permisos);$i++){
         $data = array(
             'WebUsuarios_id' => $usuario ,
             'WebModulos_id' => $permisos[$i],
             'permiso' => 1
-        ); 
-         $this->db->insert('webusuariopermisos', $data);             
+        );
+         $this->db->insert('webusuariopermisos', $data);
         }
-       
-    }    
-    public function busquedaRol($rolhijo) { 
-        $this->db->select(" webusuariosrol_id,nombre ")->from("webusuariosrolhijo");  
+
+    }
+    public function busquedaRol($rolhijo) {
+        $this->db->select(" webusuariosrol_id,nombre ")->from("webusuariosrolhijo");
         $this->db->where( 'id' ,$rolhijo ) ;
-        return $this->db->get()->result_object() ;  
-    }        
+        return $this->db->get()->result_object() ;
+    }
     public function ultimoIdNotas(){
         $this->db->select("id")->from("maenotas")->order_by('id','desc')->limit(1);
         return $this->db->get()->result_object();
-        
+
     }
-    public function cantidadXbimestre15(){        
+    public function cantidadXbimestre15(){
         $this->db->select("id_bimestre,count(*) as cantidad")->from("maenotas")->group_by("id_bimestre")->order_by("id_bimestre","desc")->limit(1);
         return $this->db->get()->result_object();
     }
-    public function cantidadXbimestre($curso){        
+    public function cantidadXbimestre($curso){
         $this->db->select("count(*) as cantidad")
                  ->from("maenotas ma")
                  ->join("relnotas re","on ma.id=re.id_nota")
                  ->where("re.estado=1 and re.id_curso=".$curso." and ma.pe is  null and re.id_bimestre is not null")
                   ->group_by("re.id_alumno,re.id_bimestre")->limit(1);
         return $this->db->get()->result_object();
-    }    
-    public function cantidadXbimestre2($curso){      
+    }
+    public function cantidadXbimestre2($curso){
         $this->db->distinct();
         $this->db->select("ma.id_bimestre,count(*) as cantidad")
                  ->from("maenotas ma")
@@ -1360,36 +1360,36 @@ class Usuarios_model extends CI_Model{
                  ->order_by("ma.id_bimestre","desc")
                  ->limit(1);
         return $this->db->get()->result_object();
-    }    
+    }
     public function promedioEvaluacion($bimestre,$alumno,$curso,$numero){
-        
+
         $this->db->select("sum(re.nota)/".$numero." as suma")
                  ->from("relnotas re")
                  ->join("maenotas ma","on re.id_nota=ma.id")
                  ->where("re.estado=1 and ma.pe is null and re.id_bimestre=".$bimestre." and re.id_alumno=".$alumno.' and re.id_curso='.$curso);
-        $valor= $this->db->get()->result_object();        
+        $valor= $this->db->get()->result_object();
        // print_r($valor);
         $this->db->select("re.id as codigo")
                  ->from("relnotas re")
                  ->join("maenotas ma","on re.id_nota=ma.id")
                  ->where("re.estado=1 and ma.pe is not null and re.id_bimestre=".$bimestre." and re.id_alumno=".$alumno.' and re.id_curso='.$curso);
-        $valor2= $this->db->get()->result_object();                
+        $valor2= $this->db->get()->result_object();
         $arrayCambio= array('nota'=>$valor[0]->suma);
         $this->db->set($arrayCambio)->where("id",$valor2[0]->codigo)->update("relnotas");
-        
+
         $valor3= $this->validacion2($alumno,$curso);
-        $valor4= $this->validacion3($alumno,$curso);        
+        $valor4= $this->validacion3($alumno,$curso);
         $this->db->select("re.id as codigo")
                  ->from("relnotas re")
                  ->join("maenotas ma","on re.id_nota=ma.id")
-                 ->where("re.estado=1 and ma.pe is not null and re.id_bimestre is null and re.id_alumno=".$alumno.' and re.id_curso='.$curso);        
-        $valor5=$this->db->get()->result_object();  
-        
+                 ->where("re.estado=1 and ma.pe is not null and re.id_bimestre is null and re.id_alumno=".$alumno.' and re.id_curso='.$curso);
+        $valor5=$this->db->get()->result_object();
+
         if($valor3[0]->cantidad10==$valor4[0]->cantidad10){
             $promedioFinal=$this->promedioFinal($alumno,$valor4[0]->cantidad10,$curso);
-           
+
             $arrayCambio10= array('nota'=>$promedioFinal[0]->suma);
-            
+
             $this->db->set($arrayCambio10)->where("id",$valor5[0]->codigo)->update("relnotas");
         }else{
            $valor10="";
@@ -1399,35 +1399,35 @@ class Usuarios_model extends CI_Model{
         $this->db->select("sum(re.nota)/".$contador." as suma")
                  ->from("relnotas re")
                  ->join("maenotas ma","on re.id_nota=ma.id")
-                 ->where("re.estado=1 and ma.pe is not null and re.id_bimestre is not null   and re.id_alumno=".$alumno.' and re.id_curso='.$curso);                
-            return $this->db->get()->result_object();      
+                 ->where("re.estado=1 and ma.pe is not null and re.id_bimestre is not null   and re.id_alumno=".$alumno.' and re.id_curso='.$curso);
+            return $this->db->get()->result_object();
     }
     public function validacion($bimestre,$alumno,$curso){
         $this->db->select("count(*) as cantidad10")
                  ->from("relnotas re")
                  ->join("maenotas ma","on re.id_nota=ma.id")
                  ->where("re.estado=1 and ma.pe is null and re.nota is not null   and re.id_bimestre=".$bimestre." and re.ano=".date('Y')." and re.id_alumno=".$alumno.' and re.id_curso='.$curso);
-        return $this->db->get()->result_object();                
+        return $this->db->get()->result_object();
     }
     public function validacion2($alumno,$curso){
         $this->db->select("count(*) as cantidad10")
                  ->from("relnotas re")
                  ->join("maenotas ma","on re.id_nota=ma.id")
                  ->where("re.estado=1 and ma.pe is not null and re.nota is not null and re.id_bimestre is not null and re.ano=".date('Y').' and re.id_alumno='.$alumno.' and re.id_curso='.$curso);
-        return $this->db->get()->result_object();                
-    }    
+        return $this->db->get()->result_object();
+    }
     public function validacion3($alumno,$curso){
         $this->db->distinct();
         $this->db->select("count(*) as cantidad10")
                  ->from("relnotas re")
                  ->join("maenotas ma","on re.id_nota=ma.id")
                  ->where("re.estado=1 and ma.pe is not null and re.id_bimestre is not null and re.ano=".date('Y')." and re.id_alumno=".$alumno.' and re.id_curso='.$curso);
-        return $this->db->get()->result_object();                
-    }     
+        return $this->db->get()->result_object();
+    }
 
     public function buscardatosusu($codigo){
         $this->db->distinct();
-        $this->db->select(  '       
+        $this->db->select(  '
                                 ma.id           as CODIGO,
                                 ma.nom_per      as NOMBRE,
                                 ma.ape_pat_per  as APEPAT,
@@ -1440,7 +1440,7 @@ class Usuarios_model extends CI_Model{
                                 mu.nom_usuario  as USUARI,
                                 mu.clav_usuario as CLAVES,
                                 mu.role_usuario as USUARR,
-                                mt.num_tel      as TELEFO                                
+                                mt.num_tel      as TELEFO
                             '
                 )
                 ->from('maepersona  ma')
@@ -1448,51 +1448,51 @@ class Usuarios_model extends CI_Model{
                 ->join('maeusuarios mu','mu on ma.id=mu.id_persona')
                 ->join('maetelefono mt','ma.id=mt.id_persona')
                 ->where('ma.id',$codigo)
-                ->order_by('1','desc');       
-        return $this->db->get()->result_object();        
-        
+                ->order_by('1','desc');
+        return $this->db->get()->result_object();
+
     }
-    public function SetEmpresa($datos) { 
+    public function SetEmpresa($datos) {
         $data = array(
-            'webusuario_id'          => null,      
-            'nombreLocal'            => null,  
-            'tipolocal_id'           => null,  
+            'webusuario_id'          => null,
+            'nombreLocal'            => null,
+            'tipolocal_id'           => null,
             'direccion'              => null,
             'descripcion'            => null,
             'usuarioCreacion'        => null
-        ); 
+        );
         foreach ($datos as $tempKey => $tempVal) {
             if (array_key_exists($tempKey, $data)) {
                 $data[$tempKey] = $tempVal;
-            } 
-        } 
+            }
+        }
         return $this->db->insert('empresa', $data);
-    }    
-    public function Update($datos,$id) { 
+    }
+    public function Update($datos,$id) {
         $data = array(
             'nombre'    => null,
             'documento' => null,
             'usuario'   => null,
             'pass'      => null,
             'email'     => null
-        ); 
-        
-        
+        );
+
+
         foreach ($datos as $tempKey => $tempVal) {
             if (array_key_exists($tempKey, $data)) {
                 $data[$tempKey] = $tempVal;
-            } 
-        } 
+            }
+        }
         $this->db->set($data);
         $this->db->where('id', $id);
         $this->db->update('webusuarios');
     //    return $this->db->insert('WebUsuarios', $data);
     }
-    
-    public function CheckList($datos) { 
+
+    public function CheckList($datos) {
         return $this->db->select(" * ")->from("maepersona ")
                 ->where($datos)->get()->result_object();
     }
-    
+
 }
     ?>

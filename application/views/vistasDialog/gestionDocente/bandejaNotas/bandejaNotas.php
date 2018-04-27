@@ -4,13 +4,14 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>publico/handsontable/js/handsontable.full.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>publico/handsontable/js/ruleJS.all.full.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>publico/handsontable/js/handsontable.formula.js"></script>
-                                        <div class="list-group right" >                                        
+
+                                        <div class="list-group right" >
 
                                             <button class="btn btn-danger " title="Registrar Notas" type="button" name="btnNotas" id="btnNotas">
-                                                 <i class="fa fa-floppy-o"  ></i>   
-                                           </button>   
+                                                 <i class="fa fa-floppy-o"  ></i>
+                                           </button>
                                             <strong>Una vez terminado de ingresar las notas no te olvides de presionar el boton rojo para registrarlas (*)</strong>
-                                        </div>     
+                                        </div>
                                         <div class="x_content bs-example-popovers">
 
                                             <div   id="exito" class="alert alert-success alert-dismissible fade in" role="alert" hidden="true">
@@ -18,7 +19,7 @@
                                             </button>
                                             <strong>REGISTRO EXITOSO!</strong> Las notas han sido guardadas satisfactoriamente.
                                             </div>
-                                          
+
                                             <div id="error" class="alert alert-danger alert-dismissible fade in" role="alert"  hidden="true">
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                                             </button>
@@ -29,9 +30,9 @@
                                         <div class="x_content bs-example-popovers">
                                         <div id="ResultadoTabla"></div>
                                         </div>
-    
-<div id="DIVcargando"       title="EN PROCESO ... "> 
-Espere mientras se gestiona la informaci&oacute;n.   
+
+<div id="DIVcargando"       title="EN PROCESO ... ">
+Espere mientras se gestiona la informaci&oacute;n.
 <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
 </div>
 <?php } else{
@@ -47,9 +48,9 @@ $('#DIVcargando').dialog({
         closeOnEscape: false,
         open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); },
         modal: true
-	});        
+	});
     $('#DIVcargando').dialog({ draggable: false });
-    $('#DIVcargando').dialog({ resizable: false });     
+    $('#DIVcargando').dialog({ resizable: false });
 
 busqueda=<?=json_encode($bodyData->datos) ?>;
 data1= <?= json_encode($bodyData->tabla) ?>;
@@ -57,7 +58,7 @@ var bool ='';
 var cabeceras =<?= $bodyData->marcados?>;
 
 configuraciones={
-    
+
 		//data:data1,
         nestedHeaders: [
     [
@@ -69,7 +70,7 @@ configuraciones={
         label: 'sdsd',
         colspan: 33
       }
-    
+
     ]
   ],stretchH: 'all',
 		colHeaders:[<?=$bodyData->head?>],
@@ -92,13 +93,13 @@ configuraciones={
                 afterRender: function(){
                 render_color(this);
                 }
-            };  
+            };
 function render_color(ht){
   var valor;
   for(var i=0;i<ht.countRows();i++){
-    for(var p=0;p<ht.countCols();p++){  
-   
- var ide=ht.getDataAtCell(i,p); 
+    for(var p=0;p<ht.countCols();p++){
+
+ var ide=ht.getDataAtCell(i,p);
 
 
 if(p==0){
@@ -107,15 +108,15 @@ if(p==0){
   if(ide<=10.4){
   font_color = "#E74C3C";
   }else{
-  font_color = "#2874A6";      
+  font_color = "#2874A6";
   }
 }
 
 var cell_color = $.map(cabeceras, function(value, key) {
      if (p==value)
      {
-        return "#F5B7B1";
-    
+        return "#fcf3cf";
+
      }
 });
 
@@ -125,7 +126,7 @@ var cell_color = $.map(cabeceras, function(value, key) {
     }
 
   }
-}            
+}
 
 tblExcel=new Handsontable(document.getElementById('ResultadoTabla'),configuraciones);
 tblExcel.render();
@@ -134,7 +135,7 @@ $("#btnNotas").click(function(){
    var h=1;
    var contador=0;
   for(i=0;i<data1.length;i++){h=1;
-      
+
       for(j=0;j<5;j++){
           if(parseInt(data1[i]['C'+h])<0 ) {contador++;}
           if(parseInt(data1[i]['C'+h])>20){contador++;}
@@ -142,33 +143,33 @@ $("#btnNotas").click(function(){
        h++;
             }
       }
-      
+
       if(contador===0){
                                 $.ajax({
                                     type: 'POST',
                                     url : 'registrarNotas',
-                                    data: {'tblExcel':data1,'busqueda':busqueda}, 
+                                    data: {'tblExcel':data1,'busqueda':busqueda},
                                     beforeSend: function(){
-                                        $('#DIVcargando').dialog('open');   
+                                        $('#DIVcargando').dialog('open');
                                     },
-                                    success: function(){                                        
-                                            $('#DIVcargando').dialog('close');    
+                                    success: function(){
+                                            $('#DIVcargando').dialog('close');
                                             $('#exito').show();
-                                            $('#error').hide(); 
+                                            $('#error').hide();
                                     },
                                     failure:function(respuesta){
-                                        $('#error').show();           
+                                        $('#error').show();
                                         console.log("Error intentando registrar"+respuesta );}
-                                                                             
-                                   }); 
+
+                                   });
                     }else{
-                                   
-                                   $('#error').show(); 
+
+                                   $('#error').show();
                     }
 });
 </script>
 
 <?php }else{
-echo "No cuenta con la información necesaria para mostrar esta interfaz.";    
+echo "No cuenta con la información necesaria para mostrar esta interfaz.";
 }
 ?>
