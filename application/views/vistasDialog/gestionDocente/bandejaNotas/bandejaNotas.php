@@ -120,7 +120,7 @@ var cell_color = $.map(cabeceras, function(value, key) {
 });
 
 
-console.log(cell_color[0]);
+
       $(ht.getCell(i,p)).css({"color": font_color, "background-color": cell_color[0]});
     }
 

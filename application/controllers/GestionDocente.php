@@ -516,6 +516,7 @@ class GestionDocente extends CI_Controller {
     }
     public function comboBandeNota(){
         $this->load->model("Docente_model",'',TRUE);
+        $this->load->model("Usuarios_model",'',TRUE);
         $id_curso=$this->input->post("curso");
         $id_grado=$this->input->post("grado");
         $id_seccion=$this->input->post("seccion");
@@ -527,8 +528,18 @@ class GestionDocente extends CI_Controller {
         }else{
          $respuesta=0;$results=0;   
         }
-        $head_notas = $this->Docente_model->head($busqueda);
-        
+        $validacion_head=$this->Docente_model->head_validacion($busqueda);
+        $head_notas=$this->Docente_model->head($busqueda);
+        $busquedaBimestre=$this->Usuarios_model->busqueda_notas_config($id_grado,$id_curso);  
+        $header_notas =array_unique(array_column($head_notas,'nom_notas'));  
+        $cant_notas=array_unique(array_column($busquedaBimestre,'nom_notas')); 
+        if(count($header_notas)!=count($cant_notas)){
+            if(count($header_notas)!=0){
+                echo "<center><strong style='color:red'>Falta configurar las siguientes capacidades: ".implode(',',array_diff(array_values($cant_notas),array_values($header_notas)))."</strong></center>";die();        
+            }else{
+                echo "<center><strong style='color:red'>Por favor , configurar todas las capacidades.</strong></center>";die();
+            }
+        }
     
 /*
 		columns:[
