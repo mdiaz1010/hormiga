@@ -1234,6 +1234,8 @@ class Usuarios_model extends CI_Model
     }
     public function eliminarCursosa($id)
     {
+        //elimina cursos
+
         $this->db->where('id', $id);
         $this->db->delete('maecursos');
     }
