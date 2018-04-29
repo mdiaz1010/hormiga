@@ -1,4 +1,5 @@
-<?php if($bodyData->respuesta>0){ ?>
+<?php if ($bodyData->respuesta>0) {
+    ?>
 <div class="row">
 
                 <div class="col-xs-12">
@@ -27,10 +28,10 @@
                     Curso:
                     <select name="rol_curso"    class="form-control" id='rol_curso' required>
                         <option name="select"  value="">Seleccione</option>
-                        <?php foreach($bodyData->curso as $curso):?>
+                        <?php foreach ($bodyData->curso as $curso):?>
                         <option name="select"  value="<?=$curso->id?>"><?=$curso->nom_cursos?></option>
                         
-                        <?php endforeach;?>
+                        <?php endforeach; ?>
                         
                     </select>
                     
@@ -89,7 +90,8 @@
               </div>                                                 
    </div>
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionAlumno_material.js')?>"></script>
-<?php }else{
-echo "No cuenta con la información necesaria para mostrar esta interfaz.";    
-}
+<?php
+} else {
+        echo "No cuenta con la información necesaria para mostrar esta interfaz.";
+    }
 ?>

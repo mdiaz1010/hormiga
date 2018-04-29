@@ -53,7 +53,7 @@
                                             <option ></option>
                                             <?php
                                             foreach ($bodyData->roles as $rolesTemp) {
-                                            ?>
+                                                ?>
                                                 <option name='opciones' value="<?=$rolesTemp->codigoEmpresa?>"><?=$rolesTemp->nombre?>-<?=$rolesTemp->nombreLocal?></option>
                                             <?php
                                             }
@@ -96,7 +96,7 @@
                                             <option ></option>
                                             <?php
                                             foreach ($bodyData->proyectos as $rolesTemp) {
-                                            ?>
+                                                ?>
                                                 <option name='opciones1' value="<?=$rolesTemp->id?>"><?=$rolesTemp->descripcion?></option>
                                             <?php
                                             }
@@ -153,9 +153,8 @@
                                     <tbody>
                                             
                                                
-                                            <?php  
-                                            foreach ($bodyData->valores as $value) { 
-                                              
+                                            <?php 
+                                            foreach ($bodyData->valores as $value) {
                                                 ?>
                                                 <tr>
                                                     
@@ -183,8 +182,7 @@
                                                     </td>  
                                            
                                                 </tr> 
-                                            <?php 
-                                          
+                                            <?php
                                             }
                                             ?>
                                            

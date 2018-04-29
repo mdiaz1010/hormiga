@@ -1,33 +1,32 @@
 <?php
 
-function listarEventos($marcas){
-    foreach ($marcas as $eventoTemp) { 
-        
-        $functionKey = (!empty($eventoTemp->functionkey)    )? (int)$eventoTemp->functionkey  : 255;
+function listarEventos($marcas)
+{
+    foreach ($marcas as $eventoTemp) {
+        $functionKey = (!empty($eventoTemp->functionkey))? (int)$eventoTemp->functionkey  : 255;
         //$readerAddr = ((int)$eventoTemp->readeraddr != 0 )? (int)$eventoTemp->readeraddr[0] : 0 ;
         $readerAddr = (int)$eventoTemp->readeraddr;
         $entradaSalida = "" ;
-        if (  ($functionKey == 10  )  or    $readerAddr==1 ){
+        if (($functionKey == 10)  or    $readerAddr==1) {
             $entradaSalida = "Entrada";
             $functionKey = 10;
-        }elseif ($functionKey == 30   or    $readerAddr==2 ) {
+        } elseif ($functionKey == 30   or    $readerAddr==2) {
             $entradaSalida = "Salida" ;
             $functionKey =30;
-        }else{
-        //    $entradaSalida = "" ;
+        } else {
+            //    $entradaSalida = "" ;
         //    $functionKey=255;
-        }
-
-    ?>   
+        } ?>   
         <tr data-id="<?=$eventoTemp->id ?>">
-            <td name="marcasDatetime" ><?=(new DateTime($eventoTemp->eventdatetime ))->format('Y-m-d H:i:s ')?></td>
+            <td name="marcasDatetime" ><?=(new DateTime($eventoTemp->eventdatetime))->format('Y-m-d H:i:s ')?></td>
             <td name="marcasUserId" ><?=$eventoTemp->accessid ?> </td>
             <td name="marcasUserName" ><?=$eventoTemp->user_name ?>  </td>
             <td name="marcasController" ><?=$eventoTemp->controllername ?></td>
             <td name="marcasFunction" data-value="<?=$functionKey ?>"><?=$entradaSalida  ?></td> 
             <td><?= (isset($eventoTemp->centroCosto))? $eventoTemp->centroCosto : ''   ?></td>
         </tr>
-    <?php } 
+    <?php
+    }
 }
 ?>
 
@@ -368,17 +367,17 @@ $(document).ready(function() {
             </thead>
             <tbody> 
             <?php
-                
+
             
-            if(isset($bodyData->eventosOrganizados)){  // echo '<tr><td>Organizado</td></tr>';
+            if (isset($bodyData->eventosOrganizados)) {  // echo '<tr><td>Organizado</td></tr>';
                 foreach ($bodyData->eventosOrganizados as $eventosOrganizadosDias) {
                     foreach ($eventosOrganizadosDias as $eventosOrganizadosUsuario) {
                         listarEventos($eventosOrganizadosUsuario);
                     }
-                } 
-            }else{
+                }
+            } else {
                 listarEventos($bodyData->eventos);
-            } 
+            }
              
             ?> 
             </tbody>

@@ -1,4 +1,5 @@
-<?php if($bodyData->respuesta==1){ ?>
+<?php if ($bodyData->respuesta==1) {
+    ?>
 <div class="row">
                 <div class="col-xs-12">
                 <div class="x_panel">
@@ -22,11 +23,10 @@
                         <option >Seleccione</option>
                         <?php
                         foreach ($bodyData->valores as $rolesTemp) {
-                        ?>
+                            ?>
                             <option name='opciones' value="<?=$rolesTemp->id?>"><?=$rolesTemp->nom_grado?></option>
                         <?php
-                        }
-                        ?>
+                        } ?>
                     </select>
                 </label>
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
@@ -98,7 +98,7 @@ Espere mientras se gestiona la informaci&oacute;n.
 <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
 </div>
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionDocente_asistencia.js')?>"></script>
-<?php }else{
-echo "No cuenta con la información necesaria registrada para mostrar esta interfaz.";    
-    
-} ?>
+<?php
+} else {
+                            echo "No cuenta con la información necesaria registrada para mostrar esta interfaz.";
+                        } ?>

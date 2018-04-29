@@ -2,12 +2,14 @@
 
 //var_dump($bodyData->RestriccionUbicaciones);
 
-function yaTienePermisos($id,$type,$RestriccionUbicaciones){
+function yaTienePermisos($id, $type, $RestriccionUbicaciones)
+{
     foreach ($RestriccionUbicaciones as $value) {
-        if((string)$value->areaId === (string)$id and (string)$value->area === (string)$type )
+        if ((string)$value->areaId === (string)$id and (string)$value->area === (string)$type) {
             return true;
+        }
     }
-    return FALSE;
+    return false;
 }
 
 ?>
@@ -43,15 +45,13 @@ function yaTienePermisos($id,$type,$RestriccionUbicaciones){
         </div>
         <div class="panel-body" id="LocacionPanel" style="max-height: 400px; overflow: auto;">      
             <?php
-            foreach ($bodyData->locations as $location) { 
+            foreach ($bodyData->locations as $location) {
                 $checked = "";
-                $css = ' bg-danger '; 
-                if(yaTienePermisos($location->cplt_id,1,$bodyData->RestriccionUbicaciones)) {
+                $css = ' bg-danger ';
+                if (yaTienePermisos($location->cplt_id, 1, $bodyData->RestriccionUbicaciones)) {
                     $checked = ' checked="checked" ';
                     $css = ' bg-success ';
-                } 
-                 
-                ?>
+                } ?>
                 <div class="col-xs-12 sombra modulos-list <?=$css?>"  >                    
                     <div class="col-xs-8 text-left"  title="<?=$location->cplt_desc?>" >
                         <?=$location->cplt_name?>
@@ -75,14 +75,13 @@ function yaTienePermisos($id,$type,$RestriccionUbicaciones){
         </div>
         <div class="panel-body" id="LocacionPanel" style="max-height: 400px; overflow: auto;">      
             <?php
-            foreach ($bodyData->divisions as $division) { 
+            foreach ($bodyData->divisions as $division) {
                 $checked = "";
-                $css = ' bg-danger '; 
-                if(yaTienePermisos($division->cpds_id,2,$bodyData->RestriccionUbicaciones)) {
+                $css = ' bg-danger ';
+                if (yaTienePermisos($division->cpds_id, 2, $bodyData->RestriccionUbicaciones)) {
                     $checked = ' checked="checked" ';
                     $css = ' bg-success ';
-                } 
-                ?>
+                } ?>
                 <div class="col-xs-12 sombra modulos-list <?=$css?>"  >                    
                     <div class="col-xs-8 text-left"  title="<?=$division->cpds_desc?>" >
                         <?=$division->cpds_name?>
@@ -105,14 +104,13 @@ function yaTienePermisos($id,$type,$RestriccionUbicaciones){
         </div>
         <div class="panel-body" id="LocacionPanel" style="max-height: 400px; overflow: auto;">      
             <?php
-            foreach ($bodyData->departments as $departmento) { 
+            foreach ($bodyData->departments as $departmento) {
                 $checked = "";
-                $css = ' bg-danger '; 
-                if(yaTienePermisos($departmento->cpdt_id,3,$bodyData->RestriccionUbicaciones)) {
+                $css = ' bg-danger ';
+                if (yaTienePermisos($departmento->cpdt_id, 3, $bodyData->RestriccionUbicaciones)) {
                     $checked = ' checked="checked" ';
                     $css = ' bg-success ';
-                } 
-                ?>
+                } ?>
                 <div class="col-xs-12 sombra modulos-list <?=$css?>"  >                    
                     <div class="col-xs-8 text-left"  title="<?=$departmento->cpdt_desc?>" >
                         <?=$departmento->cpdt_name?>
@@ -134,14 +132,13 @@ function yaTienePermisos($id,$type,$RestriccionUbicaciones){
         </div>
         <div class="panel-body" id="LocacionPanel" style="max-height: 400px; overflow: auto;">      
             <?php
-            foreach ($bodyData->centroCosto as $departmento) { 
+            foreach ($bodyData->centroCosto as $departmento) {
                 $checked = "";
-                $css = ' bg-danger '; 
-                if(yaTienePermisos($departmento->id,4,$bodyData->RestriccionUbicaciones)) {
+                $css = ' bg-danger ';
+                if (yaTienePermisos($departmento->id, 4, $bodyData->RestriccionUbicaciones)) {
                     $checked = ' checked="checked" ';
                     $css = ' bg-success ';
-                } 
-                ?>
+                } ?>
                 <div class="col-xs-12 sombra modulos-list <?=$css?>"  >                    
                     <div class="col-xs-8 text-left"  title="<?=$departmento->desc?>" >
                         <?=$departmento->name?>

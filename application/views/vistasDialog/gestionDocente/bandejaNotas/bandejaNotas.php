@@ -1,5 +1,7 @@
-<?php if($bodyData->respuesta>0){ ?>
-<?php if(count($bodyData->results)>0){ ?>
+<?php if ($bodyData->respuesta>0) {
+    ?>
+<?php if (count($bodyData->results)>0) {
+        ?>
 <link rel="stylesheet" media="screen" type="text/css" href="<?php echo base_url(); ?>publico/handsontable/css/handsontable.full.css">
 <script type="text/javascript" src="<?php echo base_url(); ?>publico/handsontable/js/handsontable.full.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>publico/handsontable/js/ruleJS.all.full.js"></script>
@@ -35,9 +37,10 @@
 Espere mientras se gestiona la informaci&oacute;n.
 <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
 </div>
-<?php } else{
-echo "<div class='alert_result'>No se encuentra ningun alumno registrado.</div>";
- } ?>
+<?php
+    } else {
+        echo "<div class='alert_result'>No se encuentra ningun alumno registrado.</div>";
+    } ?>
 
 <script type="text/javascript">
 $('#DIVcargando').dialog({
@@ -169,7 +172,8 @@ $("#btnNotas").click(function(){
 });
 </script>
 
-<?php }else{
-echo "No cuenta con la información necesaria para mostrar esta interfaz.";
-}
+<?php
+} else {
+        echo "No cuenta con la información necesaria para mostrar esta interfaz.";
+    }
 ?>

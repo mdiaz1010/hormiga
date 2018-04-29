@@ -7,7 +7,7 @@
                         <option disabled selected></option>
                         <?php
                         foreach ($bodyData->rolesGrado as $rolesTemp) {
-                        ?>
+                            ?>
                             <option name='opciones' value="<?=$rolesTemp->id?>"><?=$rolesTemp->nom_grado?></option>
                         <?php
                         }
@@ -20,7 +20,7 @@
                         <option disabled selected></option>
                         <?php
                         foreach ($bodyData->rolesSeccion as $rolesTemp) {
-                        ?>
+                            ?>
                             <option name='opciones' value="<?=$rolesTemp->id?>"><?=$rolesTemp->nom_seccion?></option>
                         <?php
                         }
@@ -33,7 +33,7 @@
                         <option disabled selected></option>
                         <?php
                         foreach ($bodyData->rolesCursos as $rolesTemp) {
-                        ?>
+                            ?>
                             <option name='opciones' value="<?=$rolesTemp->id?>"><?=$rolesTemp->nom_cursos?></option>
                         <?php
                         }

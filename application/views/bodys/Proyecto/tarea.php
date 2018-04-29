@@ -45,7 +45,7 @@
                                             <option ></option>
                                             <?php
                                             foreach ($bodyData->proyectoid as $rolesTemp) {
-                                            ?>
+                                                ?>
                                                 <option name='opciones' value="<?=$rolesTemp->id?>"><?=$rolesTemp->nombres?></option>
                                             <?php
                                             }
@@ -104,9 +104,8 @@
                                     <tbody>
                                             
                                                
-                                            <?php  
-                                            foreach ($bodyData->valor as $value) { 
-                                              
+                                            <?php 
+                                            foreach ($bodyData->valor as $value) {
                                                 ?>
                                                 <tr>
                                                     
@@ -136,8 +135,7 @@
 
                                            
                                                 </tr> 
-                                            <?php 
-                                          
+                                            <?php
                                             }
                                             ?>
                                            

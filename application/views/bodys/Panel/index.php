@@ -6,7 +6,7 @@
 </div>
     
 <?php
-     
+
     $semana= array("","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo");
     $graficoArrayFecha = "";
     $graficoArrayLabels ="";
@@ -18,27 +18,25 @@
         $graficoArrayLabels .= "'".$value['nombre']."',";
         $graficoArrayValores.= "'".$value['nota']."',";
         $color = '#'.substr(md5(rand(20, 100)), 0, 6);
-        $graficoArrayColores .= "'".$color."',"; 
-     ?>
+        $graficoArrayColores .= "'".$color."',"; ?>
 <input type="hidden" name="nombre[]"  id="nombre"  value="<?=$value['nombre']?>">
 <input type="hidden" name="nota[]"    id="nota"    value="<?=$value['nota']?>">
 <input type="hidden" name="rango[]"   id="rango"   value="<?=$value['rango']?>">
     <?php
         $totalRegistros = $bodyData->usuariosTotales[0]->cantidad;
         $listaYColor[] =(object) array('nombre'=>$value['nombre'], 'color'=>$color,'valor'=>$value['nota']);
-    }    
-    $graficoArrayLabels = trim($graficoArrayLabels,",");
-    $graficoArrayValores = trim($graficoArrayValores,",");
-    $graficoArrayColores = trim($graficoArrayColores,",");
+    }
+    $graficoArrayLabels = trim($graficoArrayLabels, ",");
+    $graficoArrayValores = trim($graficoArrayValores, ",");
+    $graficoArrayColores = trim($graficoArrayColores, ",");
      
      //   echo password_hash("algo", PASSWORD_DEFAULT)."\n   ".PASSWORD_DEFAULT ;
     
     $graficoArrayFecha ;
     
-    try{
-    //    $fecha = new DateTime($graficoArrayFecha);
+    try {
+        //    $fecha = new DateTime($graficoArrayFecha);
     } catch (Exception $e) {
-         
     }
 
     // echo $fecha->format('Y-m-d');

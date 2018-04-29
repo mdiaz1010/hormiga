@@ -1,4 +1,5 @@
-<?php if($bodyData->respuesta>0){ ?>
+<?php if ($bodyData->respuesta>0) {
+    ?>
 <div class="row">
             <div class="col-xs-12">
                 <div class="x_panel">
@@ -23,7 +24,7 @@
                                                         <option value="total">TOTAL</option>
                                                     <?php foreach ($bodyData->cursos as $cursos):?>
                                                         <option name='opciones' value="<?=$cursos->id?>"><?=$cursos->nom_cursos?></option>
-                                                    <?php endforeach;?>    
+                                                    <?php endforeach; ?>    
 
                                                     </select>
                                                 </label> 
@@ -82,7 +83,8 @@
 <div id="DIVVERDETALLE" title="INTRANET :: Ver asistencia"></div>
 <div id="DIVcargas"       title="EN PROCESO ... "> Espere mientras se gestiona la informaci&oacute;n.   <img src="<?= base_url('publico/media/loading.gif')?>"  width="20" height="20"> </div>
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionAlumno_asistencia.js')?>"></script>
-<?php }else{
-echo "No cuenta con la información necesaria para mostrar esta interfaz.";    
-}
+<?php
+} else {
+        echo "No cuenta con la información necesaria para mostrar esta interfaz.";
+    }
 ?>

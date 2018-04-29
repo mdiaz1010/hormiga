@@ -22,15 +22,16 @@
                                 <select name="txtrolcuenta"  class="form-control" id='txtrolcuenta' required>                        
                                     <?php
                                     foreach ($bodyData->roles as $rolesTemp) {
-                                        if($rolesTemp->id==$bodyData->datoscuenta[0]->USUARR){ $selected="selected";
-                                    ?>
+                                        if ($rolesTemp->id==$bodyData->datoscuenta[0]->USUARR) {
+                                            $selected="selected"; ?>
                                     <option name='opciones' selected value="<?=$rolesTemp->id?>"><?=$rolesTemp->nombre?></option>
                                     <?php
-                                    }else{
-                                        ?>
+                                        } else {
+                                            ?>
                                         <option name='opciones' value="<?=$rolesTemp->id?>"><?=$rolesTemp->nombre?></option>
                                         <?php
-                                    }}
+                                        }
+                                    }
                                     ?>
                                 </select>                    
                             </label>                

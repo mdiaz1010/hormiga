@@ -1,7 +1,7 @@
 <?php
 
-$permisosDeleteCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/eliminarDepartamento', $this->session->webCasSession->modulos   )  ;
-$permisosInsertCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/registrarDepartamento', $this->session->webCasSession->modulos   )
+$permisosDeleteCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/eliminarDepartamento', $this->session->webCasSession->modulos)  ;
+$permisosInsertCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/registrarDepartamento', $this->session->webCasSession->modulos)
 ?>
 
 <style>
@@ -34,8 +34,7 @@ $permisosInsertCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/registr
         foreach ($bodyData->departamento as $locacion) {
             $locacion = (object)$locacion;
             //if(yaTienePermisos($modulo->id,$bodyData->permisos)) continue;
-            $classCss = ($locacion->cpdt_status==1)? " bg-success" :" bg-danger";
-            ?>
+            $classCss = ($locacion->cpdt_status==1)? " bg-success" :" bg-danger"; ?>
             <div class="col-xs-12 sombra modulos-list  <?=$classCss?>"  >                    
                 <div class="col-xs-12 text-left"  title="<?=$locacion->cpdt_desc?>" ><?=$locacion->cpdt_name?></div>
             </div> 
@@ -47,8 +46,8 @@ $permisosInsertCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/registr
  
 
 <?php
-    if($permisosInsertCentroCosto){
-?>
+    if ($permisosInsertCentroCosto) {
+        ?>
  <!--  MODAL DE LISTA DE REGISTROS -->
 <div class="modal   fade" id="departamentoAddModal" tabindex="-1" role="dialog" aria-labelledby="departamentoAddModal" >
     <div class="modal-dialog " role="document">
@@ -144,8 +143,8 @@ $(document).ready(function() {
 <?php
     }
  
-    if($permisosDeleteCentroCosto){
-?>
+    if ($permisosDeleteCentroCosto) {
+        ?>
 
 
 <!--  MODAL DE ElIMINACION -->
@@ -219,4 +218,5 @@ $(document).ready(function() {
     }); 
 }); 
 </script>
-<?php } ?>
+<?php
+    } ?>

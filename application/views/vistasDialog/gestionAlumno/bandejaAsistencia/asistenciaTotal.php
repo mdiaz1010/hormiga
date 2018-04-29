@@ -9,47 +9,46 @@
         </tr>
     </thead>
     <tbody>       
-        <?php                                                
+        <?php 
             $i=1;
             $j=0;
             $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-                if( $bodyData->curso=='total'){
+                if ($bodyData->curso=='total') {
                     $hidden1='';
-                }else{
+                } else {
                     $hidden1='hidden';
-                     }
-                    foreach ($bodyData->results as $cuentasTemp) { 
-                        if(trim($cuentasTemp->asistencia)=='f' ){
-                                $color='bgcolor="#F78181"';
-                                $readonly='';
-                                $hidden='';
-                                //$color='bgcolor="#F7819F"';
-                        }else{
-                                $color='';
-                                $readonly='readonly';
-                                $hidden='hidden';
-                             }
-        ?>
+                }
+                    foreach ($bodyData->results as $cuentasTemp) {
+                        if (trim($cuentasTemp->asistencia)=='f') {
+                            $color='bgcolor="#F78181"';
+                            $readonly='';
+                            $hidden='';
+                            //$color='bgcolor="#F7819F"';
+                        } else {
+                            $color='';
+                            $readonly='readonly';
+                            $hidden='hidden';
+                        } ?>
         <tr id="<?=$i?>" >
                 <input type="hidden" name="ano[]" id="ano" value="<?=$cuentasTemp->ano?>">
                 <input type="hidden" name="mes[]" id="mes" value="<?=$cuentasTemp->mes?>">
                 <input type="hidden" name="dia[]" id="dia" value="<?=$cuentasTemp->dia?>">                                    
-            <td     <?=$color;?>><CENTER> <?= $i;?></CENTER></td>
-            <td     <?=$color;?>><CENTER> <?= $cuentasTemp->dia." de ".$meses[$cuentasTemp->mes-1];?></CENTER></td>
-            <td     <?=$color;?>><CENTER><strong><?=strtoupper($cuentasTemp->asistencia);?></strong></CENTER></td>
-            <td <?=$readonly;?> <?=$color;?>>                                                        
+            <td     <?=$color; ?>><CENTER> <?= $i; ?></CENTER></td>
+            <td     <?=$color; ?>><CENTER> <?= $cuentasTemp->dia." de ".$meses[$cuentasTemp->mes-1]; ?></CENTER></td>
+            <td     <?=$color; ?>><CENTER><strong><?=strtoupper($cuentasTemp->asistencia); ?></strong></CENTER></td>
+            <td <?=$readonly; ?> <?=$color; ?>>                                                        
                 <center>
                         <a <?=$hidden; ?> <?=$hidden1?> class="ver"   data-codigo="<?=$cuentasTemp->id?>" title="Ver archivo subido" href="javascript:"><span class="fa fa-search"></span> </a>
-                        <a <?=$hidden;?> <?=$hidden1?>  class="edita" data-codigo="<?=$cuentasTemp->id?>" data-fecha="<?=$cuentasTemp->fecha_val?>" title="Subir archivo"      href="javascript:"><span class="fa fa-edit"></span> </a>
+                        <a <?=$hidden; ?> <?=$hidden1?>  class="edita" data-codigo="<?=$cuentasTemp->id?>" data-fecha="<?=$cuentasTemp->fecha_val?>" title="Subir archivo"      href="javascript:"><span class="fa fa-edit"></span> </a>
                 </center>
             </td>
-            <td <?=$color;?>><CENTER><?=$cuentasTemp->respuesta?></CENTER></td>
+            <td <?=$color; ?>><CENTER><?=$cuentasTemp->respuesta?></CENTER></td>
         </tr>
         <?php
             $i++;
-            $j++;
-        }
+                        $j++;
+                    }
         ?>                                        
                                            
     </tbody>

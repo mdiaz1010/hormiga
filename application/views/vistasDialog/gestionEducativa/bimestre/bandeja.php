@@ -10,7 +10,8 @@
                                                   </tr>
                                     </thead>                                   
                                     <tbody>                                               
-                                            <?php  $i=0; foreach ($bodyData->bimestre as $bimestre) { ?>
+                                            <?php  $i=0; foreach ($bodyData->bimestre as $bimestre) {
+    ?>
                                                   <tr>  
                                                       <td><CENTER>BIM000<?=$bimestre->id  ?></CENTER></td>
                                                       <td><CENTER><?=$bimestre->nom_bimestre  ?></CENTER></td>
@@ -19,7 +20,8 @@
                                                       <td><CENTER><a href="javascript:" class="btnEdicionB"   data-id ="<?=$bimestre->id?>">Editar</a> 
                                                                   <a href="javascript:" class="btnEliminarB"  data-ide="<?=$bimestre->id?>">Eliminar</a></CENTER></td>
                                                   </tr>
-                                            <?php  $i++;                                       } ?>                                                                                  
+                                            <?php  $i++;
+} ?>                                                                                  
                                     </tbody>
                                 </table>
 

@@ -46,7 +46,7 @@
         </div>
     </div>
        
-    <p><?=" Tiempo de Calculo : ". round(  $bodyData->tiempoEjecucion , 4 )." Seg. "  ?></p>
+    <p><?=" Tiempo de Calculo : ". round($bodyData->tiempoEjecucion, 4)." Seg. "  ?></p>
 </div>
 
 

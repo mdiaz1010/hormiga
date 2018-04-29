@@ -4,7 +4,7 @@
         </div>
         <form action="" method="post" name="editaraulasa1a" id="editaraulasa1a" >        
             <table class="col-lg-12">
-                <tr><td colspan="4" class="col-lg-3"><font style="font-style: italic;"><?php echo substr($bodyData->aula["grado"],0,1).'°'.$bodyData->aula["seccion"].' de secundaria, Curso:'. $bodyData->aula["curso"].'<br>'?></font></td> </tr><br>
+                <tr><td colspan="4" class="col-lg-3"><font style="font-style: italic;"><?php echo substr($bodyData->aula["grado"], 0, 1).'°'.$bodyData->aula["seccion"].' de secundaria, Curso:'. $bodyData->aula["curso"].'<br>'?></font></td> </tr><br>
             <tr>
                 <td class="col-lg-3"><input  type="hidden"     id='txtgrado'   class="form-control"  name="txtgrado"      size="20"     value="<?php echo $bodyData->aulas["grado"]?>" readonly ></td></tr>                                
             <tr>

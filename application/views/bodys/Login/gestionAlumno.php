@@ -1,4 +1,5 @@
-<?php if($bodyData->respuesta>0){ ?>
+<?php if ($bodyData->respuesta>0) {
+    ?>
 <div class="row">
 
               <div class="col-md-6 col-sm-6 col-xs-12">
@@ -60,7 +61,8 @@
     $("#rendimiento").html(data);
      } );          
 </script>
-<?php }else{
-echo "No cuenta con la información necesaria para mostrar esta interfaz.";    
-}
+<?php
+} else {
+        echo "No cuenta con la información necesaria para mostrar esta interfaz.";
+    }
 ?>

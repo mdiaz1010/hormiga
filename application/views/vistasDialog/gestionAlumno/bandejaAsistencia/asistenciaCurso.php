@@ -8,39 +8,38 @@
                                         </tr>
                                     </thead>
                                     <tbody>       
-                                            <?php                                                
+                                            <?php 
                                             $i=1;
                                             $j=0;
                                             $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
                                             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-                                           if( $bodyData->curso=='total'){
-                                                 $hidden1='';
-                                           }else{
-                                                 $hidden1='hidden';
+                                           if ($bodyData->curso=='total') {
+                                               $hidden1='';
+                                           } else {
+                                               $hidden1='hidden';
                                            }
-                                            foreach ($bodyData->results as $cuentasTemp) { 
-                                                if(trim($cuentasTemp->asistencia)=='f' ){
+                                            foreach ($bodyData->results as $cuentasTemp) {
+                                                if (trim($cuentasTemp->asistencia)=='f') {
                                                     $color='bgcolor="#F78181"';
                                                     $readonly='';
                                                     $hidden='';
                                                     $estilo='';
                                                     //$color='bgcolor="#F7819F"';
-                                                }else{
+                                                } else {
                                                     $color='';
                                                     $readonly='readonly';
                                                     $hidden='hidden';
                                                     $estilo="<td></td>";
-                                                }
-                                            ?>
+                                                } ?>
                                                   <tr id="<?=$i?>" >
                                                         <input type="hidden" name="ano[]" id="ano" value="<?=$cuentasTemp->ano?>">
                                                         <input type="hidden" name="mes[]" id="mes" value="<?=$cuentasTemp->mes?>">
                                                         <input type="hidden" name="dia[]" id="dia" value="<?=$cuentasTemp->dia?>">                                    
-                                                        <td     <?=$color;?>><CENTER> <?= $i;?></CENTER></td>
-                                                        <td     <?=$color;?>><CENTER> <?= $cuentasTemp->dia." de ".$meses[$cuentasTemp->mes-1];?></CENTER></td>
-                                                        <td     <?=$color;?>><CENTER><strong><?=strtoupper($cuentasTemp->asistencia);?></strong></CENTER></td>
-                                                        <?=$estilo;?>
-                                                         <td  <?=$hidden?> <?=$color;?> >
+                                                        <td     <?=$color; ?>><CENTER> <?= $i; ?></CENTER></td>
+                                                        <td     <?=$color; ?>><CENTER> <?= $cuentasTemp->dia." de ".$meses[$cuentasTemp->mes-1]; ?></CENTER></td>
+                                                        <td     <?=$color; ?>><CENTER><strong><?=strtoupper($cuentasTemp->asistencia); ?></strong></CENTER></td>
+                                                        <?=$estilo; ?>
+                                                         <td  <?=$hidden?> <?=$color; ?> >
                                                         <center>
                                                             
                                                             <textarea rows="1"class="form-control" readonly style="width:500px;"><?=$cuentasTemp->mensaje?></textarea>
@@ -51,7 +50,8 @@
                                                   </tr>
                                             <?php
                                                $i++;
-                                               $j++;}
+                                                $j++;
+                                            }
                                             ?>                                        
                                            
                                     </tbody>

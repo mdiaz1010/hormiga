@@ -15,7 +15,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                         <?php $i=0; foreach($bodyData->datos as $dato): ?>
+                                         <?php $i=0; foreach ($bodyData->datos as $dato): ?>
                                                   <tr id="<?=$dato['abreviacion']?>" bgcolor="#A9F5A9">
                                                         <td><CENTER><?=$dato['abreviacion'];?> </CENTER></td>
                                                         <td><CENTER><?=$dato['descripcion'];?> </CENTER></td>

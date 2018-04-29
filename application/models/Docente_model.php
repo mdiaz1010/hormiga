@@ -1,16 +1,19 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
-class Docente_model extends CI_Model{
-
-    public function __construct() {
+class Docente_model extends CI_Model
+{
+    public function __construct()
+    {
         parent::__construct();
     }
-    public function registrar_nueva_configuracion($save_informacion){
-        return $this->db->insert('rel_notas_detalle',$save_informacion);
+    public function registrar_nueva_configuracion($save_informacion)
+    {
+        return $this->db->insert('rel_notas_detalle', $save_informacion);
     }
-    public function busqueda_notas_configuradas($grado,$curso,$nota,$profesor,$ano){
+    public function busqueda_notas_configuradas($grado, $curso, $nota, $profesor, $ano)
+    {
         $this->db->distinct();
         $this->db->select('abreviacion,descripcion,peso')
                  ->from('rel_notas_detalle')
@@ -20,13 +23,14 @@ class Docente_model extends CI_Model{
                    and id_nota       in ('.$nota.')
                    and estado= 1
                    and id_profesor   ='.$profesor)        ;
-                 return $this->db->get()->result_array() ;
+        return $this->db->get()->result_array() ;
     }
-    public function head($busqueda){
+    public function head($busqueda)
+    {
         $this->db->distinct();
         $this->db->select('ma.id_bimestre, ma.nom_notas,rnd.abreviacion,rnd.id_nota')
                  ->from('maenotas ma')
-                 ->join('rel_notas_detalle rnd','on ma.id=rnd.id_nota')
+                 ->join('rel_notas_detalle rnd', 'on ma.id=rnd.id_nota')
                  ->where('     rnd.ano               ='.$busqueda['ano'].'
                                and rnd.id_grado      ='.$busqueda['id_grado'].'
                                and rnd.id_curso      ='.$busqueda['id_curso'].'
@@ -34,15 +38,15 @@ class Docente_model extends CI_Model{
                                and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
                                and rnd.estado        = 1
                                and rnd.id_profesor   ='.$busqueda['id_profesor'])
-                ->order_by("rnd.id_nota","asc")                    ;
-                               return $this->db->get()->result_array() ;
-
+                ->order_by("rnd.id_nota", "asc")                    ;
+        return $this->db->get()->result_array() ;
     }
-    public function head_validacion($busqueda){
+    public function head_validacion($busqueda)
+    {
         $this->db->distinct();
         $this->db->select('ma.nom_notas')
                  ->from('maenotas ma')
-                 ->join('rel_notas_detalle rnd','on ma.id=rnd.id_nota')
+                 ->join('rel_notas_detalle rnd', 'on ma.id=rnd.id_nota')
                  ->where('     rnd.ano               ='.$busqueda['ano'].'
                                and rnd.id_grado      ='.$busqueda['id_grado'].'
                                and rnd.id_curso      ='.$busqueda['id_curso'].'
@@ -50,10 +54,10 @@ class Docente_model extends CI_Model{
                                and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
                                and rnd.estado        = 1
                                and rnd.id_profesor   ='.$busqueda['id_profesor'])          ;
-                               return $this->db->get()->result_array() ;
-
+        return $this->db->get()->result_array() ;
     }
-    public function crosstabcantidad($busqueda){
+    public function crosstabcantidad($busqueda)
+    {
         $sql="";
         switch ($busqueda['id_bimestre']) {
             case 1:
@@ -174,13 +178,10 @@ class Docente_model extends CI_Model{
                 )rl3)rl4 inner join maepersona ma on rl4.id_alumno=ma.id cross join (select @i := 0,@y := 0,@x := 0,@z := 0) r
 
            ";
-           $sql.=' group by rl4.id_alumno';
+        $sql.=' group by rl4.id_alumno';
 
 
 
-    return $this->db->query($sql)->result_array();
+        return $this->db->query($sql)->result_array();
     }
-
-
-
 }

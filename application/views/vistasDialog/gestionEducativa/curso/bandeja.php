@@ -9,7 +9,8 @@
                                                   </tr>
                                     </thead>                                   
                                     <tbody>                                               
-                                            <?php  $i=0; foreach ($bodyData->cursos as $curso) { ?>
+                                            <?php  $i=0; foreach ($bodyData->cursos as $curso) {
+    ?>
                                                   <tr>  
                                                       <td><CENTER>CUR000<?=$curso->id  ?></CENTER></td>
                                                       <td><CENTER><?=$curso->nom_cursos  ?></CENTER></td>
@@ -17,7 +18,8 @@
                                                       <td><CENTER><a href="javascript:" class="btnEdicion"   data-id ="<?=$curso->id?>">Editar</a> 
                                                                   <a href="javascript:" class="btnEliminar"  data-ide="<?=$curso->id?>">Eliminar</a></CENTER></td>
                                                   </tr>
-                                            <?php  $i++;                                       } ?>                                                                                  
+                                            <?php  $i++;
+} ?>                                                                                  
                                     </tbody>
                                 </table>
 

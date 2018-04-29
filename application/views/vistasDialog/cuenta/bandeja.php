@@ -15,10 +15,10 @@
                                     <tbody>       
                                         
                                             <?php
-                                                
+
     
-                                            foreach ($bodyData->cuentas as $cuentasTemp) {                                                
-                                            ?>
+                                            foreach ($bodyData->cuentas as $cuentasTemp) {
+                                                ?>
                                                   <tr>  
                                                       <td>        <?=$cuentasTemp->PROFESOR  ?></td>
                                                       <td><CENTER><?=$cuentasTemp->USUARIO   ?></CENTER></td>
@@ -39,7 +39,7 @@
                                                       </td>
                                                   </tr>
                                             <?php
-                                                }
+                                            }
                                             ?>                                        
                                           
                                     </tbody>

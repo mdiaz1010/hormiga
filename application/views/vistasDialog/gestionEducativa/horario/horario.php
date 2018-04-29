@@ -12,14 +12,15 @@
                                         </tr>
                                     </thead>                                   
                                     <tbody>  
-                                        <?php  foreach($bodyData->horario as $horarios): 
-                                            for($i=0;$i<count($bodyData->horarios);$i++){
-                                                if($bodyData->horarios[$i]==$horarios->codigo){
-                                                    $checked='checked'; break;
-                                                }else{
-                                                    $checked=''; 
-                                            }
+                                        <?php  foreach ($bodyData->horario as $horarios):
+                                            for ($i=0;$i<count($bodyData->horarios);$i++) {
+                                                if ($bodyData->horarios[$i]==$horarios->codigo) {
+                                                    $checked='checked';
+                                                    break;
+                                                } else {
+                                                    $checked='';
                                                 }
+                                            }
                                               
                                             ?>
                                         

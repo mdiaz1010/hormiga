@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $heading = (!empty($heading))? $heading : " Pagina No Encontrada";
 $message = (!empty($heading))? $heading : " Pagina No Encontrada";
