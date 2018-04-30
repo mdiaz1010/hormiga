@@ -2,10 +2,10 @@
     ?>
 <?php if (count($bodyData->results)>0) {
         ?>
-<link rel="stylesheet" media="screen" type="text/css" href="<?php echo base_url(); ?>publico/handsontable/css/handsontable.full.css">
-<script type="text/javascript" src="<?php echo base_url(); ?>publico/handsontable/js/handsontable.full.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>publico/handsontable/js/ruleJS.all.full.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>publico/handsontable/js/handsontable.formula.js"></script>
+<link type="text/css" rel="stylesheet" href="https://docs.handsontable.com/pro/2.0.0/bower_components/handsontable-pro/dist/handsontable.full.min.css">
+<script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/handsontable.full.min.js"></script>
+<script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/ruleJS.all.full.js"></script>
+<script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/handsontable.formula.js"></script>
 
                                         <div class="list-group right" >
 
@@ -62,41 +62,35 @@ var cabeceras =<?= $bodyData->marcados?>;
 
 configuraciones={
 
-		//data:data1,
-        nestedHeaders: [
-    [
-      {
-        label: 'sdsd',
-        colspan: 4
-      },
-      {
-        label: 'sdsd',
-        colspan: 33
-      }
-
-    ]
-  ],stretchH: 'all',
-		colHeaders:[<?=$bodyData->head?>],
+    data:data1,
+    colHeaders:true,
     rowHeaders:true,
-		columns:<?=$bodyData->column?>,
-                afterValidate: function(isValid){bool=isValid;},
-		formulas:true,
-                afterCreateRow:function(index,numberOfRows){
-                    data1.splice(index,numberOfRows);//limita crecimiento de la tabla
-                },
-		afterChange: function(registroModificados,accionesHandsontable){
-			if(accionesHandsontable!='loadData'){
-				registroModificados.forEach(function(elemento){
-				var fila= tblExcel.getData()[elemento[0]];
-                                });
-                                $('#exito').hide();
-                                $('#error').hide();
-			}
-		},
-                afterRender: function(){
-                render_color(this);
-                }
-            };
+    nestedHeaders: [
+        <?=$bodyData->head_primera?>,
+        <?=$bodyData->head?>
+
+    ],
+    stretchH: 'all',
+    columns:<?=$bodyData->column?>,
+            afterValidate: function(isValid){bool=isValid;},
+    formulas:true,
+            afterCreateRow:function(index,numberOfRows){
+                data1.splice(index,numberOfRows);//limita crecimiento de la tabla
+            },
+    afterChange: function(registroModificados,accionesHandsontable){
+        if(accionesHandsontable!='loadData'){
+            registroModificados.forEach(function(elemento){
+            var fila= tblExcel.getData()[elemento[0]];
+                            });
+                            $('#exito').hide();
+                            $('#error').hide();
+        }
+    },
+            afterRender: function(){
+            render_color(this);
+            }
+    };
+
 function render_color(ht){
   var valor;
   for(var i=0;i<ht.countRows();i++){

@@ -4,20 +4,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Cuenta extends CI_Controller
 {
     public $htmlData = array();
-    
+
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->htmlData = array(
-            
+
             "body"=> get_class($this)
             ,"bodyData"=> (object) array()
             ,"headData"=> (object) array()
             ,"footerData"=> (object) array()
         );
     }
-    
+
     public function index()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -58,7 +58,7 @@ class Cuenta extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true)     ;
         $ultimoIdNota= $this->Usuarios_model->ultimoIdNotas();
-        
+
         $insertPersona = array(
                     'nom_per'             => $nombre                                        ,
                     'ape_pat_per'         => $apepat                                        ,
@@ -69,7 +69,7 @@ class Cuenta extends CI_Controller
                     'documento'           => $documento                                     ,
                     'usu_creacion'        => $this->session->webCasSession->usuario->USUARIO
                 );
-                
+
         $busquedapermisos=$this->Rol_model->getbusqueda($rol);
         $i=0;
 
@@ -107,7 +107,7 @@ class Cuenta extends CI_Controller
                 $insertAlumno= array('id_alumno'=>$ultimoId,'id_seccion'=>$seccion,'id_grado'=>$grado,'ano'=>date("Y"),'usu_creacion'=> $this->session->webCasSession->usuario->USUARIO);
                 $cursos=$this->Usuarios_model->busquedaCurso($insertAlumno);
                 $bimestre=$this->Usuarios_model->busquedaBimestre();
-                   
+
                 $b=0;
                 $n=0;
 
@@ -148,7 +148,7 @@ class Cuenta extends CI_Controller
             $this->session->set_flashdata('flashdata_respuesta', 'Registro Correcto');
         }
     }
-       
+
     public function import_data()
     {
         $this->load->model('Usuarios_model', '', true);
@@ -156,7 +156,7 @@ class Cuenta extends CI_Controller
         $this->load->library('Spreadsheet_Excel_Reader');
         $recuperaId= $this->Usuarios_model->recuperPersona();
         $ultimoId=$recuperaId[0]->id;
-        
+
         foreach ($_FILES['images']['error'] as $key => $error) {
             if ($error == UPLOAD_ERR_OK) {
                 $name = $_FILES['images']['name'][$key];
@@ -174,16 +174,16 @@ class Cuenta extends CI_Controller
                 }
             }
         }
- 
+
         $this->spreadsheet_excel_reader->setOutputEncoding('CP1251');
- 
- 
+
+
         $this->spreadsheet_excel_reader->read("C:\Users\Marco\Desktop\profesores.xls");
- 
+
         $sheets= $this->spreadsheet_excel_reader->sheets[0];
- 
+
         //error_reporting(0);
-        
+
         $data_excel= array();
         $data_usuar= array();
         $data_corre= array();
@@ -206,7 +206,7 @@ class Cuenta extends CI_Controller
             $data_usuar[$i-1]['role_usuario']=$sheets['cells'][$i][6];
             $data_usuar[$i-1]['usu_creacion']="administrador";
             $data_usuar[$i-1]['fec_creacion']=date("Y-m-d");
-                     
+
             $data_corre[$i-1]['id_persona']=$ultimoId;
             $data_corre[$i-1]['usu_creacion']="administrador";
             $data_corre[$i-1]['fec_creacion']=date("Y-m-d");
@@ -225,7 +225,7 @@ class Cuenta extends CI_Controller
         $this->db->insert_batch('maecorreos', $data_corre);
         $this->db->insert_batch('maetelefono', $data_telef);
     }
-       
+
     public function import_data_alumnos()
     {
         $this->load->model('Usuarios_model', '', true);
@@ -235,7 +235,7 @@ class Cuenta extends CI_Controller
         $ultimoId=$recuperaId[0]->id;
         $ultimoIdNota= $this->Usuarios_model->ultimoIdNotas();
 
-        
+
         /*
         foreach($_FILES['images']['error'] as $key => $error){
             if($error == UPLOAD_ERR_OK){
@@ -255,16 +255,16 @@ class Cuenta extends CI_Controller
             }
         }
         */
- 
+
         $this->spreadsheet_excel_reader->setOutputEncoding('CP1251');
         $this->spreadsheet_excel_reader->read("C:/Users/Marco/Desktop/informe_total8.xls");
         $sheets= $this->spreadsheet_excel_reader->sheets[0];
-        
+
         $data_excel= array();
         $data_usuar= array();
         $data_corre= array();
         $data_telef= array();
-                
+
         for ($i = 1; $i <= $sheets['numRows']; $i++) {
             if ($sheets['cells'][$i][1]=='') {
                 break;
@@ -294,7 +294,7 @@ class Cuenta extends CI_Controller
             $this->Usuarios_model->insertarUsuarios($data_usuar);
             $this->Usuarios_model->insertarCorreoss($data_corre);
             $this->Usuarios_model->insertarTelefono($data_corre);
-                                      
+
             $busquedapermisos=$this->Rol_model->getbusqueda($sheets['cells'][$i][5]);
             $insertAlumno= array('id_alumno'=>$ultimoId,'id_seccion'=>$sheets['cells'][$i][7],'id_grado'=>$sheets['cells'][$i][6],'ano'=>date("Y"),'usu_creacion'=>'administrador');
             $cursos=$this->Usuarios_model->busquedaCurso($insertAlumno);
@@ -352,7 +352,7 @@ class Cuenta extends CI_Controller
         }
         $usuario = $usuario[0];
         $modulos = $this->Rol_model->getPermisosDisponible($id);
-         
+
         $this->htmlData['bodyData']->usuario =  $usuario;
         $this->htmlData['bodyData']->usuarioId = $id;
         $this->htmlData['bodyData']->permisos  = $this->Rol_model->getPermisosList($id);
@@ -387,8 +387,8 @@ class Cuenta extends CI_Controller
         $correo = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtemailscuenta'));
         $direcc = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtdirecccuenta'));
         $descri = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtdescricuenta'));
-        
-        
+
+
         $datospersona= array(
           'nom_per'         =>$nombre,
           'ape_pat_per'     =>$apepat,
@@ -398,8 +398,8 @@ class Cuenta extends CI_Controller
           'documento'       =>$docume,
           'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO
         );
-        
-        
+
+
         //    print_r($datospersona);die();
         $datoscorreos= array(
             'des_correo'        =>$correo,
@@ -424,37 +424,37 @@ class Cuenta extends CI_Controller
     {
         $usuarioId = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('usuarioId'));
         $moduloId  = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('moduloId'));
-       
+
         if (empty($usuarioId) or empty($moduloId)) {
             $this->session->set_flashdata('flashdata_respuesta', 'Datos Invalidos, Intente Nuevamente.1');
             echo '0';
             return;
         }
-         
+
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
-        
+
         $verificadorPermiso = $this->Rol_model->getPermisosList($usuarioId);
         //    $verificadorUsuario = $this->Usuarios_model->getList($usuarioId);
-        
-     
+
+
         //var_dump($verificadorUsuario,$verificadorPermiso); // return;
         $datospermisos= array(
           'permiso'         =>"1"
         );
-        
+
         if ($this->Rol_model->setPermiso1($usuarioId, $moduloId, $datospermisos)) {
             echo '1';
         } else {
             echo '0';
         }
     }
-    
+
     public function permisosEliminar()
     {
         $usuarioId = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('usuarioId'));
         $moduloId  = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('moduloId'));
-        
+
         if (empty($usuarioId) or empty($moduloId)) {
             $this->session->set_flashdata('flashdata_respuesta', 'Datos Invalidos, Intente Nuevamente.1');
             echo '0';
@@ -472,8 +472,8 @@ class Cuenta extends CI_Controller
             echo '0';
         }
     }
-    
-    
+
+
     public function ubicaciones()
     {
         $id = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('id'));
@@ -481,17 +481,17 @@ class Cuenta extends CI_Controller
             $this->session->set_flashdata('flashdata_respuesta', 'Datos Invalidos, Intente Nuevamente.1');
             return;
         }
-        
+
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Ubicaciones_model", '', true);
-        
+
         $usuario = $this->Usuarios_model->getList($id);
         if (count($usuario)<1) {
             $this->session->set_flashdata('flashdata_respuesta', 'Datos Invalidos, Intente Nuevamente.2');
             return;
         }
         $usuario = $usuario[0];
-        
+
         $this->htmlData['bodyData']->usuario     = $usuario;
         $this->htmlData['bodyData']->RestriccionUbicaciones =   $this->Ubicaciones_model->getRestriccionUbicaciones($usuario->id);
         $this->htmlData['bodyData']->locations   =              $this->Ubicaciones_model->GetLocationsList();
@@ -499,26 +499,26 @@ class Cuenta extends CI_Controller
         $this->htmlData['bodyData']->departments =              $this->Ubicaciones_model->GetDepartamentList();
         $this->htmlData['bodyData']->centroCosto =              $this->Ubicaciones_model->GetCentroCostoList();
         $this->load->view('bodys/Cuenta/ubicaciones', $this->htmlData);
-        
+
         //    var_dump($this->htmlData);
     }
-    
+
     public function ubicacionesToggle()
     {
         $usuarioId      = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('usuarioId'));
         $ubicacionType  = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('ubicacionType'));
         $ubicacionId    = (string)Utilitario::limpiarCaracteresEspeciales($this->input->post('ubicacionId'));
-        
+
         if ((empty($usuarioId) or strlen($usuarioId)<1) or(empty($ubicacionType) or strlen($ubicacionType)<1) or(empty($ubicacionId) and strlen($ubicacionId)<1)) {//$ubicacionId es AND porq el id puede ser 0
             $this->session->set_flashdata('flashdata_respuesta', 'Datos Invalidos, Intente Nuevamente.1');
             return;
         }
-         
+
         $this->load->model("Ubicaciones_model", '', true);
         $var = $this->Ubicaciones_model->getRestriccionUbicaciones($usuarioId, $ubicacionType, $ubicacionId);
-        
+
         //var_dump($var);exit();
-         
+
         $retorno = array();
         $datos = array(
                     'WebUsuario_id'=>$usuarioId,

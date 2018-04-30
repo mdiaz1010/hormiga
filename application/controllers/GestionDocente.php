@@ -574,18 +574,23 @@ class GestionDocente extends CI_Controller
                 ],
         vamoss
         */
+        $cantidad_cap=array('label'=>'','colspan'=>1,'rowspan'=>2);
+        $cantidad_capacidad= $this->Docente_model->busqueda_notas_cantidad($busqueda);
+        array_unshift($cantidad_capacidad,$cantidad_cap);
+
+
         $column_i=
             array(
                                         'data'=>"ape_pat_per",
                                         'type'=>'text',
                                         'readOnly'=>true
               )  ;
-        $head_not[]=  array('"Apellidos y Nombres"','on');
+        $head_not[]=  array("Apellidos y nombres",'on');
         foreach ($head_notas as $clave=> $columns) {
             $readOnly=false;
             $className='htCenter';
             $validator=false;
-            $head_not[]=array("'".$columns['abreviacion']."'",'off');
+            $head_not[]=array($columns['abreviacion'],'off');
             $column[]=
                 array(
                     'data'=>$columns['abreviacion'],
@@ -595,10 +600,9 @@ class GestionDocente extends CI_Controller
                     'validator'=>str_replace("\'", " ", $validator)
                      );
 
-
             if ((int)$clave!=(int)(count($head_notas)-1)) {
                 if ($head_notas[$clave]['nom_notas']!=$head_notas[$clave+1]['nom_notas']) {
-                    $head_not[]=array("'".$columns['nom_notas']."'",'on');
+                    $head_not[]=array($columns['nom_notas'],'on');
                     $column[]=
                 array(
                     'data'=>$columns['nom_notas'],
@@ -610,9 +614,9 @@ class GestionDocente extends CI_Controller
                 }
             } else {
                 if ((int)$clave==(int)(count($head_notas)-1)) {
-                    $head_not[]=array("'".$columns['nom_notas']."'",'on');
+                    $head_not[]=array($columns['nom_notas'],'on');
                 } else {
-                    $head_not[]=array("'".$columns['nom_notas']."'",'off');
+                    $head_not[]=array($columns['nom_notas'],'off');
                 }
 
                 $column[]=
@@ -628,6 +632,7 @@ class GestionDocente extends CI_Controller
         array_unshift($column, $column_i);
         $head=array_keys(array_diff(array_column($head_not, 1), array('off')));
         $cabecera=array_column($head_not, 0);
+
         $datosTabla = $this->Docente_model->crosstabcantidad($busqueda);
         $cantidad=count($datosTabla);
         $this->htmlData['bodyData']->cantidad                   =$cantidad;
@@ -635,9 +640,10 @@ class GestionDocente extends CI_Controller
         $this->htmlData['bodyData']->tabla                      =$datosTabla;
         $this->htmlData['bodyData']->respuesta                  =$respuesta;
         $this->htmlData['bodyData']->results                    =$results;
-        $this->htmlData['bodyData']->head                       =implode(',', $cabecera);
+        $this->htmlData['bodyData']->head                       =json_encode($cabecera);
         $this->htmlData['bodyData']->column                     =json_encode($column);
         $this->htmlData['bodyData']->marcados                   =json_encode($head);
+        $this->htmlData['bodyData']->head_primera               =json_encode($cantidad_capacidad);
         $this->load->view('vistasDialog/gestionDocente/bandejaNotas/bandejaNotas', $this->htmlData);
     }
     public function comboConfiguracionNota()
@@ -742,6 +748,8 @@ class GestionDocente extends CI_Controller
         $i=0;
         $data= array('profesor'=>$profesor,'curso'=>$curso,'grado'=>$grado);
         $list_seccion = $this->Usuarios_model->busquedaCursoSeccionProf($data);
+        $bimestre= $this->Usuarios_model->buscarBimestres(date('Y'));
+
         #print_r($list_seccion); die();
         foreach ($abreviacion as $abreviado) {
             foreach ($list_nota as $not) {
@@ -761,15 +769,35 @@ class GestionDocente extends CI_Controller
                         'usu_creacion'  =>$this->session->webCasSession->usuario->USUARIO
 
                     );
-                    if (!$this->Docente_model->registrar_nueva_configuracion($save_informacion)) {
+                    $ultimo_id=$this->Docente_model->registrar_nueva_configuracion($save_informacion);
+
+
+                    if (!$ultimo_id) {
                         echo "Sucedió un incoveniente , verifique que cumplió con todo lo solicitado";
                         die();
+                    }else{
+                        $datos= array('id_grado'=>$grado,'id_seccion'=>$sec['id_seccion']);
+                        $list_alumnos=$this->Usuarios_model->list_alumno($datos);
+                        foreach($list_alumnos as $key=>$lista){
+                            foreach($bimestre as $bim){
+                            $insertRelAula= array(  'id_grado'=>$grado              ,
+                                                    'id_seccion'=>$sec['id_seccion'],
+                                                    'id_curso'=>(int)$curso              ,
+                                                    'id_bimestre'=>(int)$bim->id         ,
+                                                    'id_nota'=>(int)$ultimo_id           ,
+                                                    'id_alumno'=>(int)$lista             ,
+                                                    'ano'=>(int)date('Y')           ,
+                                                    'usu_creacion'=> $this->session->webCasSession->usuario->USUARIO,
+                                                    'fec_creacion'=>date('Y-m-d'));
+                            $this->Docente_model->registrar_nuevo_regstro_notas($insertRelAula);
+                        }
                     }
                 }
             }
             $i++;
         }
         echo json_encode($mensaje);
+     }
     }
     public function comboCursoGradoProf()
     {

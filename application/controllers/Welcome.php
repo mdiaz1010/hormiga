@@ -22,7 +22,7 @@ class Welcome extends CI_Controller
     public function index()
     {
         $data = '' ;
-            
+
         $this->load->view('plantillas_base/standar/body', array("body"=>"Welcome/index","bodyData"=>$data ));
     }
 }

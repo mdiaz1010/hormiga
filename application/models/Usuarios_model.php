@@ -458,6 +458,13 @@ class Usuarios_model extends CI_Model
         $this->db->order_by('id_alumno', 'asc');
         return $this->db->get()->result_object() ;
     }
+    public function list_alumno($data)
+    {
+        $this->db->select("id_alumno")->from("relaulalumno");
+        $this->db->where(array('id_grado'=>$data['id_grado'],'id_seccion'=>$data['id_seccion'],'ano'=>date('Y'))) ;
+        $this->db->order_by('id_alumno', 'asc');
+        return $this->db->get()->result_array() ;
+    }
     public function getClientes()
     {
         $this->db->select(" * ")->from("maeusuarios");

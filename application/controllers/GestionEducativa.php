@@ -55,8 +55,8 @@ class GestionEducativa extends CI_Controller
             $this->load->view('plantillas_base/standar/body', $this->htmlData);
         }
     }
-     
-    
+
+
     public function crear()
     {
         $nombre      = Utilitario::limpiarCaracteresEspeciales($this->input->post('nombre'));
@@ -70,15 +70,15 @@ class GestionEducativa extends CI_Controller
         $contacto    = Utilitario::limpiarCaracteresEspeciales(trim($this->input->post('contacto')));
         $contactoAdmin    = Utilitario::limpiarCaracteresEspeciales(trim($this->input->post('contactoAdmi')));
         //   $contrato    = Utilitario::limpiarCaracteresEspeciales(trim($this->input->post('contrato')));
-        
+
         if ((empty($nombre) and strlen($nombre)<2) or empty($rol) or (empty($usuario) and strlen($usuario)<2)  or (empty($pass) and strlen($pass)<2)) {
             $this->session->set_flashdata('flashdata_respuesta', 'Datos Invalidos, Intente Nuevamente.1');
         } elseif (($rol >= $this->session->webCasSession->usuario->ROLES)) {
             $this->load->model("Usuarios_model", '', true);
             $this->load->model("Rol_model", '', true);
-            
+
             $existeRol = $this->Rol_model->getList($rol);
-            
+
             //var_dump($existeRol,$nombre,$usuario ,$pass,$rol);exit();
             if (count($existeRol)<1) {
                 $this->session->set_flashdata('flashdata_respuesta', 'Datos Invalidos, Intente Nuevamente.2');
@@ -127,10 +127,10 @@ class GestionEducativa extends CI_Controller
         }
         redirect('GestionEducativa');
     }
-    
-    
-    
-    
+
+
+
+
     public function bandeja($idusuario)
     {
         $this->load->model("Usuarios_model", '', true);
@@ -154,8 +154,8 @@ class GestionEducativa extends CI_Controller
         $bandeja     = $this->Usuarios_model->getHorarioss();
         $horario=$this->input->post('horario') ;
         $horario1= explode(',', $horario);
-       
-        
+
+
 
         $this->load->library('encryption');
         $this->htmlData['bodyData']->horario =   $bandeja;
@@ -174,7 +174,7 @@ class GestionEducativa extends CI_Controller
         $this->htmlData['bodyData']->dia =   $dia1;
         $this->load->view('vistasDialog/gestionEducativa/horario/dias', $this->htmlData);
     }
-      
+
     public function mostrarGrado()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -258,7 +258,7 @@ class GestionEducativa extends CI_Controller
             'estado'      =>        1                  ,
             'usu_creacion'=> $this->session->webCasSession->usuario->USUARIO
         );
-        
+
                 $this->Usuarios_model->registrarAula($data);
             }
         }
@@ -308,7 +308,7 @@ class GestionEducativa extends CI_Controller
             $vectordia[$j]=$d->dia;
             $j++;
         }
-        
+
         $vectordia1= implode(',', $vectordia);
         $vectorhor1= implode(',', $vectorhor);
         $this->htmlData['bodyData']->aula                =    $aula;
@@ -335,13 +335,13 @@ class GestionEducativa extends CI_Controller
         $horario= explode(',', $horari);
         $dias   = explode(',', $diasri);
         $profesor= $this->Usuarios_model->busquedaProfesor($prof);
-        
+
         $filtro= array('grados'=>$grados,'seccion'=>$seccion,'curso'=>$curso,'descripcion'=>$descripcion,'profesor'=>$profesor[0]->id);
         // print_r($dias);
         // print_r($horario);
         // die();
         $this->Usuarios_model->eliminarAulass($filtro);
-       
+
 
         $i=0;
         $j=0;
@@ -489,7 +489,7 @@ class GestionEducativa extends CI_Controller
                                 "fecfin_bimestre"=>$hasta,
                                 "usu_modificacion"=>$this->session->webCasSession->usuario->USUARIO,
                                 "fec_modificacion"=> date('Y-m-d')
-                                
+
                         );
         $this->Usuarios_model->editarBimestresa($datos, $codigo1);
     }
@@ -507,9 +507,9 @@ class GestionEducativa extends CI_Controller
                                 "pes_notas"=>$pesos,
                                 "usu_modificacion"=>$this->session->webCasSession->usuario->USUARIO,
                                 "fec_modificacion"=> date('Y-m-d')
-                                
+
                         );
-        
+
         $this->Usuarios_model->editarNotasa($datos, $codigo1);
     }
     public function eliminarGrado()
@@ -581,7 +581,7 @@ class GestionEducativa extends CI_Controller
         $gradosas=$this->Usuarios_model->busquedaGrado($grado);
         $curso     = $this->input->post('curso');
         $cursosas=$this->Usuarios_model->busquedaCurs($curso);
-        
+
         $cambio=array('estado'=>0,'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d H:i:s') );
         $aula= array('seccion'=>$secciona[0]->id,'grado'=>$gradosas[0]->id,'curso'=>$cursosas[0]->id);
         $this->Usuarios_model->eliminarAulasa($cambio, $aula);
@@ -695,7 +695,7 @@ class GestionEducativa extends CI_Controller
             $pesos         = $this->input->post("txtPeso");
             $pe           =  $this->input->post("pe");
             $bimestre= $this->Usuarios_model->getBimestre();
-        
+
             foreach ($bimestre as $bim) {
                 $insert= array(
                     'id_bimestre'     =>$bim->id      ,
@@ -748,7 +748,7 @@ class GestionEducativa extends CI_Controller
         $this->htmlData['bodyData']->bimestre =   $bandeja;
         $this->load->view('vistasDialog/gestionEducativa/bimestre/bandeja', $this->htmlData);
     }
-    
+
     public function bandejaNotas()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -758,18 +758,18 @@ class GestionEducativa extends CI_Controller
         $this->htmlData['bodyData']->notas =   $bandeja;
         $this->load->view('vistasDialog/gestionEducativa/notas/bandeja', $this->htmlData);
     }
-        
-    
+
+
     //
     //FUNCIONES REGISTRAR HORARIO
 
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     public function editarCliente($usuarioId=null)
     {
         if ($usuarioId==null or (int)$usuarioId == 0) {
@@ -792,8 +792,8 @@ class GestionEducativa extends CI_Controller
         //var_dump($this->htmlData['bodyData']->usuario);
         $this->load->view('bodys/GestionEducativa/grado/editarCliente', $this->htmlData);
     }
-    
-    
+
+
     public function registrarEmpresa($usuarioId=null)
     {
         if ($usuarioId==null or (int)$usuarioId == 0) {
@@ -802,7 +802,7 @@ class GestionEducativa extends CI_Controller
         }
         $this->load->model("Usuarios_model", '', true);
         $usuario = $this->Usuarios_model->getClienteLocal($usuarioId);
-        
+
         if (count($usuario)<1) {
             echo " <p>Datos No Encontrados</p>";
             return;
@@ -838,51 +838,51 @@ class GestionEducativa extends CI_Controller
         $this->htmlData['bodyData']->empresa =   $empresa;
         $this->htmlData['body']                          .= "/sistemas";
         $this->htmlData['headData']->titulo               = "GestionEducativa";
-        
+
         if ($this->session->webCasSession->usuario->ROLES==1) {
             $this->load->view('plantillas_base/standar2/body', $this->htmlData);
         } else {
             $this->load->view('plantillas_base/standar/body', $this->htmlData);
         }
     }
-    
+
     public function editPerfil()
     {
         //var_dump($this->input->post() );
-        
-        
+
+
         $this->load->model("Usuarios_model", '', true);
         $this->load->library('encryption');
-        
+
         $datos = $this->input->post();
         if (!empty($datos['pass'])) {
             //  $datos['pass'] = $this->encryption->encrypt($datos['pass']);
         }
-         
+
         $id = $this->input->post('id');
         if (!empty($id)) {
             $this->Usuarios_model->Update($datos, $id);
         }
-        
-        
+
+
         redirect('GestionEducativa/index');
         return;
     }
-    
+
     public function registrarLocal()
     {
         $usuario           = Utilitario::limpiarCaracteresEspeciales(trim($this->input->post('usuario')));
         $rol               = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('rol'));
         $usuarioId         = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('usuarioid'));
         $nombre            = Utilitario::limpiarCaracteresEspeciales($this->input->post('nomLocal'));
-        
+
         $direccion         = Utilitario::limpiarCaracteresEspeciales(trim($this->input->post('direccion')));
         $descripcion       = Utilitario::limpiarCaracteresEspeciales(trim($this->input->post('descripcion')));
 
 
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
-            
+
         $insert = array(
                     'webusuario_id'           => $usuarioId    ,
                     'nombreLocal'             => $nombre       ,
@@ -918,14 +918,14 @@ class GestionEducativa extends CI_Controller
             $datos=$this->Usuarios_model->busquedaDatos($usuario10);
             $alu= $usuario10;
             $alumnos=array('id_alumno'=>$alu);
-           
-        
-        
+
+
+
             switch ($datos[0]->user) {
     case 2:
-        
+
         $valores  = $this->Usuarios_model->busquedaGradoSeccion($alumnos) ;
-        
+
         if (isset($datos[0]->ruta)==false) {
             $valor='publico/media/user.png';
         } else {
@@ -937,7 +937,7 @@ class GestionEducativa extends CI_Controller
                            'grados'=>"DIRECTOR",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $usuario10 ;
-       
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusquedaDir', $this->htmlData);   break;
     case 3: $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusqueda', $this->htmlData);      break;
@@ -953,20 +953,20 @@ class GestionEducativa extends CI_Controller
                            'usuari'=>$datos[0]->usuari,'correo'=>$datos[0]->correo,'telefo'=>$datos[0]->telefo,
                            'grados'=>"DOCENTE",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $ano     =date('Y');
-        
+
         $resultado=  $this->Usuarios_model->getBusquedaAulaProf($alumnos['id_alumno'], $ano);
-        
+
         $i=0;
 
-        
+
         foreach ($resultado as $res) {
             $arrayResultado[$res->horario][$res->dia]=array('materia'=>trim(substr($res->GRADO, 0, 5)).'°'.$res->SECCION.' '.$res->descripcion);
             $color[substr($res->GRADO, 0, 5).'°'.$res->SECCION.' '.$res->descripcion]='#'.substr(md5(rand(20, 100)), 0, 6);
             $title[substr($res->GRADO, 0, 5).'°'.$res->SECCION.' '.$res->descripcion]=$res->CURSOS;
-            
+
             $i++;
         }
-    
+
         $horarioDia= $this->Usuarios_model->getDiass();
         $horarioHor= $this->Usuarios_model->getHorarioss();
         $this->htmlData['bodyData']->dias            = $horarioDia ;
@@ -979,7 +979,7 @@ class GestionEducativa extends CI_Controller
          $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusquedaDoc', $this->htmlData);   break;
     case 5:
                 $valores  = $this->Usuarios_model->busquedaGradoSeccion($alumnos) ;
-        
+
         if (isset($datos[0]->ruta)==false) {
             $valor='publico/media/user.png';
         } else {
@@ -991,14 +991,14 @@ class GestionEducativa extends CI_Controller
                            'grados'=>"DIRECTOR",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $usuario10 ;
-       
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusquedaDir', $this->htmlData);   break;
-        
-        
+
+
     default:
         redirect('/Login/gestionAlumnoDir/'.$codigo[0]->id, 'location', 301);
-    
+
         break;
 }
         } else {
@@ -1072,7 +1072,7 @@ class GestionEducativa extends CI_Controller
             $s++;
         }
         $puesto_colegio=$this->Usuarios_model->puestoColegio();
-        
+
         foreach ($puesto_colegio as $colegio) { // EXTRAIGO EL PUESTO Y LA NOTA DEL COLEGIO
             if ($alu==$colegio->id_alumno) {
                 $arraycolegio=array('puesto'=>$sumc,'nota'=>round($colegio->nota, 2));
@@ -1101,8 +1101,8 @@ class GestionEducativa extends CI_Controller
         if (isset($resultado)==true) {
             $this->htmlData['bodyData']->respuesta           = 1 ;
 
-              
-        
+
+
 
             $data= array('id_alumno'=>$alu,'id_grado'=>$valores['id_grado'],'id_seccion'=>$valores['id_seccion']);
             $trayecto=$this->Usuarios_model->reporteNotasAlu($data);
@@ -1136,8 +1136,8 @@ class GestionEducativa extends CI_Controller
 
         $arrayDatos = $this->Rol_model->busquedaDatosGeneral($nombre);
 
-        
-        
+
+
         $this->htmlData['bodyData']->datos                 =$arrayDatos;
         $this->htmlData['headData']->titulo                = "GESTION :: INTRANET";
         $this->load->view('vistasDialog/gestionEducativa/bandejaConsulta/index', $this->htmlData);
@@ -1147,7 +1147,7 @@ class GestionEducativa extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $ano= $this->Usuarios_model->getGradosAno();
-      
+
         if (count($ano)!=0) {
             $this->htmlData['bodyData']->anos=$ano[0]->ano;
             $this->htmlData['bodyData']->ano=$ano;
@@ -1164,11 +1164,11 @@ class GestionEducativa extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $ano=$this->input->post("ano");
-        
+
         $anos=implode(',', explode(',', $ano));
-        
+
         $busquedaSecc= $this->Usuarios_model->buscargradosAno($anos);
-        
+
         $html="<option value='' selected>Marcar</option>";
         foreach ($busquedaSecc as $bus) {
             $html.='<option value='.$bus["id"].'>'.$bus["nom_grado"].'</option>';
@@ -1181,7 +1181,7 @@ class GestionEducativa extends CI_Controller
         $this->load->model("Rol_model", '', true);
         $ano=$this->input->post("ano");
         $busquedaSecc= $this->Usuarios_model->buscarBimestres($ano);
-        
+
         $html="<option value='' selected>Seleccione</option>";
         foreach ($busquedaSecc as $bus) {
             $html.="<option value='$bus->id'>$bus->nom_bimestre</option>";
@@ -1198,7 +1198,7 @@ class GestionEducativa extends CI_Controller
         $bimestre=$this->input->post("bimestre");
         $grados=$this->Usuarios_model->buscarGrados($grado);
         $seccion=$this->Usuarios_model->busquedaSeccion($grado);
-      
+
         foreach ($seccion as $secc) {
             $arraySeccion[]=$secc->id_seccion;
         }
@@ -1241,13 +1241,13 @@ class GestionEducativa extends CI_Controller
         foreach ($reporte2 as $mostrar) {
             $data[$j]=implode(',', $arrayCurso[$mostrar->curso]);
             $haber.="{
-                       name: '".$mostrar->curso."',                           
-                       data: [".$data[$j]."] 
+                       name: '".$mostrar->curso."',
+                       data: [".$data[$j]."]
                              },";
             $j++;
         }
         $haber1=  substr($haber, 0, -1);
-        
+
         $this->htmlData['bodyData']->ano        = $ano;
         $this->htmlData['bodyData']->arrayNombre        = $haber1;
         $this->htmlData['bodyData']->arrayGrado         = substr($texto, 0, -1);
@@ -1263,7 +1263,7 @@ class GestionEducativa extends CI_Controller
         $alu= $this->session->webCasSession->usuario->CODIGO;
         $alumnos=array('id_alumno'=>$alu);
         $valores  = $this->Usuarios_model->busquedaGradoSeccion($alumnos) ;
-        
+
         if (isset($datos[0]->ruta)==false) {
             $valor='publico/media/user.png';
         } else {
@@ -1289,7 +1289,7 @@ class GestionEducativa extends CI_Controller
         $clave  =$this->input->post('clave');
         $data=array('clav_usuario'=>$clave);
         $dato=array('direccion'=>$direc,'fecha_nac'=>$fecha);
-        
+
 
         foreach ($_FILES['images']['error'] as $key => $error) {
             if ($error == UPLOAD_ERR_OK) {
@@ -1306,7 +1306,7 @@ class GestionEducativa extends CI_Controller
                     'tipo'        =>$tipo,
                     'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO
                         );
-              
+
                     $this->Usuarios_model->cambiardat($archivo, $alumno) ;
                 } else {
                     $errors= error_get_last();

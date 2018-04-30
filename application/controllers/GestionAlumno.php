@@ -7,7 +7,7 @@ class GestionAlumno extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->htmlData = array(
             "body"=> get_class($this)
             ,"bodyData"=> (object) array()
@@ -35,7 +35,7 @@ class GestionAlumno extends CI_Controller
         $this->htmlData['bodyData']->valores           = $arrayvalores ;
         $this->htmlData['body']                          .= "/notas";
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-     
+
         $this->load->view('plantillas_base/standar/body', $this->htmlData);
     }
     public function bandejaNota()
@@ -43,7 +43,7 @@ class GestionAlumno extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $ano=$this->input->post("ano");
-        
+
         $alumnos=$this->session->webCasSession->usuario->CODIGO;
         $valores  = $this->Usuarios_model->busquedaGradoSeccion2($alumnos, $ano) ;
         $datos= array('grado'=>$valores['id_grado'],'seccion'=>$valores['id_seccion'],'ano'=>$ano);
@@ -55,15 +55,15 @@ class GestionAlumno extends CI_Controller
             }
             $curso= implode(',', $arrayCursos);
             $arrCursos = $this->Usuarios_model->buscarCursos($curso);
-           
 
-        
+
+
             $arrayalumno= $this->Usuarios_model->busquedaAlumnoN($alumnos);
             $arraybimest= $this->Usuarios_model->busquedaBimestre2($ano);
             $arraynotas =$this->Usuarios_model->busquedaNotas6($ano);
-        
+
             $notas      =$this->Usuarios_model->busquedaNotas5($alumnos, $ano);
-        
+
             $cantidad=  $this->Usuarios_model->cantidadXbimestre15();
             $this->htmlData['bodyData']->codigo             = $alumnos ;
             $this->htmlData['bodyData']->results            = $arrCursos ;
@@ -77,7 +77,7 @@ class GestionAlumno extends CI_Controller
         }
         $this->load->view('vistasDialog/gestionAlumno/bandejaNota/bandejaNota', $this->htmlData);
     }
-        
+
     public function consultarHorario()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -113,7 +113,7 @@ class GestionAlumno extends CI_Controller
                 $s++;
             }
             $puesto_colegio=$this->Usuarios_model->puestoColegio();
-        
+
             foreach ($puesto_colegio as $colegio) { // EXTRAIGO EL PUESTO Y LA NOTA DEL COLEGIO
                 if ($alu==$colegio->id_alumno) {
                     $arraycolegio=array('puesto'=>$sumc,'nota'=>round($colegio->nota, 2));
@@ -136,7 +136,7 @@ class GestionAlumno extends CI_Controller
                 $title[$res->GRADO.'°'.$res->SECCION.' '.$res->descripcion]=$res->CURSOS;
                 $i++;
             }
-        
+
             $turnohor= $this->Usuarios_model->busquedaHorario($data['id_seccion']);
             $horarioDia= $this->Usuarios_model->getDiass();
             $horarioHor= $this->Usuarios_model->getHorarioss();
@@ -219,7 +219,7 @@ class GestionAlumno extends CI_Controller
                     'tipo'        =>$tipo,
                     'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO
                         );
-              
+
                     $this->Usuarios_model->cambiardat($archivo, $alumno) ;
                 } else {
                     $errors= error_get_last();
@@ -241,12 +241,12 @@ class GestionAlumno extends CI_Controller
         $alumno=$this->session->webCasSession->usuario->CODIGO;
         $datos=$this->Usuarios_model->busquedaDatos($alumno);
         $alu= $this->session->webCasSession->usuario->CODIGO;
-        
+
         $ano= $this->Usuarios_model->busquedaAno($alu);
         $valores  = $this->Usuarios_model->busquedaGradoSeccion2($alu, $ano[0]->ano) ;
-        
+
         $grado  =$this->Usuarios_model->buscarGrados($valores['id_grado']) ;
-        
+
         $seccion=$this->Usuarios_model->buscarSecciones($valores['id_seccion']) ;
         $gradoSecc=$grado[0]->nom_grado.'°'.$seccion[0]->nom_seccion;
         if (isset($datos[0]->ruta)==false) {
@@ -264,7 +264,7 @@ class GestionAlumno extends CI_Controller
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('plantillas_base/standar/body', $this->htmlData);
     }
-    
+
     public function bandejaAsistenciaAlu($curso=false)
     {
         $this->load->model("Usuarios_model", '', true);
@@ -290,7 +290,7 @@ class GestionAlumno extends CI_Controller
         $id     =$this->session->webCasSession->usuario->CODIGO;
         $fecha  =$this->input->post('fecha');
         $mensaje  =$this->input->post('mensaje');
-        
+
         $data= array('id_alumno'=>$id,'fecha_val'=>$fecha);
         $dato= array('mensaje'=>$mensaje);
         $this->Usuarios_model->guardarMensajeAl($data, $dato);
@@ -345,7 +345,7 @@ class GestionAlumno extends CI_Controller
                     'usu_creacion' =>$this->session->webCasSession->usuario->USUARIO ,
                     'fec_creacion' =>date('Y-m-d')
                         );
-              
+
                     $this->Usuarios_model->GuardarArchivoAsis($archivo);
                 } else {
                     $errors= error_get_last();
@@ -385,7 +385,7 @@ class GestionAlumno extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $id  =$this->input->post('id');
-        
+
         $this->htmlData['bodyData']->codigo        = $id ;
         if (isset($id)==true) {
             $resultado= $this->Usuarios_model->buscardocumentosasistencia($id);
@@ -393,8 +393,8 @@ class GestionAlumno extends CI_Controller
         } else {
             $this->htmlData['bodyData']->results         = 0 ;
         }
-        
-        
+
+
         $this->load->view('vistasDialog/gestionAlumno/bandejaAsistencia/verArchivo', $this->htmlData);
     }
     public function consultarRepositorio()
@@ -407,7 +407,7 @@ class GestionAlumno extends CI_Controller
         if ($ano[0]->ano==date('Y')) {
             $valores = $this->Usuarios_model->busquedaGradoSeccion($alumno) ;
         }
-       
+
         if (isset($valores)==true) {
             $data    = array('grado'=>$valores['id_grado'],'seccion'=>$valores['id_seccion']);
             $curso   = $this->Usuarios_model->busquedaCursoAlu($data) ;
@@ -491,8 +491,8 @@ class GestionAlumno extends CI_Controller
         $comboCursoRecord=$this->input->post("ano");
         $alumno=$this->session->webCasSession->usuario->CODIGO;
         $resultado= $this->Usuarios_model->busquedaGradoSeccion2($alumno, $comboCursoRecord);
-        
-        
+
+
         // $gradosec= array('grado'=>$resultado[0]->id_grado,'seccion'=>$resultado[0]->id_seccion);
         $busqueda= array('profesor'=>$this->session->webCasSession->usuario->CODIGO,'grado'=>$resultado['id_grado'],'seccion'=>$resultado['id_seccion'],'ano'=>$comboCursoRecord);
         $busquedaCurso=$this->Usuarios_model->busquedaCursoAlu2($busqueda);
@@ -506,7 +506,7 @@ class GestionAlumno extends CI_Controller
             foreach ($busquedaSecc as $bus) {
                 $html.="<option value='$bus->id'>$bus->nom_cursos</option>";
             }
-        
+
             echo $html;
         } else {
             echo "Sin informacion";
@@ -527,7 +527,7 @@ class GestionAlumno extends CI_Controller
                     'id_curso'=>$curso);
         $arraybimest= $this->Usuarios_model->reporteNotasAluCur($data);
         $arrayNotasTotal= $this->Usuarios_model->reporteNotasAluCurTol($data);
-        
+
         foreach ($arrayNotasTotal as $conocer2) {
             $i=0;
             foreach ($arrayNotasTotal as $conocer3) {
@@ -539,17 +539,17 @@ class GestionAlumno extends CI_Controller
         }
         $j=0;
         $haber="";
-        
+
         foreach ($arrayConocerTot as $mostrar) {
             $data[$j]=implode(',', $arrayConocerTot[$arrayNotasTotal[$j]->nombre]);
             $haber.="{
-                       name: '".$arrayNotasTotal[$j]->nombre."',                           
-                       data: [".$data[$j]."] 
+                       name: '".$arrayNotasTotal[$j]->nombre."',
+                       data: [".$data[$j]."]
                              },";
             $j++;
         }
         $haber1=  substr($haber, 0, -1);
-        
+
         foreach ($arraybimest as $conocer) {
             if ($conocer->nota>17) {
                 $resultado='Su nivel de rendimiento es considerado<strong> SATISFACTORIO</strong>';
@@ -562,7 +562,7 @@ class GestionAlumno extends CI_Controller
             }
             $arrayConocer[]=array('curso'=>$conocer->nombre,'nota'=>$conocer->nota,'bimestre'=>$conocer->desc,'resultado'=>$resultado);
         }
-        
+
         $this->htmlData['bodyData']->haber                   = $haber1 ;
         $this->htmlData['bodyData']->ano                     = $ano ;
         $this->htmlData['bodyData']->info                    = $arraybimest ;
