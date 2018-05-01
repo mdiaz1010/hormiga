@@ -16,7 +16,7 @@ class Docente_model extends CI_Model
     public function registrar_nuevo_regstro_notas($save_informacion)
     {
          $this->db->insert('rel_notas_detalle_alumno', $save_informacion);
-         return $this->db->count_all('rel_notas_detalle_alumno');
+
 
     }
     public function busqueda_notas_cantidad($busqueda){
@@ -27,7 +27,6 @@ class Docente_model extends CI_Model
                  ->where('     rnd.ano               ='.$busqueda['ano'].'
                                and rnd.id_grado      ='.$busqueda['id_grado'].'
                                and rnd.id_curso      ='.$busqueda['id_curso'].'
-                               and rnd.id_seccion    ='.$busqueda['id_seccion'].'
                                and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
                                and rnd.estado        = 1
                                and rnd.id_profesor   ='.$busqueda['id_profesor'])
@@ -58,7 +57,6 @@ class Docente_model extends CI_Model
                  ->where('     rnd.ano               ='.$busqueda['ano'].'
                                and rnd.id_grado      ='.$busqueda['id_grado'].'
                                and rnd.id_curso      ='.$busqueda['id_curso'].'
-                               and rnd.id_seccion    ='.$busqueda['id_seccion'].'
                                and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
                                and rnd.estado        = 1
                                and rnd.id_profesor   ='.$busqueda['id_profesor'])
@@ -74,7 +72,6 @@ class Docente_model extends CI_Model
                  ->where('     rnd.ano               ='.$busqueda['ano'].'
                                and rnd.id_grado      ='.$busqueda['id_grado'].'
                                and rnd.id_curso      ='.$busqueda['id_curso'].'
-                               and rnd.id_seccion    ='.$busqueda['id_seccion'].'
                                and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
                                and rnd.estado        = 1
                                and rnd.id_profesor   ='.$busqueda['id_profesor'])          ;

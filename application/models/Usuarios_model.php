@@ -465,6 +465,14 @@ class Usuarios_model extends CI_Model
         $this->db->order_by('id_alumno', 'asc');
         return $this->db->get()->result_array() ;
     }
+    public function list_alumno_capacidad($data)
+    {
+        $this->db->distinct();
+        $this->db->select("id_alumno,id_seccion")->from("relaulalumno");
+        $this->db->where('id_grado='.$data['id_grado'].'  and id_seccion in ('.$data['id_seccion'].')') ;
+        $this->db->order_by('id_alumno', 'asc');
+        return $this->db->get()->result_array() ;
+    }
     public function getClientes()
     {
         $this->db->select(" * ")->from("maeusuarios");
@@ -1161,9 +1169,10 @@ class Usuarios_model extends CI_Model
         $this->db->distinct();
         $this->db->select('id_seccion')
                 ->from('relaula')
-                ->where(array('id_profesor'=>$data['profesor'],'id_grado'=>$data['grado'],'id_curso'=>$data['curso'],'ano'=>date('Y')));
-        $query = $this->db->get();
-        return $query->result_array();
+                ->where('id_profesor='.$data['profesor'].' and id_grado='.$data['grado'].' and id_curso='.$data['curso'].' and ano='.date('Y'))
+                ->order_by('id_seccion','asc');
+        return $this->db->get()->result_array();
+
     }
     public function busquedaSeccionAux($data)
     {

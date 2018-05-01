@@ -749,14 +749,13 @@ class GestionDocente extends CI_Controller
         $data= array('profesor'=>$profesor,'curso'=>$curso,'grado'=>$grado);
         $list_seccion = $this->Usuarios_model->busquedaCursoSeccionProf($data);
         $bimestre= $this->Usuarios_model->buscarBimestres(date('Y'));
+        $secciones= implode(',',array_column($list_seccion,'id_seccion'));
 
-        #print_r($list_seccion); die();
-        foreach ($abreviacion as $abreviado) {
+        foreach ($abreviacion as  $abreviado) {
             foreach ($list_nota as $not) {
-                foreach ($list_seccion as $sec) {
+
                     $save_informacion= array(
                         'id_grado'      =>$grado,
-                        'id_seccion'    =>$sec['id_seccion'],
                         'id_curso'      =>$curso,
                         'id_nota'       =>$not,
                         'id_profesor'   =>$profesor,
@@ -769,35 +768,35 @@ class GestionDocente extends CI_Controller
                         'usu_creacion'  =>$this->session->webCasSession->usuario->USUARIO
 
                     );
+
                     $ultimo_id=$this->Docente_model->registrar_nueva_configuracion($save_informacion);
 
-
-                    if (!$ultimo_id) {
+                    if ((int)$ultimo_id==0 || $ultimo_id=='') {
                         echo "Sucedió un incoveniente , verifique que cumplió con todo lo solicitado";
                         die();
                     }else{
-                        $datos= array('id_grado'=>$grado,'id_seccion'=>$sec['id_seccion']);
-                        $list_alumnos=$this->Usuarios_model->list_alumno($datos);
+                        $datos= array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'id_seccion'=>$secciones);
+
+                        $list_alumnos=$this->Usuarios_model->list_alumno_capacidad($datos);
                         foreach($list_alumnos as $key=>$lista){
-                            foreach($bimestre as $bim){
-                            $insertRelAula= array(  'id_grado'=>$grado              ,
-                                                    'id_seccion'=>$sec['id_seccion'],
-                                                    'id_curso'=>(int)$curso              ,
-                                                    'id_bimestre'=>(int)$bim->id         ,
-                                                    'id_nota'=>(int)$ultimo_id           ,
-                                                    'id_alumno'=>(int)$lista             ,
-                                                    'ano'=>(int)date('Y')           ,
-                                                    'usu_creacion'=> $this->session->webCasSession->usuario->USUARIO,
-                                                    'fec_creacion'=>date('Y-m-d'));
-                            $this->Docente_model->registrar_nuevo_regstro_notas($insertRelAula);
-                        }
+
+                                $insertRelAula= array(  'id_grado'=>$grado              ,
+                                                        'id_seccion'=>$lista['id_seccion'],
+                                                        'id_curso'=>(int)$curso              ,
+                                                        'id_nota'=>(int)$ultimo_id           ,
+                                                        'id_alumno'=>(int)$lista['id_alumno']             ,
+                                                        'ano'=>(int)date('Y')           ,
+                                                        'usu_creacion'=> $this->session->webCasSession->usuario->USUARIO,
+                                                        'fec_creacion'=>date('Y-m-d'));
+                                $this->Docente_model->registrar_nuevo_regstro_notas($insertRelAula);
+
                     }
-                }
             }
-            $i++;
+
         }
+        $i++;
+    }
         echo json_encode($mensaje);
-     }
     }
     public function comboCursoGradoProf()
     {
