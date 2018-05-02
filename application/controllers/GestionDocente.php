@@ -632,12 +632,30 @@ class GestionDocente extends CI_Controller
         array_unshift($column, $column_i);
         $head=array_keys(array_diff(array_column($head_not, 1), array('off')));
         $cabecera=array_column($head_not, 0);
+        $notas_detalle= $this->Docente_model->detalle_alumno($busqueda,false);
 
-        $datosTabla = $this->Docente_model->crosstabcantidad($busqueda);
-        $cantidad=count($datosTabla);
+
+
+
+        $deta_alumnos= array_map(
+            function($person)
+            {
+                 $det=$this->Docente_model->detalle_alumno($person,true);
+                $cabecera_notas= array_column($det,'abreviacion');
+                $detalles_notas= array_column($det,'nota');
+                $persona= array('ape_pat_per'=>$person['ape_pat_per'],'id_alumno'=>$person['id_alumno']);
+
+
+                $notas  =array_combine($cabecera_notas,$detalles_notas);
+                return     array_merge($notas,$persona);
+            }
+            ,$notas_detalle);
+        #var_dump($deta_alumnos); die();
+
+        $cantidad=count($deta_alumnos);
         $this->htmlData['bodyData']->cantidad                   =$cantidad;
         $this->htmlData['bodyData']->datos                      =$busqueda;
-        $this->htmlData['bodyData']->tabla                      =$datosTabla;
+        $this->htmlData['bodyData']->tabla                      =$deta_alumnos;
         $this->htmlData['bodyData']->respuesta                  =$respuesta;
         $this->htmlData['bodyData']->results                    =$results;
         $this->htmlData['bodyData']->head                       =json_encode($cabecera);
@@ -645,6 +663,12 @@ class GestionDocente extends CI_Controller
         $this->htmlData['bodyData']->marcados                   =json_encode($head);
         $this->htmlData['bodyData']->head_primera               =json_encode($cantidad_capacidad);
         $this->load->view('vistasDialog/gestionDocente/bandejaNotas/bandejaNotas', $this->htmlData);
+    }
+    public function detalle_notas($list_alumno){
+        $this->load->model("Docente_model", '', true);
+        $this->load->model("Usuarios_model", '', true);
+
+        return $list_alumno;
     }
     public function comboConfiguracionNota()
     {
@@ -787,6 +811,7 @@ class GestionDocente extends CI_Controller
                                                         'id_alumno'=>(int)$lista['id_alumno']             ,
                                                         'ano'=>(int)date('Y')           ,
                                                         'usu_creacion'=> $this->session->webCasSession->usuario->USUARIO,
+                                                        'estado'=>1,
                                                         'fec_creacion'=>date('Y-m-d'));
                                 $this->Docente_model->registrar_nuevo_regstro_notas($insertRelAula);
 

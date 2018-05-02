@@ -77,6 +77,33 @@ class Docente_model extends CI_Model
                                and rnd.id_profesor   ='.$busqueda['id_profesor'])          ;
         return $this->db->get()->result_array() ;
     }
+    public function detalle_alumno($busqueda,$valor)
+    {
+
+        if($valor==true){
+            $concatenar=' and rnd.id_alumno='.$busqueda['id_alumno'];
+            $mostrar='rnd.id_nota,rnd.nota,rnd.id,rn.abreviacion,';
+        }else{
+            $concatenar=' ';
+            $mostrar=' ';
+        }
+
+        $this->db->distinct();
+        $this->db->select($mostrar.'mp.ape_pat_per,rnd.id_alumno,rnd.id_curso,ma.id_bimestre,rnd.id_seccion,rnd.id_grado,rn.id_profesor,rnd.ano')
+                 ->from('rel_notas_detalle_alumno rnd')
+                 ->join('rel_notas_detalle rn'  , 'rnd.id_nota=rn.id')
+                 ->join('maenotas ma'           ,'rn.id_nota=ma.id')
+                 ->join('maepersona mp'         ,'rnd.id_alumno=mp.id')
+                 ->where('     rnd.ano               ='.$busqueda['ano'].'
+                               and rnd.id_grado      ='.$busqueda['id_grado'].'
+                               and rnd.id_seccion    ='.$busqueda['id_seccion'].'
+                               and rnd.id_curso      ='.$busqueda['id_curso'].'
+                               and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
+                               and rnd.estado        = 1 '.$concatenar.'
+                               and rn.id_profesor   ='.$busqueda['id_profesor'])          ;
+        return $this->db->get()->result_array() ;
+
+    }
     public function crosstabcantidad($busqueda)
     {
         $sql="";
