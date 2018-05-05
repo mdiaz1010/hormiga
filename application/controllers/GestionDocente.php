@@ -637,6 +637,7 @@ class GestionDocente extends CI_Controller
 
 
 
+        $canti=$this->Docente_model->detalle_alumno_cantidad($busqueda);
         $deta_alumnos= array_map(
             function($person)
             {
@@ -646,11 +647,24 @@ class GestionDocente extends CI_Controller
                 $persona= array('ape_pat_per'=>$person['ape_pat_per'],'id_alumno'=>$person['id_alumno']);
 
 
-                $notas  =array_combine($cabecera_notas,$detalles_notas);
-                return     array_merge($notas,$persona);
+                //$notas  =
+                return array_combine($cabecera_notas,$detalles_notas);
+                    // array_merge($notas,$persona);
             }
             ,$notas_detalle);
-        #var_dump($deta_alumnos); die();
+
+            foreach($deta_alumnos as $clave => $not){
+
+            foreach($canti as $key =>$notas){
+                $cantidad=count($not);
+                $list[$clave][$key]=array($notas['id']=>array_merge(array_slice(array_reverse($not),($cantidad-$notas['cantidad']))),$notas['nom_notas']=>'hola');
+                }
+
+               $list[$clave]["ape_pat_per"]=$notas_detalle[$clave]['ape_pat_per'];
+               $list[$clave]["id_alumno"]  =$notas_detalle[$clave]['id_alumno'];
+            }
+
+        var_dump($list[0][0]); die();
 
         $cantidad=count($deta_alumnos);
         $this->htmlData['bodyData']->cantidad                   =$cantidad;
