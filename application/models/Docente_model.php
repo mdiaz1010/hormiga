@@ -104,6 +104,29 @@ class Docente_model extends CI_Model
         return $this->db->get()->result_array() ;
 
     }
+    public function detalle_alumno_peso($busqueda,$alumno)
+    {
+
+
+
+
+        $this->db->select('rnd.id_alumno,rn.peso')
+                 ->from('rel_notas_detalle_alumno rnd')
+                 ->join('rel_notas_detalle rn'  , 'rnd.id_nota=rn.id')
+                 ->join('maenotas ma'           ,'rn.id_nota=ma.id')
+                 ->join('maepersona mp'         ,'rnd.id_alumno=mp.id')
+                 ->where('     rnd.ano               ='.$busqueda['ano'].'
+                               and rnd.id_grado      ='.$busqueda['id_grado'].'
+                               and rnd.id_seccion    ='.$busqueda['id_seccion'].'
+                               and rnd.id_curso      ='.$busqueda['id_curso'].'
+                               and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
+                               and rnd.id_alumno    ='.$alumno.'
+                               and rnd.estado        = 1
+                               and rn.id_profesor   ='.$busqueda['id_profesor']);
+
+        return $this->db->get()->result_array() ;
+
+    }
     public function detalle_alumno_cantidad($busqueda)
     {
 

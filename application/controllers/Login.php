@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Login extends CI_Controller
@@ -13,12 +13,12 @@ class Login extends CI_Controller
             ,"footerData"=> (object) array()
         );
     }
-     
+
     public function index()
     {
         $this->load->view('plantillas_base/login/body');
     }
-    
+
     public function login()
     {
         try {
@@ -34,9 +34,9 @@ class Login extends CI_Controller
             }
             $this->load->model("Usuarios_model", '', true)    ;
             $this->load->model("Modulos_model", '', true)     ;
-                    
+
             $usuario = $this->Usuarios_model->login($user, $pass);
-                    
+
             if (count($usuario)>0) {
                 $usuario = $usuario[0];
                 $newdata = array(
@@ -58,7 +58,7 @@ class Login extends CI_Controller
                 if ($usuario->ROLES == 1) {
                     for ($i=0;$i<count($modulos);$i++) {
                         $modulo =& $modulos[$i];
-                        
+
                         $newdata['session_modulos'][$i] =
                             array(
                                 'id'                            => $modulo->id                          ,
@@ -74,13 +74,13 @@ class Login extends CI_Controller
                                 'isVisible'                     => $modulo->isVisible                   ,
                                 'modus'                         => $modulo->modus
                             );
-                        
+
                         $propiedades->webCasSession->modulos[$i] = $modulo;
                     }
                 } else {
                     for ($i=0;$i<count($modulos);$i++) {
                         $modulo =& $modulos[$i];
-                        
+
                         $newdata['session_modulos'][$i] =
                             array(
                                 'id'                            => $modulo->id                          ,
@@ -97,12 +97,12 @@ class Login extends CI_Controller
                                 'modus'                         => $modulo->modus                       ,
                                 'permiso'                       => $modulo->permiso
                             );
-                        
+
                         $propiedades->webCasSession->modulos[$i] = $modulo;
                     }
                 }
                 //    print_r($newdata); die();
-                
+
                 $modulosGrupos = $this->Modulos_model->GetModulosGrupos($usuario->ROLES)    ;
                 $newdata = array('session_modulosGrupos' => array());
                 $propiedades->webCasSession->modulosGrupos = array();
@@ -117,10 +117,10 @@ class Login extends CI_Controller
                             );
                     $propiedades->webCasSession->modulosGrupos[$i] = $modulosGrupo;
                 }
-                                               
+
                 $this->session->set_userdata((array) $propiedades);
-                    
-                    
+
+
                 switch ($usuario->ROLES) {
                     case 1: $vista= array('vista'=>'GestionEducativa'); break;
                     case 2: $vista= array('vista'=>'vistaDirector'); break;
@@ -167,7 +167,7 @@ class Login extends CI_Controller
         $this->load->model("Rol_model", '', true);
         $this->htmlData['bodyData']->merito          =  $this->Usuarios_model->puestoSalonTotal();
 
-        
+
         $this->load->view('vistasDialog/login/director/merito', $this->htmlData);
     }
     public function vistaSubDirector()
@@ -191,19 +191,23 @@ class Login extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
+
+        if(empty($this->session->webCasSession->usuario->CODIGO)){
+            redirect('login');
+        }
         $profesor= $this->session->webCasSession->usuario->CODIGO;
         $ano     =date('Y');
         $resultado=  $this->Usuarios_model->getBusquedaAulaProf($profesor, $ano);
-        
+
         $i=0;
         foreach ($resultado as $res) {
             $arrayResultado[$res->horario][$res->dia]=array('materia'=>trim($res->GRADO).'°'.$res->SECCION.' '.$res->descripcion);
             $color[$res->GRADO.'°'.$res->SECCION.' '.$res->descripcion]='#'.substr(md5(rand(20, 100)), 0, 6);
             $title[$res->GRADO.'°'.$res->SECCION.' '.$res->descripcion]=$res->CURSOS;
-            
+
             $i++;
         }
-    
+
         $horarioDia= $this->Usuarios_model->getDiass();
         $horarioHor= $this->Usuarios_model->getHorarioss();
         if (count($resultado)!=0) {
@@ -239,7 +243,7 @@ class Login extends CI_Controller
         } else {
             $cantidad[0]->cantidad=0;
         }
-            
+
         $this->htmlData['bodyData']->usuarios                = $this->Rol_model->getUsuario();
         $this->htmlData['bodyData']->cantidad                = $cantidad[0]->cantidad;
         $this->htmlData['bodyData']->cantidadR                = $cantidadR[0]->cantidad;
@@ -254,7 +258,7 @@ class Login extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);//
-        
+
         $ano     = $this->Usuarios_model->busquedaAno($alu);
         if ($ano[0]->ano==date('Y')) {
             $valores  = $this->Usuarios_model->busquedaGradoSeccion2($alu, $ano[0]->ano) ;
@@ -368,7 +372,7 @@ class Login extends CI_Controller
             $s++;
         }
         $puesto_colegio=$this->Usuarios_model->puestoColegio();
-        
+
         foreach ($puesto_colegio as $colegio) { // EXTRAIGO EL PUESTO Y LA NOTA DEL COLEGIO
             if ($alu==$colegio->id_alumno) {
                 $arraycolegio=array('puesto'=>$sumc,'nota'=>round($colegio->nota, 2));
@@ -397,8 +401,8 @@ class Login extends CI_Controller
         if (isset($resultado)==true) {
             $this->htmlData['bodyData']->respuesta           = 1 ;
 
-              
-        
+
+
 
             $data= array('id_alumno'=>$alu,'id_grado'=>$valores['id_grado'],'id_seccion'=>$valores['id_seccion']);
             $trayecto=$this->Usuarios_model->reporteNotasAlu($data);
@@ -426,13 +430,13 @@ class Login extends CI_Controller
         } else {
             $datos      = $this->Usuarios_model->buscarInfoG();
         }
-    
+
         $i=0;
         foreach ($datos as $dato) {
             $datosNombre= $this->Usuarios_model->busquedaDatos($dato->id_alumno);
             $datosGrados= $this->Usuarios_model->buscarGrados($dato->id_grado);
             $datosSeccio= $this->Usuarios_model->buscarSecciones($dato->id_seccion);
-    
+
             $respuesta  = $this->Usuarios_model->busquedaRespuesta();
             if (isset($datosNombre[0]->apepat)==true) {
                 $arrayDato[]=array('id'=>$dato->id,
@@ -488,7 +492,7 @@ class Login extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $id  =$this->input->post('id');
-    
+
         $this->htmlData['bodyData']->codigo        = $id ;
         $resultado= $this->Usuarios_model->buscardocumentosasistencia($id);
         $this->htmlData['bodyData']->results         = $resultado ;
@@ -504,8 +508,8 @@ class Login extends CI_Controller
         } else {
             $datos= $this->Usuarios_model->comparacionAsistencia();
         }
-            
-    
+
+
         $respuesta= $this->Usuarios_model->busquedaRespuesta();
         $i=0;
         foreach ($datos as $dato) {
@@ -524,7 +528,7 @@ class Login extends CI_Controller
                        'id_seccion'=>$dato->id_seccion,
                        'id_curso'=>$dato->id_curso,
                        'respuesta'=>$dato->tipo_obs
-      
+
                        );
             }
         }
@@ -534,7 +538,7 @@ class Login extends CI_Controller
         } else {
             $this->htmlData['bodyData']->results=0;
         }
-    
+
         $this->load->view('vistasDialog/gestionAuxiliar/evasion/index', $this->htmlData);
     }
     public function logout()

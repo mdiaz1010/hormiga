@@ -633,7 +633,7 @@ class GestionDocente extends CI_Controller
         $head=array_keys(array_diff(array_column($head_not, 1), array('off')));
         $cabecera=array_column($head_not, 0);
         $notas_detalle= $this->Docente_model->detalle_alumno($busqueda,false);
-
+        $pesos= $this->Docente_model->detalle_alumno_peso($busqueda,$notas_detalle[0]['id_alumno']);
 
 
 
@@ -652,19 +652,35 @@ class GestionDocente extends CI_Controller
                     // array_merge($notas,$persona);
             }
             ,$notas_detalle);
-
+            $a=1;
+            $con=0;
             foreach($deta_alumnos as $clave => $not){
-
+                $letra='A';
+                $con=0;
+                $i=0;
             foreach($canti as $key =>$notas){
-                $cantidad=count($not);
-                $list[$clave][$key]=array($notas['id']=>array_merge(array_slice(array_reverse($not),($cantidad-$notas['cantidad']))),$notas['nom_notas']=>'hola');
-                }
 
+                $cantidad=count($not);
+                $notas_capacidades=array_slice(array_reverse($not),($cantidad-$notas['cantidad']));
+                $cantidad_notas_capacidades=count($notas_capacidades);
+                $array_letra='';
+                $i=0;
+                while($i<$cantidad_notas_capacidades){
+
+                    $array_letra[]=$a.$letra."*".$pesos[$con]['peso'];
+                    $letra++;
+                    $i++;
+                    $con++;
+                }
+                $list[$clave][$key]=array($notas['id']=>array_merge($notas_capacidades),$notas['nom_notas']=>implode('+',$array_letra));
+            }
+            $a++;
                $list[$clave]["ape_pat_per"]=$notas_detalle[$clave]['ape_pat_per'];
                $list[$clave]["id_alumno"]  =$notas_detalle[$clave]['id_alumno'];
-            }
 
-        var_dump($list[0][0]); die();
+            }
+ var_dump($list[0]);die();
+
 
         $cantidad=count($deta_alumnos);
         $this->htmlData['bodyData']->cantidad                   =$cantidad;
