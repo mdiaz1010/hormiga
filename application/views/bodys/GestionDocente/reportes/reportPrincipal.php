@@ -1,4 +1,5 @@
-<?php if($bodyData->respuesta==0){ ?>
+<?php if ($bodyData->respuesta==0) {
+    ?>
 <div class="row">
     <div class="col-md-6 col-sm-12 col-xs-12">
                 <div class="x_panel">
@@ -21,30 +22,35 @@
                                 <th><small><center>Horas</center></small></th>
                                 <?php foreach ($bodyData->dias as $dias): ?>
                                 <th><small><?=$dias->dias?></small></th>
-                                <?php endforeach;?>
+                                <?php endforeach; ?>
                             </tr>
                         </thead>
                         <tbody>
-                                <?php $i=1;  foreach($bodyData->horas as $horas):?>
-                                <?php  if($horas->turnos=='mañana'){?>
+                                <?php $i=1;
+    foreach ($bodyData->horas as $horas):?>
+                                <?php  if ($horas->turnos=='mañana') {
+        ?>
                             <tr>
                                 <td><small><center><?=$horas->horarios?></center></small></td>
-                                <?php $j=1;  foreach($bodyData->dias as $dias):
-                                if(isset($bodyData->results[$i][$j])==false){
-                                   $valor[$i][$j]='';
-                                   $color='';
-                                   $curso='';
-                                }else{
-                                   $valor[$i][$j]=$bodyData->results[$i][$j]['materia'];
-                                   $color=$bodyData->color[$bodyData->results[$i][$j]['materia']];
-                                   $curso=$bodyData->curso[$bodyData->results[$i][$j]['materia']];
-                                }
-                                ?>
-                                <td title="<?=$curso;?>" bgcolor="<?=$color?>"><small><font style="font-style: italic;" COLOR="#fdfefe"><?=$valor[$i][$j];?></font></small></td>
-                                <?php $j++; endforeach;?>
+                                <?php $j=1;
+        foreach ($bodyData->dias as $dias):
+                                if (isset($bodyData->results[$i][$j])==false) {
+                                    $valor[$i][$j]='';
+                                    $color='';
+                                    $curso='';
+                                } else {
+                                    $valor[$i][$j]=$bodyData->results[$i][$j]['materia'];
+                                    $color=$bodyData->color[$bodyData->results[$i][$j]['materia']];
+                                    $curso=$bodyData->curso[$bodyData->results[$i][$j]['materia']];
+                                } ?>
+                                <td title="<?=$curso; ?>" bgcolor="<?=$color?>"><small><font style="font-style: italic;" COLOR="#fdfefe"><?=$valor[$i][$j]; ?></font></small></td>
+                                <?php $j++;
+        endforeach; ?>
                             </tr>
-                                <?php }?>
-                                <?php $i++; endforeach;?>
+                                <?php
+    } ?>
+                                <?php $i++;
+    endforeach; ?>
                         </tbody>
                         </table>                            
                         
@@ -74,30 +80,35 @@
                         <th><small><center>Horas</center></small></th>    
                         <?php foreach ($bodyData->dias as $dias): ?>
                         <th><small><?=$dias->dias?></small></th>   
-                        <?php endforeach;?>
+                        <?php endforeach; ?>
                         </tr>
                         </thead>    
                         <tbody>
-                            <?php $i=1;  foreach($bodyData->horas as $horas):?>
-                                <?php  if($horas->turnos=='tarde'){?>
+                            <?php $i=1;
+    foreach ($bodyData->horas as $horas):?>
+                                <?php  if ($horas->turnos=='tarde') {
+        ?>
                                     <tr>
                                         <td><center><small><?=$horas->horarios?></small></center></td>
-                                        <?php $j=1;  foreach($bodyData->dias as $dias):
-                                        if(isset($bodyData->results[$i][$j])==false){
-                                           $valor[$i][$j]='';
-                                           $color="";
-                                           $curso='';
-                                        }else{
-                                           $valor[$i][$j]=$bodyData->results[$i][$j]['materia'];
-                                           $color=$bodyData->color[$bodyData->results[$i][$j]['materia']];
-                                           $curso=$bodyData->curso[$bodyData->results[$i][$j]['materia']];
-                                        }
-                                        ?>
-                                        <td title="<?=$curso;?>" bgcolor="<?=$color;?>"><small><font style="font-style: italic;" COLOR="#fdfefe"><?=$valor[$i][$j];?></font></small></td>
-                                        <?php $j++; endforeach;?>
+                                        <?php $j=1;
+        foreach ($bodyData->dias as $dias):
+                                        if (isset($bodyData->results[$i][$j])==false) {
+                                            $valor[$i][$j]='';
+                                            $color="";
+                                            $curso='';
+                                        } else {
+                                            $valor[$i][$j]=$bodyData->results[$i][$j]['materia'];
+                                            $color=$bodyData->color[$bodyData->results[$i][$j]['materia']];
+                                            $curso=$bodyData->curso[$bodyData->results[$i][$j]['materia']];
+                                        } ?>
+                                        <td title="<?=$curso; ?>" bgcolor="<?=$color; ?>"><small><font style="font-style: italic;" COLOR="#fdfefe"><?=$valor[$i][$j]; ?></font></small></td>
+                                        <?php $j++;
+        endforeach; ?>
                                     </tr>
-                                <?php }?>
-                            <?php $i++; endforeach;?>
+                                <?php
+    } ?>
+                            <?php $i++;
+    endforeach; ?>
                                 </tbody>                
                             </table>                           
                         
@@ -106,8 +117,8 @@
                 </div>
               </div>
 </div>
-<?php }else{
-    
-echo "No cuenta con la informacion necesaria registrada para mostrar esta interfaz";    
-}
+<?php
+} else {
+        echo "No cuenta con la informacion necesaria registrada para mostrar esta interfaz";
+    }
 ?>

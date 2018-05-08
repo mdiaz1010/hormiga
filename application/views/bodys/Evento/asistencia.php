@@ -153,7 +153,8 @@
                     
                     <tbody> 
                     <?php
-                    foreach ($bodyData->user as $usuarioTemp) {   ?>   
+                    foreach ($bodyData->user as $usuarioTemp) {
+                        ?>   
                         <tr    > 
                             <td  ><?=$usuarioTemp->user_id  ?> </td>
                             <td><?=$usuarioTemp->user_name ?> </td>
@@ -163,7 +164,8 @@
                             <td><?=$usuarioTemp->user_name ?> </td>
                             <td><a style="color:#00aeef " name="revisionClick" href="javascript:void(0)" data-id="<?=$usuarioTemp->user_id?>" >Procesar</a></td>
                         </tr>
-                    <?php } ?> 
+                    <?php
+                    } ?> 
                     </tbody>
                 </table>
 

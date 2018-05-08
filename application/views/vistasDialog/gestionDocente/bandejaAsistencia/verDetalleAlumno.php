@@ -19,33 +19,39 @@
                                     </thead>                                   
                                     <tbody>       
                                             <?php
-                                                
+
                                             $i=1;
                                             $j=0;
                                             $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
                                             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-                                            foreach ($bodyData->results as $cuentasTemp) { 
-                                                if(trim($cuentasTemp->asistencia)=='f'){
+                                            foreach ($bodyData->results as $cuentasTemp) {
+                                                if (trim($cuentasTemp->asistencia)=='f') {
                                                     $color='bgcolor="#F78181"';
                                                     //$color='bgcolor="#F7819F"';
-                                                }else{
+                                                } else {
                                                     $color='';
-                                                }
-                                            ?>
+                                                } ?>
                                                   <tr id="<?=$i?>" >
                                                         <input type="hidden" name="ano[]" id="ano" value="<?=$cuentasTemp->ano?>">
                                                         <input type="hidden" name="mes[]" id="mes" value="<?=$cuentasTemp->mes?>">
                                                         <input type="hidden" name="dia[]" id="dia" value="<?=$cuentasTemp->dia?>">                                    
-                                                        <td     <?=$color;?>><CENTER> <?= $i;?></CENTER></td>
-                                                        <td     <?=$color;?>><CENTER> <?= $cuentasTemp->dia." de ".$meses[$cuentasTemp->mes-1];?></CENTER></td>
-                                                        <td     <?=$color;?>><CENTER><strong><?=strtoupper($cuentasTemp->asistencia);?></strong></CENTER></td>
-                                                        <td     <?=$color;?>><CENTER><textarea rows="2" readonly class="form-control"><?=$cuentasTemp->mensaje?></textarea></CENTER></td>
-                                                        <?php if($cuentasTemp->respuesta=='1'){$mensaje='SI';}else if($cuentasTemp->respuesta=='2'){$mensaje='NO';}else{$mensaje='';} ?>
-                                                        <td     <?=$color;?>><CENTER><?=$mensaje;?></CENTER></td>
+                                                        <td     <?=$color; ?>><CENTER> <?= $i; ?></CENTER></td>
+                                                        <td     <?=$color; ?>><CENTER> <?= $cuentasTemp->dia." de ".$meses[$cuentasTemp->mes-1]; ?></CENTER></td>
+                                                        <td     <?=$color; ?>><CENTER><strong><?=strtoupper($cuentasTemp->asistencia); ?></strong></CENTER></td>
+                                                        <td     <?=$color; ?>><CENTER><textarea rows="2" readonly class="form-control"><?=$cuentasTemp->mensaje?></textarea></CENTER></td>
+                                                        <?php if ($cuentasTemp->respuesta=='1') {
+                                                    $mensaje='SI';
+                                                } elseif ($cuentasTemp->respuesta=='2') {
+                                                    $mensaje='NO';
+                                                } else {
+                                                    $mensaje='';
+                                                } ?>
+                                                        <td     <?=$color; ?>><CENTER><?=$mensaje; ?></CENTER></td>
                                                   </tr>
                                             <?php
                                                $i++;
-                                               $j++;}
+                                                $j++;
+                                            }
                                             ?>                                        
                                            
                                     </tbody>

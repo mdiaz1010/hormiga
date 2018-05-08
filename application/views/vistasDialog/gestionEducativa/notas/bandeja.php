@@ -10,7 +10,8 @@
                                                   </tr>
                                     </thead>                                   
                                     <tbody>                                               
-                                            <?php  $i=0; foreach ($bodyData->notas as $notas) { ?>
+                                            <?php  $i=0; foreach ($bodyData->notas as $notas) {
+    ?>
                                                   <tr>  
                                                       <td><CENTER>NOT000<?=$notas->id  ?></CENTER></td>
                                                       <td><CENTER><?=$notas->nom_notas  ?></CENTER></td>
@@ -19,7 +20,8 @@
                                                       <td><CENTER><a href="javascript:" class="btnEdicionN"   data-id ="<?=$notas->id?>">Editar</a> 
                                                                   <a href="javascript:" class="btnEliminarN"  data-ide="<?=$notas->id?>">Eliminar</a></CENTER></td>
                                                   </tr>
-                                            <?php  $i++;                                       } ?>                                                                                  
+                                            <?php  $i++;
+} ?>                                                                                  
                                     </tbody>
                                 </table>
 

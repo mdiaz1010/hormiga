@@ -1,4 +1,5 @@
-<?php if(($bodyData->results)!=0){ ?>                        
+<?php if (($bodyData->results)!=0) {
+    ?>                        
                             <form name="registroMarca" id="registroMarca" method="POST" >                                             
                                 <table class="table table-striped table-bordered dt-responsive nowrap  " cellspacing="0" width="100%" id="dataTables-asistencia5">
                                     <thead class="bg-success" >
@@ -14,7 +15,7 @@
                                     </thead>
                                     <tbody>
                                     <?php $i=1;
-                                    foreach($bodyData->results as $resultado): ?>
+    foreach ($bodyData->results as $resultado): ?>
                                         <tr>    
                                     <td style="width:1px;"><center><?=$i?></center></td>
                                     <td style="width:20px;"><?=$resultado['nombre']?></td>
@@ -33,25 +34,36 @@
                                                 >
                                         <option value="0">Sin revisar</option>    
                                         <?php
-                                        foreach($bodyData->resultado as $result){
-                                        if($resultado['respuesta']==$result->id){$selected='selected';}else{$selected="";}
-                                        if($result->id==1){$valor="EVASION";}else if($result->id==2){$valor="JUSTIFICADO";}else{$valor="Sin revisar";}
-                                        ?>                                        
+                                        foreach ($bodyData->resultado as $result) {
+                                            if ($resultado['respuesta']==$result->id) {
+                                                $selected='selected';
+                                            } else {
+                                                $selected="";
+                                            }
+                                            if ($result->id==1) {
+                                                $valor="EVASION";
+                                            } elseif ($result->id==2) {
+                                                $valor="JUSTIFICADO";
+                                            } else {
+                                                $valor="Sin revisar";
+                                            } ?>                                        
                                         <option <?=$selected?> value="<?=$result->id?>"><?=$valor?></option>
-                                        <?php } ?>
+                                        <?php
+                                        } ?>
                                         </select> 
                                     </center>
                                     </td>
 
                                         </tr>
                                     <?php $i++;
-                                    endforeach; ?>                                            
+    endforeach; ?>                                            
                                     </tbody>                                                                        
                                 </table>
                             </form>                    
-<?php }else{
-echo "<div class='alert_result'>No hay registro de inasistencia justificada.</div>";
-} ?>
+<?php
+} else {
+        echo "<div class='alert_result'>No hay registro de inasistencia justificada.</div>";
+    } ?>
 <script type="text/javascript">  
 $("#dataTables-asistencia5").dataTable();	
 

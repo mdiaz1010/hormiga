@@ -1,19 +1,27 @@
  <?php 
-if(count($bodyData->results)==0 || $bodyData->results==0){
+if (count($bodyData->results)==0 || $bodyData->results==0) {
     echo "<div class='alert_result'>No se encontro ningun material registrado.</div>";
-}else{      
-?>
+} else {
+    ?>
     <div class="col-md-12">
- <?php foreach ($bodyData->results as $result) { 
-     if(substr($result->nombre,-4)=='docx'){ $resultado=base_url("temp/word.png");}else
-     if(substr($result->nombre,-4)=='xlsx'){ $resultado=base_url("temp/excel.png");}else
-     if(substr($result->nombre,-4)=='xlsx'){ $resultado=base_url("temp/excel.png");}else
-     if(substr($result->nombre,-3)=='xls'){ $resultado=base_url("temp/excel.png");}else
-     if(substr($result->nombre,-3)=='pdf') { $resultado=base_url("temp/pdf.png");}else
-     if(substr($result->nombre,-4)=='pptx'){ $resultado=base_url("temp/ppt.png");}else
-     if(substr($result->nombre,-3)=='txt'){ $resultado=base_url("temp/txt.png");}else
-     {$resultado= base_url(trim($result->ruta));}
-     ?>
+ <?php foreach ($bodyData->results as $result) {
+        if (substr($result->nombre, -4)=='docx') {
+            $resultado=base_url("temp/word.png");
+        } elseif (substr($result->nombre, -4)=='xlsx') {
+            $resultado=base_url("temp/excel.png");
+        } elseif (substr($result->nombre, -4)=='xlsx') {
+            $resultado=base_url("temp/excel.png");
+        } elseif (substr($result->nombre, -3)=='xls') {
+            $resultado=base_url("temp/excel.png");
+        } elseif (substr($result->nombre, -3)=='pdf') {
+            $resultado=base_url("temp/pdf.png");
+        } elseif (substr($result->nombre, -4)=='pptx') {
+            $resultado=base_url("temp/ppt.png");
+        } elseif (substr($result->nombre, -3)=='txt') {
+            $resultado=base_url("temp/txt.png");
+        } else {
+            $resultado= base_url(trim($result->ruta));
+        } ?>
   <div class="col-md-4">
     <div id="centrador" class="thumbnail"> 
     <div class="list-group right">                                  
@@ -31,7 +39,8 @@ if(count($bodyData->results)==0 || $bodyData->results==0){
 
 	
 
-<?php } ?>
+<?php
+    } ?>
     </div>
 <?php
 }

@@ -2,12 +2,14 @@
 
 //var_dump($bodyData);
 
-function yaTienePermisos($id,array $permisos){
+function yaTienePermisos($id, array $permisos)
+{
     foreach ($permisos as $value) {
-        if($value->WebModulos_id == $id)
+        if ($value->WebModulos_id == $id) {
             return true;
+        }
     }
-    return FALSE;
+    return false;
 }
 
 ?>
@@ -47,9 +49,7 @@ function yaTienePermisos($id,array $permisos){
         <div class="panel-body" id="modulosDisponiblesPanel">      
             <?php
             foreach ($bodyData->modulos as $locacion) {
-                $locacion = (object)$locacion;
-              
-                ?>
+                $locacion = (object)$locacion; ?>
                 <div class="col-xs-12 sombra modulos-list  bg-danger"  >                    
                     <div class="col-xs-12 text-left"  title="<?=$locacion->descripcion?>" ><?=$locacion->titulo?></div>
                     <a name="pasarModuloDer" data-modulo="<?=$locacion->id ?>" class="flecha-der" href="javascript:void(0);">
@@ -58,7 +58,6 @@ function yaTienePermisos($id,array $permisos){
                 </div> 
             
             <?php
-                
             }
             ?> 
         </div>
@@ -81,8 +80,7 @@ function yaTienePermisos($id,array $permisos){
         <div class="panel-body" id="modulosPermitidosPanel">      
             <?php
             foreach ($bodyData->permisos as $permiso) {
-                $permiso = (object)$permiso;            
-                ?>
+                $permiso = (object)$permiso; ?>
                 <div class="col-xs-12 sombra modulos-list  bg-success"  >                    
                     <a name="pasarModuloIzq" data-modulo="<?=$permiso->WebModulos_id ?>" class="flecha-izq" href="javascript:void(0);">
                         <i class="fa fa-arrow-left"></i>

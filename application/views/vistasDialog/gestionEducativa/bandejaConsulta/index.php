@@ -25,11 +25,15 @@
                               </ul>
                             </div>
                             <div class="right col-xs-5 text-center">
-                                    <?php if(isset($dato->RUTA)==false){?>
+                                    <?php if (isset($dato->RUTA)==false) {
+    ?>
                                   <img src=" <?= base_url('publico/media/user.png')?>" alt="..." class="img-circle profile_img">
-                                    <?php }else{?>
+                                    <?php
+} else {
+        ?>
                                   <img src="<?= base_url($dato->RUTA)?>" alt="..." class="img-circle  profile_img">  
-                                    <?php } ?>
+                                    <?php
+    } ?>
                             </div>
                           </div>
                           <div class="col-xs-12 bottom text-center">

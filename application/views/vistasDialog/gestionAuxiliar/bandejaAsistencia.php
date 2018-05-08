@@ -1,16 +1,21 @@
-<?php if($bodyData->results!=0){ ?>
-                                      <?php if((int)$bodyData->contador==0){ ?>
+<?php if ($bodyData->results!=0) {
+    ?>
+                                      <?php if ((int)$bodyData->contador==0) {
+        ?>
                                       <div class="list-group right" >
                                         <a class="btn btn-danger btnMarca" href="javascript:" aria-label="Archivo" style="clear: right;">
                                           <i class="fa fa-floppy-o" aria-hidden="true" style="clear: right;" ></i>
                                         </a>                       
                                       </div> 
-                                      <?php }else {?>
+                                      <?php
+    } else {
+        ?>
                                       <div class="list-group right" >
                                           <h3> <small><font style="font-style: italic;">YA SE REALIZO EL REGISTRO DE ASISTENCIA</font></small>    </h3>
                                         </a>                       
                                       </div>                                       
-                                      <?php }?>                        
+                                      <?php
+    } ?>                        
                             <form name="registroMarca" id="registroMarca" method="POST" >    
                                 <table class="table table-striped table-bordered dt-responsive nowrap  " cellspacing="0" width="100%" id="dataTables-asistencia">
                                     <thead class="bg-success" >
@@ -25,35 +30,35 @@
                                     <tbody>       
                                             <?php
                                             $i=1;
-                                            $j=0;
-                                            foreach ($bodyData->results as $cuentasTemp) {  
-                                                if(isset($bodyData->porcentaje[$cuentasTemp->id])==false){
-                                                    $valor='100';
-                                                }else{
-                                                    $valor=round($bodyData->porcentaje[$cuentasTemp->id],2);
-                                                }
-                                            ?>
+    $j=0;
+    foreach ($bodyData->results as $cuentasTemp) {
+        if (isset($bodyData->porcentaje[$cuentasTemp->id])==false) {
+            $valor='100';
+        } else {
+            $valor=round($bodyData->porcentaje[$cuentasTemp->id], 2);
+        } ?>
                                                   <tr>
-                                                      <input type="hidden" name="id_grado"   id="id_grado"    value="<?php echo $bodyData->filtrog;?>">
-                                                      <input type="hidden" name="id_seccion" id="id_seccion"  value="<?php echo $bodyData->filtros;?>">                                                                                             
-                                                      <input type="hidden" name="txtcodigo[]" id="txtcodigo"  value="<?=$cuentasTemp->id;?>">                                                  
-                                                      <td><CENTER> <?= $i;  ?></CENTER></td>
-                                                      <td><CENTER><?=$cuentasTemp->alumno;?></CENTER></td>
-                                                      <td><CENTER><?=$valor;?> %</CENTER></td>
-                                                      <td><CENTER><input type="checkbox" name="txtmarcado[]" id="txtmarcado" value="<?=$cuentasTemp->id;?>" checked></CENTER></td>
-                                                      <td><CENTER><a href="javascript:void(0)"  class="Detalle" data-alumno="<?=$cuentasTemp->alumno;?>" data-codigo="<?=$cuentasTemp->id;?>"> Ver Detalle</a></CENTER></td>
+                                                      <input type="hidden" name="id_grado"   id="id_grado"    value="<?php echo $bodyData->filtrog; ?>">
+                                                      <input type="hidden" name="id_seccion" id="id_seccion"  value="<?php echo $bodyData->filtros; ?>">                                                                                             
+                                                      <input type="hidden" name="txtcodigo[]" id="txtcodigo"  value="<?=$cuentasTemp->id; ?>">                                                  
+                                                      <td><CENTER> <?= $i; ?></CENTER></td>
+                                                      <td><CENTER><?=$cuentasTemp->alumno; ?></CENTER></td>
+                                                      <td><CENTER><?=$valor; ?> %</CENTER></td>
+                                                      <td><CENTER><input type="checkbox" name="txtmarcado[]" id="txtmarcado" value="<?=$cuentasTemp->id; ?>" checked></CENTER></td>
+                                                      <td><CENTER><a href="javascript:void(0)"  class="Detalle" data-alumno="<?=$cuentasTemp->alumno; ?>" data-codigo="<?=$cuentasTemp->id; ?>"> Ver Detalle</a></CENTER></td>
                                                   </tr>
                                             <?php
                                                $i++;
-                                               $j++;}
-                                            ?>                                        
+        $j++;
+    } ?>                                        
                                            
                                     </tbody>
                                 </table>                               
                             </form>
-<?php }else{
-echo "<div class='alert_result'>No se encuentra ningun alumno registrado.</div>";
- } ?>
+<?php
+} else {
+        echo "<div class='alert_result'>No se encuentra ningun alumno registrado.</div>";
+    } ?>
   
 <script type="text/javascript">
 

@@ -290,30 +290,28 @@ $(document).ready(function() {
             </thead>
             <tbody> 
             <?php
-            
-            
-                foreach ($bodyData->eventos as $usuarioTemp) { 
 
-                    $functionKey = (!empty($usuarioTemp->functionkey)    )? (int)$usuarioTemp->functionkey  : 255;
-                    $readerAddr = ((int)$usuarioTemp->readeraddr != 0 )? (int)$usuarioTemp->functionkey[0] : 0 ;
+            
+                foreach ($bodyData->eventos as $usuarioTemp) {
+                    $functionKey = (!empty($usuarioTemp->functionkey))? (int)$usuarioTemp->functionkey  : 255;
+                    $readerAddr = ((int)$usuarioTemp->readeraddr != 0)? (int)$usuarioTemp->functionkey[0] : 0 ;
 
-                    if (  ($functionKey == 10  )  or    $readerAddr==1 ){
+                    if (($functionKey == 10)  or    $readerAddr==1) {
                         $entradaSalida = "Entrada";
-                    }elseif ($functionKey == 30   or    $readerAddr==2 ) {
+                    } elseif ($functionKey == 30   or    $readerAddr==2) {
                         $entradaSalida = "Salida" ;
-                    }else{
+                    } else {
                         $entradaSalida = "" ;
-                    }
-
-                ?>   
+                    } ?>   
                     <tr>
-                        <td><?=(new DateTime($usuarioTemp->eventdatetime ))->format('Y-m-d H:i:s ')?></td>
+                        <td><?=(new DateTime($usuarioTemp->eventdatetime))->format('Y-m-d H:i:s ')?></td>
                         <td><?=$usuarioTemp->accessid ?> </td>
                         <td><?=$usuarioTemp->user_name ?>  </td>
                         <td><?=$usuarioTemp->controllername ?></td>
                         <td><?=$entradaSalida ?> </td> 
                     </tr>
-                <?php } 
+                <?php
+                }
             
             
             ?> 

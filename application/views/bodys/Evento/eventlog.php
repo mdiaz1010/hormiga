@@ -1,19 +1,20 @@
 <?php
 
-function listarEventos($marcas){
-    foreach ($marcas as $eventoTemp) { 
-         
-    ?>   
+function listarEventos($marcas)
+{
+    foreach ($marcas as $eventoTemp) {
+        ?>   
         <tr data-id="<?=$eventoTemp->id ?>">
-            <td name="marcasDatetime" ><?=(new DateTime($eventoTemp->eventdatetime ))->format('Y-m-d H:i:s ')?></td>
-        <!--    <td><?= ''//date('Y-m-d H:i:s ', strtotime(substr($eventoTemp->systemdatetimemilisec,16)))  ?></td>-->
+            <td name="marcasDatetime" ><?=(new DateTime($eventoTemp->eventdatetime))->format('Y-m-d H:i:s ')?></td>
+        <!--    <td><?= ''//date('Y-m-d H:i:s ', strtotime(substr($eventoTemp->systemdatetimemilisec,16)))?></td>-->
             <td name="marcasUserId" ><?=$eventoTemp->accessid ?> </td>
             <td name="marcasUserName" ><?=$eventoTemp->user_name ?>  </td>
             <td name="marcasController" ><?=$eventoTemp->controllername ?></td>
             <td name="marcasFunction"  ><?=$eventoTemp->functionkey  ?></td> 
             
         </tr>
-    <?php } 
+    <?php
+    }
 }
 ?>
 
@@ -293,17 +294,17 @@ $(document).ready(function() {
             </thead>
             <tbody> 
             <?php
-                
+
             
-            if(isset($bodyData->eventosOrganizados)){  // echo '<tr><td>Organizado</td></tr>';
+            if (isset($bodyData->eventosOrganizados)) {  // echo '<tr><td>Organizado</td></tr>';
                 foreach ($bodyData->eventosOrganizados as $eventosOrganizadosDias) {
                     foreach ($eventosOrganizadosDias as $eventosOrganizadosUsuario) {
                         listarEventos($eventosOrganizadosUsuario);
                     }
-                } 
-            }else{
+                }
+            } else {
                 listarEventos($bodyData->eventos);
-            } 
+            }
              
             ?> 
             </tbody>

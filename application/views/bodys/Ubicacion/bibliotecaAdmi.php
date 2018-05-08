@@ -1,5 +1,5 @@
 <?php
- 
+
 
 
 ?>
@@ -38,7 +38,7 @@
     <?php
         foreach ($bodyData->mod  as $vista) {
             echo $vista;
-        } 
+        }
             
     ?>
     

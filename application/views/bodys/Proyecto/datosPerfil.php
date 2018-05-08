@@ -23,23 +23,27 @@
                           <td>               <select name="webusuarios_id"   class="form-control" required>
                                        
                                                
-                                                            <?php                         
-                                                            $valor=$bodyData->valoresSueltos["codigo"];                                                        
-                                                            foreach ($bodyData->roles as $rolesTemp) {                                                              
-                                                            ?>
-                                                                <?php  if($valor==$rolesTemp->codigoEmpresa){ ?>
+                                                            <?php 
+                                                            $valor=$bodyData->valoresSueltos["codigo"];
+                                                            foreach ($bodyData->roles as $rolesTemp) {
+                                                                ?>
+                                                                <?php  if ($valor==$rolesTemp->codigoEmpresa) {
+                                                                    ?>
                                                                 <option name='opciones' id='opciones'                                                                
                                                                         selected
                                                                         value="<?=$rolesTemp->codigoEmpresa?>"><?=$rolesTemp->nombre?>-<?=$rolesTemp->nombreLocal?>
                                                                         
-                                                                 <?php }else{?>                                                                
+                                                                 <?php
+                                                                } else {
+                                                                    ?>                                                                
                                                                 <option  name='opciones' id='opciones'  value="<?=$rolesTemp->codigoEmpresa ?>"><?=$rolesTemp->nombreLocal?>                                                                         
-                                                                 <?php }                                                                 
-                                                                 }?>
+                                                                 <?php
+                                                                }
+                                                            }?>
                                                                  </option>
                                                                                                                               
                                                             <?php
-                                                           
+
                                                             
                                                             ?>
                               </select>
@@ -50,22 +54,26 @@
                 <tr>
                           <td>Status</td>             
                           <td>            <select name="status_id"   class="form-control" required>    
-                                                            <?php                         
-                                                            $valor=$bodyData->valoresSueltos["status"];                                                        
-                                                            foreach ($bodyData->status as $rolesTemp) {                                                              
-                                                            ?>
-                                                                <?php  if($valor==$rolesTemp->id){ ?>
+                                                            <?php 
+                                                            $valor=$bodyData->valoresSueltos["status"];
+                                                            foreach ($bodyData->status as $rolesTemp) {
+                                                                ?>
+                                                                <?php  if ($valor==$rolesTemp->id) {
+                                                                    ?>
                                                                 <option name='opciones' id='opciones'                                                                
                                                                         selected
                                                                         value="<?=$rolesTemp->id ?>"><?=$rolesTemp->descripcion?>
-                                                                 <?php }else{?>                                                                
+                                                                 <?php
+                                                                } else {
+                                                                    ?>                                                                
                                                                 <option  name='opciones' id='opciones'  value="<?=$rolesTemp->id ?>"><?=$rolesTemp->descripcion?>                                                                         
-                                                                 <?php }                                                                 
-                                                                 }?>
+                                                                 <?php
+                                                                }
+                                                            }?>
                                                                  </option>
                                                                                                                               
                                                             <?php
-                                                           
+
                                                             
                                                             ?>
                               </select>                                                                
@@ -74,22 +82,26 @@
                 <tr>
                           <td>Definir Tarea</td>             
                           <td>            <select name="tarea_id"   class="form-control" required>    
-                                                            <?php                         
-                                                            $valor=$bodyData->valoresSueltos["tarid"];                                                        
-                                                            foreach ($bodyData->combo1 as $rolesTemp) {                                                              
-                                                            ?>
-                                                                <?php  if($valor==$rolesTemp->id){ ?>
+                                                            <?php 
+                                                            $valor=$bodyData->valoresSueltos["tarid"];
+                                                            foreach ($bodyData->combo1 as $rolesTemp) {
+                                                                ?>
+                                                                <?php  if ($valor==$rolesTemp->id) {
+                                                                    ?>
                                                                 <option name='opciones' id='opciones'                                                                
                                                                         selected
                                                                         value="<?=$rolesTemp->id ?>"><?=$rolesTemp->nombreTarea?>
-                                                                 <?php }else{?>                                                                
+                                                                 <?php
+                                                                } else {
+                                                                    ?>                                                                
                                                                 <option  name='opciones' id='opciones'  value="<?=$rolesTemp->id ?>"><?=$rolesTemp->nombreTarea?>                                                                         
-                                                                 <?php }                                                                 
-                                                                 }?>
+                                                                 <?php
+                                                                }
+                                                            }?>
                                                                  </option>
                                                                                                                               
                                                             <?php
-                                                           
+
                                                             
                                                             ?>
                                          </select>                                                                
@@ -98,22 +110,26 @@
                 <tr>
                           <td>Tipo de Proyecto</td>             
                           <td>            <select name="tipoproyecto_id"   class="form-control" required>    
-                                                            <?php                         
-                                                            $valor=$bodyData->valoresSueltos["tipoProyecto"];                                                        
-                                                            foreach ($bodyData->tipoProy as $rolesTemp) {                                                              
-                                                            ?>
-                                                                <?php  if($valor==$rolesTemp->id){ ?>
+                                                            <?php 
+                                                            $valor=$bodyData->valoresSueltos["tipoProyecto"];
+                                                            foreach ($bodyData->tipoProy as $rolesTemp) {
+                                                                ?>
+                                                                <?php  if ($valor==$rolesTemp->id) {
+                                                                    ?>
                                                                 <option name='opciones' id='opciones'                                                                
                                                                         selected
                                                                         value="<?=$rolesTemp->id ?>"><?=$rolesTemp->descripcion?>
-                                                                 <?php }else{?>                                                                
+                                                                 <?php
+                                                                } else {
+                                                                    ?>                                                                
                                                                 <option  name='opciones' id='opciones'  value="<?=$rolesTemp->id ?>"><?=$rolesTemp->descripcion?>                                                                         
-                                                                 <?php }                                                                 
-                                                                 }?>
+                                                                 <?php
+                                                                }
+                                                            }?>
                                                                  </option>
                                                                                                                               
                                                             <?php
-                                                           
+
                                                             
                                                             ?>
                                          </select>                                                                

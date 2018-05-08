@@ -12,7 +12,8 @@
                                         </tr>
                                     </thead>                                   
                                     <tbody>                                               
-                                            <?php  $i=0;foreach ($bodyData->grado as $grado) { ?>
+                                            <?php  $i=0; foreach ($bodyData->grado as $grado) {
+    ?>
                                                   <tr>  
                                                       <td><CENTER>GRAD000<?=$grado->id  ?></CENTER></td>
                                                       <td><CENTER><?=$grado->nom_grado  ?></CENTER></td>
@@ -20,7 +21,8 @@
                                                       <td><CENTER><a href="javascript:" class="btnEdicion"   data-id ="<?=$grado->id?>">Editar</a> 
                                                                   <a href="javascript:" class="btnEliminar"  data-ide="<?=$grado->id?>">Eliminar</a></CENTER></td>
                                                   </tr>
-                                            <?php $i++;                                       } ?>                                        
+                                            <?php $i++;
+} ?>                                        
                                           
                                     </tbody>
                                 </table>

@@ -1,4 +1,5 @@
-<?php if($bodyData->resultado<1){ ?>
+<?php if ($bodyData->resultado<1) {
+    ?>
 <div class="row">
                 <div class="col-xs-12">
                 <div class="x_panel">
@@ -23,11 +24,10 @@
                                         <option >Seleccione</option>
                                         <?php
                                         foreach ($bodyData->ano as $rolesTemp) {
-                                        ?>
+                                            ?>
                                             <option name='opciones' value="<?=$rolesTemp->ano?>"><?=$rolesTemp->ano?></option>
                                         <?php
-                                        }
-                                        ?>
+                                        } ?>
                                     </select>
                                 </label>                    
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
@@ -93,7 +93,7 @@
    
 </div>
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionEducativa_notasG.js')?>"></script>
-<?php }else{
-    
-  echo "No se cuenta con la informacion necesaria registrada.";  
-} ?>
+<?php
+} else {
+                                            echo "No se cuenta con la informacion necesaria registrada.";
+                                        } ?>

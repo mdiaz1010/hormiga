@@ -34,9 +34,8 @@
                                     <tbody>
                                             
                                                
-                                            <?php  
-                                            foreach ($bodyData->valores as $value) { 
-                                              
+                                            <?php 
+                                            foreach ($bodyData->valores as $value) {
                                                 ?>
                                                 <tr>
                                                     
@@ -56,8 +55,7 @@
 
                                            
                                                 </tr> 
-                                            <?php 
-                                          
+                                            <?php
                                             }
                                             ?>
                                            

@@ -14,7 +14,7 @@
                                     </thead>
                                     <tbody>                                                                                           
                                             <?php  $i=1;
-                                            foreach ($bodyData->vista as $value) {                                               
+                                            foreach ($bodyData->vista as $value) {
                                                 ?>
                                                 <tr>                                                                                                        
                                                     <td><a data-id="<?php $i ?>" name="cuentaEditorTrigger" href="javascript:void(0)">
@@ -37,7 +37,7 @@
                                                         </label>
                                                     </td>                                             
                                                 </tr>    
-                                            <?php            
+                                            <?php 
                                             $i++;
                                             }
                                             ?>                                           

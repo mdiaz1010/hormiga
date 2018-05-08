@@ -3,20 +3,21 @@
 $tiempoCrearRow = Utilitario::Tiempo_microtime_float();
     
     
-    function horarioOExcepcion($horarioExcepcion){
-        $standar = new stdClass(); 
-        if (!empty($horarioExcepcion->atndtz_id)){ 
+    function horarioOExcepcion($horarioExcepcion)
+    {
+        $standar = new stdClass();
+        if (!empty($horarioExcepcion->atndtz_id)) {
             $standar->id = $horarioExcepcion->atndtz_id;
             $standar->nombre = $horarioExcepcion->atndtz_name." <label><i>(H)</i></label>";
             $standar->rt = $horarioExcepcion->atndtz_rt_period;
             $standar->bt = $horarioExcepcion->atndtz_bt_period;
-        }elseif (!empty($horarioExcepcion->atndex_id)) {
+        } elseif (!empty($horarioExcepcion->atndex_id)) {
             $standar->id = $horarioExcepcion->atndex_id;
             $standar->nombre = $horarioExcepcion->atndex_name." <label><i>(E)</i></label>";
             $standar->rt = "00000000";
             $standar->bt = "00000000";
-        }else{
-            $standar->id = NULL;
+        } else {
+            $standar->id = null;
             $standar->nombre = "";
             $standar->rt = "00000000";
             $standar->bt = "00000000";
@@ -26,20 +27,21 @@ $tiempoCrearRow = Utilitario::Tiempo_microtime_float();
     
     
     
-    function crearSelectorHora ($desdeDate,$hastaDate){
-        $optionsDesde = $optionsHasta = ''; 
+    function crearSelectorHora($desdeDate, $hastaDate)
+    {
+        $optionsDesde = $optionsHasta = '';
         $horaStrings = $minutoStrings = array();
-        for($hora=0;$hora<24;$hora++){
-            $horaStrings[] = str_pad($hora, 2, "0", STR_PAD_LEFT); 
+        for ($hora=0;$hora<24;$hora++) {
+            $horaStrings[] = str_pad($hora, 2, "0", STR_PAD_LEFT);
         }
-        for($minuto=0;$minuto<60;$minuto+=15){ 
+        for ($minuto=0;$minuto<60;$minuto+=15) {
             $minutoStrings[] = str_pad($minuto, 2, "0", STR_PAD_LEFT);
-        }        
+        }
         foreach ($horaStrings as $horaStringsTemp) {
             foreach ($minutoStrings as $minutoStringsTemp) {
                 $optionsDesde .= '<option value="'.$desdeDate.$horaStringsTemp.$minutoStringsTemp.'00">'.$horaStringsTemp.':'.$minutoStringsTemp.':00 - '.$desdeDate.'</option>';
                 $optionsHasta .= '<option value="'.$hastaDate.$horaStringsTemp.$minutoStringsTemp.'00">'.$horaStringsTemp.':'.$minutoStringsTemp.':00 - '.$hastaDate.'</option>';
-            } 
+            }
         }
         return array('<select name="marca" class="form-control"  >'.$optionsDesde.'</select>'  ,'<select name="marca" class="form-control"  >'.$optionsDesde.$optionsHasta.'</select>' );
     }
@@ -50,35 +52,33 @@ $tiempoCrearRow = Utilitario::Tiempo_microtime_float();
     
     $horariosOptions ="";
     $excepcionesOptions ="";
-    foreach ($bodyData->excepciones as $excepcionesTemp ) {
-         $excepcionesOptions .=  '<option value="'.$excepcionesTemp->atndex_id.'">'.$excepcionesTemp->atndex_name.'</option>';
+    foreach ($bodyData->excepciones as $excepcionesTemp) {
+        $excepcionesOptions .=  '<option value="'.$excepcionesTemp->atndex_id.'">'.$excepcionesTemp->atndex_name.'</option>';
     }
-    foreach ($bodyData->horarios as $horariosTemp ) {
-         $horariosOptions .= '<option value="'.$horariosTemp->atndtz_id.'">'.$horariosTemp->atndtz_name.'</option>';
+    foreach ($bodyData->horarios as $horariosTemp) {
+        $horariosOptions .= '<option value="'.$horariosTemp->atndtz_id.'">'.$horariosTemp->atndtz_name.'</option>';
     }
     
 
-    $bool = array('No','Si');                
-    foreach ($bodyData->data as $usuarioTemp) {  // var_dump($eventoTemp);   break;  
+    $bool = array('No','Si');
+    foreach ($bodyData->data as $usuarioTemp) {  // var_dump($eventoTemp);   break;
         
         $entrada = (empty($usuarioTemp->atndd_atnd_in))?  "-:-:-" :date(' H:i:s', strtotime($usuarioTemp->atndd_atnd_in)) ;
         $salida =  (empty($usuarioTemp->atndd_atnd_out))? "-:-:-":date(' H:i:s', strtotime($usuarioTemp->atndd_atnd_out)) ;
         
-        $diaDateTime = new DateTime ($usuarioTemp->atndd_date);
+        $diaDateTime = new DateTime($usuarioTemp->atndd_date);
         $diaSiguienteDateTime = clone  $diaDateTime;
-        $diaSiguienteDateTime->add(new DateInterval('P1D')); 
+        $diaSiguienteDateTime->add(new DateInterval('P1D'));
         $selectsArray = crearSelectorHora($diaDateTime->format('Ymd'), $diaSiguienteDateTime->format('Ymd'));
         
-        $horarioExcepcion  = horarioOExcepcion($usuarioTemp->horarioExcepcion);
-
-?>   
+        $horarioExcepcion  = horarioOExcepcion($usuarioTemp->horarioExcepcion); ?>   
 
 
         <tr  name="dataRow"   > 
             <td ><?=(int)$usuarioTemp->atndd_id  ?></td>
-            <td><?= date('Y-m-d', strtotime($usuarioTemp->atndd_date) ) ?> </td>
+            <td><?= date('Y-m-d', strtotime($usuarioTemp->atndd_date)) ?> </td>
             <td>
-                <?= ((int)$usuarioTemp->atndd_modified == 0 )?  $bool[(int)$usuarioTemp->atndd_modified] : (string)$usuarioTemp->nombreEditor  ?> 
+                <?= ((int)$usuarioTemp->atndd_modified == 0)?  $bool[(int)$usuarioTemp->atndd_modified] : (string)$usuarioTemp->nombreEditor  ?> 
             
             </td>
             <td  >
@@ -103,7 +103,7 @@ $tiempoCrearRow = Utilitario::Tiempo_microtime_float();
                                             <?=$horariosOptions?>
                                         </select>
                                         <input name="tipo" value="1" type="hidden">
-                                        <input name="fechaDate" value="<?= date('Y-m-d', strtotime($usuarioTemp->atndd_date) ) ?>" type="hidden">
+                                        <input name="fechaDate" value="<?= date('Y-m-d', strtotime($usuarioTemp->atndd_date)) ?>" type="hidden">
                                         <input name="usuarioId" value="<?=$usuarioTemp->atndd_id  ?>" type="hidden">
                                     </form>
                                 </td>
@@ -114,7 +114,7 @@ $tiempoCrearRow = Utilitario::Tiempo_microtime_float();
                                             <?=$excepcionesOptions?>
                                         </select>
                                         <input name="tipo" value="2" type="hidden">
-                                        <input name="fechaDate" value="<?= date('Y-m-d', strtotime($usuarioTemp->atndd_date) ) ?>" type="hidden">
+                                        <input name="fechaDate" value="<?= date('Y-m-d', strtotime($usuarioTemp->atndd_date)) ?>" type="hidden">
                                         <input name="usuarioId" value="<?=$usuarioTemp->atndd_id  ?>" type="hidden">
                                     </form>
                                 </td>
@@ -123,17 +123,17 @@ $tiempoCrearRow = Utilitario::Tiempo_microtime_float();
                     </table>
                 </div>
             </td>
-            <td><?= substr($horarioExcepcion->rt , 0, 2).":".substr($horarioExcepcion->rt , 2, 2) ?> </td>
-            <td><?= substr($horarioExcepcion->rt , 4, 2).":".substr($horarioExcepcion->rt , 6, 2) ?> </td>
+            <td><?= substr($horarioExcepcion->rt, 0, 2).":".substr($horarioExcepcion->rt, 2, 2) ?> </td>
+            <td><?= substr($horarioExcepcion->rt, 4, 2).":".substr($horarioExcepcion->rt, 6, 2) ?> </td>
             <td  style="position: static;text-align: center;" >
                 <a class="pointer" name="ajaxDataTableMarcaEntrada"> <?= $entrada ?> </a> 
                 <div class="miniPop hide ">
                     <button type="button" class="close" style="position: absolute;right: 10px;"><span aria-hidden="true">&times;</span></button>
                     <h5>Cambiar Entrada </h5>
                     <form name="formCambioMarcaEntrada" style="margin-top: 10px;" >
-                        <?=$selectsArray[0] // name="marca" ?>
+                        <?=$selectsArray[0] // name="marca"?>
                         <input name="tipo" value="1" type="hidden">
-                        <input name="fechaDate" value="<?= date('Y-m-d', strtotime($usuarioTemp->atndd_date) ) ?>" type="hidden">
+                        <input name="fechaDate" value="<?= date('Y-m-d', strtotime($usuarioTemp->atndd_date)) ?>" type="hidden">
                         <input name="usuarioId" value="<?=$usuarioTemp->atndd_id  ?>" type="hidden">
                     </form> 
                 </div> 
@@ -145,9 +145,9 @@ $tiempoCrearRow = Utilitario::Tiempo_microtime_float();
                     <button type="button" class="close" style="position: absolute;right: 10px;"><span aria-hidden="true">&times;</span></button>
                     <h5>Cambiar Salida </h5>
                     <form name="formCambioMarcaEntrada" style="margin-top: 10px;" >
-                        <?=$selectsArray[1] // name="marca" ?>
+                        <?=$selectsArray[1] // name="marca"?>
                         <input name="tipo" value="2" type="hidden">
-                        <input name="fechaDate" value="<?= date('Y-m-d', strtotime($usuarioTemp->atndd_date) ) ?>" type="hidden">
+                        <input name="fechaDate" value="<?= date('Y-m-d', strtotime($usuarioTemp->atndd_date)) ?>" type="hidden">
                         <input name="usuarioId" value="<?=$usuarioTemp->atndd_id  ?>" type="hidden">
                     </form> 
                 </div> 
@@ -158,24 +158,30 @@ $tiempoCrearRow = Utilitario::Tiempo_microtime_float();
             <td data-type="min" ><?=$usuarioTemp->atndd_min_nt ?> </td>
             <td data-type="min" ><?=$usuarioTemp->atndd_min_total ?> </td>
             <td  >
-                <?php if(count($usuarioTemp->justificador)>0){  //  var_dump($eventoTemp->justificador); ?>
+                <?php if (count($usuarioTemp->justificador)>0) {  //  var_dump($eventoTemp->justificador);?>
                 <div class="dropdown">
                     <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dLabel">
-                        <?php foreach ($usuarioTemp->justificador as $justificadorTemp) { ?>
+                        <?php foreach ($usuarioTemp->justificador as $justificadorTemp) {
+            ?>
                             <li>
-                                <a href="#"><?="E ". date('H:i:s', $justificadorTemp[0] ) ?></a>
-                                <a href="#"><?="S ". date('H:i:s', $justificadorTemp[1] )  ?></a>
+                                <a href="#"><?="E ". date('H:i:s', $justificadorTemp[0]) ?></a>
+                                <a href="#"><?="S ". date('H:i:s', $justificadorTemp[1])  ?></a>
                             </li>
-                        <?php } ?>
+                        <?php
+        } ?>
                     </ul>
                 </div>
-                <?php }else{ echo 'S/M'; }?>
+                <?php
+        } else {
+            echo 'S/M';
+        } ?>
             </td>
         </tr>
-    <?php } ?>
+    <?php
+    } ?>
         
         
  <script>

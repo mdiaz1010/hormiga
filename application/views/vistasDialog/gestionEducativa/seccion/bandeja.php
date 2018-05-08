@@ -15,9 +15,7 @@
                                         
                                             <?php  $i=0;
                                             foreach ($bodyData->grado as $grado) {
-                                                
-                                                
-                                            ?>
+                                                ?>
                                                   <tr>  
                                                       <td><CENTER>SECD000<?=$grado->id  ?></CENTER></td>
                                                       <td><CENTER><?=$grado->nom_seccion  ?></CENTER></td>
@@ -26,7 +24,8 @@
                                                                   <a href="javascript:" class="btnEliminar"  data-ide="<?=$grado->id?>">Eliminar</a></CENTER></td>
                                                   </tr>
                                             <?php
-                                                   $i++;                                       }
+                                                   $i++;
+                                            }
                                             ?>                                        
                                           
                                     </tbody>

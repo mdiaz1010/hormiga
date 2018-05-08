@@ -22,7 +22,7 @@
                                     <option >Seleccione</option>
                                     <?php
                                     foreach ($bodyData->valores as $rolesTemp) {
-                                    ?>
+                                        ?>
                                         <option name='opciones' value="<?=$rolesTemp['ano']?>"><?=$rolesTemp['ano'].' '.$rolesTemp['grado'].'°'.$rolesTemp['seccion']?></option>
                                     <?php
                                     }

@@ -10,11 +10,15 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="">
           <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  <?php if(isset($this->session->webCasSession->usuario->RUTA)==false){?>
+                  <?php if (isset($this->session->webCasSession->usuario->RUTA)==false) {
+    ?>
                 <img src=" <?= base_url('publico/media/user.png')?>" alt="..." >
-                  <?php }else{?>
+                  <?php
+} else {
+        ?>
                 <img src=" <?= base_url($this->session->webCasSession->usuario->RUTA)?>" alt="..." >  
-                  <?php } ?>
+                  <?php
+    } ?>
             <span class=" fa fa-angle-down"></span>
           </a>
           <ul class="dropdown-menu dropdown-usermenu pull-right">

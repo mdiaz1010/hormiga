@@ -1,7 +1,7 @@
 <?php
 
-$permisosDeleteCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/eliminarCentroCosto', $this->session->webCasSession->modulos   )  ;
-$permisosInsertCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/registrarCentroCosto', $this->session->webCasSession->modulos   )
+$permisosDeleteCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/eliminarCentroCosto', $this->session->webCasSession->modulos)  ;
+$permisosInsertCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/registrarCentroCosto', $this->session->webCasSession->modulos)
 ?>
 
 <style>
@@ -19,17 +19,17 @@ $permisosInsertCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/registr
         position: absolute;
         left: 10px;
     }
-     
+
 </style>
 <!-- DATA -->
-  
-     
+
+
 <div class="panel panel-warning col-md-4 col-xs-12  col-sm-6 sombra">
     <div class="panel-heading">
         <h4>CARPETA C</h4>
         <?php
-        if($permisosInsertCentroCosto){
-        ?>
+        if ($permisosInsertCentroCosto) {
+            ?>
          <div class="text-right">
              <a id="centroCostoAdd"       href="javascript:void(0);">
                 Agregar
@@ -40,35 +40,33 @@ $permisosInsertCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/registr
         }
         ?>
     </div>
-    <div class="panel-body" id="centroCostoList" style="height:400px;overflow-y: auto; ">      
+    <div class="panel-body" id="centroCostoList" style="height:400px;overflow-y: auto; ">
         <?php
         foreach ($bodyData->centroCosto as $locacion) {
             $locacion = (object)$locacion;
             //if(yaTienePermisos($modulo->id,$bodyData->permisos)) continue;
-            $classCss = ($locacion->status==1)? " bg-success" :" bg-danger";
-            ?>
-            <div class="col-xs-12 sombra modulos-list  <?=$classCss?>"  >                    
+            $classCss = ($locacion->status==1)? " bg-success" :" bg-danger"; ?>
+            <div class="col-xs-12 sombra modulos-list  <?=$classCss?>"  >
                 <div class="col-xs-12 text-left"  title="<?=$locacion->desc?>" ><?=$locacion->name?></div>
-                <?php 
-                    if($permisosDeleteCentroCosto){
-                ?>
+                <?php
+                    if ($permisosDeleteCentroCosto) {
+                        ?>
                 <a name="centroCostoDelete" data-id="<?=$locacion->id ?>" class="flecha-der" href="javascript:void(0);">
                     <i class="fa fa-close"></i>
                 </a>
-                <?php 
-                    }
-                ?>
-            </div> 
+                <?php
+                    } ?>
+            </div>
         <?php
         }
-        ?> 
+        ?>
     </div>
 </div>
- 
+
 
 <?php
-    if($permisosInsertCentroCosto){
-?>
+    if ($permisosInsertCentroCosto) {
+        ?>
  <!--  MODAL DE LISTA DE REGISTROS -->
 <div class="modal   fade" id="centroCostoAddModal" tabindex="-1" role="dialog" aria-labelledby="centroCostoAddModal" >
     <div class="modal-dialog " role="document">
@@ -76,9 +74,9 @@ $permisosInsertCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/registr
             <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="centroCostoAddModalLabel">Agregar Archivo</h4>
-            </div> 
+            </div>
             <div class="modal-body"  style=" ">
-                
+
                 <form id="centroCostoForm">
                     <table class="table table-striped ">
                         <tr>
@@ -92,59 +90,59 @@ $permisosInsertCentroCosto = Utilitario::moduloEstaDisponible('Ubicacion/registr
                         <tr>
                             <th>Archivo</th>
                             <td><input name="archivo" type="file"   maxlength="200" > </td>
-                        </tr>                          
+                        </tr>
                         <tr>
                             <th id="centroCostoAddModalMsj"><?php     ?></th>
                             <td><input value="Registrar" type="submit" class="btn btn-primary" > </td>
                         </tr>
                     </table>
                 </form>
-                
+
             </div>
             <div class="modal-footer">
                 <div class="row">
-                    <div class="col-sm-9 nombre" style="text-align: left;"> 
+                    <div class="col-sm-9 nombre" style="text-align: left;">
                     </div>
                     <div class="col-sm-3">
-                         
+
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                         
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
- 
+
 <script>
 $(document).ready(function() {
-    $('#centroCostoAdd').click(function(){ 
+    $('#centroCostoAdd').click(function(){
         $('#centroCostoAddModal').modal('toggle');
-        $('#centroCostoAddModal').find('input[type="text"]').val(''); 
+        $('#centroCostoAddModal').find('input[type="text"]').val('');
         $('#centroCostoAddModalMsj').text("");
     });
 });
 </script>
-<script> 
-$(document).ready(function() { 
-     
-    $('#centroCostoForm').submit(function(e){  
+<script>
+$(document).ready(function() {
+
+    $('#centroCostoForm').submit(function(e){
         e.preventDefault();
-        var form = $(this); 
+        var form = $(this);
         $.ajax({
             url: '<?= site_url("Ubicacion/registrarCentroCosto")?>',
             method: "POST",
             data: form.serialize(),
             dataType: "html"
-        }).done(function( json ) { 
+        }).done(function( json ) {
             //alert(json); //msj
             json = $.parseJSON(json)
-            if(json.msj==="1"){ 
-                var element = '<div class="col-xs-12 sombra modulos-list  bg-success"  > '                    
-                    +'<div class="col-xs-12 text-left"  title="'+json.desc+'" >'+json.name+'</div>' 
-                    +'<a name="pasarModuloDer" data-modulo="'+json.id+'" class="flecha-der" href="javascript:void(0);">' 
-                    +'<i class="fa fa-close"></i> </a> </div> '; 
-                $('#centroCostoList').append(element); 
+            if(json.msj==="1"){
+                var element = '<div class="col-xs-12 sombra modulos-list  bg-success"  > '
+                    +'<div class="col-xs-12 text-left"  title="'+json.desc+'" >'+json.name+'</div>'
+                    +'<a name="pasarModuloDer" data-modulo="'+json.id+'" class="flecha-der" href="javascript:void(0);">'
+                    +'<i class="fa fa-close"></i> </a> </div> ';
+                $('#centroCostoList').append(element);
                 $('#centroCostoAddModal').modal('toggle');
             }else{
                 $('#centroCostoAddModalMsj').text("No Fue Posible Registrar");
@@ -159,13 +157,13 @@ $(document).ready(function() {
             nuevo.fadeOut( 3000 );
         });
     });
-}); 
+});
 </script>
 <?php
     }
- 
-    if($permisosDeleteCentroCosto){
-?>
+
+    if ($permisosDeleteCentroCosto) {
+        ?>
 
 
 <!--  MODAL DE ElIMINACION -->
@@ -175,22 +173,22 @@ $(document).ready(function() {
             <div class="modal-header bg-primary">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="centroCostoDeleteModalLabel">Eliminar  Archivo</h4>
-            </div> 
+            </div>
             <div class="modal-body"  style=" ">
-                
+
                 <p>¿Desea continuar realizando esta operacion?</p>
                 <button type="button" id="centroCostoDeleteModalConfirmar" class="btn btn-danger" data-dismiss="modal">Si, Borrar</button>
                 <div id="centroCostoDeleteModalMsj"></div>
             </div>
             <div class="modal-footer">
                 <div class="row">
-                    <div class="col-sm-9 nombre" style="text-align: left;"> 
+                    <div class="col-sm-9 nombre" style="text-align: left;">
                     </div>
                     <div class="col-sm-3">
-                         
+
                         <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
-                         
-                         
+
+
                     </div>
                 </div>
             </div>
@@ -198,30 +196,30 @@ $(document).ready(function() {
     </div>
 </div>
 
-<script> 
-$(document).ready(function() { 
-  
+<script>
+$(document).ready(function() {
+
     $('[name="centroCostoDelete"]').click(function(){
         var id = $(this).attr('data-id');
         var element = $(this).parent();
-        $('#centroCostoDeleteModal').modal('toggle'); 
-        var boton = $('#centroCostoDeleteModalConfirmar'); 
+        $('#centroCostoDeleteModal').modal('toggle');
+        var boton = $('#centroCostoDeleteModalConfirmar');
         var msj = $('#centroCostoDeleteModalMsj');
-        msj.text("");        
+        msj.text("");
         boton.unbind(); // cuando se cierra la ventana sin hacer click
         boton.click(function(){
         boton.unbind(); // una vez borrado no se debe repetir la consulta
-        
-         
+
+
             $.ajax({
                 url: '<?= site_url("Ubicacion/eliminarCentroCosto")?>',
                 method: "POST",
                 data: {id:id},
                 dataType: "html"
-            }).done(function( json ) { 
+            }).done(function( json ) {
                 // alert(json); //msj
                 json = $.parseJSON(json)
-                if(json.msj==="1"){ 
+                if(json.msj==="1"){
                     element.remove();
                 }else{
                     msj.text("No Fue Posible Completar la Funcion");
@@ -236,7 +234,8 @@ $(document).ready(function() {
                 nuevo.fadeOut( 3000 );
             });
         });
-    }); 
-}); 
+    });
+});
 </script>
-<?php } ?>
+<?php
+    } ?>

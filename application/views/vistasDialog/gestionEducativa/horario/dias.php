@@ -11,14 +11,15 @@
                                         </tr>
                                     </thead>                                   
                                     <tbody>                                              
-                                            <?php  foreach($bodyData->dias as $dias):     
-                                            for($i=0;$i<count($bodyData->dia);$i++){
-                                                if($bodyData->dia[$i]==$dias->codigo){
-                                                    $checked='checked'; break;
-                                                }else{
-                                                    $checked=''; 
+                                            <?php  foreach ($bodyData->dias as $dias):
+                                            for ($i=0;$i<count($bodyData->dia);$i++) {
+                                                if ($bodyData->dia[$i]==$dias->codigo) {
+                                                    $checked='checked';
+                                                    break;
+                                                } else {
+                                                    $checked='';
+                                                }
                                             }
-                                                }       
                                                 
                                                 ?>
                                         
