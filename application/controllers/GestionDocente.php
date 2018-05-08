@@ -641,7 +641,7 @@ class GestionDocente extends CI_Controller
         $deta_alumnos= array_map(
             function($person)
             {
-                 $det=$this->Docente_model->detalle_alumno($person,true);
+                $det=$this->Docente_model->detalle_alumno($person,true);
                 $cabecera_notas= array_column($det,'abreviacion');
                 $detalles_notas= array_column($det,'nota');
                 $persona= array('ape_pat_per'=>$person['ape_pat_per'],'id_alumno'=>$person['id_alumno']);
@@ -654,14 +654,20 @@ class GestionDocente extends CI_Controller
             ,$notas_detalle);
             $a=1;
             $con=0;
+            $contador=0;
+            $cadena='';
+            $list=array();
             foreach($deta_alumnos as $clave => $not){
                 $letra='A';
                 $con=0;
                 $i=0;
+                $ini=0;
             foreach($canti as $key =>$notas){
+                $fin=(int)$notas['cantidad'];
 
                 $cantidad=count($not);
-                $notas_capacidades=array_slice(array_reverse($not),($cantidad-$notas['cantidad']));
+                $notas_capacidades=array_slice($not,$ini,$fin);
+                $ini=$ini+$fin;
                 $cantidad_notas_capacidades=count($notas_capacidades);
                 $array_letra='';
                 $i=0;
@@ -672,15 +678,20 @@ class GestionDocente extends CI_Controller
                     $i++;
                     $con++;
                 }
-                $list[$clave][$key]=array($notas['id']=>array_merge($notas_capacidades),$notas['nom_notas']=>implode('+',$array_letra));
+                $list[$clave][$key]=implode(',',array_merge($notas_capacidades,array($notas['nom_notas']=>implode('+',$array_letra))));
+
             }
             $a++;
-               $list[$clave]["ape_pat_per"]=$notas_detalle[$clave]['ape_pat_per'];
-               $list[$clave]["id_alumno"]  =$notas_detalle[$clave]['id_alumno'];
+            $list[$clave]=implode(',',$list[$clave]);
+              # $list[$clave]["ape_pat_per"]=$notas_detalle[$clave]['ape_pat_per'];
+              # $list[$clave]["id_alumno"]  =$notas_detalle[$clave]['id_alumno'];
 
+
+              $list_final_notas[] = explode(',',$list[$clave]);
             }
- var_dump($list[0]);die();
+            var_dump($list_final_notas); die();
 
+#regla de negocio , nombre de abreviaciones deben de ser distintos
 
         $cantidad=count($deta_alumnos);
         $this->htmlData['bodyData']->cantidad                   =$cantidad;
