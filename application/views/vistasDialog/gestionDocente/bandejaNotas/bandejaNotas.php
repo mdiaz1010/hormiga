@@ -2,11 +2,13 @@
     ?>
 <?php if (count($bodyData->results)>0) {
         ?>
-<link type="text/css" rel="stylesheet" href="https://docs.handsontable.com/pro/2.0.0/bower_components/handsontable-pro/dist/handsontable.full.min.css">
-<script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/handsontable.full.min.js"></script>
-<script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/ruleJS.all.full.js"></script>
-<script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/handsontable.formula.js"></script>
 
+<link type="text/css" rel="stylesheet" href="<?= base_url(); ?>publico/handsontable/css/handsontable.full.css">
+<script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/handsontable.full.min.js"></script>
+
+
+
+<link type="text/css" rel="stylesheet" href="https://docs.handsontable.com/2.0.0/bower_components/handsontable/dist/handsontable.full.min.css">
                                         <div class="list-group right" >
 
                                             <button class="btn btn-danger " title="Registrar Notas" type="button" name="btnNotas" id="btnNotas">
@@ -29,8 +31,8 @@
                                           </div>
 
                                         </div>
-                                        <div class="x_content bs-example-popovers">
-                                        <div id="ResultadoTabla"></div>
+                                        <div class="x_content">
+                                        <div  id="ResultadoTabla"></div>
                                         </div>
 
 <div id="DIVcargando"       title="EN PROCESO ... ">
