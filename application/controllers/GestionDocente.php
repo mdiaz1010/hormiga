@@ -692,12 +692,14 @@ class GestionDocente extends CI_Controller
 
               $list_final_notas[] = explode(',,',$list[$clave]);
             }
-
+#var_dump($cabecera); die();
             foreach($list_final_notas as $fin){
+          //      $fin==''?$value=0:$value=$fin;
+       #   var_dump($cabecera);var_dump($fin);
                 $deta_alumnos_fin[]=array_combine($cabecera,$fin);
             }
 
-         #   var_dump($deta_alumnos_fin); die();
+            #var_dump($list_final_notas); die();
 
 #regla de negocio , nombre de abreviaciones deben de ser distintos
 
