@@ -1,6 +1,6 @@
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +14,7 @@
     <!-- NProgress -->
     <link href="<?=base_url('publico/html_libs/nprogress/nprogress.css') ?>" rel="stylesheet">
     <!-- Dropzone.js -->
-    <link href="<?=base_url('publico/html_libs/dropzone/dist/min/dropzone.min.css') ?>" rel="stylesheet"> 
+    <link href="<?=base_url('publico/html_libs/dropzone/dist/min/dropzone.min.css') ?>" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="<?=base_url('publico/html_libs/custom_theme/css/custom.css')?>" rel="stylesheet">
 
@@ -27,10 +27,10 @@
         <script src="<?= base_url('publico/js/jquery.dataTables.js')?>"></script>
         <script src="<?= base_url('publico/js/dataTables.bootstrap.js')?>"></script>
         <link href="<?= base_url('publico/css/dataTables.bootstrap.css')?>" rel="stylesheet">
-    
+
     <!-- dialog-->
     <script   src="<?= base_url('publico/js/jquery-ui.js')?>"></script>
-    
+
     <link    href="<?=base_url('publico/css/jquery-ui.css')?>" rel="stylesheet">
 
 
@@ -40,5 +40,5 @@
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')?>" rel="stylesheet">
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')?>" rel="stylesheet">
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')?>" rel="stylesheet">
-    
+
 </head>

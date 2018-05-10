@@ -85,7 +85,7 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                      <div class="table-responsive" id="bandejaNotas"></div>
+                      <div id="bandejaNotas"></div>
                   </div>
                 </div>
               </div>
