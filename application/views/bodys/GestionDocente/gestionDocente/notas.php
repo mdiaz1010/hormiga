@@ -84,15 +84,25 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
+
                       <div id="bandejaNotas"></div>
                   </div>
                 </div>
               </div>
 </div>
-<div id="DIVcargas"       title="EN PROCESO ... ">
- Espere mientras se gestiona la informaci&oacute;n.
-<span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+
+
+
+        <center>
+            <img src="<?= base_url('publico/media/loading.gif')?>" align="botton" alt="Este es el ejemplo de un texto alternativo" >
+        </center>
+
+
+
+  </div>
 </div>
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionDocente_notas.js')?>"></script>
 <?php

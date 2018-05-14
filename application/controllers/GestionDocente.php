@@ -588,7 +588,7 @@ class GestionDocente extends CI_Controller
         $head_not[]=  array("Apellidos y nombres",'on');
         foreach ($head_notas as $clave=> $columns) {
             $readOnly=false;
-            $className='htCenter';
+            $className='htLeft';
             $validator=false;
             $head_not[]=array($columns['abreviacion'],'off');
             $column[]=
@@ -674,7 +674,7 @@ class GestionDocente extends CI_Controller
 
                 while($i<$cantidad_notas_capacidades){
 
-                    $array_letra[]=$letra.$a."*".$pesos[$con]['peso'];
+                    $array_letra[]="IF(COUNTBLANK(".$letra.$a.")=0;(".$letra.$a.");0)"."*".$pesos[$con]['peso'];
                     $letra++;
                     $i++;
                     $con++;
@@ -683,6 +683,7 @@ class GestionDocente extends CI_Controller
                 $letra++;
                 $list[$clave][$key]=implode(',,',array_merge($notas_capacidades,array($notas['nom_notas']=>"=(".implode('+',$array_letra).")")));
 
+          #      print_r($list); die(); =IF(COUNTBLANK(B',@x := @x + 1,':F',@x,')>0;ROUND(average(B',@x,':F',@x,');0);\"\")
             }
             $a++;
             $list[$clave]=$notas_detalle[$clave]['ape_pat_per'].',,'.implode(',,',$list[$clave]);

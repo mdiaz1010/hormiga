@@ -6,9 +6,6 @@
 <link type="text/css" rel="stylesheet" href="<?= base_url(); ?>publico/handsontable/css/handsontable.full.css">
 <script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/handsontable.full.min.js"></script>
 
-
-
-<link type="text/css" rel="stylesheet" href="https://docs.handsontable.com/2.0.0/bower_components/handsontable/dist/handsontable.full.min.css">
                                         <div class="list-group right" >
 
                                             <button class="btn btn-danger " title="Registrar Notas" type="button" name="btnNotas" id="btnNotas">
@@ -35,27 +32,13 @@
                                         <div  id="ResultadoTabla"></div>
                                         </div>
 
-<div id="DIVcargando"       title="EN PROCESO ... ">
-Espere mientras se gestiona la informaci&oacute;n.
-<span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
-</div>
+
 <?php
     } else {
         echo "<div class='alert_result'>No se encuentra ningun alumno registrado.</div>";
     } ?>
 
 <script type="text/javascript">
-$('#DIVcargando').dialog({
-        autoOpen: false,
-        hide:'drop',
-        width: 360,
-        height: 80,
-        closeOnEscape: false,
-        open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); },
-        modal: true
-	});
-    $('#DIVcargando').dialog({ draggable: false });
-    $('#DIVcargando').dialog({ resizable: false });
 
 busqueda=<?=json_encode($bodyData->datos) ?>;
 data1= <?= json_encode($bodyData->tabla) ?>;
@@ -68,9 +51,8 @@ configuraciones={
     colHeaders:true,
     rowHeaders:true,
     nestedHeaders: [
-        <?=$bodyData->head_primera?>,
+    //    <?=$bodyData->head_primera?>,comentado , se está prefiriendo optimización antes de estética
         <?=$bodyData->head?>
-
     ],
     stretchH: 'all',
     columns:<?=$bodyData->column?>,
@@ -78,7 +60,8 @@ configuraciones={
     formulas:true,
             afterCreateRow:function(index,numberOfRows){
                 data1.splice(index,numberOfRows);//limita crecimiento de la tabla
-            },
+            }
+   /*         ,
     afterChange: function(registroModificados,accionesHandsontable){
         if(accionesHandsontable!='loadData'){
             registroModificados.forEach(function(elemento){
@@ -89,8 +72,8 @@ configuraciones={
         }
     },
             afterRender: function(){
-            render_color(this);
-            }
+                render_color(this);
+            }*/
     };
 
 function render_color(ht){
@@ -107,21 +90,13 @@ if(p==0){
   if(ide<=10.4){
   font_color = "#E74C3C";
   }else{
-  font_color = "#2874A6";
+  font_color = "#000";
   }
 }
 
-var cell_color = $.map(cabeceras, function(value, key) {
-     if (p==value)
-     {
-        return "#fcf3cf";
-
-     }
-});
 
 
-
-      $(ht.getCell(i,p)).css({"color": font_color, "background-color": cell_color[0]});
+      $(ht.getCell(i,p)).css({"color": font_color});
     }
 
   }

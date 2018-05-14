@@ -1,21 +1,3 @@
-
-
-$('#DIVcargas').dialog({
-        autoOpen: false,
-        hide:'drop',
-        width: 300,
-        height: 150,
-        closeOnEscape: false,
-        open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); },
-        modal: true,
-        buttons: {
-	        "CERRAR": function() {
-	                $(this).dialog("close");                        
-	        }
-	    }
-	});        
-    $('#DIVcargas').dialog({ draggable: false });
-    $('#DIVcargas').dialog({ resizable: false });
 var f=new Date();
 var ano = f.getFullYear();
 var mes = f.getMonth();
@@ -28,7 +10,7 @@ var diaMaximo = diasMes[mes];
 if (mes == 1 && (((ano % 4 == 0) && (ano % 100 != 0)) || (ano % 400 == 0)))
    diaMaximo = 29;
 
-        
+
 
 function show(){
 var Digital=new Date();
@@ -51,91 +33,97 @@ seconds="0"+seconds;}
 setTimeout("show()",1000);
 }
 show();
-        
- 
-            
 
 
-     
+
+
+
+
     fechaImprimible =diasSemana[f.getDay()] + ", " + f.getDate() + " de " + meses[f.getMonth()] ;
-   
-        
+
+
     $("#fecha").val(fechaImprimible); //IMPRIMO LA FECHA
 
-     	
+
 $(document).ready(function(){
 
-	
-	$('#rol_grado').change(function (){           
-		var grado=$(this).val();	
+
+	$('#rol_grado').change(function (){
+		var grado=$(this).val();
                 if(grado==='Seleccione'){
-                $("#bandejaNotas").html("Ingrese el Curso...");      
-                $("#rol_seccion").html("");  
-                $("#rol_curso").html("");                    
+                $("#bandejaNotas").html("Ingrese el Curso...");
+                $("#rol_seccion").html("");
+                $("#rol_curso").html("");
                 }else{
 		$.post( 'comboSeccionProf',{grado:grado},function (data){
 			$('#rol_seccion').html(data);
-                        $("#rol_curso").html("");                        
-                        $("#bandejaNotas").html("Ingrese el Curso...");                            
-			} );                    
+                        $("#rol_curso").html("");
+                        $("#bandejaNotas").html("Ingrese el Curso...");
+			} );
                 }
 
 	});
-	
-	
-	
+
+
+
 	$('#rol_seccion').change(function (){
 		var seccion=$(this).val();
-		var grado=$('#rol_grado').val();	
+		var grado=$('#rol_grado').val();
                 if(seccion===''){
-                $("#bandejaNotas").html("Ingrese el Curso...");      
+                $("#bandejaNotas").html("Ingrese el Curso...");
                 $("#rol_curso").html("");
                 }else{
 		$.post( 'comboCursoProf',{grado:grado,seccion:seccion},function (data){
 			$('#rol_curso').html(data);
-                        $("#bandejaNotas").html("Ingrese el Curso...");                          
-			} );                    
+                        $("#bandejaNotas").html("Ingrese el Curso...");
+			} );
                 }
 
 	});
 
     	$('#rol_curso').change(function (){
-		var curso=$(this).val();           																			
-                var grado=$('#rol_grado').val();    
+		var curso=$(this).val();
+                var grado=$('#rol_grado').val();
                 var seccion=$('#rol_seccion').val();
                 if(curso===''){
-                $("#bandejaNotas").html("Ingrese el Curso...");    
+                $("#bandejaNotas").html("Ingrese el Curso...");
                 }else{
 		$.post( 'comboBimeProf',{grado:grado,seccion:seccion,curso:curso},function (data){
 			$('#rol_bimestre').html(data);
-                        $("#bandejaNotas").html("Ingrese el Curso...");                          
-			} );                  
-                    }        
+                        $("#bandejaNotas").html("Ingrese el Curso...");
+			} );
+                    }
 	});
 
 
     	$('#rol_bimestre').change(function (){
-                var bimestre= $(this).val();     
-                
+                var bimestre= $(this).val();
+                $('#exampleModalCenter').modal("show");
                 var inicio = $(this).data("fecini");
-		var curso=$('#rol_curso').val();         																			
-                var grado=$('#rol_grado').val();    
+		var curso=$('#rol_curso').val();
+                var grado=$('#rol_grado').val();
                 var seccion=$('#rol_seccion').val();
                 if(bimestre===''){
-                $("#bandejaNotas").html("Ingrese el Bimestre...");    
+                $("#bandejaNotas").html("Ingrese el Bimestre...");
+                $('#exampleModalCenter').modal("toggle");
                 }else{
-                
+                $('#exampleModalCenter').modal("toggle");
                 $.ajax({
                     type : "POST",
-                    url : "comboBandeNota",     
+                    url : "comboBandeNota",
                     data:{bimestre:bimestre,curso:curso,grado:grado,seccion:seccion},
-                    success : function(datos){                    
+                    success : function(datos){
                         $('#bandejaNotas').html(datos);
-                        return false;
+
+//                        $('#exampleModal').modal("show");
+
+                       // var myWindow = window.open(url, "", "width=800,height=600");
+
+               //         return false;
                     }
-                });                
-                    }        
+                });
+                    }
 	});
-    
-   
+
+
 });
