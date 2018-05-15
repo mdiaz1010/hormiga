@@ -5,7 +5,7 @@
 
 <link type="text/css" rel="stylesheet" href="<?= base_url(); ?>publico/handsontable/css/handsontable.full.css">
 <script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/handsontable.full.min.js"></script>
-
+<!--
                                         <div class="list-group right" >
 
                                             <button class="btn btn-danger " title="Registrar Notas" type="button" name="btnNotas" id="btnNotas">
@@ -13,6 +13,7 @@
                                            </button>
                                             <strong>Una vez terminado de ingresar las notas no te olvides de presionar el boton rojo para registrarlas (*)</strong>
                                         </div>
+                                           -->
                                         <div class="x_content bs-example-popovers">
 
                                             <div   id="exito" class="alert alert-success alert-dismissible fade in" role="alert" hidden="true">
@@ -44,23 +45,37 @@ busqueda=<?=json_encode($bodyData->datos) ?>;
 data1= <?= json_encode($bodyData->tabla) ?>;
 var bool ='';
 var cabeceras =<?= $bodyData->marcados?>;
+  yellowRenderer = function(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    td.style.backgroundColor = 'yellow';
 
+  };
+  greenRenderer = function(instance, td, row, col, prop, value, cellProperties) {
+    Handsontable.renderers.TextRenderer.apply(this, arguments);
+    td.style.backgroundColor = 'green';
+
+  };
 configuraciones={
 
     data:data1,
     colHeaders:true,
-    rowHeaders:true,
+    rowHeaders:false,
+    yellowRenderer,
+    fixedRowsTop: 0,
     nestedHeaders: [
-    //    <?=$bodyData->head_primera?>,comentado , se está prefiriendo optimización antes de estética
+        <?=$bodyData->head_primera?>,//comentado , se está prefiriendo optimización antes de estética
         <?=$bodyData->head?>
     ],
     stretchH: 'all',
     columns:<?=$bodyData->column?>,
-            afterValidate: function(isValid){bool=isValid;},
+    afterValidate: function(isValid){bool=isValid;},
     formulas:true,
-            afterCreateRow:function(index,numberOfRows){
+    afterCreateRow:function(index,numberOfRows){
                 data1.splice(index,numberOfRows);//limita crecimiento de la tabla
-            }
+            },
+    cell: [
+                {row: 0, col: 0, renderer: greenRenderer}
+    ],
    /*         ,
     afterChange: function(registroModificados,accionesHandsontable){
         if(accionesHandsontable!='loadData'){

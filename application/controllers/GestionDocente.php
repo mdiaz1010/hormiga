@@ -680,10 +680,10 @@ class GestionDocente extends CI_Controller
                     $con++;
 
                 }
+
                 $letra++;
                 $list[$clave][$key]=implode(',,',array_merge($notas_capacidades,array($notas['nom_notas']=>"=(".implode('+',$array_letra).")")));
 
-          #      print_r($list); die(); =IF(COUNTBLANK(B',@x := @x + 1,':F',@x,')>0;ROUND(average(B',@x,':F',@x,');0);\"\")
             }
             $a++;
             $list[$clave]=$notas_detalle[$clave]['ape_pat_per'].',,'.implode(',,',$list[$clave]);
