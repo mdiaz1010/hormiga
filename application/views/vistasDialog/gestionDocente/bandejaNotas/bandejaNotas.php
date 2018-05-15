@@ -30,7 +30,7 @@
 
                                         </div>
                                         <div class="x_content">
-                                        <div  id="ResultadoTabla"></div>
+                                        <div  id="ResultadoTabla"  ></div>
                                         </div>
 
 
@@ -52,7 +52,7 @@ var cabeceras =<?= $bodyData->marcados?>;
   };
   greenRenderer = function(instance, td, row, col, prop, value, cellProperties) {
     Handsontable.renderers.TextRenderer.apply(this, arguments);
-    td.style.backgroundColor = 'green';
+    td.style.backgroundColor = '#ffd07e';
 
   };
 configuraciones={
@@ -67,6 +67,7 @@ configuraciones={
         <?=$bodyData->head?>
     ],
     stretchH: 'all',
+    sortIndicator: true,
     columns:<?=$bodyData->column?>,
     afterValidate: function(isValid){bool=isValid;},
     formulas:true,
@@ -85,10 +86,10 @@ configuraciones={
                             $('#exito').hide();
                             $('#error').hide();
         }
-    },
+    },*/
             afterRender: function(){
                 render_color(this);
-            }*/
+            }
     };
 
 function render_color(ht){
@@ -98,20 +99,24 @@ function render_color(ht){
 
  var ide=ht.getDataAtCell(i,p);
 
-
 if(p==0){
   font_color = "#070719";
 }else{
   if(ide<=10.4){
   font_color = "#E74C3C";
   }else{
-  font_color = "#000";
+  font_color = "#2874A6";
   }
 }
+var cell_color = $.map(cabeceras, function(value, key) {
+     if (p==value)
+     {
+        return "#fcf3cf";
+     }
+});
 
 
-
-      $(ht.getCell(i,p)).css({"color": font_color});
+      $(ht.getCell(i,p)).css({"color": font_color, "background-color": cell_color[0]});
     }
 
   }
@@ -157,6 +162,7 @@ $("#btnNotas").click(function(){
                     }
 });
 </script>
+
 
 <?php
 } else {
