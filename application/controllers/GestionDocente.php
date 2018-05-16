@@ -693,7 +693,7 @@ class GestionDocente extends CI_Controller
 
               $list_final_notas[] = explode(',,',$list[$clave]);
             }
-           
+
 #var_dump($cabecera); die();
             foreach($list_final_notas as $fin){
           //      $fin==''?$value=0:$value=$fin;

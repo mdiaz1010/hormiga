@@ -112,7 +112,7 @@
 
 
                         <div class="x_panel">
-                                <div id="bandejaNotas" class="table-responsive"></div>
+                                <div id="bandejaNotas" ></div>
                         </div>
 
 

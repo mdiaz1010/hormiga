@@ -41,10 +41,11 @@
 
 <script type="text/javascript">
 
-busqueda=<?=json_encode($bodyData->datos) ?>;
-data1= <?= json_encode($bodyData->tabla) ?>;
-var bool ='';
-var cabeceras =<?= $bodyData->marcados?>;
+var busqueda     = <?=json_encode($bodyData->datos) ?>  ;
+var data1        = <?= json_encode($bodyData->tabla) ?> ;
+var bool         = '';
+var cabeceras    = <?= $bodyData->marcados?>;
+/*
   yellowRenderer = function(instance, td, row, col, prop, value, cellProperties) {
     Handsontable.renderers.TextRenderer.apply(this, arguments);
     td.style.backgroundColor = 'yellow';
@@ -55,12 +56,13 @@ var cabeceras =<?= $bodyData->marcados?>;
     td.style.backgroundColor = '#ffd07e';
 
   };
+*/
 configuraciones={
 
     data:data1,
     colHeaders:true,
     rowHeaders:false,
-    yellowRenderer,
+    //yellowRenderer,
     fixedRowsTop: 0,
     nestedHeaders: [
         <?=$bodyData->head_primera?>,//comentado , se está prefiriendo optimización antes de estética
@@ -74,10 +76,10 @@ configuraciones={
     afterCreateRow:function(index,numberOfRows){
                 data1.splice(index,numberOfRows);//limita crecimiento de la tabla
             },
+    /*         ,
     cell: [
                 {row: 0, col: 0, renderer: greenRenderer}
     ],
-   /*         ,
     afterChange: function(registroModificados,accionesHandsontable){
         if(accionesHandsontable!='loadData'){
             registroModificados.forEach(function(elemento){
@@ -87,7 +89,7 @@ configuraciones={
                             $('#error').hide();
         }
     },*/
-            afterRender: function(){
+    afterRender: function(){
                 render_color(this);
             }
     };
