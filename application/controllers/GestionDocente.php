@@ -588,7 +588,7 @@ class GestionDocente extends CI_Controller
         $head_not[]=  array("Apellidos y nombres",'on');
         foreach ($head_notas as $clave=> $columns) {
             $readOnly=false;
-            $className='htCenter';
+            $className='htLeft';
             $validator=false;
             $head_not[]=array($columns['abreviacion'],'off');
             $column[]=
@@ -674,12 +674,13 @@ class GestionDocente extends CI_Controller
 
                 while($i<$cantidad_notas_capacidades){
 
-                    $array_letra[]=$letra.$a."*".$pesos[$con]['peso'];
+                    $array_letra[]="IF(COUNTBLANK(".$letra.$a.")=0;(".$letra.$a.");0)"."*".$pesos[$con]['peso'];
                     $letra++;
                     $i++;
                     $con++;
 
                 }
+
                 $letra++;
                 $list[$clave][$key]=implode(',,',array_merge($notas_capacidades,array($notas['nom_notas']=>"=(".implode('+',$array_letra).")")));
 
@@ -692,12 +693,15 @@ class GestionDocente extends CI_Controller
 
               $list_final_notas[] = explode(',,',$list[$clave]);
             }
-
+           
+#var_dump($cabecera); die();
             foreach($list_final_notas as $fin){
+          //      $fin==''?$value=0:$value=$fin;
+       #   var_dump($cabecera);var_dump($fin);
                 $deta_alumnos_fin[]=array_combine($cabecera,$fin);
             }
 
-         #   var_dump($deta_alumnos_fin); die();
+      #      var_dump($deta_alumnos_fin); die();
 
 #regla de negocio , nombre de abreviaciones deben de ser distintos
 
