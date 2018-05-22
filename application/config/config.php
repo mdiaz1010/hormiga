@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 date_default_timezone_set('America/Lima');
-$config['base_url'] = 'http://localhost:8087/hormiga';
+$config['base_url'] = 'http://localhost:8087/hormiga/hormiga';
 
 /*
 |--------------------------------------------------------------------------

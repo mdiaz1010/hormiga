@@ -94,45 +94,23 @@ class GestionDocente extends CI_Controller
     public function registrarNotas()
     {
         $this->load->model("Usuarios_model", '', true);
-        $this->load->model("Rol_model", '', true);//
-        $where= $this->input->post("busqueda");
+        $this->load->model("Rol_model", '', true);
         $objetoNotas= $this->input->post("tblExcel");
+        $grado      = $this->input->post("grado");
+        $seccion    = $this->input->post("seccion");
+        $curso      = $this->input->post("curso");
+        $bimestre   = $this->input->post("bimestre");
+        $ano        = date('Y');
+        $profesor   = $this->session->webCasSession->usuario->CODIGO;
+        foreach($objetoNotas as $filas )
+        {
+            foreach($filas as $key => $notas  )
+            {
 
-
-
-        switch ($where['id_bimestre']) {
-        case "1": $array= array('1'=>3,'2'=>6,'3'=>9,'4'=>12,'5'=>15); break;
-        case "2": $array= array('1'=>2,'2'=>5,'3'=>8,'4'=>11,'5'=>14); break;
-        case "3": $array= array('1'=>1,'2'=>4,'3'=>7,'4'=>10,'5'=>13); break;
-        }
-
-
-        $j=0;
-        foreach ($objetoNotas as $contando) {
-            $i=1;
-
-            foreach ($array as $id_nota) {
-                if ($contando['C'.$i]!='') {
-                    if (is_numeric($contando['C'.$i])==true) {
-                        if ((int)$contando['C'.$i]>=0 && (int)$contando['C'.$i]<=20) {
-                            $cambio[$j]=array('nota'=>$contando['C'.$i],'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
-                            $data[$j]  =array('id'=>$contando['C_'.$i]);
-                            $clausula=$this->Usuarios_model->buscarcodigonotas($data[$j]);
-                            $this->Usuarios_model->cambioNotas($cambio[$j], $clausula);
-                            $j++;
-                        }
-                    }
-                }
-                $i++    ;
             }
-            //    switch ($where['id_bimestre']){
-    //    case "1": $array= array('1'=>3,'2'=>6,'3'=>9,'4'=>12,'5'=>15);$id_prom=array('id'=>$contando['P_P']);$this->Usuarios_model->promediar(implode($array,','),$id_prom);  break;
-    //    case "2": $array= array('1'=>2,'2'=>5,'3'=>8,'4'=>11,'5'=>14);$id_prom=array('id'=>$contando['P_P']);$this->Usuarios_model->promediar(implode($array,','),$id_prom); break;
-    //    case "3": $array= array('1'=>1,'2'=>4,'3'=>7,'4'=>10,'5'=>13);$id_prom=array('id'=>$contando['P_P']);$this->Usuarios_model->promediar(implode($array,','),$id_prom); break;
-    //    }
         }
 
-        //
+
     }
     public function reportPrincipal()
     {

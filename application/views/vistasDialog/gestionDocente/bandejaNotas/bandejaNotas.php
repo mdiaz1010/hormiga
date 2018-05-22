@@ -133,8 +133,8 @@
         tblExcel.render();
 
         $("#btnNotas").click(function () {
-            console.log(data1);
-            return true;
+
+
             var h = 1;
             var contador = 0;
             /*for (i = 0; i < data1.length; i++) {
@@ -160,14 +160,18 @@
                     type: 'POST',
                     url: 'registrarNotas',
                     data: {
-                        'tblExcel': data1,
-                        'busqueda': busqueda
+                        'tblExcel'  : data1,
+                        'grado'     : $('#rol_grado').val(),
+                        'seccion'   : $('#rol_seccion').val(),
+                        'curso'     : $('#rol_curso').val(),
+                        'bimestre'  : $('#rol_bimestre').val()
                     },
                     beforeSend: function () {
-                        $('#DIVcargando').dialog('open');
+                        $('#exampleModalCenter').modal("show");
                     },
                     success: function () {
-                        $('#DIVcargando').dialog('close');
+                        $('#exampleModalCenter').modal("toggle");
+
                         $('#exito').show();
                         $('#error').hide();
                     },
