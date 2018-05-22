@@ -686,7 +686,7 @@ class GestionDocente extends CI_Controller
 
             }
             $a++;
-            $list[$clave]=$notas_detalle[$clave]['ape_pat_per'].',,'.implode(',,',$list[$clave]);
+            $list[$clave]=$notas_detalle[$clave]['ape_pat_per'].',,'.implode(',,',$list[$clave]).',,'.$notas_detalle[$clave]['id_alumno'];
               # $list[$clave]["ape_pat_per"]=$notas_detalle[$clave]['ape_pat_per'];
               # $list[$clave]["id_alumno"]  =$notas_detalle[$clave]['id_alumno'];
 
@@ -695,13 +695,14 @@ class GestionDocente extends CI_Controller
             }
 
 #var_dump($cabecera); die();
+            array_push($cabecera,'codigo');
             foreach($list_final_notas as $fin){
           //      $fin==''?$value=0:$value=$fin;
        #   var_dump($cabecera);var_dump($fin);
                 $deta_alumnos_fin[]=array_combine($cabecera,$fin);
             }
 
-      #      var_dump($deta_alumnos_fin); die();
+            #var_dump($deta_alumnos_fin); die();
 
 #regla de negocio , nombre de abreviaciones deben de ser distintos
 
