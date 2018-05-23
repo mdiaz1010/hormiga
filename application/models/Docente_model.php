@@ -80,6 +80,21 @@ class Docente_model extends CI_Model
                                ->order_by("ma.nom_notas")    ;
         return $this->db->get()->result_array() ;
     }
+    public function busqueda_id_notas($list_datos)
+    {
+        $this->db->distinct();
+        $this->db->select('rl.id,rl.abreviacion')
+                 ->from('rel_notas_detalle rl')
+                 ->join('maenotas ma'  , 'rl.id_nota=ma.id')
+                 ->where('     rl.ano               ='.$list_datos['ano'].'
+                               and rl.id_grado      ='.$list_datos['id_grado'].'
+                               and rl.id_curso      ='.$list_datos['id_curso'].'
+                               and ma.id_bimestre    ='.$list_datos['id_bimestre'].'
+                               and rl.estado        = 1 '.'
+                               and rl.id_profesor   ='.$list_datos['id_profesor'])          ;
+        return $this->db->get()->result_array() ;
+
+    }
     public function detalle_alumno($busqueda,$valor)
     {
 

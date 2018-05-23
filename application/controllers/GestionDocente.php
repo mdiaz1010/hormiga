@@ -93,7 +93,7 @@ class GestionDocente extends CI_Controller
     }
     public function registrarNotas()
     {
-        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Docente_model", '', true);
         $this->load->model("Rol_model", '', true);
         $objetoNotas= $this->input->post("tblExcel");
         $grado      = $this->input->post("grado");
@@ -102,6 +102,11 @@ class GestionDocente extends CI_Controller
         $bimestre   = $this->input->post("bimestre");
         $ano        = date('Y');
         $profesor   = $this->session->webCasSession->usuario->CODIGO;
+        $list_notas= array('ano'=>$ano,'id_grado'=>$grado,'id_curso'=>$curso,'id_bimestre'=>$bimestre,'id_profesor'=>$profesor);
+        $codigo_nota = $this->Docente_model->busqueda_id_notas($list_notas);
+
+
+        print_r($codigo_nota); die();
         foreach($objetoNotas as $filas )
         {
             foreach($filas as $key => $notas  )
