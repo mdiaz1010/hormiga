@@ -104,15 +104,28 @@ class GestionDocente extends CI_Controller
         $profesor   = $this->session->webCasSession->usuario->CODIGO;
         $list_notas= array('ano'=>$ano,'id_grado'=>$grado,'id_curso'=>$curso,'id_bimestre'=>$bimestre,'id_profesor'=>$profesor);
         $codigo_nota = $this->Docente_model->busqueda_id_notas($list_notas);
+        $abreviacion_notas = array_column($codigo_nota,'abreviacion');
+        $list_keys= array();
 
 
-        print_r($codigo_nota); die();
-        foreach($objetoNotas as $filas )
+
+        foreach ( $objetoNotas as $filas )
         {
-            foreach($filas as $key => $notas  )
-            {
 
+            $abreviacion_notas=array_pad($abreviacion_notas, count($filas),'XX');
+            $list_keys=array_values(array_flip($filas));
+
+            $i=0;
+            foreach ( $filas as $key => $codigo  )
+            {
+                $keys= array_search($abreviacion_notas[$i],$list_keys);
+                //  $id_nota[]= $this->Docente_model->busqueda_id_nota($filas['codigo'],$codigo_nota[$clave]['id'],1,date('Y'));
+                $i++;
+
+                echo $keys;
             }
+
+            die();
         }
 
 

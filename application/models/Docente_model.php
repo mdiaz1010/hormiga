@@ -80,6 +80,17 @@ class Docente_model extends CI_Model
                                ->order_by("ma.nom_notas")    ;
         return $this->db->get()->result_array() ;
     }
+    public function busqueda_id_nota($codigo_alumno,$string_id_notas,$estado,$ano)
+    {
+        $this->db->distinct();
+        $this->db->select('id')
+                 ->from('rel_notas_detalle_alumno')
+                 ->where('      id_alumno='.$codigo_alumno.'
+                          and   id_nota in ('.$string_id_notas.')
+                          and   ano='.$ano.'
+                          and   estado='.$estado);
+                return $this->db->get()->result_array() ;
+    }
     public function busqueda_id_notas($list_datos)
     {
         $this->db->distinct();
