@@ -105,7 +105,8 @@ class GestionDocente extends CI_Controller
         $list_notas= array('ano'=>$ano,'id_grado'=>$grado,'id_curso'=>$curso,'id_bimestre'=>$bimestre,'id_profesor'=>$profesor);
         $codigo_nota = $this->Docente_model->busqueda_id_notas($list_notas);
         $abreviacion_notas = array_column($codigo_nota,'abreviacion');
-        $list_keys= array();
+        $codigo_nota=array_column($codigo_nota,'id');
+
 
 
 
@@ -113,19 +114,28 @@ class GestionDocente extends CI_Controller
         {
 
             $abreviacion_notas=array_pad($abreviacion_notas, count($filas),'XX');
-            $list_keys=array_values(array_flip($filas));
+            $list_keys=array_values(array_keys($filas));
 
             $i=0;
+           # print_r($abreviacion_notas);die();
             foreach ( $filas as $key => $codigo  )
             {
-                $keys= array_search($abreviacion_notas[$i],$list_keys);
-                //  $id_nota[]= $this->Docente_model->busqueda_id_nota($filas['codigo'],$codigo_nota[$clave]['id'],1,date('Y'));
-                $i++;
 
-                echo $keys;
+                $keys= array_keys($list_keys,$abreviacion_notas[$i]);
+                if(count($keys)>1)
+                {
+                    $notas =array_values($filas);
+
+                     $id_nota= $this->Docente_model->busqueda_id_nota($filas['codigo'],$codigo_nota[$i],1,date('Y'));
+
+                    $this->Docente_model->cambiar_nota($id_nota[0]['id'],array('nota'=>$notas[$keys[1]]));
+
+                }
+                    $i++;
+
             }
 
-            die();
+
         }
 
 

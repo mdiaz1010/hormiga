@@ -80,6 +80,12 @@ class Docente_model extends CI_Model
                                ->order_by("ma.nom_notas")    ;
         return $this->db->get()->result_array() ;
     }
+    public function cambiar_nota($id_nota,$nota)
+    {
+        $this->db->set($nota);
+        $this->db->where('id', $id_nota);
+        $this->db->update('rel_notas_detalle_alumno');
+    }
     public function busqueda_id_nota($codigo_alumno,$string_id_notas,$estado,$ano)
     {
         $this->db->distinct();
