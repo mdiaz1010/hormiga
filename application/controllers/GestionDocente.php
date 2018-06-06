@@ -117,7 +117,7 @@ class GestionDocente extends CI_Controller
             $list_keys=array_values(array_keys($filas));
 
             $i=0;
-           # print_r($abreviacion_notas);die();
+         #   print_r($codigo_nota);die();
             foreach ( $filas as $key => $codigo  )
             {
 
@@ -126,8 +126,8 @@ class GestionDocente extends CI_Controller
                 {
                     $notas =array_values($filas);
 
-                     $id_nota= $this->Docente_model->busqueda_id_nota($filas['codigo'],$codigo_nota[$i],1,date('Y'));
 
+                     $id_nota= $this->Docente_model->busqueda_id_nota($filas['codigo'],$codigo_nota[$i],1,date('Y'));
                     $this->Docente_model->cambiar_nota($id_nota[0]['id'],array('nota'=>$notas[$keys[1]]));
 
                 }
@@ -568,18 +568,7 @@ class GestionDocente extends CI_Controller
             }
         }
 
-        /*
-                columns:[
-                         {data:"ape_pat_per",type:'text',readOnly:true,size:"40"},
-                         {data:"C1",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-                         {data:"C2",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-                         {data:"C3",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-                         {data:"C4",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-                         {data:"C5",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-                         {data:"PT",type:'text'   ,readOnly:true ,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}}
-                ],
-        vamoss
-        */
+
         $cantidad_cap=array('label'=>'','colspan'=>1,'rowspan'=>2);
         $cantidad_capacidad= $this->Docente_model->busqueda_notas_cantidad($busqueda);
         array_unshift($cantidad_capacidad,$cantidad_cap);
@@ -664,6 +653,7 @@ class GestionDocente extends CI_Controller
             $contador=0;
             $cadena='';
             $list=array();
+
             foreach($deta_alumnos as $clave => $not){
                 $letra='B';
                 $con=0;
@@ -689,6 +679,7 @@ class GestionDocente extends CI_Controller
                 }
 
                 $letra++;
+
                 $list[$clave][$key]=implode(',,',array_merge($notas_capacidades,array($notas['nom_notas']=>"=(".implode('+',$array_letra).")")));
 
             }
@@ -701,7 +692,7 @@ class GestionDocente extends CI_Controller
               $list_final_notas[] = explode(',,',$list[$clave]);
             }
 
-#var_dump($cabecera); die();
+
             array_push($cabecera,'codigo');
             foreach($list_final_notas as $fin){
           //      $fin==''?$value=0:$value=$fin;
@@ -710,7 +701,7 @@ class GestionDocente extends CI_Controller
             }
 
             #var_dump($deta_alumnos_fin); die();
-
+            #var_dump($deta_alumnos_fin); die();
 #regla de negocio , nombre de abreviaciones deben de ser distintos
 
         $cantidad=count($deta_alumnos);
@@ -765,34 +756,42 @@ class GestionDocente extends CI_Controller
         $profesor   =$this->input->post('profesor');
         $curso        =$this->input->post('curso');
         $abreviacion        =$this->input->post('abreviacion');
-
+        $cadena='';
         $descontar        =$this->input->post('descontar');
         $data= array('profesor'=>$profesor,'curso'=>$curso,'grado'=>$grado);
         $list_seccion = $this->Usuarios_model->busquedaCursoSeccionProf($data);
-        $id_rel_notas_detalle= $this->Docente_model->busqueda_notas_configuradas_id($grado, $curso, $abreviacion, $profesor, date('Y'));
+        $i=0;
+        foreach(explode(',',$abreviacion) as $list_abreviacion){
+            $id_rel_notas_detalle[]= $this->Docente_model->busqueda_notas_configuradas_id($grado, $curso, $list_abreviacion, $profesor, date('Y'));
+
+            $j=0;
+            foreach($id_rel_notas_detalle[$i] as $cadena_notas_id){
+                $cadena.=','.implode(',',$id_rel_notas_detalle[$i][$j]);
+                $j++;
+            }
+           $i++;
+        }
 
         foreach($list_seccion as $seccion){
             $cadena_seccion[]=$seccion['id_seccion'];
         }
-        foreach($id_rel_notas_detalle as $id_detalle){
-            $cadena_detalle[]=$id_detalle['id'];
-        }
+
 
         $list_cambio=array('estado'=>0,'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
-        $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'abreviacion'=>$abreviacion,'ano'=>date('Y'));
+        $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'ano'=>date('Y'));
         $list_datos_alumno=array('id_grado'=>$grado,'id_curso'=>$curso,'ano'=>date('Y'));
 
-        if ($this->Usuarios_model->editar_configuracion_nota($list_cambio, $list_datos)) {
-            if($descontar>0){
-            if($this->Usuarios_model->editar_configuracion_nota_alumno($list_cambio,$list_datos_alumno,implode(',',$cadena_seccion),implode(',',$cadena_detalle))){
-                echo "edicion exitosa";
-            }else{
-                echo "fallo en la eliminacion alumno";
-            }
-            }
-        } else {
-            echo "fallo en la eliminacion";
-        }
+        if($descontar>0){
+                if ($this->Usuarios_model->editar_configuracion_nota($list_cambio, $list_datos,substr($cadena,1))) {
+                        if($this->Usuarios_model->editar_configuracion_nota_alumno($list_cambio,$list_datos_alumno,implode(',',$cadena_seccion),substr($cadena,1))){
+                            echo "edicion exitosa";
+                        }else{
+                            echo "fallo en la eliminacion alumno";
+                        }
+                } else {
+                    echo "fallo en la eliminacion";
+                }
+         }
     }
     public function valido_abreviacion_notas()
     {
@@ -826,6 +825,7 @@ class GestionDocente extends CI_Controller
         $descripcion=$this->input->post('descripcion');
         $peso       =$this->input->post('peso');
         $descontar  =$this->input->post('descontar');
+
         if (empty($abreviacion) || empty($peso) || empty($descripcion)) {
             $mensaje="No se ha ingresado informacion nueva";
             echo json_encode($mensaje);
@@ -840,10 +840,10 @@ class GestionDocente extends CI_Controller
         $cantidad_bi= (int)$this->Usuarios_model->getbi();
         $cantidad_sec=(int)$this->Usuarios_model->getsec($grado, $profesor, $curso);
         $suma_nota= $this->Usuarios_model->suma_notas($grado, $curso, $profesor, $nota);
-        $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi))*100;
+        $suma_bd=(($suma_nota['acumulado']/$cantidad_bi))*100;
 
 
-        $sum_final= (int)$suma_bd+(array_sum($peso)*100)-(int)$descontar;
+        $sum_final= $suma_bd+(array_sum($peso)*100)-(int)$descontar;
 
 
         if ($sum_final!=100) {

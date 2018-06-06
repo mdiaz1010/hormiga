@@ -123,7 +123,7 @@ class Docente_model extends CI_Model
     public function busqueda_id_notas($list_datos)
     {
         $this->db->distinct();
-        $this->db->select('rl.id,rl.abreviacion')
+        $this->db->select('rl.id,rl.abreviacion,rl.id_nota')
                  ->from('rel_notas_detalle rl')
                  ->join('maenotas ma'  , 'rl.id_nota=ma.id')
                  ->where('     rl.ano               ='.$list_datos['ano'].'
@@ -131,7 +131,8 @@ class Docente_model extends CI_Model
                                and rl.id_curso      ='.$list_datos['id_curso'].'
                                and ma.id_bimestre    ='.$list_datos['id_bimestre'].'
                                and rl.estado        = 1 '.'
-                               and rl.id_profesor   ='.$list_datos['id_profesor'])          ;
+                               and rl.id_profesor   ='.$list_datos['id_profesor'])
+                 ->order_by('rl.id_nota,rl.abreviacion')                        ;
         return $this->db->get()->result_array() ;
 
     }
@@ -140,7 +141,7 @@ class Docente_model extends CI_Model
 
         if($valor==true){
             $concatenar=' and rnd.id_alumno='.$busqueda['id_alumno'];
-            $mostrar='rnd.id_nota,rnd.nota,rnd.id,rn.abreviacion,';
+            $mostrar='rnd.id_nota,rnd.nota,rnd.id,rn.abreviacion,rn.id_nota,';
         }else{
             $concatenar=' ';
             $mostrar=' ';
@@ -160,6 +161,10 @@ class Docente_model extends CI_Model
                                and rnd.estado        = 1 '.$concatenar.'
                                and rn.estado        = 1 '.$concatenar.'
                                and rn.id_profesor   ='.$busqueda['id_profesor'])          ;
+
+                               if($valor==true){
+                                $this->db->order_by('rn.id_nota,rn.abreviacion');
+                            }
         return $this->db->get()->result_array() ;
 
     }
