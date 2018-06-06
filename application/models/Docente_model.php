@@ -49,7 +49,30 @@ class Docente_model extends CI_Model
                   // ->order_by("ma.nom_notas")
         return $this->db->get()->result_array() ;
     }
-
+    public function busqueda_notas_configuradas_id($grado, $curso, $abreviacion, $profesor, $ano)
+    {
+        $this->db->distinct();
+        $this->db->select('id')
+                 ->from('rel_notas_detalle')
+                 ->where('
+                       ano           ='.$ano.'
+                   and id_grado      ='.$grado.'
+                   and id_curso      ='.$curso.'
+                   and abreviacion   ="'.$abreviacion.'"
+                   and estado= 1
+                   and id_profesor   ='.$profesor);
+                  // ->order_by("ma.nom_notas")
+        return $this->db->get()->result_array() ;
+    }
+    public function formulario_capacidades($grado,$nota,$profesor,$ano,$curso){
+        $this->db->distinct();
+        $this->db->select('ma.des_notas,concat(rd.abreviacion," * ",rd.peso) as form')
+                 ->from('rel_notas_detalle rd')
+                 ->join('maenotas ma','on rd.id_nota = ma.id')
+                 ->where('rd.id_grado='.$grado.' and rd.id_nota in ('.$nota.') and rd.id_profesor='.$profesor.' and rd.estado=1 and rd.ano='.$ano.' and rd.id_curso='.$curso)
+                 ->order_by('form','asc');
+                 return $this->db->get()->result_array();
+    }
     public function head($busqueda)
     {
         $this->db->distinct();
@@ -135,6 +158,7 @@ class Docente_model extends CI_Model
                                and rnd.id_curso      ='.$busqueda['id_curso'].'
                                and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
                                and rnd.estado        = 1 '.$concatenar.'
+                               and rn.estado        = 1 '.$concatenar.'
                                and rn.id_profesor   ='.$busqueda['id_profesor'])          ;
         return $this->db->get()->result_array() ;
 
@@ -157,6 +181,7 @@ class Docente_model extends CI_Model
                                and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
                                and rnd.id_alumno    ='.$alumno.'
                                and rnd.estado        = 1
+                               and rn.estado        = 1
                                and rn.id_profesor   ='.$busqueda['id_profesor'])
                                ->order_by("ma.nom_notas");
 
@@ -178,6 +203,7 @@ class Docente_model extends CI_Model
                                and rnd.id_curso      ='.$busqueda['id_curso'].'
                                and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
                                and rnd.estado        = 1 '.'
+                               and rn.estado         = 1 '.'
                                and rn.id_profesor    ='.$busqueda['id_profesor'])
                 ->group_by('ma.id,rnd.id_alumno,ma.nom_notas')
                 ->order_by('ma.nom_notas','asc');

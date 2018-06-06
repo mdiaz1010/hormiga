@@ -639,6 +639,7 @@ class GestionDocente extends CI_Controller
         $head=array_keys(array_diff(array_column($head_not, 1), array('off')));
         $cabecera=array_column($head_not, 0);
         $notas_detalle= $this->Docente_model->detalle_alumno($busqueda,false);
+
         $pesos= $this->Docente_model->detalle_alumno_peso($busqueda,$notas_detalle[0]['id_alumno']);
 
 
@@ -758,16 +759,37 @@ class GestionDocente extends CI_Controller
     public function cambiar_estado_configuracion()
     {
         $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Docente_model", '', true);
         $grado       =$this->input->post('grado');
         $nota       =$this->input->post('nota');
         $profesor   =$this->input->post('profesor');
         $curso        =$this->input->post('curso');
-        $abreviacion=$this->input->post('abreviacion');
+        $abreviacion        =$this->input->post('abreviacion');
+
+        $descontar        =$this->input->post('descontar');
+        $data= array('profesor'=>$profesor,'curso'=>$curso,'grado'=>$grado);
+        $list_seccion = $this->Usuarios_model->busquedaCursoSeccionProf($data);
+        $id_rel_notas_detalle= $this->Docente_model->busqueda_notas_configuradas_id($grado, $curso, $abreviacion, $profesor, date('Y'));
+
+        foreach($list_seccion as $seccion){
+            $cadena_seccion[]=$seccion['id_seccion'];
+        }
+        foreach($id_rel_notas_detalle as $id_detalle){
+            $cadena_detalle[]=$id_detalle['id'];
+        }
+
         $list_cambio=array('estado'=>0,'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
         $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'abreviacion'=>$abreviacion,'ano'=>date('Y'));
-        #print_r($list_datos);die();
+        $list_datos_alumno=array('id_grado'=>$grado,'id_curso'=>$curso,'ano'=>date('Y'));
+
         if ($this->Usuarios_model->editar_configuracion_nota($list_cambio, $list_datos)) {
-            echo "edicion exitosa";
+            if($descontar>0){
+            if($this->Usuarios_model->editar_configuracion_nota_alumno($list_cambio,$list_datos_alumno,implode(',',$cadena_seccion),implode(',',$cadena_detalle))){
+                echo "edicion exitosa";
+            }else{
+                echo "fallo en la eliminacion alumno";
+            }
+            }
         } else {
             echo "fallo en la eliminacion";
         }
@@ -803,7 +825,7 @@ class GestionDocente extends CI_Controller
         $list_nota= explode(',', $nota);
         $descripcion=$this->input->post('descripcion');
         $peso       =$this->input->post('peso');
-
+        $descontar  =$this->input->post('descontar');
         if (empty($abreviacion) || empty($peso) || empty($descripcion)) {
             $mensaje="No se ha ingresado informacion nueva";
             echo json_encode($mensaje);
@@ -818,10 +840,11 @@ class GestionDocente extends CI_Controller
         $cantidad_bi= (int)$this->Usuarios_model->getbi();
         $cantidad_sec=(int)$this->Usuarios_model->getsec($grado, $profesor, $curso);
         $suma_nota= $this->Usuarios_model->suma_notas($grado, $curso, $profesor, $nota);
-        $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;
+        $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi))*100;
 
 
-        $sum_final= (int)$suma_bd+(int)($sum_peso);
+        $sum_final= (int)$suma_bd+(array_sum($peso)*100)-(int)$descontar;
+
 
         if ($sum_final!=100) {
             $mensaje="La suma total debe de ser igual a 100";
@@ -902,28 +925,35 @@ class GestionDocente extends CI_Controller
     }
     public function cargarConfiguracionNotas()
     {
-        $this->load->model("Docente_model", '', true);
+        $this->load->model("Docente_model",'',TRUE);
         $grado   =$this->input->post('grado');
         $curso   =$this->input->post('curso');
         $nota    =$this->input->post('nota');
         $profesor=$this->input->post('profesor');
         $ano=$this->input->post('ano');
+        $informacion= $this->Docente_model->busqueda_notas_configuradas($grado,$curso,$nota,$profesor,$ano);
+        $formulas   = $this->Docente_model->formulario_capacidades($grado,$nota,$profesor,$ano,$curso);
 
-        $informacion= $this->Docente_model->busqueda_notas_configuradas($grado, $curso, $nota, $profesor, $ano);
-
-        if (isset($informacion)==true) {
-            $busqueda= array('curso'=>$curso,'grado'=>$grado,'ano'=>$ano,'profesor'=>$profesor,'nota'=>$nota);
-            $respuesta=1;
-            $results=1;
-        } else {
-            echo "No existe información";
-            die();
+        if(!empty($formulas)){
+        $form_nombre= implode('+',array_column($formulas,'form'));
+        $formula_final= $formulas[0]['des_notas'].'='.$form_nombre;
         }
 
 
+        if(isset($informacion)==true){
+            $busqueda= array('curso'=>$curso,'grado'=>$grado,'ano'=>$ano,'profesor'=>$profesor,'nota'=>$nota);
+            $respuesta=1;$results=1;
+            }else{
+             echo "No existe información";die();
+        }
+        if(empty($formula_final)){
+        $this->htmlData['bodyData']->formula                          ='';
+        }else{
+        $this->htmlData['bodyData']->formula                          =$formula_final;
+        }
         $this->htmlData['bodyData']->datos_usuario                    =$busqueda;
         $this->htmlData['bodyData']->datos                            =$informacion;
-        $this->load->view('vistasDialog/gestionDocente/bandejaNotas/cargarBandejaConfiguracion', $this->htmlData);
+        $this->load->view('vistasDialog/gestionDocente/bandejaNotas/cargarBandejaConfiguracion',$this->htmlData);
     }
     public function comboBandeAsis()
     {
