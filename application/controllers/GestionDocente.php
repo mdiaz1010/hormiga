@@ -140,6 +140,27 @@ class GestionDocente extends CI_Controller
 
 
     }
+    public function verificar_abreviacion()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Docente_model", '', true);
+        $grado      = $this->input->post("grado");
+        $curso      = $this->input->post("curso");
+        $profesor   = $this->input->post("profesor");
+        $ano    = $this->input->post("ano");
+        $abreviacion   = strtoupper($this->input->post("abreviacion"));
+        $list_abreviacion= $this->Docente_model->busqueda_notas_configuradas_abreviacion($grado, $curso, $abreviacion, $profesor, $ano);
+
+        if(count($list_abreviacion)!=0){
+
+            if($abreviacion==$list_abreviacion[0]['abreviacion'])
+            {
+                echo  json_encode(array('result'=>1,'capacidad'=>$list_abreviacion[0]['nom_notas']));
+            }
+        }else{
+                echo json_encode(array('result'=>0));
+        }
+    }
     public function reportPrincipal()
     {
         $this->load->model("Usuarios_model", '', true);

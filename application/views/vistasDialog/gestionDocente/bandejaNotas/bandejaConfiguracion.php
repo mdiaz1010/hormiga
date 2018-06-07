@@ -108,34 +108,47 @@ $("#configuracion_nota")[0].reset();  //Limpiar caracteres de cajas de texto
 });
 $("#btnRegistrar").click(function(){
 contador++  ;
-var abreviacion= $("#abreviacion").val();
-var descripcion= $("#descripcion").val();
-var peso      = $("#peso").val();
-var abreviacion_ = $('input[name="abreviacion[]"]').map(function(){
-                return this.value;
-            }).get();
 
-var index= abreviacion_.indexOf(abreviacion);
-if(index!==-1){
-alert('No se permite ingresar la misma abreviacion'); return true;
-}
-if(abreviacion==='' || descripcion==='' || peso===''){
-alert('Rellenar los campos obligatorios *'); return true;
-}
-$.post('valido_abreviacion_notas',{grado:grado,curso:curso,abreviacion:abreviacion,profesor:profesor,ano:ano,nota:nota},function(datos){
-if(datos==="1"){
-alert("Esta abreviación ya se encuentra registrada, por favor cambiar el nombre");
-}else{
-var concatenarFilas='';
-    concatenarFilas+='<tr id="contFilas'+contador+'">';
-    concatenarFilas+='<td><CENTER>'+abreviacion.toUpperCase()+ '<input type="hidden" name="abreviacion[]"   data-cantdet="'+contador+'" id="abreviacion'+contador+'"     value="'+abreviacion+'" ></CENTER></td>';
-    concatenarFilas+='<td><CENTER>'+descripcion.toUpperCase()+ '<input type="hidden" name="descripcion[]"   data-cantdet="'+contador+'" id="descripcion'+contador+'"     value="'+descripcion+'" ></CENTER></td>';
-    concatenarFilas+='<td><CENTER>'+peso+ '%<input type="hidden" name="peso[]"   data-cantdet="'+contador+'" id="peso'+contador+'"     value="'+(peso/100)+'" ></CENTER></td>';
-    concatenarFilas+='<td><CENTER><a href="javascript:" title="Anular" class="fa fa-remove eliminar" data-codigo="'+contador+'"></a></CENTER></td>';
-    concatenarFilas+='</tr>';
-    $("#configuracion_nota")[0].reset();
-    $("#configuracion").append(concatenarFilas);
-}
+var abreviacion= $("#abreviacion").val();
+$.post('verificar_abreviacion',{abreviacion:abreviacion,grado:grado,curso:curso,profesor:profesor,ano:ano},function(data){
+var content = JSON.parse(data)
+  if(content.result==1){
+    alert("Ya ses registró esta abreviación en: "+content.capacidad+" por favor ingresar una abreviación que no se haya registrado aún.");
+    return true;
+  }else{
+
+    var descripcion= $("#descripcion").val();
+    var peso      = $("#peso").val();
+    var abreviacion_ = $('input[name="abreviacion[]"]').map(function(){
+                    return this.value;
+                }).get();
+
+    var index= abreviacion_.indexOf(abreviacion);
+    if(index!==-1){
+    alert('No se permite ingresar la misma abreviacion'); return true;
+    }
+    if(abreviacion==='' || descripcion==='' || peso===''){
+    alert('Rellenar los campos obligatorios *'); return true;
+    }
+    $.post('valido_abreviacion_notas',{grado:grado,curso:curso,abreviacion:abreviacion,profesor:profesor,ano:ano,nota:nota},function(datos){
+    if(datos==="1"){
+    alert("Esta abreviación ya se encuentra registrada, por favor cambiar el nombre");
+    }else{
+    var concatenarFilas='';
+        concatenarFilas+='<tr id="contFilas'+contador+'">';
+        concatenarFilas+='<td><CENTER>'+abreviacion.toUpperCase()+ '<input type="hidden" name="abreviacion[]"   data-cantdet="'+contador+'" id="abreviacion'+contador+'"     value="'+abreviacion+'" ></CENTER></td>';
+        concatenarFilas+='<td><CENTER>'+descripcion.toUpperCase()+ '<input type="hidden" name="descripcion[]"   data-cantdet="'+contador+'" id="descripcion'+contador+'"     value="'+descripcion+'" ></CENTER></td>';
+        concatenarFilas+='<td><CENTER>'+peso+ '%<input type="hidden" name="peso[]"   data-cantdet="'+contador+'" id="peso'+contador+'"     value="'+(peso/100)+'" ></CENTER></td>';
+        concatenarFilas+='<td><CENTER><a href="javascript:" title="Anular" class="fa fa-remove eliminar" data-codigo="'+contador+'"></a></CENTER></td>';
+        concatenarFilas+='</tr>';
+        $("#configuracion_nota")[0].reset();
+        $("#configuracion").append(concatenarFilas);
+    }
+    });
+
+
+
+  }
 });
 /*
 $.ajax({

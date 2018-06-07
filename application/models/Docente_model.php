@@ -64,6 +64,21 @@ class Docente_model extends CI_Model
                   // ->order_by("ma.nom_notas")
         return $this->db->get()->result_array() ;
     }
+    public function busqueda_notas_configuradas_abreviacion($grado, $curso, $abreviacion, $profesor, $ano)
+    {
+        $this->db->distinct();
+        $this->db->select('rnd.abreviacion,ma.nom_notas')
+                 ->from('maenotas ma')
+                 ->join('rel_notas_detalle rnd', 'on ma.id=rnd.id_nota')
+                 ->where('     rnd.ano               ='.$ano.'
+                               and rnd.id_grado      ='.$grado.'
+                               and rnd.id_curso      ='.$curso.'
+                               and rnd.estado        = 1
+                               and rnd.abreviacion   ="'.$abreviacion.'"
+                               and rnd.id_profesor   ='.$profesor
+    );
+        return $this->db->get()->result_array() ;
+    }
     public function formulario_capacidades($grado,$nota,$profesor,$ano,$curso){
         $this->db->distinct();
         $this->db->select('ma.des_notas,concat(rd.abreviacion," * ",rd.peso) as form')
