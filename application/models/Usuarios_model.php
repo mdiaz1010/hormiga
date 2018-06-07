@@ -72,11 +72,21 @@ class Usuarios_model extends CI_Model
         $this->db->where('id_persona', $id);
         $this->db->update('maeusuarios');
     }
-    public function editar_configuracion_nota($datos, $lista)
+    public function editar_configuracion_nota($datos, $lista,$detalle)
+    {
+        $this->db->set($datos);
+        $this->db->where('id in ('.$detalle.")");
+        $this->db->update('rel_notas_detalle');
+        return true;
+    }
+    public function editar_configuracion_nota_alumno($datos, $lista,$seccion,$detalle)
     {
         $this->db->set($datos);
         $this->db->where($lista);
-        $this->db->update('rel_notas_detalle');
+        $this->db->where('id_seccion in ('.$seccion.")");
+        $this->db->where('id_nota in ('.$detalle.")");
+        $this->db->update('rel_notas_detalle_alumno');
+        return true;
     }
     public function cambiardat($datos, $id)
     {

@@ -93,46 +93,81 @@ class GestionDocente extends CI_Controller
     }
     public function registrarNotas()
     {
-        $this->load->model("Usuarios_model", '', true);
-        $this->load->model("Rol_model", '', true);//
-        $where= $this->input->post("busqueda");
+        $this->load->model("Docente_model", '', true);
+        $this->load->model("Rol_model", '', true);
         $objetoNotas= $this->input->post("tblExcel");
 
+        $grado      = $this->input->post("grado");
+        $seccion    = $this->input->post("seccion");
+        $curso      = $this->input->post("curso");
+        $bimestre   = $this->input->post("bimestre");
+        $ano        = date('Y');
+        $profesor   = $this->session->webCasSession->usuario->CODIGO;
+        $list_notas= array('ano'=>$ano,'id_grado'=>$grado,'id_curso'=>$curso,'id_bimestre'=>$bimestre,'id_profesor'=>$profesor);
+        $codigo_nota = $this->Docente_model->busqueda_id_notas($list_notas);
+        $abreviacion_notas = array_column($codigo_nota,'abreviacion');
+        $codigo_nota=array_column($codigo_nota,'id');
 
 
-        switch ($where['id_bimestre']) {
-        case "1": $array= array('1'=>3,'2'=>6,'3'=>9,'4'=>12,'5'=>15); break;
-        case "2": $array= array('1'=>2,'2'=>5,'3'=>8,'4'=>11,'5'=>14); break;
-        case "3": $array= array('1'=>1,'2'=>4,'3'=>7,'4'=>10,'5'=>13); break;
-        }
 
 
-        $j=0;
-        foreach ($objetoNotas as $contando) {
-            $i=1;
+        foreach ( $objetoNotas as $i =>$filas )
+        {
 
-            foreach ($array as $id_nota) {
-                if ($contando['C'.$i]!='') {
-                    if (is_numeric($contando['C'.$i])==true) {
-                        if ((int)$contando['C'.$i]>=0 && (int)$contando['C'.$i]<=20) {
-                            $cambio[$j]=array('nota'=>$contando['C'.$i],'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
-                            $data[$j]  =array('id'=>$contando['C_'.$i]);
-                            $clausula=$this->Usuarios_model->buscarcodigonotas($data[$j]);
-                            $this->Usuarios_model->cambioNotas($cambio[$j], $clausula);
-                            $j++;
-                        }
-                    }
+            $abreviacion_notas=array_pad($abreviacion_notas, count($filas),'XX');
+            $list_keys=array_values(array_keys($filas));
+
+            $i=0;
+
+            foreach ( $filas as $key => $codigo  )
+            {
+
+                $keys= array_keys($list_keys,$abreviacion_notas[$i]);
+                if(count($keys)>1)
+                {
+                    $notas =array_values($filas);
+
+
+                     $id_nota= $this->Docente_model->busqueda_id_nota($filas['codigo'],$codigo_nota[$i],1,date('Y'));
+                     if($notas[$keys[1]]=='' || is_numeric($notas[$keys[1]]) && $notas[$keys[1]]>=0 && $notas[$keys[1]]<=20){
+                         $this->Docente_model->cambiar_nota($id_nota[0]['id'],array('nota'=>$notas[$keys[1]]));
+                         echo "1,";
+                     }else{
+                         echo "0,";
+                     }
+
+
+
                 }
-                $i++    ;
+                    $i++;
+
             }
-            //    switch ($where['id_bimestre']){
-    //    case "1": $array= array('1'=>3,'2'=>6,'3'=>9,'4'=>12,'5'=>15);$id_prom=array('id'=>$contando['P_P']);$this->Usuarios_model->promediar(implode($array,','),$id_prom);  break;
-    //    case "2": $array= array('1'=>2,'2'=>5,'3'=>8,'4'=>11,'5'=>14);$id_prom=array('id'=>$contando['P_P']);$this->Usuarios_model->promediar(implode($array,','),$id_prom); break;
-    //    case "3": $array= array('1'=>1,'2'=>4,'3'=>7,'4'=>10,'5'=>13);$id_prom=array('id'=>$contando['P_P']);$this->Usuarios_model->promediar(implode($array,','),$id_prom); break;
-    //    }
+
+
         }
 
-        //
+
+    }
+    public function verificar_abreviacion()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Docente_model", '', true);
+        $grado      = $this->input->post("grado");
+        $curso      = $this->input->post("curso");
+        $profesor   = $this->input->post("profesor");
+        $ano    = $this->input->post("ano");
+        $abreviacion   = strtoupper($this->input->post("abreviacion"));
+        $list_abreviacion= $this->Docente_model->busqueda_notas_configuradas_abreviacion($grado, $curso, $abreviacion, $profesor, $ano);
+
+        if(count($list_abreviacion)!=0){
+
+            if($abreviacion==$list_abreviacion[0]['abreviacion'])
+            {
+                echo  json_encode(array('result'=>1,'capacidad'=>$list_abreviacion[0]['nom_notas']));
+            }
+        }else{
+                echo json_encode(array('result'=>0));
+        }
     }
     public function reportPrincipal()
     {
@@ -562,18 +597,7 @@ class GestionDocente extends CI_Controller
             }
         }
 
-        /*
-                columns:[
-                         {data:"ape_pat_per",type:'text',readOnly:true,size:"40"},
-                         {data:"C1",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-                         {data:"C2",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-                         {data:"C3",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-                         {data:"C4",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-                         {data:"C5",type:'numeric',readOnly:false,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}},
-                         {data:"PT",type:'text'   ,readOnly:true ,className: "htCenter",validator: function(value, callback) {callback(value <= 20 &&  0<=value ?  true : false);}}
-                ],
-        vamoss
-        */
+
         $cantidad_cap=array('label'=>'','colspan'=>1,'rowspan'=>2);
         $cantidad_capacidad= $this->Docente_model->busqueda_notas_cantidad($busqueda);
         array_unshift($cantidad_capacidad,$cantidad_cap);
@@ -633,6 +657,7 @@ class GestionDocente extends CI_Controller
         $head=array_keys(array_diff(array_column($head_not, 1), array('off')));
         $cabecera=array_column($head_not, 0);
         $notas_detalle= $this->Docente_model->detalle_alumno($busqueda,false);
+
         $pesos= $this->Docente_model->detalle_alumno_peso($busqueda,$notas_detalle[0]['id_alumno']);
 
 
@@ -657,6 +682,7 @@ class GestionDocente extends CI_Controller
             $contador=0;
             $cadena='';
             $list=array();
+
             foreach($deta_alumnos as $clave => $not){
                 $letra='B';
                 $con=0;
@@ -682,6 +708,7 @@ class GestionDocente extends CI_Controller
                 }
 
                 $letra++;
+
                 $list[$clave][$key]=implode(',,',array_merge($notas_capacidades,array($notas['nom_notas']=>"=(".implode('+',$array_letra).")")));
 
             }
@@ -694,7 +721,7 @@ class GestionDocente extends CI_Controller
               $list_final_notas[] = explode(',,',$list[$clave]);
             }
 
-#var_dump($cabecera); die();
+
             array_push($cabecera,'codigo');
             foreach($list_final_notas as $fin){
           //      $fin==''?$value=0:$value=$fin;
@@ -703,7 +730,7 @@ class GestionDocente extends CI_Controller
             }
 
             #var_dump($deta_alumnos_fin); die();
-
+            #var_dump($deta_alumnos_fin); die();
 #regla de negocio , nombre de abreviaciones deben de ser distintos
 
         $cantidad=count($deta_alumnos);
@@ -752,19 +779,48 @@ class GestionDocente extends CI_Controller
     public function cambiar_estado_configuracion()
     {
         $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Docente_model", '', true);
         $grado       =$this->input->post('grado');
         $nota       =$this->input->post('nota');
         $profesor   =$this->input->post('profesor');
         $curso        =$this->input->post('curso');
-        $abreviacion=$this->input->post('abreviacion');
-        $list_cambio=array('estado'=>0,'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
-        $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'abreviacion'=>$abreviacion,'ano'=>date('Y'));
-        #print_r($list_datos);die();
-        if ($this->Usuarios_model->editar_configuracion_nota($list_cambio, $list_datos)) {
-            echo "edicion exitosa";
-        } else {
-            echo "fallo en la eliminacion";
+        $abreviacion        =$this->input->post('abreviacion');
+        $cadena='';
+        $descontar        =$this->input->post('descontar');
+        $data= array('profesor'=>$profesor,'curso'=>$curso,'grado'=>$grado);
+        $list_seccion = $this->Usuarios_model->busquedaCursoSeccionProf($data);
+        $i=0;
+        foreach(explode(',',$abreviacion) as $list_abreviacion){
+            $id_rel_notas_detalle[]= $this->Docente_model->busqueda_notas_configuradas_id($grado, $curso, $list_abreviacion, $profesor, date('Y'));
+
+            $j=0;
+            foreach($id_rel_notas_detalle[$i] as $cadena_notas_id){
+                $cadena.=','.implode(',',$id_rel_notas_detalle[$i][$j]);
+                $j++;
+            }
+           $i++;
         }
+
+        foreach($list_seccion as $seccion){
+            $cadena_seccion[]=$seccion['id_seccion'];
+        }
+
+
+        $list_cambio=array('estado'=>0,'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO,'fec_modificacion'=>date('Y-m-d'));
+        $list_datos=array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'ano'=>date('Y'));
+        $list_datos_alumno=array('id_grado'=>$grado,'id_curso'=>$curso,'ano'=>date('Y'));
+
+        if($descontar>0){
+                if ($this->Usuarios_model->editar_configuracion_nota($list_cambio, $list_datos,substr($cadena,1))) {
+                        if($this->Usuarios_model->editar_configuracion_nota_alumno($list_cambio,$list_datos_alumno,implode(',',$cadena_seccion),substr($cadena,1))){
+                            echo "edicion exitosa";
+                        }else{
+                            echo "fallo en la eliminacion alumno";
+                        }
+                } else {
+                    echo "fallo en la eliminacion";
+                }
+         }
     }
     public function valido_abreviacion_notas()
     {
@@ -797,6 +853,7 @@ class GestionDocente extends CI_Controller
         $list_nota= explode(',', $nota);
         $descripcion=$this->input->post('descripcion');
         $peso       =$this->input->post('peso');
+        $descontar  =$this->input->post('descontar');
 
         if (empty($abreviacion) || empty($peso) || empty($descripcion)) {
             $mensaje="No se ha ingresado informacion nueva";
@@ -808,17 +865,27 @@ class GestionDocente extends CI_Controller
         } else {
             $sum_peso=array_sum($peso)*100;
         }
+        foreach($abreviacion as $list_abre){
+            $det=$this->Docente_model->busqueda_notas_configuradas_abreviacion($grado, $curso, strtoupper($list_abre), $profesor, $ano);
+            if(count($det)!=0){
+                $mensaje='Ya ses registró esta abreviación por favor ingresar una abreviación que no se haya registrado aún.';
+                echo json_encode($mensaje);
+                die();
+            }
+        }
+
         ## validacion
         $cantidad_bi= (int)$this->Usuarios_model->getbi();
         $cantidad_sec=(int)$this->Usuarios_model->getsec($grado, $profesor, $curso);
         $suma_nota= $this->Usuarios_model->suma_notas($grado, $curso, $profesor, $nota);
-        $suma_bd=(((int)$suma_nota['acumulado']/$cantidad_bi)/$cantidad_sec)*100;
+        $suma_bd=(($suma_nota['acumulado']/$cantidad_bi))*100;
 
 
-        $sum_final= (int)$suma_bd+(int)($sum_peso);
+        $sum_final= $suma_bd+(array_sum($peso)*100)-(int)$descontar;
 
-        if ($sum_final!=100) {
-            $mensaje="La suma total debe de ser igual a 100";
+
+        if ((int)$sum_final!=100) {
+            $mensaje="La suma total debe ser igual a 100";
             echo json_encode($mensaje);
             die();
         }
@@ -896,28 +963,35 @@ class GestionDocente extends CI_Controller
     }
     public function cargarConfiguracionNotas()
     {
-        $this->load->model("Docente_model", '', true);
+        $this->load->model("Docente_model",'',TRUE);
         $grado   =$this->input->post('grado');
         $curso   =$this->input->post('curso');
         $nota    =$this->input->post('nota');
         $profesor=$this->input->post('profesor');
         $ano=$this->input->post('ano');
+        $informacion= $this->Docente_model->busqueda_notas_configuradas($grado,$curso,$nota,$profesor,$ano);
+        $formulas   = $this->Docente_model->formulario_capacidades($grado,$nota,$profesor,$ano,$curso);
 
-        $informacion= $this->Docente_model->busqueda_notas_configuradas($grado, $curso, $nota, $profesor, $ano);
-
-        if (isset($informacion)==true) {
-            $busqueda= array('curso'=>$curso,'grado'=>$grado,'ano'=>$ano,'profesor'=>$profesor,'nota'=>$nota);
-            $respuesta=1;
-            $results=1;
-        } else {
-            echo "No existe información";
-            die();
+        if(!empty($formulas)){
+        $form_nombre= implode('+',array_column($formulas,'form'));
+        $formula_final= $formulas[0]['des_notas'].'='.$form_nombre;
         }
 
 
+        if(isset($informacion)==true){
+            $busqueda= array('curso'=>$curso,'grado'=>$grado,'ano'=>$ano,'profesor'=>$profesor,'nota'=>$nota);
+            $respuesta=1;$results=1;
+            }else{
+             echo "No existe información";die();
+        }
+        if(empty($formula_final)){
+        $this->htmlData['bodyData']->formula                          ='';
+        }else{
+        $this->htmlData['bodyData']->formula                          =$formula_final;
+        }
         $this->htmlData['bodyData']->datos_usuario                    =$busqueda;
         $this->htmlData['bodyData']->datos                            =$informacion;
-        $this->load->view('vistasDialog/gestionDocente/bandejaNotas/cargarBandejaConfiguracion', $this->htmlData);
+        $this->load->view('vistasDialog/gestionDocente/bandejaNotas/cargarBandejaConfiguracion',$this->htmlData);
     }
     public function comboBandeAsis()
     {
