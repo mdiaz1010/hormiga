@@ -150,21 +150,7 @@ var content = JSON.parse(data)
 
   }
 });
-/*
-$.ajax({
-            type : "POST",
-            url : "registrar_configuracion_nota",
-            data: $("#configuracion_nota").serialize(),
-            success : function(){
-                $("result_error").html("<font color ='green'>REGISTRO CORRECTO</font>");
-                $("#divGrilla").load("cargarConfiguracionNotas",{ grado:grado,seccion:seccion,curso:curso,nota:nota,profesor:profesor,ano:ano });
-                $("#configuracion_nota")[0].reset();
-                $('#result_error').html("");
 
-
-            }
-        });
-*/
 });
 </script>
 <script>

@@ -96,6 +96,7 @@ class GestionDocente extends CI_Controller
         $this->load->model("Docente_model", '', true);
         $this->load->model("Rol_model", '', true);
         $objetoNotas= $this->input->post("tblExcel");
+
         $grado      = $this->input->post("grado");
         $seccion    = $this->input->post("seccion");
         $curso      = $this->input->post("curso");
@@ -110,14 +111,14 @@ class GestionDocente extends CI_Controller
 
 
 
-        foreach ( $objetoNotas as $filas )
+        foreach ( $objetoNotas as $i =>$filas )
         {
 
             $abreviacion_notas=array_pad($abreviacion_notas, count($filas),'XX');
             $list_keys=array_values(array_keys($filas));
 
             $i=0;
-         #   print_r($codigo_nota);die();
+
             foreach ( $filas as $key => $codigo  )
             {
 
@@ -128,7 +129,14 @@ class GestionDocente extends CI_Controller
 
 
                      $id_nota= $this->Docente_model->busqueda_id_nota($filas['codigo'],$codigo_nota[$i],1,date('Y'));
-                    $this->Docente_model->cambiar_nota($id_nota[0]['id'],array('nota'=>$notas[$keys[1]]));
+                     if($notas[$keys[1]]=='' || is_numeric($notas[$keys[1]]) && $notas[$keys[1]]>=0 && $notas[$keys[1]]<=20){
+                         $this->Docente_model->cambiar_nota($id_nota[0]['id'],array('nota'=>$notas[$keys[1]]));
+                         echo "1,";
+                     }else{
+                         echo "0,";
+                     }
+
+
 
                 }
                     $i++;
@@ -857,6 +865,15 @@ class GestionDocente extends CI_Controller
         } else {
             $sum_peso=array_sum($peso)*100;
         }
+        foreach($abreviacion as $list_abre){
+            $det=$this->Docente_model->busqueda_notas_configuradas_abreviacion($grado, $curso, strtoupper($list_abre), $profesor, $ano);
+            if(count($det)!=0){
+                $mensaje='Ya ses registró esta abreviación por favor ingresar una abreviación que no se haya registrado aún.';
+                echo json_encode($mensaje);
+                die();
+            }
+        }
+
         ## validacion
         $cantidad_bi= (int)$this->Usuarios_model->getbi();
         $cantidad_sec=(int)$this->Usuarios_model->getsec($grado, $profesor, $curso);
@@ -867,8 +884,8 @@ class GestionDocente extends CI_Controller
         $sum_final= $suma_bd+(array_sum($peso)*100)-(int)$descontar;
 
 
-        if ($sum_final!=100) {
-            $mensaje="La suma total debe de ser igual a 100";
+        if ((int)$sum_final!=100) {
+            $mensaje="La suma total debe ser igual a 100";
             echo json_encode($mensaje);
             die();
         }

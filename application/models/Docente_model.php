@@ -100,7 +100,7 @@ class Docente_model extends CI_Model
                                and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
                                and rnd.estado        = 1
                                and rnd.id_profesor   ='.$busqueda['id_profesor'])
-                ->order_by("ma.nom_notas", "asc")                    ;
+                ->order_by("rnd.id_nota,rnd.abreviacion", "asc")                    ;
         return $this->db->get()->result_array() ;
     }
     public function head_validacion($busqueda)
