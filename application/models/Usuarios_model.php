@@ -545,9 +545,9 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAlu($data)
     {
-        $this->db->select("rl.id_bimestre as desc,AVG(rl.nota)
-                as nota ")->from("relnotas rl")
-        ->join('maenotas  ma', 'on rl.id_nota=ma.id');
+        $this->db->select("rl.id_bimestre as desc,AVG(rl.nota) as nota ")
+                 ->from("relnotas rl")
+                 ->join('maenotas  ma', 'on rl.id_nota=ma.id');
         $this->db->where(array('rl.id_alumno'=>$data['id_alumno'], 'rl.ano'=>date('Y'))) ;
         $this->db->where('rl.estado=1 and ma.pe is  null and ma.id_bimestre is not null');
         $this->db->group_by('rl.id_alumno,rl.id_bimestre');

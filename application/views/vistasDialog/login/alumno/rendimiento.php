@@ -53,8 +53,7 @@
             text: ''
         },
         subtitle: {
-            text: '<?=date('
-            Y ')?> Año del buen servicio al ciudadano'
+            text: '<?=date('Y')?> Año del buen servicio al ciudadano'
         },
         xAxis: {
             categories: descripcion
