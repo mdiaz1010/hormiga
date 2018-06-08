@@ -33,12 +33,14 @@
 
     <link    href="<?=base_url('publico/css/jquery-ui.css')?>" rel="stylesheet">
 
-
-<script type="text/javascript" src="<?= base_url('publico/js/bootstrap-filestyle.min.js')?>"> </script>
+<script type="text/javascript" src="<?= base_url('publico/js/bootstrap-filestyle.min.js')?>">
+</script>
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-bs/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
-<link href="<?= base_url('publico/html_libs/dataTables/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')?>"  rel="stylesheet">
-<link href="<?= base_url('publico/html_libs/dataTables/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')?>" rel="stylesheet">
-<link href="<?= base_url('publico/html_libs/dataTables/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')?>" rel="stylesheet">
+<link href="<?= base_url('publico/html_libs/dataTables/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')?>" rel="stylesheet">
+<link href="<?= base_url('publico/html_libs/dataTables/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')?>"
+    rel="stylesheet">
+<link href="<?= base_url('publico/html_libs/dataTables/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')?>"
+    rel="stylesheet">
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')?>" rel="stylesheet">
 
 </head>

@@ -3,7 +3,7 @@
     $modulos = $this->session->webCasSession->modulos; // al final solo quedaran los modulos no agrupados
     $modulosGrupos = $this->session->webCasSession->modulosGrupos;
     $usuario = $this->session->webCasSession->usuario;// los grupos sin registros son borrados
-    
+
     /*
      *   incluye una key q pertenece a $modulosGrupos[id] donde se almacenan multiples modulos  :
      * $modulosGrupos_agrupados [$modulosGrupos[id] ]{ array( $modulos ), n..    }
@@ -11,17 +11,17 @@
      */
     $modulosGrupos_agrupados = array();
 
-    
-    
+
+
     class organizarPila
     {
         public $modulos;
-        
+
         public $modulosGrupos;
-        
+
         public $modulosGrupos_agrupados;
         private $modulosGrupos_agrupados_Borrar=array();
-    
+
         public function __construct($modulos, $modulosGrupos, $usuario)
         {
             $this->modulos = $modulos;
@@ -30,7 +30,7 @@
             $this->agrupar();
             $this->iniAnidado();
         }
-        
+
         private function agrupar()
         {
             // agrupar los modulos y depurador de grupos no-utilizados
@@ -68,11 +68,11 @@
             }
             /// FIN de agrupar modulos
         }
-        
+
         private function borrar_replicados()
         {
             $vectorTemporal = array();
-            
+
             foreach ($this->modulosGrupos_agrupados_Borrar as $key => $value) {
                 $value= (object)$value;
                 //var_dump($value);
@@ -83,7 +83,7 @@
                 }
             }
         }
-        
+
         private function anidar($array_por_incrustar, $arra_multidimensional, $grupo_id)
         {
             if (empty($array_por_incrustar->self_WebModulos_id_parent)) {
@@ -104,7 +104,7 @@
             }
             return $arra_multidimensional;
         }
-         
+
         private function iniAnidado()
         {
             foreach ($this->modulosGrupos  as   $mV) {
@@ -117,7 +117,7 @@
             }
             $this->borrar_replicados();
         }
-        
+
         public function graficarModulo($modulo)
         {
             //var_dump($modulo);exit();
@@ -160,8 +160,8 @@
                 }
             }
         }
-       
-         
+
+
         public function graficarGrupos()
         {
             //  var_dump($this->modulosGrupos_agrupados[3 ]); exit();
@@ -169,7 +169,7 @@
                 echo '<div "> '.
                     //cambio para que no salga el nombre del cargo    '<h3>'.$modulosGrupo->titulo.'</h3>'.
                             '<ul class="nav side-menu">';
-                
+
                 foreach ($this->modulosGrupos_agrupados[$modulosGrupo->id ] as $modulosGrupos_agrupados) {
                     $this->graficarModulo($modulosGrupos_agrupados);
                     //if($modulosGrupo->id==3) var_dump($modulosGrupo->id ,$modulosGrupos_agrupados); // exit();
@@ -178,7 +178,7 @@
                     '</div>';
             }
         }
-        
+
         public function graficarGeneral()
         {
             $tieneModulosVisibles = false;
@@ -213,7 +213,7 @@
             echo     '</ul>'.
                 '</div>';
         }
-        
+
         public function graficarInicio()
         {
             echo '<div class="menu_section"> '.
@@ -230,68 +230,71 @@
                 '</div>';
         }
     }
-      
+
     $class = new organizarPila($modulos, $modulosGrupos, $usuario);
    // var_dump($class->modulos);exit();
 ?>
 
 
-<div class="col-md-3 left_col">
-    <div class="left_col scroll-view">
-     <!-- <div class="navbar nav_title" style="border: 0;">
+    <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+            <!-- <div class="navbar nav_title" style="border: 0;">
         <a href="#" class="site_title">
            <img src="<?= base_url('publico/media/logo.png')?>" width="195" height="40"  style="margin-left: 10px;">
-          
+
         </a>
       </div>
        -->
-      <div class="clearfix"></div>
-      <div class="profile clearfix">
-              <div class="profile_pic">
-                  <?php if (isset($this->session->webCasSession->usuario->RUTA)==false) {
+            <div class="clearfix"></div>
+            <div class="profile clearfix">
+                <div class="profile_pic">
+                    <?php if (isset($this->session->webCasSession->usuario->RUTA)==false) {
     ?>
-                <img src=" <?= base_url('publico/media/user.png')?>" alt="..." class="img-circle profile_img">
-                  <?php
+                    <img src=" <?= base_url('publico/media/user.png')?>" alt="..." class="img-circle profile_img">
+                    <?php
 } else {
         ?>
-                <img src="<?= base_url($this->session->webCasSession->usuario->RUTA)?>" alt="..." class="img-circle  profile_img">  
-                  <?php
+                        <img src="<?= base_url($this->session->webCasSession->usuario->RUTA)?>" alt="..." class="img-circle  profile_img">
+                        <?php
     } ?>
-              </div>
-        <div class="profile_info">
-            <span>Bienvenido,</span><h2> <?=$this->session->webCasSession->usuario->USUARIO?></h2>
-        </div>
-      </div>
-      <!-- /menu profile quick info -->
+                </div>
+                <div class="profile_info">
+                    <span>Bienvenido,</span>
+                    <h2>
+                        <?=$this->session->webCasSession->usuario->USUARIO?>
+                    </h2>
+                </div>
+            </div>
+            <!-- /menu profile quick info -->
 
-    <br />
-      
-      <!-- sidebar menu -->
-        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">  
-            <?php
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                <?php
                 $class->graficarInicio();
                 $class->graficarGrupos();
                 $class->graficarGeneral();
-            ?>  
-      </div>
-      <!-- /sidebar menu -->
+            ?>
+            </div>
+            <!-- /sidebar menu -->
 
-      <!-- /menu footer buttons -->
-      <div class="sidebar-footer hidden-small">
-          
-        <a >
-          <span class="glyphicon " ></span>
-        </a>
-        <a    >
-          <span class="glyphicon " ></span>
-        </a>
-        <a  >
-          <span class="glyphicon  " ></span>
-        </a>
-          <a data-toggle="tooltip" href="<?= site_url('login/logout')?>"  data-placement="top" title="Logout">
-          <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-        </a>
-      </div>
-      <!-- /menu footer buttons -->
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+
+                <a>
+                    <span class="glyphicon "></span>
+                </a>
+                <a>
+                    <span class="glyphicon "></span>
+                </a>
+                <a>
+                    <span class="glyphicon  "></span>
+                </a>
+                <a data-toggle="tooltip" href="<?= site_url('login/logout')?>" data-placement="top" title="Logout">
+                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                </a>
+            </div>
+            <!-- /menu footer buttons -->
+        </div>
     </div>
-  </div>

@@ -65,7 +65,7 @@
                 bool = isValid;
             },
             formulas: true,
-            columnSorting : true,
+            columnSorting: true,
             afterCreateRow: function (index, numberOfRows) {
                 data1.splice(index, numberOfRows); //limita crecimiento de la tabla
             },
@@ -81,25 +81,25 @@
 
                     var ide = ht.getDataAtCell(i, p);
 
-                        var cell_color = $.map(cabeceras, function (value, key) {
-                            if (p == value) {
-                                return "#fcf3cf";
-                            }
+                    var cell_color = $.map(cabeceras, function (value, key) {
+                        if (p == value) {
+                            return "#fcf3cf";
+                        }
 
-                        });
-                            if (p == 0) {
-                                font_color = "#070719";
-                            } else {
-                                if (ide <= 10 && ide>=0) {
-                                    font_color = "#E74C3C";
-                                } else if(ide>=11 && ide <=20 ) {
-                                    font_color = "#2874A6";
-                                }else{
-                                    font_color = "#fff";
-                                    cell_color[0]='#f5415a';
-                                }
+                    });
+                    if (p == 0) {
+                        font_color = "#070719";
+                    } else {
+                        if (ide <= 10 && ide >= 0) {
+                            font_color = "#E74C3C";
+                        } else if (ide >= 11 && ide <= 20) {
+                            font_color = "#2874A6";
+                        } else {
+                            font_color = "#fff";
+                            cell_color[0] = '#f5415a';
+                        }
 
-                            }
+                    }
 
 
                     $(ht.getCell(i, p)).css({
@@ -124,11 +124,11 @@
                     type: 'POST',
                     url: 'registrarNotas',
                     data: {
-                        'tblExcel'  : data1,
-                        'grado'     : $('#rol_grado').val(),
-                        'seccion'   : $('#rol_seccion').val(),
-                        'curso'     : $('#rol_curso').val(),
-                        'bimestre'  : $('#rol_bimestre').val()
+                        'tblExcel': data1,
+                        'grado': $('#rol_grado').val(),
+                        'seccion': $('#rol_seccion').val(),
+                        'curso': $('#rol_curso').val(),
+                        'bimestre': $('#rol_bimestre').val()
                     },
                     beforeSend: function (dato) {
                         $('#exampleModalCenter').modal("show");
@@ -136,11 +136,11 @@
                     success: function (dato) {
                         $('#exampleModalCenter').modal("toggle");
 
-                        if(dato.split(',').indexOf("0")!=-1){
+                        if (dato.split(',').indexOf("0") != -1) {
                             $('#exito').hide();
                             $('#error').show();
 
-                        }else{
+                        } else {
 
                             $('#exito').show();
                             $('#error').hide();

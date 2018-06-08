@@ -5,7 +5,7 @@
                           <input type="hidden" name="nota" id="nota" value="<?=$bodyData->datos_usuario['nota']?>">
                           <input type="hidden" name="profesor" id="profesor" value="<?=$bodyData->datos_usuario['profesor']?>">
                           <input type="hidden" name="ano" id="ano" value="<?=$bodyData->datos_usuario['ano']?>">
-<table class="table table-bordered" border="1"  cellspacing="0" width="80%" id="configuracion" name="configuracion">
+<table class="table table-bordered" border="1" cellspacing="0" width="80%" id="configuracion" name="configuracion">
                                 <thead class="bg-success" >
                                     <tr>
                                             <th  style="border: hidden;color: #3b752e;"><center>Abreviacion</center>          </th>
