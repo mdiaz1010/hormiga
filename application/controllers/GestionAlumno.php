@@ -46,13 +46,16 @@ class GestionAlumno extends CI_Controller
 
         $alumnos=$this->session->webCasSession->usuario->CODIGO;
         $valores  = $this->Usuarios_model->busquedaGradoSeccion2($alumnos, $ano) ;
-        $datos= array('grado'=>$valores['id_grado'],'seccion'=>$valores['id_seccion'],'ano'=>$ano);
+        $datos= array('id_alumno'=>$alumnos,'grado'=>$valores['id_grado'],'seccion'=>$valores['id_seccion'],'ano'=>$ano);
         $cursos = $this->Usuarios_model->busquedaCursoAlu2($datos);
         if (count($cursos)>0) {
             $this->htmlData['bodyData']->respuesta             = 1 ;
             foreach ($cursos as $cur) {
                 $arrayCursos[]=$cur->id_curso;
+                $list_notas_cursos[$cur->id_curso]=$this->Usuarios_model->mostrar_notas_alumnos(array('id_alumno'=>$alumnos,'ano'=>$ano,'id_curso'=>$cur->id_curso));
+
             }
+
             $curso= implode(',', $arrayCursos);
             $arrCursos = $this->Usuarios_model->buscarCursos($curso);
 
@@ -72,6 +75,7 @@ class GestionAlumno extends CI_Controller
             $this->htmlData['bodyData']->notas              = $arraynotas ;
             $this->htmlData['bodyData']->arrayAlumnos       = $alumnos ;
             $this->htmlData['bodyData']->arrayNote          = $notas ;
+            $this->htmlData['bodyData']->array_result_alumno          = $list_notas_cursos ;
         } else {
             $this->htmlData['bodyData']->respuesta             = 0 ;
         }
@@ -526,6 +530,9 @@ class GestionAlumno extends CI_Controller
                     'ano'=>$ano,
                     'id_curso'=>$curso);
         $arraybimest= $this->Usuarios_model->reporteNotasAluCur($data);
+        if(count($arraybimest)==0){
+            echo "No existen notas registradas."; die();
+        }
         $arrayNotasTotal= $this->Usuarios_model->reporteNotasAluCurTol($data);
 
         foreach ($arrayNotasTotal as $conocer2) {

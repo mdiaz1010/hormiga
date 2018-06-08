@@ -630,7 +630,7 @@ class GestionDocente extends CI_Controller
                     $column[]=
                 array(
                     'data'=>$columns['nom_notas'],
-                    'type'=>'numeric',
+                    'type'=>'text',
                     'readOnly'=>true,
                     'className'=>$className,
                     'validator'=>str_replace("\'", " ", $validator)
@@ -646,7 +646,7 @@ class GestionDocente extends CI_Controller
                 $column[]=
                 array(
                     'data'=>$columns['nom_notas'],
-                    'type'=>'numeric',
+                    'type'=>'text',
                     'readOnly'=>true,
                     'className'=>$className,
                     'validator'=>str_replace("\'", " ", $validator)
@@ -709,7 +709,7 @@ class GestionDocente extends CI_Controller
 
                 $letra++;
 
-                $list[$clave][$key]=implode(',,',array_merge($notas_capacidades,array($notas['nom_notas']=>"=(".implode('+',$array_letra).")")));
+                $list[$clave][$key]=implode(',,',array_merge($notas_capacidades,array($notas['nom_notas']=>"=ROUND((".implode('+',$array_letra)."),2)")));
 
             }
             $a++;
@@ -730,7 +730,7 @@ class GestionDocente extends CI_Controller
             }
 
             #var_dump($deta_alumnos_fin); die();
-            #var_dump($deta_alumnos_fin); die();
+       #    var_dump($deta_alumnos_fin); die();
 #regla de negocio , nombre de abreviaciones deben de ser distintos
 
         $cantidad=count($deta_alumnos);
