@@ -583,7 +583,20 @@ class Usuarios_model extends CI_Model
         $this->db->order_by('1', 'asc');
         return $this->db->get()->result_object() ;
     }
+    public function reporteNotasAluCur_bimestre($data)
+    {
+        $this->db->select("ma.id_bimestre as desc,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota,mc.nom_cursos as nombre ")
 
+        ->from("rel_notas_detalle_alumno rnda")
+        ->join('rel_notas_detalle rnd', ' on rnda.id_nota=rnd.id')
+        ->join('maenotas  ma'         , ' on rnd.id_nota =ma.id')
+        ->join('maecursos mc'         , ' on rnda.id_curso=mc.id');
+        $this->db->where('rnda.id_alumno='.$data['id_alumno'].' and rnda.ano='.$data['ano'].' and rnda.id_curso='.$data['id_curso'].' and ma.id_bimestre='.$data['id_bimestre']) ;
+        $this->db->where('rnda.estado=1 and rnd.estado=1');
+        $this->db->group_by('ma.id_bimestre');
+        $this->db->order_by('1', 'asc');
+        return $this->db->get()->row_array() ;
+    }
     public function reporteNotasAluSal($data)
     {
         $this->db->select("rl.id_bimestre as desc,AVG(rl.nota) as nota ")->from("relnotas rl")
@@ -1122,16 +1135,26 @@ class Usuarios_model extends CI_Model
     public function mostrar_notas_alumnos($dato)
     {
         $this->db->distinct();
-        $this->db->select("ma.des_notas as Capacidad,rnd.abreviacion as Evaluacion,rnd.descripcion AS Descripcion,concat(peso*100 ,'%') as Peso,round(sum(rnda.nota),2) as Nota,ma.id_bimestre as Bimestre,rnd.id,mc.nom_cursos")
+        $this->db->select("ma.des_notas as Capacidad,rnd.abreviacion as Evaluacion,rnd.descripcion AS Descripcion,concat(peso*100 ,'%') as Peso,round(sum(rnda.nota),2) as Nota,ma.id_bimestre as Bimestre,rnd.id ,mc.nom_cursos,ma.id as id_nota")
         ->from('rel_notas_detalle_alumno rnda')
         ->join('rel_notas_detalle rnd',' on rnda.id_nota=rnd.id')
         ->join('maenotas  ma'         ,' on rnd.id_nota =ma.id ')
         ->join('maecursos mc'         ,' on rnda.id_curso=mc.id')
-        ->where('rnda.id_alumno='.$dato['id_alumno'].' and rnd.estado=1 and rnda.estado=1 and rnda.ano='.$dato['ano'].' and rnda.id_curso='.$dato['id_curso'])
+        ->where('rnda.id_alumno='.$dato['id_alumno'].' and rnd.estado=1 and rnda.estado=1 and rnda.ano='.$dato['ano'].' and rnda.id_curso='.$dato['id_curso'].' and ma.id_bimestre='.$dato['id_bimestre'])
         ->group_by('ma.id,rnd.abreviacion,rnd.id,ma.des_notas,mc.nom_cursos')
-        ->order_by('mc.nom_cursos,ma.id_bimestre,rnd.id,rnd.abreviacion');
+        ->order_by('ma.des_notas,mc.nom_cursos,ma.id_bimestre,rnd.id,rnd.abreviacion');
         $query = $this->db->get();
         return $query->result_array();
+    }
+    public function busqueda_profesor($data)
+    {
+        $this->db->distinct()
+                ->select('id_profesor')
+                ->from('relaula')
+                ->where(array('ano'=>$data['ano'],'id_curso'=>$data['id_curso'],'id_grado'=>$data['id_grado'],'id_seccion'=>$data['id_seccion']))
+                ->limit(1);
+        $query = $this->db->get();
+        return $query->row_array();
     }
     public function busquedaSeccion($data)
     {

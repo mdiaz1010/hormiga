@@ -20,14 +20,17 @@ if ($bodyData->respuesta>0)
             </div>
 
             <div class="x_content">
+                <p>
+                    <code>Fórmula:
+                        <?php isset($bodyData->formula[$nom_curso->id])?$formula_curso=$bodyData->formula[$nom_curso->id]:$formula_curso='Fórmula no definida por el docente';?>
+                        <?=$formula_curso;?>
 
-                <p><code>Fórmula: </code> to table for bulk actions options on row select</p>
-
+                    </code>
+                </p>
                 <div class="table-responsive">
-                    <table class="table table-striped jambo_table bulk_action">
-                        <thead>
+                    <table class="table table-striped  bulk_action">
+                        <thead style="color: #fff; background-color: #585858;">
                             <tr class="headings">
-                                <th class="column-title">Bimestre </th>
                                 <th class="column-title">Capacidad </th>
                                 <th class="column-title">Evaluación </th>
                                 <th class="column-title">Descripcion de evaluación</th>
@@ -37,11 +40,20 @@ if ($bodyData->respuesta>0)
                         </thead>
 
                         <tbody>
-                            <?php foreach($bodyData->array_result_alumno[$nom_curso->id] as $clave => $detalle): ?>
-                            <tr class="even pointer">
-                                <td class=" ">
-                                    <?=$detalle['Bimestre']?>
-                                </td>
+                            <?php $a=0; foreach($bodyData->array_result_alumno[$nom_curso->id] as $clave => $detalle):
+                            if($detalle['Nota']>10 && $detalle['Nota']<=20){
+                                $color="#2E9AFE";
+
+                            }else if($detalle['Nota']==''){
+                                $color="#FFF";
+                                $a++;
+                            }else{
+                                $color="#FE2E2E";
+
+                            }
+
+                                ?>
+                            <tr class="">
                                 <td class=" ">
                                     <?=$detalle['Capacidad']?>
                                 </td>
@@ -54,11 +66,31 @@ if ($bodyData->respuesta>0)
                                 <td class=" ">
                                     <?=$detalle['Peso']?>
                                 </td>
-                                <td class=" ">
-                                    <?=$detalle['Nota']?>
+                                <td class=" " bgcolor=<?=$color?>>
+                                    <font color="#ffffff">
+                                        <?=$detalle['Nota']?>
+                                    </font>
+                                </td>
+
+                            </tr>
+
+                            <?php endforeach;?>
+                            <tr>
+                                <td class=" " style="color: #fff; background-color: #585858;" colspan="4">
+                                    <font color="#ffffff">
+                                    <?php if($a>0){$texto='NO OFICIAL';}else{$texto='OFICIAL';} ?>
+                                       <strong><?=$texto?></strong>
+                                    </font>
+                                </td>
+                                <td class=" " style="color: #fff; background-color: #585858;" colspan="4">
+                                    <font color="#ffffff">
+                                        <strong>
+                                        <?php isset($bodyData->promedio[$nom_curso->id])?$promedio_curso=$bodyData->promedio[$nom_curso->id]:$promedio_curso='Promedio no definido';?>
+                                        <?=$promedio_curso;?>
+                                        </strong>
+                                    </font>
                                 </td>
                             </tr>
-                            <?php endforeach;?>
                         </tbody>
                     </table>
                 </div>

@@ -23,7 +23,7 @@
         <form method="post" name="consultarNotas" id="consultarNotas">
           <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12">
-              A&ntilde;o de estudio:
+              Año de estudio:
               <select name="rol_grado" class="form-control" id='rol_grado' required>
                 <option>Seleccione</option>
                 <?php
@@ -38,7 +38,12 @@
               </select>
             </label>
 
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">
+              Bimestre:
+              <select name="id_bimestre" class="form-control" id='id_bimestre' required>
 
+              </select>
+            </label>
             <label class="control-label col-md-3 col-sm-3 col-xs-12">
               <label>Fecha:</label>
               <div class='input-group date'>

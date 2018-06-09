@@ -88,6 +88,15 @@ class Docente_model extends CI_Model
                  ->order_by('form','asc');
                  return $this->db->get()->result_array();
     }
+    public function formulario_capacidades_alumno($grado,$profesor,$ano,$curso){
+        $this->db->distinct();
+        $this->db->select('concat(rd.abreviacion," * ",rd.peso) as form')
+                 ->from('rel_notas_detalle rd')
+                 ->join('maenotas ma','on rd.id_nota = ma.id')
+                 ->where('rd.id_grado='.$grado.'  and rd.id_profesor='.$profesor.' and rd.estado=1 and rd.ano='.$ano.' and rd.id_curso='.$curso)
+                 ->order_by('form','asc');
+                 return $this->db->get()->result_array();
+    }
     public function head($busqueda)
     {
         $this->db->distinct();
@@ -100,7 +109,7 @@ class Docente_model extends CI_Model
                                and ma.id_bimestre    ='.$busqueda['id_bimestre'].'
                                and rnd.estado        = 1
                                and rnd.id_profesor   ='.$busqueda['id_profesor'])
-                ->order_by("rnd.id", "asc")                    ;
+                ->order_by("rnd.id_nota,rnd.id", "asc")                    ;
         return $this->db->get()->result_array() ;
     }
     public function head_validacion($busqueda)
@@ -178,7 +187,7 @@ class Docente_model extends CI_Model
                                and rn.id_profesor   ='.$busqueda['id_profesor'])          ;
 
                                if($valor==true){
-                                $this->db->order_by('rnd.id_nota');
+                                $this->db->order_by('rn.id_nota,rnd.id_nota');
                             }
         return $this->db->get()->result_array() ;
 
@@ -203,7 +212,7 @@ class Docente_model extends CI_Model
                                and rnd.estado        = 1
                                and rn.estado        = 1
                                and rn.id_profesor   ='.$busqueda['id_profesor'])
-                               ->order_by("rnd.id_nota");
+                               ->order_by("rn.id_nota,rnd.id_nota");
 
         return $this->db->get()->result_array() ;
 

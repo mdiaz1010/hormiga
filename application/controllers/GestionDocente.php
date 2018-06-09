@@ -725,12 +725,12 @@ class GestionDocente extends CI_Controller
             array_push($cabecera,'codigo');
             foreach($list_final_notas as $fin){
           //      $fin==''?$value=0:$value=$fin;
-       #   var_dump($cabecera);var_dump($fin);
+        #  var_dump($cabecera);var_dump($fin);
                 $deta_alumnos_fin[]=array_combine($cabecera,$fin);
             }
 
             #var_dump($deta_alumnos_fin); die();
-       #    var_dump($deta_alumnos_fin); die();
+        #   var_dump($deta_alumnos_fin); die();
 #regla de negocio , nombre de abreviaciones deben de ser distintos
 
         $cantidad=count($deta_alumnos);

@@ -42,8 +42,14 @@ class GestionAlumno extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
+        $this->load->model("Docente_model", '', true);
         $ano=$this->input->post("ano");
+        $formula='';
+        $id_bimestre=$this->input->post("id_bimestre");
 
+        if($id_bimestre==''){
+            echo "Ingresar bimestre"; die();
+        }
         $alumnos=$this->session->webCasSession->usuario->CODIGO;
         $valores  = $this->Usuarios_model->busquedaGradoSeccion2($alumnos, $ano) ;
         $datos= array('id_alumno'=>$alumnos,'grado'=>$valores['id_grado'],'seccion'=>$valores['id_seccion'],'ano'=>$ano);
@@ -52,9 +58,30 @@ class GestionAlumno extends CI_Controller
             $this->htmlData['bodyData']->respuesta             = 1 ;
             foreach ($cursos as $cur) {
                 $arrayCursos[]=$cur->id_curso;
-                $list_notas_cursos[$cur->id_curso]=$this->Usuarios_model->mostrar_notas_alumnos(array('id_alumno'=>$alumnos,'ano'=>$ano,'id_curso'=>$cur->id_curso));
+                $list_notas_cursos[$cur->id_curso]=$this->Usuarios_model->mostrar_notas_alumnos(array('id_alumno'=>$alumnos,'ano'=>$ano,'id_curso'=>$cur->id_curso,'id_bimestre'=>$id_bimestre));
+
+                $id_profesor=$this->Usuarios_model->busqueda_profesor(array('ano'=>$ano,'id_curso'=>$cur->id_curso,'id_grado'=>$valores['id_grado'],'id_seccion'=>$valores['id_seccion']));
+
+                foreach($list_notas_cursos[$cur->id_curso] as $key => $detalle)
+                {
+
+                    $formula=$this->Docente_model->formulario_capacidades_alumno($valores['id_grado'],$id_profesor['id_profesor'],$ano,$cur->id_curso);
+                    if(count(array_column($formula,'form'))>0){
+                        $capacidad=array_column($list_notas_cursos[$cur->id_curso],'Capacidad');
+                        $ultima_capacidad=end($capacidad);
+                        $promedio=$this->Usuarios_model->reporteNotasAluCur_bimestre(array('id_alumno'=>$alumnos,'ano'=>$ano,'id_curso'=>$cur->id_curso,'id_bimestre'=>$id_bimestre));
+                        $array_formula[$cur->id_curso]= '('.implode(' + ',array_column($formula,'form')).')<strong>/'.substr($ultima_capacidad,-1).'</strong>';
+                        $array_promedio[$cur->id_curso]= $promedio['nota'];
+
+                    }else{
+                        $array_formula[$cur->id_curso]= 'Fórmula no definida';
+                    }
+
+                }
+
 
             }
+
 
             $curso= implode(',', $arrayCursos);
             $arrCursos = $this->Usuarios_model->buscarCursos($curso);
@@ -76,12 +103,25 @@ class GestionAlumno extends CI_Controller
             $this->htmlData['bodyData']->arrayAlumnos       = $alumnos ;
             $this->htmlData['bodyData']->arrayNote          = $notas ;
             $this->htmlData['bodyData']->array_result_alumno          = $list_notas_cursos ;
+            $this->htmlData['bodyData']->formula              = $array_formula ;
+            $this->htmlData['bodyData']->promedio             = $array_promedio ;
         } else {
             $this->htmlData['bodyData']->respuesta             = 0 ;
         }
         $this->load->view('vistasDialog/gestionAlumno/bandejaNota/bandejaNota', $this->htmlData);
     }
+    public function comboBimeProf()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);
+        $busquedaBimestre=$this->Usuarios_model->busquedaBimestre();
+        $html="<option value='' selected>Seleccione</option>";
+        foreach ($busquedaBimestre as $bus) {
 
+            $html.="<option value='".$bus['id']."'>".$bus['nom_bimestre']."</option>";
+        }
+        echo $html;
+    }
     public function consultarHorario()
     {
         $this->load->model("Usuarios_model", '', true);

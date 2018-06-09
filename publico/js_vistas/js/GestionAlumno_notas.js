@@ -72,25 +72,46 @@
 
        $('#rol_grado').change(function () {
 
-
            var ano = $(this).val();
+
+           if (ano === 'Seleccione' || ano === '') {
+               $("#bandejaNotasAlu").html("Ingrese el Curso...");
+               $('#id_bimestre').html('');
+           } else {
+               $.post('comboBimeProf', {
+                   ano: ano,
+
+               }, function (data) {
+                   $('#id_bimestre').html(data);
+                   $("#bandejaNotasAlu").html("Ingrese el Curso...");
+               });
+           }
+
+
+
+
+
+
+       });
+
+
+       $('#id_bimestre').change(function () {
+           var ano = $("#rol_grado").val();
+           var id_bimestre = $(this).val();
            if (ano === 'Seleccione') {
                $("#bandejaNotasAlu").html("Ingrese el Curso...");
            } else {
                $("#bandejaNotasAlu").html(' <center> <i id="estadistica-load" class="fa fa-circle-o-notch fa-spin" style="font-size:24px;color:#ec7063"></i></center>');
                $.post('bandejaNota', {
-                   ano: ano
+                   ano: ano,
+                   id_bimestre: id_bimestre
                }, function (data) {
 
                    $("#bandejaNotasAlu").html(data);
 
                });
            }
-
-
        });
-
-
 
 
    });
