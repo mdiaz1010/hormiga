@@ -338,11 +338,11 @@ class GestionDocente extends CI_Controller
         $bimestre=$this->input->post('bimestre');
         $id_curso=$this->input->post('curso');
         $id_seccion=$this->input->post('seccion');
-        $busqueda= array('id_bimestre'=>$bimestre,'id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion,'id_bimestre'=>$bimestre);
+        $busqueda= array('id_bimestre'=>$bimestre,'id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion);
         if ($bimestre=='codigo') {
-            $dotacionPresente =  $this->Usuarios_model->reporteNotasFinal($busqueda);
+            $dotacionPresente =  $this->Usuarios_model->reporteNotasFinal($busqueda,false);
         } else {
-            $dotacionPresente =  $this->Usuarios_model->reporteNotas2($busqueda);
+            $dotacionPresente =  $this->Usuarios_model->reporteNotasMerito10($busqueda,false);
         }
 
         $a=0;
@@ -350,11 +350,11 @@ class GestionDocente extends CI_Controller
         $c=0;
         $d=0;
         foreach ($dotacionPresente as $notas) {
-            if ((int)$notas['notas']>=17.5) {
+            if ((int)$notas['nota']>=17.5) {
                 $a++;
-            } elseif ($notas['notas']>=13.5 && $notas['notas']<17.4) {
+            } elseif ($notas['nota']>=13.5 && $notas['nota']<17.4) {
                 $b++;
-            } elseif ($notas['notas']>=10.5 && $notas['notas']<=13.4) {
+            } elseif ($notas['nota']>=10.5 && $notas['nota']<=13.4) {
                 $c++;
             } else {
                 $d++;
@@ -385,16 +385,16 @@ class GestionDocente extends CI_Controller
         $this->htmlData['bodyData']->notas           = $notas ;
         $this->htmlData['bodyData']->usuariosTotales = $this->Usuarios_model->reporteCantidad($busqueda);
         if ($bimestre=='codigo') {
-            $this->htmlData['bodyData']->merito          = $this->Usuarios_model->reporteNotasMerito2($busqueda);
+            $this->htmlData['bodyData']->merito          = $this->Usuarios_model->reporteNotasFinal($busqueda,true);
         } else {
-            $this->htmlData['bodyData']->merito          = $this->Usuarios_model->reporteNotasMerito($busqueda);
+            $this->htmlData['bodyData']->merito          = $this->Usuarios_model->reporteNotasMerito10($busqueda,true);
         }
 
         $i=0;
 
         foreach ($this->htmlData['bodyData']->merito as $meri) {
-            $nombre=$this->Usuarios_model->busquedaProfesorN($meri->id_alumno);
-            $codiAlumno[$meri->id_alumno]=$nombre[$i]->profesor;
+            $nombre=$this->Usuarios_model->busquedaProfesorN($meri['id_alumno']);
+            $codiAlumno[$meri['id_alumno']]=$nombre[$i]->profesor;
         }
 
         if ($codiAlumno!='') {
@@ -408,19 +408,22 @@ class GestionDocente extends CI_Controller
         $this->htmlData['bodyData']->dotacionPresente = $dotacionPresenteContador;
         $this->load->view('vistasDialog/gestionDocente/bandejaReporteN/bandejaReporteN', $this->htmlData);
     }
-    public function comboBandeNotReportG1($grado, $seccion, $curso, $bimestre)
+    public function comboBandeNotReportG1()
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
-        $busqueda= array('id_grado'=>$grado,'id_bimestre'=>$bimestre,'id_curso'=>$curso,'id_seccion'=>$seccion);
+        $id_grado=$this->input->post('grado');
+        $bimestre=$this->input->post('bimestre');
+        $id_curso=$this->input->post('curso');
+        $id_seccion=$this->input->post('seccion');
+        $busqueda= array('id_grado'=>$id_grado,'id_bimestre'=>$bimestre,'id_curso'=>$id_curso,'id_seccion'=>$id_seccion);
+
         if ($bimestre=='codigo') {
-            $meri =  $this->Usuarios_model->reporteNotasFinal10($busqueda);
+            $meri =  $this->Usuarios_model->reporteNotasFinal($busqueda,false);
 
             $bime="final del semestre escolar";
         } else {
-            $cantidad= $this->Usuarios_model->cantidadXbimestre($busqueda['id_curso']);
-            $peso=($cantidad[0]->cantidad);
-            $meri =  $this->Usuarios_model->reporteNotasMerito10($busqueda, $peso);
+            $meri =  $this->Usuarios_model->reporteNotasMerito10($busqueda, false);
             $nom_bimes=$this->Usuarios_model->buscarBimestre($bimestre);
             $bime=$nom_bimes[0]->nom_bimestre;
         }
@@ -428,9 +431,9 @@ class GestionDocente extends CI_Controller
 
 
 
-        $nom_grado=$this->Usuarios_model->buscarGrados($grado);
-        $nom_secci=$this->Usuarios_model->buscarSecciones($seccion);
-        $nom_curso=$this->Usuarios_model->buscarCursos($curso);
+        $nom_grado=$this->Usuarios_model->buscarGrados($id_grado);
+        $nom_secci=$this->Usuarios_model->buscarSecciones($id_seccion);
+        $nom_curso=$this->Usuarios_model->buscarCursos($id_curso);
 
 
         $this->load->library('Pdf');
@@ -459,17 +462,17 @@ class GestionDocente extends CI_Controller
 
         foreach ($meri as $alumno) {
             $pdf->Cell(15, 5, $x++, 'BL', 0, 'C', 0);
-            $pdf->Cell(80, 5, utf8_decode($alumno->ape_pat_per), 'B', 0, 'L', 0);
-            if ($alumno->nota>=17.5) {
+            $pdf->Cell(80, 5, utf8_decode($alumno['ape_pat_per']), 'B', 0, 'L', 0);
+            if ($alumno['nota']>=17.5) {
                 $pdf->Cell(40, 5, 'SATISFACTORIO', 'B', 0, 'L', 0);
-            } elseif ($alumno->nota>=13.5 && $alumno->nota<17.4) {
+            } elseif ($alumno['nota']>=13.5 && $alumno['nota']<17.4) {
                 $pdf->Cell(40, 5, 'PROCESO', 'B', 0, 'L', 0);
-            } elseif ($alumno->nota>=10.5 && $alumno->nota<=13.4) {
+            } elseif ($alumno['nota']>=10.5 && $alumno['nota']<=13.4) {
                 $pdf->Cell(40, 5, 'INICIO', 'B', 0, 'L', 0);
             } else {
                 $pdf->Cell(40, 5, 'PREVIO INICIO', 'B', 0, 'L', 0);
             }
-            $pdf->Cell(22, 5, utf8_decode($alumno->nota), 'BR', 0, 'C', 0);
+            $pdf->Cell(22, 5, utf8_decode($alumno['nota']), 'BR', 0, 'C', 0);
 
             $pdf->Ln(5);
         }
@@ -730,8 +733,8 @@ class GestionDocente extends CI_Controller
             }
 
             #var_dump($deta_alumnos_fin); die();
-        #   var_dump($deta_alumnos_fin); die();
-#regla de negocio , nombre de abreviaciones deben de ser distintos
+            #var_dump($deta_alumnos_fin); die();
+            #regla de negocio , nombre de abreviaciones deben de ser distintos
 
         $cantidad=count($deta_alumnos);
         $this->htmlData['bodyData']->cantidad                   =$cantidad;

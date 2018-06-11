@@ -148,22 +148,19 @@
     <input type="hidden" name="codigo" id="codigo" value="<?=$bodyData->codigo?>">
     <script>
         var codigo = $("#codigo").val();
-        $.post('<?=base_url('
-            GestionEducativa / horario ')?>', {
+        $.post('<?=base_url('GestionEducativa/horario ')?>', {
                 codigo: codigo
             },
             function (data) {
                 $("#horarios").html(data);
             });
-        $.post('<?=base_url('
-            GestionEducativa / puestos ')?>', {
+        $.post('<?=base_url('GestionEducativa/puestos ')?>', {
                 codigo: codigo
             },
             function (data) {
                 $("#puestos").html(data);
             });
-        $.post('<?=base_url('
-            GestionEducativa / rendimiento ')?>', {
+        $.post('<?=base_url('GestionEducativa/rendimiento ')?>', {
                 codigo: codigo
             },
             function (data) {

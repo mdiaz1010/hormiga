@@ -5,7 +5,7 @@
         <div class="col-lg-4">
             <div class="form-group">
                 <?php $i=0;  foreach ($bodyData->usuarios as $profesores): ?>
-                <input type="hidden" name="profesores[]" id="profesores<?php $i; ?>" value="<?php echo $profesores->ape_pat_per?>" />
+                <input type="hidden" name="profesores[]" id="profesores<?= $i; ?>" value="<?= $profesores->ape_pat_per?>" />
                 <?php $i++; endforeach; ?>
             </div>
         </div>
@@ -19,7 +19,7 @@
             <h3>Contactos</h3>
         </div>
 
-        <div class="title_right">
+<div class="title_right">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                 <div class="input-group">
                     <input type="text" name="buscarUsuario" id="buscarUsuario" class="form-control" placeholder="Buscar...">

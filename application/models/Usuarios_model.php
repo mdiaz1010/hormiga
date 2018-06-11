@@ -290,13 +290,15 @@ class Usuarios_model extends CI_Model
     }
     public function puestoSalon($grado, $seccion)
     {
-        $this->db->select("re.id_alumno,AVG(re.nota) as nota");
-        $this->db->from("relnotas re");
-        $this->db->join("maenotas ma", "on re.id_nota=ma.id");
-        $this->db->where("re.estado=1 and  re.id_curso!=0 and re.id_grado=".$grado." and ma.pe is null and re.id_seccion=".$seccion." and re.ano=".date('Y'));
-        $this->db->group_by('re.id_alumno');
-        $this->db->order_by('2', 'DESC') ;
-        return $this->db->get()->result_object() ;
+        $this->db->select("rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso),2) as nota, (select distinct count(*) from relaulalumno rla where rla.id_grado=rnda.id_grado and rla.id_seccion=rnda.id_seccion) as cantidad");
+        $this->db->from("rel_notas_detalle_alumno rnda");
+        $this->db->join("rel_notas_detalle rnd ", "ON rnda.id_nota  =rnd.id");
+        $this->db->join("maenotas   ma "        , "ON rnd.id_nota   =ma.id ");
+        $this->db->join("maepersona mp "        , "ON rnda.id_alumno=mp.id");
+        $this->db->where("rnda.estado=1 and rnd.estado=1 and rnda.ano=".date('Y')."  and rnda.id_grado=".$grado." and rnda.id_seccion=".$seccion);
+        $this->db->group_by('rnda.id_grado,rnda.id_seccion,rnda.id_alumno');
+        $this->db->order_by('nota', 'DESC') ;
+        return $this->db->get()->result_array() ;
     }
     public function puestoSalonTotal()
     {
@@ -314,24 +316,27 @@ class Usuarios_model extends CI_Model
 
     public function puestoGrado($grado)
     {
-        $this->db->distinct();
-        $this->db->select("re.id_alumno,AVG(re.nota) as nota");
-        $this->db->from("relnotas re");
-        $this->db->join("maenotas ma", "on re.id_nota=ma.id");
-        $this->db->where("re.estado=1 and re.id_curso!=0 and re.id_grado=".$grado." and ma.pe is null and re.ano=".date('Y'));
-        $this->db->group_by('re.id_alumno');
-        $this->db->order_by('2', 'DESC') ;
-        return $this->db->get()->result_object() ;
+        $this->db->select("rnda.id_alumno,rnda.id_grado,round(sum(rnda.nota*rnd.peso),2) as nota, (select distinct count(*) from relaulalumno rla where rla.id_grado=rnda.id_grado ) as cantidad");
+        $this->db->from("rel_notas_detalle_alumno rnda");
+        $this->db->join("rel_notas_detalle rnd ", "ON rnda.id_nota  =rnd.id");
+        $this->db->join("maenotas   ma "        , "ON rnd.id_nota   =ma.id ");
+        $this->db->join("maepersona mp "        , "ON rnda.id_alumno=mp.id");
+        $this->db->where("rnda.estado=1 and rnd.estado=1 and rnda.ano=".date('Y')."  and rnda.id_grado=".$grado);
+        $this->db->group_by('rnda.id_grado,rnda.id_alumno');
+        $this->db->order_by('nota', 'DESC') ;
+        return $this->db->get()->result_array() ;
     }
     public function puestoColegio()
     {
-        $this->db->select("re.id_alumno,AVG(re.nota) as nota");
-        $this->db->from("relnotas re");
-        $this->db->join("maenotas ma", "on re.id_nota=ma.id");
-        $this->db->where('re.estado=1 and re.id_curso!=0 and ma.pe is null and re.ano='.date('Y'));
-        $this->db->group_by('re.id_alumno');
-        $this->db->order_by('2', 'DESC') ;
-        return $this->db->get()->result_object() ;
+        $this->db->select("rnda.id_alumno,round(sum(rnda.nota*rnd.peso),2) as nota, (select distinct count(*) from relaulalumno rla ) as cantidad");
+        $this->db->from("rel_notas_detalle_alumno rnda");
+        $this->db->join("rel_notas_detalle rnd ", "ON rnda.id_nota  =rnd.id");
+        $this->db->join("maenotas   ma "        , "ON rnd.id_nota   =ma.id ");
+        $this->db->join("maepersona mp "        , "ON rnda.id_alumno=mp.id");
+        $this->db->where("rnda.estado=1 and rnd.estado=1 and rnda.ano=".date('Y'));
+        $this->db->group_by('rnda.id_alumno');
+        $this->db->order_by('nota', 'DESC') ;
+        return $this->db->get()->result_array() ;
     }
     public function getGrados()
     {
@@ -494,34 +499,47 @@ class Usuarios_model extends CI_Model
         $this->db->select(" horario ")->from("relaula")->where("id_seccion", $codigo);
         return $this->db->get()->result_object() ;
     }
-    public function reporteNotasFinal($data)
+    public function reporteNotasFinal($data,$boolean)
     {
-        $this->db->select("re.id_alumno,re.nota as notas ")
-                 ->from("relnotas re")
-                 ->join("maenotas ma", "on re.id_nota=ma.id");
-        $this->db->where(array('re.id_curso'=>$data['id_curso'],'re.id_grado'=>$data['id_grado'],'re.id_seccion'=>$data['id_seccion'],'re.ano'=>date('Y'))) ;
-        $this->db->where('re.estado=1 and ma.pe is not null and ma.id_bimestre is null and re.ano='.date('Y'));
+        $this->db->select("mp.ape_pat_per,rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota ")
+                 ->from("rel_notas_detalle_alumno rnda")
+                 ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
+                 ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
+                 ->join("maepersona mp"        , "ON rnda.id_alumno =mp.id");
+        $this->db->where(array('rnda.id_curso'=>$data['id_curso'],'rnda.id_grado'=>$data['id_grado'],'rnda.id_seccion'=>$data['id_seccion'],'rnda.ano'=>date('Y'))) ;
+        $this->db->where('rnd.estado=1  and rnda.estado=1 ');
+        $this->db->group_by('rnda.id_grado,rnda.id_seccion,rnda.id_alumno');
+        if($boolean==true){
+            $this->db->limit(3);
+        }
         return $this->db->get()->result_array() ;
     }
     public function reporteNotasFinal10($data)
     {
-        $this->db->select("ape_pat_per,rl.id_alumno,rl.nota as nota ")->from("relnotas rl")
-                 ->join("maepersona ma", "on rl.id_alumno=ma.id")
-                 ->join("maenotas me", "on rl.id_nota=me.id");
-        $this->db->where(array('rl.id_curso'=>$data['id_curso'],'rl.id_grado'=>$data['id_grado'],'rl.id_seccion'=>$data['id_seccion'],'rl.ano'=>date('Y'))) ;
-        $this->db->where('rl.estado=1 and me.pe is not null and me.id_bimestre is null');
-        return $this->db->get()->result_object() ;
+        $this->db->select("mp.ape_pat_per,rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota ")
+                 ->from("rel_notas_detalle_alumno rnda")
+                 ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
+                 ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
+                 ->join("maepersona mp"        , "ON rnda.id_alumno =mp.id");
+        $this->db->where(array('rnda.id_curso'=>$data['id_curso'],'rnda.id_grado'=>$data['id_grado'],'rnda.id_seccion'=>$data['id_seccion'],'rnda.ano'=>date('Y'))) ;
+        $this->db->where('rnd.estado=1  and rnda.estado=1 ');
+        return $this->db->get()->result_array() ;
     }
-    public function reporteNotasMerito10($data, $peso)
+    public function reporteNotasMerito10($data,$boolean)
     {
-        $this->db->select("ma.ape_pat_per,rl.id_alumno,round(sum(rl.nota)/".$peso.",2) as nota")->from("relnotas rl")
-             ->join("maepersona ma", "on rl.id_alumno=ma.id")
-             ->join("maenotas me", "on rl.id_nota=me.id");
-        $this->db->where(array('rl.id_curso'=>$data['id_curso'],'rl.id_grado'=>$data['id_grado'],'rl.id_seccion'=>$data['id_seccion'],'rl.id_bimestre'=>$data['id_bimestre'],'rl.ano'=>date('Y'))) ;
-        $this->db->where('rl.estado=1 and me.pe is null');
-        $this->db->group_by('rl.id_alumno,ma.ape_pat_per');
-        $this->db->order_by('sum(rl.nota)', 'desc');
-        return $this->db->get()->result_object() ;
+        $this->db->select("mp.ape_pat_per,rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota ")
+                 ->from("rel_notas_detalle_alumno rnda")
+                 ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
+                 ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
+                 ->join("maepersona mp"        , "ON rnda.id_alumno =mp.id");
+        $this->db->where(array('ma.id_bimestre'=>$data['id_bimestre'],'rnda.id_curso'=>$data['id_curso'],'rnda.id_grado'=>$data['id_grado'],'rnda.id_seccion'=>$data['id_seccion'],'rnda.ano'=>date('Y'))) ;
+        $this->db->where('rnd.estado=1  and rnda.estado=1 ');
+        $this->db->group_by('rnda.id_grado,rnda.id_seccion,rnda.id_alumno');
+        if($boolean==true){
+
+            $this->db->limit(3);
+        }
+        return $this->db->get()->result_array() ;
     }
     public function reporteNotas($data, $cantidad)
     {
@@ -599,32 +617,45 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAluSal($data)
     {
-        $this->db->select("rl.id_bimestre as desc,AVG(rl.nota) as nota ")->from("relnotas rl")
-        ->join('maenotas  ma', 'mc on rl.id_nota=ma.id');
-        $this->db->where(array('rl.id_grado'=>$data['id_grado'],'rl.id_seccion'=>$data['id_seccion'], 'rl.ano'=>date('Y'))) ;
-        $this->db->where('rl.estado=1 and rl.id_curso!=0 and ma.pe is  null and ma.id_bimestre is not null');
-        $this->db->group_by('rl.id_grado,rl.id_seccion,rl.id_bimestre');
-        $this->db->order_by('1', 'asc');
+        $this->db->select("round(sum(rnda.nota*rnd.peso)/(select distinct count(*) from relaulalumno rla  where rla.id_grado=rnda.id_grado and rla.id_seccion=rnda.id_seccion),2) as nota,ma.id_bimestre as desc,rnda.id_grado,rnda.id_seccion")
+        ->from("rel_notas_detalle_alumno rnda")
+        ->join("rel_notas_detalle rnd", "on rnda.id_nota=rnd.id")
+        ->join("maenotas ma"          , "on rnd.id_nota =ma.id")
+        ->where('rnda.id_grado='.$data['id_grado'].'     and
+                 rnda.id_seccion='.$data['id_seccion'].' and
+                 rnda.ano='.date('Y').'                  and
+                 rnda.estado=1                           and
+                 rnd.estado=1')
+        ->group_by('ma.id_bimestre,rnda.id_grado,rnda.id_seccion')
+        ->order_by('2', 'asc');
         return $this->db->get()->result_array() ;
     }
     public function reporteNotasAluGra($data)
     {
-        $this->db->select("rl.id_bimestre as desc,AVG(rl.nota) as nota ")->from("relnotas rl")
-        ->join('maenotas  ma', 'mc on rl.id_nota=ma.id');
-        $this->db->where(array('rl.id_grado'=>$data['id_grado'], 'rl.ano'=>date('Y'))) ;
-        $this->db->where('rl.estado=1 and  rl.id_curso!=0 and ma.pe is  null and ma.id_bimestre is not null');
-        $this->db->group_by('rl.id_grado,rl.id_bimestre');
-        $this->db->order_by('1', 'asc');
+        $this->db->select("round(sum(rnda.nota*rnd.peso)/(select distinct count(*) from relaulalumno rla  where rla.id_grado=rnda.id_grado ),2) as nota,ma.id_bimestre as desc,rnda.id_grado")
+        ->from("rel_notas_detalle_alumno rnda")
+        ->join("rel_notas_detalle rnd", "on rnda.id_nota=rnd.id")
+        ->join("maenotas ma"          , "on rnd.id_nota =ma.id")
+        ->where('rnda.id_grado='.$data['id_grado'].'     and
+                 rnda.ano='.date('Y').'                  and
+                 rnda.estado=1                           and
+                 rnd.estado=1')
+        ->group_by('ma.id_bimestre,rnda.id_grado')
+        ->order_by('2', 'asc');
         return $this->db->get()->result_array() ;
     }
     public function reporteNotasAluCol()
     {
-        $this->db->select("rl.id_bimestre as desc,AVG(rl.nota) as nota ")->from("relnotas rl")
-        ->join('maenotas  ma', 'mc on rl.id_nota=ma.id');
-        $this->db->where(array('rl.ano'=>date('Y'))) ;
-        $this->db->where('rl.estado=1 and rl.id_curso!=0 and   ma.pe is  null and ma.id_bimestre is not null');
-        $this->db->group_by('rl.id_bimestre');
-        $this->db->order_by('1', 'asc');
+        $this->db->select("round(sum(rnda.nota*rnd.peso)/(select distinct count(*) from relaulalumno rla   ),2) as nota,ma.id_bimestre as desc")
+        ->from("rel_notas_detalle_alumno rnda")
+        ->join("rel_notas_detalle rnd", "on rnda.id_nota=rnd.id")
+        ->join("maenotas ma"          , "on rnd.id_nota =ma.id")
+        ->where('
+                 rnda.ano='.date('Y').'                  and
+                 rnda.estado=1                           and
+                 rnd.estado=1')
+        ->group_by('ma.id_bimestre')
+        ->order_by('2', 'asc');
         return $this->db->get()->result_array() ;
     }
     public function reporteNotasMerito($data)

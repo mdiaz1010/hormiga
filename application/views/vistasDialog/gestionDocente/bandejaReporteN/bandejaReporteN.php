@@ -31,10 +31,6 @@
 
     $graficoArrayFecha ;
 
-    try {
-        //    $fecha = new DateTime($graficoArrayFecha);
-    } catch (Exception $e) {
-    }
 
     // echo $fecha->format('Y-m-d');
     ?>
@@ -57,41 +53,39 @@
                                 </span>
                                 <i class="fa fa-check"></i>
                             </div>
-                            <div class="col-md-6  ">
-                                <span id="trafico_terminales_fecha">Fecha:
-                                    <?=date('Y-m-d')?>
-                                </span>
-                                <i class="glyphicon glyphicon-calendar"></i>
-                            </div>
+
                         </div>
                         <div class="col-md-8">
                             <div class="x_content">
                                 <canvas id="polarArea" style="    height: 350px;"></canvas>
                             </div>
                         </div>
-
+                        <form method='POST' id='formReport' name="formReport" action="comboBandeNotReportG1" target="TheWindow">
                         <div class="col-md-4">
                             <div class="list-group">
 
                                 <div class="list-group-item">
+
+                                    <a class="no_color_link">Cantidad de alumnos</a>
                                     <span class="badge">
                                         <?= $totalRegistros ?>
                                     </span>
-                                    <i class="fa fa-check"></i>
-                                    <a class="no_color_link">Cantidad de alumno</a>
+
                                 </div>
 
-                                <div class="list-group-item">
-                                    <span class="fa fa-search"></span>
-                                    <a href="<?=  base_url(" GestionDocente/comboBandeNotReportG1/
-                                        ".$bodyData->datos['id_grado'].'/'.$bodyData->datos['id_seccion'].'/'.$bodyData->datos['id_curso'].'/'.$bodyData->datos['id_bimestre'])?>" class="detalle" target="_blank">Ver detalles
-                                        <i class="fa fa-arrow-circle-right"></i>
-                                    </a>
-                                </div>
+                                <input type='hidden' name="grado"       id="grado"      value="<?=$bodyData->datos['id_grado']?>">
+                                <input type='hidden' name="seccion"     id="seccion"    value="<?=$bodyData->datos['id_seccion']?>">
+                                <input type='hidden' name="bimestre"    id="bimestre"   value="<?=$bodyData->datos['id_bimestre']?>">
+                                <input type='hidden' name="curso"       id="curso"      value="<?=$bodyData->datos['id_curso']?>">
+
+                                <br>
+                                <input type="submit" class="btn btn-danger" value="Generar PDF">
+
+
 
                             </div>
                         </div>
-
+                        </form>
                         <div class="col-xs-12">
                             <div class="row">
                                 <table class="table table-bordered table-hover table-striped tablesorter">
@@ -146,12 +140,12 @@
                                             </center>
                                         </td>
                                         <td>
-                                            <?=$bodyData->alumno[$merito->id_alumno]?>
+                                            <?=$bodyData->alumno[$merito['id_alumno']]?>
                                         </td>
                                         <td>
                                             <center>
                                                 <strong>
-                                                    <?=$merito->nota?>
+                                                    <?=$merito['nota']?>
                                                 </strong>
                                             </center>
                                         </td>
@@ -235,17 +229,11 @@
         <script src="<?= base_url('publico/html_libs/Chart.js/dist/Chart.min.js') ?>"></script>
         <script type="text/javascript">
             $(".detalle").click(function () {
-
                 var curso = $(this).data("curso");
                 var grado = $(this).data("grado");
                 var seccion = $(this).data("seccion");
                 var bimestre = $(this).data("bimestre");
-                $.ajax({
-                    type: 'POST',
-                    url: "comboBandeNotReportG1",
-                    data: "curso=" + curso + "&grado=" + grado + "&seccion=" + seccion + "&bimestre=" +
-                        bimestre
-                });
+                window.open("comboBandeNotReportG1",{curso:curso,grado:grado,seccion:seccion,bimestre:bimestre});
 
             });
 

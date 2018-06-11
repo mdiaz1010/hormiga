@@ -1046,41 +1046,26 @@ class GestionEducativa extends CI_Controller
         $this->load->model("Rol_model", '', true);//
         $alu= $this->input->post('codigo');
         $ano     = $this->Usuarios_model->busquedaAno($alu);
-        $sump=1;
-        $sums=1;
-        $sumc=1;
-        $p=0;
-        $c=0;
-        $s=0;
         if ($ano[0]->ano==date('Y')) {
             $valores  = $this->Usuarios_model->busquedaGradoSeccion2($alu, $ano[0]->ano) ;
         }
         $puesto_grado=$this->Usuarios_model->puestoGrado($valores['id_grado']);
-        foreach ($puesto_grado as $grados) {// EXTRAIGO EL PUESTO Y LA NOTA DEL GRADO SECCION
-            if ($alu==$grados->id_alumno) {
-                $arraygrado=array('puesto'=>$sump,'nota'=>(int)$grados->nota);
-            }
-            $sump++;
-            $p++;
-        }
-        $puesto_salon=$this->Usuarios_model->puestoSalon($valores['id_grado'], $valores['id_seccion']);
-        foreach ($puesto_salon as $salon) { // ESTRAIGO EL PUESTO Y LA NOTA DEL GRADO
-            if ($alu==$salon->id_alumno) {
-                $arraysalon=array('puesto'=>$sums,'nota'=>(int)$salon->nota);
-            }
-            $sums++;
-            $s++;
-        }
-        $puesto_colegio=$this->Usuarios_model->puestoColegio();
+        $indice_alumno_grado=array_search($alu,array_column($puesto_grado,'id_alumno'));
+            // EXTRAIGO EL PUESTO Y LA NOTA DEL GRADO
+        $arraygrado=array('puesto'=>$indice_alumno_grado+1,'nota'=>$puesto_grado[$indice_alumno_grado]['nota']);
 
-        foreach ($puesto_colegio as $colegio) { // EXTRAIGO EL PUESTO Y LA NOTA DEL COLEGIO
-            if ($alu==$colegio->id_alumno) {
-                $arraycolegio=array('puesto'=>$sumc,'nota'=>round($colegio->nota, 2));
-            }
-            $sumc++;
-            $c++;
-        }
-        $totales= array('salon'=>$s,'grado'=>$p,'colegio'=>$c);
+        $puesto_salon=$this->Usuarios_model->puestoSalon($valores['id_grado'], $valores['id_seccion']);
+        $indice_alumno_salon=array_search($alu,array_column($puesto_salon,'id_alumno'));
+            // ESTRAIGO EL PUESTO Y LA NOTA DEL SALON
+        $arraysalon=array('puesto'=>$indice_alumno_salon+1,'nota'=>$puesto_salon[$indice_alumno_salon]['nota']);
+
+
+        $puesto_colegio=$this->Usuarios_model->puestoColegio();
+        $indice_alumno_colegio=array_search($alu,array_column($puesto_colegio,'id_alumno'));
+            // EXTRAIGO EL PUESTO Y LA NOTA DEL COLEGIO
+        $arraycolegio=array('puesto'=>$indice_alumno_colegio+1,'nota'=>$puesto_colegio[$indice_alumno_colegio]['nota']);
+
+        $totales= array('salon'=>$puesto_salon[$indice_alumno_salon]['cantidad'],'grado'=>$puesto_grado[$indice_alumno_grado]['cantidad'],'colegio'=>$puesto_colegio[$indice_alumno_colegio]['cantidad']);
         $this->htmlData['bodyData']->colegio         = $arraycolegio ;
         $this->htmlData['bodyData']->salon           = $arraysalon ;
         $this->htmlData['bodyData']->grado           = $arraygrado ;
@@ -1110,6 +1095,7 @@ class GestionEducativa extends CI_Controller
             $trayectoGrado=$this->Usuarios_model->reporteNotasAluGra($data);
             $trayectoColeg=$this->Usuarios_model->reporteNotasAluCol();
             $cantidadCur  =$this->Usuarios_model->reporteCantidadCur($data);
+
             $sum=0;
 
 
