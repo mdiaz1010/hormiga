@@ -912,6 +912,7 @@ class GestionEducativa extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $usuario= $this->input->post('nombre');
+        $boolean= $this->input->post('boolean');
         $codigo=$this->Usuarios_model->busquedaProfesor($usuario);
         if (isset($codigo)==true) {
             $usuario10=$codigo[0]->id;
@@ -1119,11 +1120,13 @@ class GestionEducativa extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $nombre= $this->input->post("nombre");
+        $boolean= $this->input->post("boolean");
 
         $arrayDatos = $this->Rol_model->busquedaDatosGeneral($nombre);
 
 
 
+        $this->htmlData['bodyData']->boolean                 =$boolean;
         $this->htmlData['bodyData']->datos                 =$arrayDatos;
         $this->htmlData['headData']->titulo                = "GESTION :: INTRANET";
         $this->load->view('vistasDialog/gestionEducativa/bandejaConsulta/index', $this->htmlData);

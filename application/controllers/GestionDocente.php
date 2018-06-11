@@ -857,8 +857,7 @@ class GestionDocente extends CI_Controller
         $descripcion=$this->input->post('descripcion');
         $peso       =$this->input->post('peso');
         $descontar  =$this->input->post('descontar');
-
-        if (empty($abreviacion) || empty($peso) || empty($descripcion)) {
+        if (empty($abreviacion) || empty($peso) || empty($descripcion) || array_search('0',$peso)!='' || array_search(0,$peso)!='' || array_search('',$peso)!=''  ) {
             $mensaje="No se ha ingresado informacion nueva";
             echo json_encode($mensaje);
             die();
@@ -866,7 +865,7 @@ class GestionDocente extends CI_Controller
         if (is_null($peso)) {
             $sum_peso=0;
         } else {
-            $sum_peso=array_sum($peso)*100;
+            $sum_peso=array_sum($peso);
         }
         foreach($abreviacion as $list_abre){
             $det=$this->Docente_model->busqueda_notas_configuradas_abreviacion($grado, $curso, strtoupper($list_abre), $profesor, $ano);
@@ -884,7 +883,7 @@ class GestionDocente extends CI_Controller
         $suma_bd=(($suma_nota['acumulado']/$cantidad_bi))*100;
 
 
-        $sum_final= $suma_bd+(array_sum($peso)*100)-(int)$descontar;
+        $sum_final= $suma_bd+(array_sum($peso))-(int)$descontar;
 
 
         if ((int)$sum_final!=100) {
@@ -910,7 +909,7 @@ class GestionDocente extends CI_Controller
                         'ano'           =>$ano,
                         'abreviacion'   =>strtoupper($abreviado),
                         'descripcion'   =>strtoupper($descripcion[$i]),
-                        'peso'          =>$peso[$i],
+                        'peso'          =>$peso[$i]/100,
                         'estado'        =>1,
                         'fec_creacion'  =>date('Y-m-d'),
                         'usu_creacion'  =>$this->session->webCasSession->usuario->USUARIO

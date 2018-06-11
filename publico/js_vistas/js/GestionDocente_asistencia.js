@@ -111,12 +111,14 @@
                            $("#bandejaAsistencia").html("Ingrese el Curso...");
 
                    } else {
-                           $("#bandejaAsistencia").html('<center> <i id="estadistica-load" class="fa fa-circle-o-notch fa-spin" style="font-size:24px;color:#ec7063"></i></center>');
+                           $("#DIVcargas").dialog('open');
+
                            $.post('comboBandeAsis', {
                                    curso: curso,
                                    grado: grado,
                                    seccion: seccion
                            }, function (data) {
+                                   $("#DIVcargas").dialog('close');
                                    $("#bandejaAsistencia").html(data);
                            });
                    }

@@ -15,11 +15,12 @@
 
 
     <div class="page-title">
+
         <div class="title_left">
             <h3>Contactos</h3>
         </div>
 
-<div class="title_right">
+        <div class="title_right">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                 <div class="input-group">
                     <input type="text" name="buscarUsuario" id="buscarUsuario" class="form-control" placeholder="Buscar...">
@@ -31,50 +32,43 @@
                 </div>
             </div>
         </div>
+
     </div>
 
-    <div class="x_panel">
-        <div class="x_title">
+<div class="">
 
-            <ul class="nav navbar-right panel_toolbox">
-                <li>
-                    <a class="collapse-link">
-                        <i class="fa fa-chevron-up"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="close-link">
-                        <i class="fa fa-close"></i>
-                    </a>
-                </li>
-            </ul>
-            <div class="clearfix"></div>
-        </div>
-        <div class="x_content">
-            <div class="table-responsive" id="bandejaprincipal"></div>
+    <div class="" id="bandejaprincipal"></div>
 
-        </div>
-    </div>
+
+</div>
+
 
 
 
 
 
 </div>
-
+<div id="DIVcargas_general" title="EN PROCESO">
+    <center>
+        <strong>Espere estamos cargando la informacion...</strong>
+        <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
+    </center>
 </div>
+<script type="text/javascript" src="<?= base_url('publico/js_vistas/js/cargar_data.js')?>"></script>
 <script type="text/javascript">
     var nombre1 = $("#buscarUsuario").val();
     $.ajax({
         type: 'POST',
         url: 'consultaGeneralDir',
         data: {
-            nombre: nombre1
+            nombre: nombre1,
+            boolean: "true"
         },
         beforeSend: function (data) {
-            $("#bandejaprincipal").html("Espere...");
+            $('#DIVcargas_general').dialog('open');
         },
         success: function (data) {
+            $('#DIVcargas_general').dialog('close');
             $("#bandejaprincipal").html(data);
             return false;
         }
@@ -86,12 +80,14 @@
             type: 'POST',
             url: 'consultaGeneralDir',
             data: {
-                nombre: nombre
+                nombre: nombre,
+                boolean: "false"
             },
             beforeSend: function (data) {
-                $("#bandejaprincipal").html("Espere...");
+                $('#DIVcargas_general').dialog('open');
             },
             success: function (data) {
+                $('#DIVcargas_general').dialog('close');
                 $("#bandejaprincipal").html(data);
                 return false;
             }
@@ -108,12 +104,14 @@
             type: 'POST',
             url: 'buscarUser',
             data: {
-                nombre: nombre
+                nombre: nombre,
+                boolean: "false"
             },
             beforeSend: function (data) {
-                $("#bandejaprincipal").html("Espere...");
+                $('#DIVcargas_general').dialog('open');
             },
             success: function (data) {
+                $('#DIVcargas_general').dialog('close');
                 $("#bandejaprincipal").html(data);
                 return false;
             }

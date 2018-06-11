@@ -147,6 +147,7 @@
     </div>
     <input type="hidden" name="codigo" id="codigo" value="<?=$bodyData->codigo?>">
     <script>
+
         var codigo = $("#codigo").val();
         $.post('<?=base_url('GestionEducativa/horario ')?>', {
                 codigo: codigo

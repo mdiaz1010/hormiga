@@ -114,6 +114,7 @@
  Espere mientras se gestiona la informaci&oacute;n.
 <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
 </div>
+
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionDocente_configuracion.js')?>"></script>
 <?php
 } else {

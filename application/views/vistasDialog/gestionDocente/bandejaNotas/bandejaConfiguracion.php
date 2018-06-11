@@ -88,6 +88,13 @@
 
   </div>
 </div>
+<div id="DIVcargas_general" title="EN PROCESO">
+    <center>
+        <strong>Espere estamos cargando la informacion...</strong>
+        <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
+    </center>
+</div>
+<script type="text/javascript" src="<?= base_url('publico/js_vistas/js/cargar_data.js')?>"></script>
 <script>
   var grado = $("#grado").val();
   var curso = $("#curso").val();
@@ -173,12 +180,12 @@
             concatenarFilas += '<td><CENTER>' + abreviacion.toUpperCase() +
               '<input type="hidden" name="abreviacion[]"   data-cantdet="' + contador + '" id="abreviacion' +
               contador + '"     value="' + abreviacion + '" ></CENTER></td>';
-            concatenarFilas += '<td><CENTER>' + descripcion.toUpperCase() +
-              '<input type="hidden" name="descripcion[]"   data-cantdet="' + contador + '" id="descripcion' +
-              contador + '"     value="' + descripcion + '" ></CENTER></td>';
-            concatenarFilas += '<td><CENTER>' + peso +
-              '%<input type="hidden" name="peso[]"   data-cantdet="' + contador + '" id="peso' + contador +
-              '"     value="' + (peso / 100) + '" ></CENTER></td>';
+            concatenarFilas += '<td><CENTER><input style="border:0;" type="text" size="3" name="descripcion[]"   data-cantdet="' + contador + '" id="descripcion' +
+              contador + '"     value="' + descripcion.toUpperCase() +
+              '"></td>';
+            concatenarFilas += '<td><CENTER><input name="peso[]"   data-cantdet="' + contador + '" id="peso' + contador +
+              '"   style="border:0;" type="text" size="3" value="' + (peso) +
+              '">%</CENTER></td>';
             concatenarFilas +=
               '<td><CENTER><a href="javascript:" title="Anular" class="fa fa-remove eliminar" data-codigo="' +
               contador + '"></a></CENTER></td>';
@@ -216,6 +223,9 @@
       type: "POST",
       url: "registrar_configuracion_nota",
       data: $("#registrarNotasConf").serialize(),
+      beforeSend: function( datos){
+        $('#DIVcargas_general').dialog('open');
+      },
       success: function (datos) {
         if (datos == 1) {
           $.post('cambiar_estado_configuracion', {
@@ -240,9 +250,10 @@
           $("#configuracion_nota")[0].reset();
           $('#result_error').html("");
           alert(datos);
+          $('#DIVcargas_general').dialog('close');
           return true;
         }
-
+        $('#DIVcargas_general').dialog('close');
       }
 
     });
