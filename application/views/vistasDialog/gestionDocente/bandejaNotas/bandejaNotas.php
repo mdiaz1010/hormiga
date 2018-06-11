@@ -35,13 +35,13 @@
     <div id="ResultadoTabla"></div>
 </div>
 
-
 <?php
     } else {
         echo "<div class='alert_result'>No se encuentra ningun alumno registrado.</div>";
     } ?>
 
     <script type="text/javascript">
+    $("#DIVcargas").dialog("close");
         var busqueda = <?=json_encode($bodyData->datos) ?>;
         var data1 = <?= json_encode($bodyData->tabla) ?>;
         var bool = '';
@@ -131,10 +131,11 @@
                         'bimestre': $('#rol_bimestre').val()
                     },
                     beforeSend: function (dato) {
-                        $('#exampleModalCenter').modal("show");
+
+                        $("#DIVcargas").dialog("open");
                     },
                     success: function (dato) {
-                        $('#exampleModalCenter').modal("toggle");
+
 
                         if (dato.split(',').indexOf("0") != -1) {
                             $('#exito').hide();
@@ -145,6 +146,7 @@
                             $('#exito').show();
                             $('#error').hide();
                         }
+                        $("#DIVcargas").dialog("close");
                     },
                     failure: function (respuesta) {
                         $('#error').show();
@@ -157,11 +159,12 @@
                 $('#error').show();
             }
         });
-    </script>
+        </script>
 
 
     <?php
 } else {
-        echo "No cuenta con la información necesaria para mostrar esta interfaz.";
-    }
+    echo "No cuenta con la información necesaria para mostrar esta interfaz.";
+}
 ?>
+<script type="text/javascript" src="<?= base_url('publico/js_vistas/js/cargar_data.js')?>"></script>

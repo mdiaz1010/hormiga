@@ -6,17 +6,17 @@
                           <input type="hidden" name="profesor" id="profesor" value="<?=$bodyData->datos_usuario['profesor']?>">
                           <input type="hidden" name="ano" id="ano" value="<?=$bodyData->datos_usuario['ano']?>">
 <table class="table table-bordered" border="1" cellspacing="0" width="80%" id="configuracion" name="configuracion">
-                                <thead class="bg-success" >
+                                <thead style="color: #fff;background-color: #2A3F54;" >
                                     <tr>
-                                            <th  style="border: hidden;color: #3b752e;"><center>Abreviacion</center>          </th>
-                                            <th  style="border: hidden;color: #3b752e;"><center>Descripcion</center>        </th>
-                                            <th  style="border: hidden;color: #3b752e;"><center>Peso</center>   </th>
-                                            <th  style="border: hidden;color: #3b752e;"><center>Opciones</center>   </th>
+                                            <th ><center>Abreviacion</center>          </th>
+                                            <th  ><center>Descripcion</center>        </th>
+                                            <th  ><center>Peso</center>   </th>
+                                            <th  ><center>Opciones</center>   </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                      <?php $i=0; foreach($bodyData->datos as $dato): ?>
-                                              <tr id="<?=$dato['abreviacion']?>" bgcolor="#A9F5A9">
+                                              <tr id="<?=$dato['abreviacion']?>" bgcolor="#E0ECF8">
                                                     <td><CENTER><?=$dato['abreviacion'];?> </CENTER></td>
                                                     <td><CENTER><?=$dato['descripcion'];?> </CENTER></td>
                                                     <td><CENTER><?=$dato['peso']*100;?>% </CENTER></td>
@@ -72,7 +72,7 @@ jQuery.grep(arrayTotal, function(el) {
 });
 
 for(var j=0; j<difference.length;j++){
-    $("#"+difference[j]).attr("bgcolor","#A9F5A9");
+    $("#"+difference[j]).attr("bgcolor","#E0ECF8");
 }
 list_final= arrayMarcado.join();
 var grado=$("#grado").val();

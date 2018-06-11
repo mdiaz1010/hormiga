@@ -1,3 +1,21 @@
+$('#DIVcargas').dialog({
+        autoOpen: false,
+        hide: 'drop',
+        width: 360,
+        height: 80,
+        closeOnEscape: true,
+        open: function (event, ui) {
+                $(".ui-dialog-titlebar-close").hide();
+        },
+        modal: true
+});
+$('#DIVcargas').dialog({
+        draggable: false
+});
+$('#DIVcargas').dialog({
+        resizable: false
+});
+
 var f = new Date();
 var ano = f.getFullYear();
 var mes = f.getMonth();
@@ -109,16 +127,16 @@ $(document).ready(function () {
 
         $('#rol_bimestre').change(function () {
                 var bimestre = $(this).val();
-                $('#exampleModalCenter').modal("show");
+                $("#DIVcargas").dialog('open');
                 var inicio = $(this).data("fecini");
                 var curso = $('#rol_curso').val();
                 var grado = $('#rol_grado').val();
                 var seccion = $('#rol_seccion').val();
                 if (bimestre === '') {
                         $("#bandejaNotas").html("Ingrese el Bimestre...");
-                        $('#exampleModalCenter').modal("toggle");
+                        $("#DIVcargas").dialog('close');
                 } else {
-                        $('#exampleModalCenter').modal("toggle");
+
                         $.ajax({
                                 type: "POST",
                                 url: "comboBandeNota",
@@ -129,13 +147,8 @@ $(document).ready(function () {
                                         seccion: seccion
                                 },
                                 success: function (datos) {
+                                        $("#DIVcargas").dialog('close');
                                         $('#bandejaNotas').html(datos);
-
-                                        //                        $('#exampleModal').modal("show");
-
-                                        // var myWindow = window.open(url, "", "width=800,height=600");
-
-                                        //         return false;
                                 }
                         });
                 }
