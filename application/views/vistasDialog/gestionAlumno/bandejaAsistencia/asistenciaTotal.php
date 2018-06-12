@@ -65,14 +65,14 @@
                 <?=$color; ?>>
                     <center>
                         <a <?=$hidden; ?>
-                            <?=$hidden1?> class="ver" data-codigo="
-                                <?=$cuentasTemp->id?>" title="Ver archivo subido" href="javascript:">
+                            <?=$hidden1?> class="ver" data-toggle="modal" data-target=".bs-example1-modal-lg"
+                            data-codigo="<?=$cuentasTemp->id?>" title="Ver archivo subido" href="#">
                                     <span class="fa fa-search"></span>
                         </a>
                         <a data-toggle="modal" data-target=".bs-example-modal-lg" <?=$hidden; ?>
                             <?=$hidden1?> class="edita" data-codigo="
                                 <?=$cuentasTemp->id?>" data-fecha="
-                                    <?=$cuentasTemp->fecha_val?>" title="Subir archivo" href="javascript:">
+                                    <?=$cuentasTemp->fecha_val?>" title="Subir archivo" href="#">
                                         <span class="fa fa-edit"></span>
                         </a>
                     </center>
@@ -92,9 +92,30 @@
     </tbody>
 </table>
 
-<div id="DIVVERASISTENCIA" title="INTRANET EDUCATIVA :: ARCHIVO SUBIDO"></div>
 
 
+<div class="modal fade bs-example1-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Ver justificación</h4>
+      </div>
+
+      <div class="modal-body" id="DIVVERASISTENCIA">
+
+      </div>
+      <div class="modal-footer">
+
+        <button name="btnNo" id="btnNo" type="button" class="btn btn-primary" data-dismiss="modal">CERRAR</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -109,6 +130,7 @@
       <div class="modal-body" id="DIVEDITARASISTENCIA1">
 
       </div>
+
       <div class="modal-footer">
         <button name="btnSi" id="btnSi" type="button" class="btn btn-default" data-dismiss="modal">SI</button>
         <button name="btnNo" id="btnNo" type="button" class="btn btn-primary" data-dismiss="modal">NO</button>
@@ -121,15 +143,16 @@
 $("#btnSi").click(function(){
 
     var DocAdj = $("#docAdj").val();
+
                 if (DocAdj.length > 0) {
-                    var inputimage = document.getElementById('docAdj')
+                    var inputimage = document.getElementById('docAdj'),
 
                         formdata = new FormData();
-
+                        var i = 0,
                         len = inputimage.files.length,
                         img, reader, file;
                     document.getElementById('response').innerHTML = 'Subiendo...';
-                    for (i = 0; i < len; i++)
+                    for (; i < len; i++)
                     {
                         file = inputimage.files[i];
                         if (formdata)
@@ -158,32 +181,6 @@ $("#btnSi").click(function(){
 
 
 
-
-    $("#DIVVERASISTENCIA").dialog({
-        autoOpen: false,
-        hide: "drop",
-        width: 600,
-        height: 390,
-        closeOnEscape: false,
-        open: function (event, ui) {
-            $(this).closest(".ui-dialog").find(".ui-dialog-titlebar-close").hide();
-        },
-        modal: true,
-        buttons: {
-
-            "CERRAR": function () {
-                $(this).dialog("close"); //Se cancela operación
-
-            }
-        }
-    });
-
-    $("#DIVVERASISTENCIA").dialog({
-        draggable: false
-    });
-    $("#DIVVERASISTENCIA").dialog({
-        resizable: false
-    });
 
     $(".edita").click(function () {
 
@@ -217,7 +214,7 @@ $("#btnSi").click(function(){
             success: function (datos) {
                 if (datos.length > 0) {
                     $('#DIVVERASISTENCIA').html(datos);
-                    $('#DIVVERASISTENCIA').dialog('open');
+
                 }
                 return false;
             }
