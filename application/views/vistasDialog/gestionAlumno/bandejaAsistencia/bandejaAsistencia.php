@@ -7,7 +7,7 @@
             <span class="required">*</span>
         </label>
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <input type="text" id="mensaje" name="mensaje" required="required" class="form-control col-md-7 col-xs-12" value="<?=trim($bodyData->mensaje)?>">
+            <input type="text" id="mensaje" name="mensaje" required="required" class="form-control col-md-7 col-xs-12" value="<?=($bodyData->mensaje)?>">
         </div>
     </div>
     <div class="col-sm-12">

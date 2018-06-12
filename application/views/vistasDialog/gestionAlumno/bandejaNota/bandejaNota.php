@@ -1,3 +1,8 @@
+<script src="https://use.fontawesome.com/a18b0c2e94.js"></script>
+<a href="#" id="js_up" class="boton-subir">
+  <!-- link del icono http://fontawesome.io/icon/rocket/ -->
+  <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+</a>
 <?php
 if ($bodyData->respuesta>0)
 {
@@ -78,15 +83,17 @@ if ($bodyData->respuesta>0)
                             <tr>
                                 <td class=" " style="color: #fff; background-color: #2A3F54;" colspan="4">
                                     <font color="#ffffff">
-                                    <?php if($a>0){$texto='NO OFICIAL';}else{$texto='OFICIAL';} ?>
-                                       <strong><?=$texto?></strong>
+                                        <?php if($a>0){$texto='NO OFICIAL';}else{$texto='OFICIAL';} ?>
+                                        <strong>
+                                            <?=$texto?>
+                                        </strong>
                                     </font>
                                 </td>
                                 <td class=" " style="color: #fff; background-color: #2A3F54;" colspan="4">
                                     <font color="#ffffff">
                                         <strong>
-                                        <?php isset($bodyData->promedio[$nom_curso->id])?$promedio_curso=$bodyData->promedio[$nom_curso->id]:$promedio_curso='Promedio no definido';?>
-                                        <?=$promedio_curso;?>
+                                            <?php isset($bodyData->promedio[$nom_curso->id])?$promedio_curso=$bodyData->promedio[$nom_curso->id]:$promedio_curso='Promedio no definido';?>
+                                            <?=$promedio_curso;?>
                                         </strong>
                                     </font>
                                 </td>
@@ -120,3 +127,55 @@ else
         echo "No cuenta con la información necesaria para mostrar esta interfaz.";
 }
 ?>
+        <style>
+            .boton-subir {
+                display: none;
+                background: #2A3F54;
+                border: thin solid #fff;
+                border-radius: 3px;
+                position: fixed;
+                right: 15px;
+                bottom: 2px;
+                z-index: 999999999;
+            }
+
+            /*evento hover*/
+
+            .boton-subir:hover {
+                box-shadow: 0px 2px 10px 0px rgba(255, 255, 255, 0.75);
+            }
+
+            /*estilos para el tag i*/
+
+            .boton-subir i {
+                color: #fff;
+                font-size: 1.5em;
+                padding: 10px 10px 10px 7px;
+                -ms-transform: rotate(-45deg);
+                /* IE 9 */
+                -webkit-transform: rotate(-45deg);
+                /* Chrome, Safari, Opera */
+                transform: rotate(-45deg);
+            }
+        </style>
+        <script>
+
+
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() > 300) { //condición a cumplirse cuando el usuario aya bajado 301px a más.
+                        $("#js_up").slideDown(300); //se muestra el botón en 300 mili segundos
+                    } else { // si no
+                        $("#js_up").slideUp(300); //se oculta el botón en 300 mili segundos
+                    }
+                });
+
+            //creamos una función accediendo a la etiqueta i en su evento click
+            $("#js_up i").on('click', function (e) {
+                e.preventDefault(); //evita que se ejecute el tag ancla (<a href="#">valor</a>).
+                $("body,html").animate({ // aplicamos la función animate a los tags body y html
+                    scrollTop: 0 //al colocar el valor 0 a scrollTop me volverá a la parte inicial de la página
+                }, 700); //el valor 700 indica que lo ara en 700 mili segundos
+                return false; //rompe el bucle
+            });
+
+        </script>

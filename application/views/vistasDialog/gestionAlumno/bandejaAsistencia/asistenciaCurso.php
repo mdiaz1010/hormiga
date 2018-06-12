@@ -1,16 +1,16 @@
 <table class="table table-bordered" cellspacing="0" width="100%" id="dataTables-asistedet">
-    <thead class="bg-success">
+    <thead style="color: #fff;background-color: #2A3F54;">
         <tr>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>NRO</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>FECHA</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>ASISTENCIA</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th>
                 <center>OBSERVACION</center>
             </th>
         </tr>
@@ -28,7 +28,7 @@
                                            }
                                             foreach ($bodyData->results as $cuentasTemp) {
                                                 if (trim($cuentasTemp->asistencia)=='f') {
-                                                    $color='bgcolor="#F78181"';
+                                                    $color='bgcolor="#F8E0E0"';
                                                     $readonly='';
                                                     $hidden='';
                                                     $estilo='';
@@ -65,8 +65,8 @@
                     <?=$color; ?> >
                         <center>
 
-                            <textarea rows="1" class="form-control" readonly style="width:500px;">
-                                <?=$cuentasTemp->mensaje?>
+                            <textarea rows="1" class="form-control" style="border:none" readonly style="width:500px;">
+                                <?=trim($cuentasTemp->mensaje)?>
                             </textarea>
                         </center>
                 </td>
