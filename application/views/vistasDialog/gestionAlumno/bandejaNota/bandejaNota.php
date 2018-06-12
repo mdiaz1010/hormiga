@@ -29,7 +29,7 @@ if ($bodyData->respuesta>0)
                 </p>
                 <div class="table-responsive">
                     <table class="table table-striped  bulk_action">
-                        <thead style="color: #fff; background-color: #585858;">
+                        <thead style="color: #fff; background-color: #2A3F54;">
                             <tr class="headings">
                                 <th class="column-title">Capacidad </th>
                                 <th class="column-title">Evaluación </th>
@@ -76,13 +76,13 @@ if ($bodyData->respuesta>0)
 
                             <?php endforeach;?>
                             <tr>
-                                <td class=" " style="color: #fff; background-color: #585858;" colspan="4">
+                                <td class=" " style="color: #fff; background-color: #2A3F54;" colspan="4">
                                     <font color="#ffffff">
                                     <?php if($a>0){$texto='NO OFICIAL';}else{$texto='OFICIAL';} ?>
                                        <strong><?=$texto?></strong>
                                     </font>
                                 </td>
-                                <td class=" " style="color: #fff; background-color: #585858;" colspan="4">
+                                <td class=" " style="color: #fff; background-color: #2A3F54;" colspan="4">
                                     <font color="#ffffff">
                                         <strong>
                                         <?php isset($bodyData->promedio[$nom_curso->id])?$promedio_curso=$bodyData->promedio[$nom_curso->id]:$promedio_curso='Promedio no definido';?>

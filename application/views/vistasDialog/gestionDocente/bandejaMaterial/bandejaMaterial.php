@@ -2,7 +2,7 @@
 </script>
 <div class="container" id="materialDocentesubir" style="display:none;">
     <div class="list-group right">
-        <a class="btn btn-danger btnArchivo" href="javascript:" data-grado="<?php echo $bodyData->GRADO?>" data-seccion="<?php echo $bodyData->SECCION?>"
+        <a class="btn btn-danger btnArchivo"  data-toggle="modal" data-target=".bs-example-modal-lg" href="javascript:" data-grado="<?php echo $bodyData->GRADO?>" data-seccion="<?php echo $bodyData->SECCION?>"
             data-curso="<?php echo $bodyData->CURSOS?>" data-bimestre="<?php echo $bodyData->BIMESTRE?>" aria-label="Archivo"
             style="clear: right;">
             <i class="fa fa-pencil" aria-hidden="true" style="clear: right;"></i>
@@ -10,44 +10,38 @@
     </div>
     <div id="bandejaMaterial2"></div>
 </div>
-<div id="DIVSUBIDA" title="INTRANET EDUCATIVA :: SUBIR ARCHIVOS "></div>
+
 <div id="DIVcarga" title="EN PROCESO">
     <center>
         <strong>Espere estamos cargando la informacion...</strong>
         <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
     </center>
 </div>
-<script type="text/javascript">
-    $('#DIVcarga').dialog({
-        autoOpen: false,
-        hide: 'drop',
-        width: 360,
-        height: 80,
-        closeOnEscape: false,
-        open: function (event, ui) {
-            $(".ui-dialog-titlebar-close").hide();
-        },
-        modal: true
-    });
-    $('#DIVcarga').dialog({
-        draggable: false
-    });
-    $('#DIVcarga').dialog({
-        resizable: false
-    });
 
-    $("#DIVSUBIDA").dialog({
-        autoOpen: false,
-        hide: "drop",
-        width: 420,
-        height: 290,
-        closeOnEscape: false,
-        open: function (event, ui) {
-            $(this).closest(".ui-dialog").find(".ui-dialog-titlebar-close").hide();
-        },
-        modal: true,
-        buttons: {
-            "CARGAR ARCHIVO": function () {
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Subir archivo</h4>
+      </div>
+      <div class="modal-body" id="DIVSUBIDA" title="INTRANET EDUCATIVA :: SUBIR ARCHIVOS ">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" name="btncargar" id="btncargar" data-dismiss="modal" class="btn btn-primary">Cargar archivo</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$("#btncargar").click(function(){
+
                 var DocAdj = $("#docAdj").val();
                 if (DocAdj.length > 0) {
                     var inputimage = document.getElementById('docAdj'),
@@ -95,19 +89,27 @@
                         }
                     });
                 }
-                $(this).dialog("close");
-            },
-            "CANCELAR": function () {
-                $(this).dialog("close"); //Se cancela operación                              
-            }
-        }
+
+});
+    $('#DIVcarga').dialog({
+        autoOpen: false,
+        hide: 'drop',
+        width: 360,
+        height: 80,
+        closeOnEscape: false,
+        open: function (event, ui) {
+            $(".ui-dialog-titlebar-close").hide();
+        },
+        modal: true
     });
-    $("#DIVSUBIDA").dialog({
+    $('#DIVcarga').dialog({
         draggable: false
     });
-    $("#DIVSUBIDA").dialog({
+    $('#DIVcarga').dialog({
         resizable: false
     });
+
+
 
     $(".btnArchivo").click(function () {
 

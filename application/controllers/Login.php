@@ -349,23 +349,39 @@ class Login extends CI_Controller
         if ($ano[0]->ano==date('Y')) {
             $valores  = $this->Usuarios_model->busquedaGradoSeccion2($alu, $ano[0]->ano) ;
         }
-        $puesto_grado=$this->Usuarios_model->puestoGrado($valores['id_grado']);
-        $indice_alumno_grado=array_search($alu,array_column($puesto_grado,'id_alumno'));
-            // EXTRAIGO EL PUESTO Y LA NOTA DEL GRADO
-        $arraygrado=array('puesto'=>$indice_alumno_grado+1,'nota'=>$puesto_grado[$indice_alumno_grado]['nota']);
 
-        $puesto_salon=$this->Usuarios_model->puestoSalon($valores['id_grado'], $valores['id_seccion']);
-        $indice_alumno_salon=array_search($alu,array_column($puesto_salon,'id_alumno'));
+
+        if($this->Usuarios_model->puestoSalon($valores['id_grado'], $valores['id_seccion'])){
             // ESTRAIGO EL PUESTO Y LA NOTA DEL SALON
-        $arraysalon=array('puesto'=>$indice_alumno_salon+1,'nota'=>$puesto_salon[$indice_alumno_salon]['nota']);
+            $puesto_salon=$this->Usuarios_model->puestoSalon($valores['id_grado'], $valores['id_seccion']);
+            $indice_alumno_salon=array_search($alu,array_column($puesto_salon,'id_alumno'));
+            $arraysalon=array('puesto'=>$indice_alumno_salon+1,'nota'=>$puesto_salon[$indice_alumno_salon]['nota']);
+            $cantidad_salon=$puesto_salon[$indice_alumno_salon]['cantidad'];
+
+            $puesto_grado=$this->Usuarios_model->puestoGrado($valores['id_grado']);
+            $indice_alumno_grado=array_search($alu,array_column($puesto_grado,'id_alumno'));
+                // EXTRAIGO EL PUESTO Y LA NOTA DEL GRADO
+            $arraygrado=array('puesto'=>$indice_alumno_grado+1,'nota'=>$puesto_grado[$indice_alumno_grado]['nota']);
+            $cantidad_grado=$puesto_grado[$indice_alumno_grado]['cantidad'];
+            $puesto_colegio=$this->Usuarios_model->puestoColegio();
+            $indice_alumno_colegio=array_search($alu,array_column($puesto_colegio,'id_alumno'));
+                // EXTRAIGO EL PUESTO Y LA NOTA DEL COLEGIO
+            $arraycolegio=array('puesto'=>$indice_alumno_colegio+1,'nota'=>$puesto_colegio[$indice_alumno_colegio]['nota']);
+            $cantidad_colegio=$puesto_colegio[$indice_alumno_colegio]['cantidad'];
+        }else{
+            $arraysalon=array('puesto'=>'ND','nota'=>'ND');
+            $cantidad_salon='ND';
+            $arraygrado=array('puesto'=>'ND','nota'=>'ND');
+            $cantidad_grado='ND';
+            $arraycolegio=array('puesto'=>'ND','nota'=>'ND');
+            $cantidad_colegio='ND';
+        }
 
 
-        $puesto_colegio=$this->Usuarios_model->puestoColegio();
-        $indice_alumno_colegio=array_search($alu,array_column($puesto_colegio,'id_alumno'));
-            // EXTRAIGO EL PUESTO Y LA NOTA DEL COLEGIO
-        $arraycolegio=array('puesto'=>$indice_alumno_colegio+1,'nota'=>$puesto_colegio[$indice_alumno_colegio]['nota']);
 
-        $totales= array('salon'=>$puesto_salon[$indice_alumno_salon]['cantidad'],'grado'=>$puesto_grado[$indice_alumno_grado]['cantidad'],'colegio'=>$puesto_colegio[$indice_alumno_colegio]['cantidad']);
+
+
+        $totales= array('salon'=>$cantidad_salon,'grado'=>$cantidad_grado,'colegio'=>$cantidad_colegio);
         $this->htmlData['bodyData']->colegio         = $arraycolegio ;
         $this->htmlData['bodyData']->salon           = $arraysalon ;
         $this->htmlData['bodyData']->grado           = $arraygrado ;

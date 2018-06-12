@@ -90,9 +90,9 @@
                     if (p == 0) {
                         font_color = "#070719";
                     } else {
-                        if (ide <= 10 && ide >= 0) {
+                        if (ide <= 10.49 && ide >= 0) {
                             font_color = "#E74C3C";
-                        } else if (ide >= 11 && ide <= 20) {
+                        } else if (ide >= 10.5 && ide <= 20) {
                             font_color = "#2874A6";
                         } else {
                             font_color = "#fff";

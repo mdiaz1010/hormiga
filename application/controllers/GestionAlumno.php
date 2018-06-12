@@ -374,7 +374,7 @@ class GestionAlumno extends CI_Controller
             if ($error == UPLOAD_ERR_OK) {
                 $name = $_FILES['images']['name'][$key];
                 $tipo = $_FILES['images']['type'][$key];
-                $namegeneric = $i.$codigo."-".$nomarchi.$name;
+                $namegeneric = trim($i.$codigo)."-".$nomarchi.$name;
                 $i++;
                 $searcharray = array(' ');
                 $namegeneric = str_replace($searcharray, '', $namegeneric);

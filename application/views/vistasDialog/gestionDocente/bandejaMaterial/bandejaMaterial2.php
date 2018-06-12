@@ -1,4 +1,4 @@
-<?php 
+<?php
 if (count($bodyData->results)==0) {
     echo "<div class='alert_result'>No se encuentro ningun material registrado.</div>";
 } else {
@@ -30,7 +30,7 @@ if (count($bodyData->results)==0) {
                 <img style="width: 100%; display: block;" src="<?= $resultado; ?>" alt="image" id="imagen" />
                 <div class="mask">
                     <p>
-                        <?=$result['descripcion']?>
+                        <?=$result['nom_archivo']?>
                     </p>
                     <div class="tools tools-bottom">
                         <a href="<?= base_url(trim($result['ruta']))?>" target="_blank" style=" outline: none;" class="fa fa-link"></a>
@@ -62,8 +62,9 @@ if (count($bodyData->results)==0) {
 
 ?>
 <div id="DIVELIMINARMATERIAL" title="INTRANET EDUCATIVA :: ELIMINAR MATERIAL"></div>
-<div id="DIVEDITARMATERIAL" title="INTRANET EDUCATIVA :: ELIMINAR MATERIAL"></div>
+<div id="DIVEDITARMATERIAL" title="INTRANET EDUCATIVA :: EDITAR MATERIAL"></div>
 <div id="DIVcargando" title="EN PROCESO">
+
     <center>
         <strong>Esperes estamos cargando la informacion...</strong>
         <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
@@ -116,7 +117,8 @@ if (count($bodyData->results)==0) {
                     success: function () {
                         $("#DIVcargando").dialog("close");
                         $("#bandejaMaterial2").load(
-                            "<?= site_url('GestionDocente/verbandejaprof/') ?>", {
+                            "<?= site_url('GestionDocente/verbandejaprof') ?>", {
+                                grado:grado,
                                 bimestre: bimestre,
                                 curso: curso,
                                 seccion: seccion
@@ -173,6 +175,7 @@ if (count($bodyData->results)==0) {
                         $("#DIVcargando").dialog("close");
                         $("#bandejaMaterial2").load(
                             "<?= site_url('GestionDocente/verbandejaprof/') ?>", {
+                                grado:grado,
                                 bimestre: bimestre,
                                 curso: curso,
                                 seccion: seccion

@@ -1,19 +1,19 @@
 <table class="table table-bordered" cellspacing="0" width="100%" id="dataTables-asistedet">
-    <thead class="bg-success">
+    <thead style="color: #fff;background-color: #2A3F54;">
         <tr>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>NRO</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>FECHA</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>ASISTENCIA</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>MOTIVO</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>JUSTIFICADO</center>
             </th>
         </tr>
@@ -31,7 +31,7 @@
                 }
                     foreach ($bodyData->results as $cuentasTemp) {
                         if (trim($cuentasTemp->asistencia)=='f') {
-                            $color='bgcolor="#F78181"';
+                            $color='bgcolor="#F8E0E0"';
                             $readonly='';
                             $hidden='';
                             //$color='bgcolor="#F7819F"';
@@ -69,7 +69,7 @@
                                 <?=$cuentasTemp->id?>" title="Ver archivo subido" href="javascript:">
                                     <span class="fa fa-search"></span>
                         </a>
-                        <a <?=$hidden; ?>
+                        <a data-toggle="modal" data-target=".bs-example-modal-lg" <?=$hidden; ?>
                             <?=$hidden1?> class="edita" data-codigo="
                                 <?=$cuentasTemp->id?>" data-fecha="
                                     <?=$cuentasTemp->fecha_val?>" title="Subir archivo" href="javascript:">
@@ -93,30 +93,44 @@
 </table>
 
 <div id="DIVVERASISTENCIA" title="INTRANET EDUCATIVA :: ARCHIVO SUBIDO"></div>
-<div id="DIVEDITARASISTENCIA1" title="INTRANET EDUCATIVA :: SUBIR ARCHIVO"></div>
+
+
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Subir justificación</h4>
+      </div>
+      <div class="modal-body" id="DIVEDITARASISTENCIA1">
+
+      </div>
+      <div class="modal-footer">
+        <button name="btnSi" id="btnSi" type="button" class="btn btn-default" data-dismiss="modal">SI</button>
+        <button name="btnNo" id="btnNo" type="button" class="btn btn-primary" data-dismiss="modal">NO</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
-    $("#DIVEDITARASISTENCIA1").dialog({
-        autoOpen: false,
-        hide: "drop",
-        width: 400,
-        height: 280,
-        closeOnEscape: true,
-        open: function (event, ui) {
-            $(this).closest(".ui-dialog").find(".ui-dialog-titlebar-close").hide();
-        },
-        modal: true,
-        buttons: {
-            "SI": function () {
-                var DocAdj = $("#docAdj").val();
+$("#btnSi").click(function(){
+
+    var DocAdj = $("#docAdj").val();
                 if (DocAdj.length > 0) {
-                    var inputimage = document.getElementById('docAdj'),
+                    var inputimage = document.getElementById('docAdj')
 
                         formdata = new FormData();
-                    var i = 0,
+
                         len = inputimage.files.length,
                         img, reader, file;
                     document.getElementById('response').innerHTML = 'Subiendo...';
-                    for (; i < len; i++) {
+                    for (i = 0; i < len; i++)
+                    {
                         file = inputimage.files[i];
                         if (formdata)
                             formdata.append('images[]', file);
@@ -140,24 +154,10 @@
                         }
                     });
                 }
-                $(this).dialog("close");
+});
 
-                $(this).dialog("close");
-            },
 
-            "NO": function () {
-                $(this).dialog("close"); //Se cancela operación
 
-            }
-        }
-    });
-
-    $("#DIVEDITARASISTENCIA1").dialog({
-        draggable: false
-    });
-    $("#DIVEDITARASISTENCIA1").dialog({
-        resizable: false
-    });
 
     $("#DIVVERASISTENCIA").dialog({
         autoOpen: false,
@@ -199,7 +199,7 @@
             success: function (datos) {
                 if (datos.length > 0) {
                     $('#DIVEDITARASISTENCIA1').html(datos);
-                    $('#DIVEDITARASISTENCIA1').dialog('open');
+
                 }
                 return false;
             }
