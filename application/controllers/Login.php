@@ -18,7 +18,55 @@ class Login extends CI_Controller
     {
         $this->load->view('plantillas_base/login/body');
     }
+    public function enviar_correo_clave()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $dni =  $this->input->post('users')       ;
+        if(empty($dni)){
+            echo json_encode(array('correcto'=>0));die();
+        }
+        $correo=$this->Usuarios_model->user_correo($dni);
 
+        if(isset($correo)){
+            $correo_usuario=$correo['des_correo'];
+            $nombre=$correo['usuario'];
+
+
+
+            $mensaje="Su  contraseña es: ".$correo['clav_usuario'];
+/*
+            $this->load->library('email');
+            $asunto= "Clave nueva";
+            $this->email->from($correo_usuario,$nombre);
+            $list= array('marcodiazzavala@gmail.com');
+            $this->email->to($correo_usuario);
+            $this->email->cc($list);
+            $this->email->subject('Intranet');
+            $this->email->message($asunto);
+            if($this->email->send()){
+                echo json_encode(array('correcto'=>1));die();
+            }else{
+                echo json_encode(array('correcto'=>0));die();
+            }
+            */
+            echo json_encode(array('correcto'=>1));die();
+        }else{
+            echo json_encode(array('correcto'=>0));die();
+
+        }
+
+
+
+
+
+
+
+    }
+    public function recuperar_contrasena()
+    {
+
+        $this->load->view('plantillas_base/login/recuperar_contrasena');
+    }
     public function login()
     {
         try {
@@ -29,8 +77,7 @@ class Login extends CI_Controller
             $user =  $this->input->post('user')             ;
             $pass =  $this->input->post('pass')             ;
             if (empty($user) || empty($pass)) {
-                $this->session->set_flashdata('flashdata_respuesta', 'Datos Invalidos, Intente Nuevamente.');
-                redirect('login');
+                echo json_encode(array('error'=>1,'vista'=>'index'));die();
             }
             $this->load->model("Usuarios_model", '', true)    ;
             $this->load->model("Modulos_model", '', true)     ;
@@ -131,15 +178,23 @@ class Login extends CI_Controller
                     }
                 echo json_encode($vista);
             } else {
-                redirect('login');
+                echo json_encode(array('error'=>1,'vista'=>'index'));die();
+
             }
         } catch (Exception $exc) {
             $this->session->sess_destroy();
-            redirect('login');
+            echo json_encode(array('error'=>1,'vista'=>'index'));die();
         }
     }
     public function gestionEducativa()
     {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);//
+        $valores                                 = $this->Usuarios_model->getClientes() ;
+        $this->htmlData['bodyData']->valores     = $valores ;
+        $this->htmlData['body']                          .= "/index";
+        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->load->view('plantillas_base/standar/body', $this->htmlData);
     }
     public function vistaDirector()
     {
@@ -548,17 +603,5 @@ class Login extends CI_Controller
         $this->session->sess_destroy();
         $this->index();
     }
-    public function standar()
-    {
-        $this->load->model("Permisos_model", '', true);
-        $data = $this->Permisos_model->GetModulosDisponibles() ;
-        var_dump($data);
-    }
 
-    public function autoconsulta()
-    {
-        $this->load->model("Test_model", '', true);
-        var_dump($this->Test_model->Get());
-        $this->load->view('welcome_message');
-    }
 }

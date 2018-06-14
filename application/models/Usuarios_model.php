@@ -1566,6 +1566,22 @@ class Usuarios_model extends CI_Model
 
         return  $this->db->get()->result_object() ;
     }
+    public function cambio_clave($datos,$id)
+    {
+
+       return $this->db->set($datos)->where('id_persona', $id)->update('maeusuarios');
+    }
+    public function user_correo($dni)
+    {
+        $this->db->distinct();
+        $this->db->select("ma.id,mc.des_correo,ma.ape_pat_per as usuario,mu.clav_usuario");
+        $this->db->from("maepersona ma")
+                 ->join('maecorreos mc','on ma.id=mc.id_persona')
+                 ->join('maeusuarios mu','on ma.id=mu.id_persona')
+                 ->where('ma.documento="'.$dni.'"');
+
+        return  $this->db->get()->row_array() ;
+    }
     public function setPermiso($permisos, $ultimo)
     {
         $usuario=(int)$ultimo+1;

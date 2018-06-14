@@ -1,4 +1,4 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');  
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class export_excel{
 
@@ -12,7 +12,7 @@ class export_excel{
         foreach($array->result_array() as $row){
             foreach($row as $key=>$val){
                 if(!in_array($key, $h)){
-                    $h[] = $key;   
+                    $h[] = $key;
                 }
             }
         }
@@ -26,7 +26,7 @@ class export_excel{
         foreach($array->result_array() as $row){
             echo '<tr>';
             foreach($row as $val)
-                $this->writeRow($val);   
+                $this->writeRow($val);
         }
         echo '</tr>';
         echo '</table>';
@@ -34,7 +34,7 @@ class export_excel{
     }
 
     function writeRow($val) {
-        echo '<td style="border:1px #888 solid;color:#555;">'.$val.'</td>';              
+        echo '<td style="border:1px #888 solid;color:#555;">'.$val.'</td>';
     }
 
 }
