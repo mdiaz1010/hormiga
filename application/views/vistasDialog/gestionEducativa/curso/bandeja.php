@@ -12,6 +12,12 @@
                 <center>DESCRIPCION </center>
             </th>
             <th style="border: hidden;color: #3b752e;">
+                <center>CANT. HORAS </center>
+            </th>
+            <th style="border: hidden;color: #3b752e;">
+                <center>CANT. CAPACIDADES</center>
+            </th>
+            <th style="border: hidden;color: #3b752e;">
                 <center>OPCIONES </center>
             </th>
         </tr>
@@ -33,6 +39,16 @@
             <td>
                 <CENTER>
                     <?=$curso->des_cursos  ?>
+                </CENTER>
+            </td>
+            <td>
+                <CENTER>
+                    <?=$curso->cant_horas  ?>
+                </CENTER>
+            </td>
+            <td>
+                <CENTER>
+                    <?=$curso->cant_capacidades  ?>
                 </CENTER>
             </td>
             <td>
@@ -157,7 +173,7 @@
                 $(this).dialog("close");
             },
             "NO": function () {
-                $(this).dialog("close"); //Se cancela operación                              
+                $(this).dialog("close"); //Se cancela operación
             }
         }
     });

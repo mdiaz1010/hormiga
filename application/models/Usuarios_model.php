@@ -362,7 +362,7 @@ class Usuarios_model extends CI_Model
     }
     public function getCursos()
     {
-        $this->db->select(" id,nom_cursos,des_cursos,usu_creacion,fec_creacion ");
+        $this->db->select(" id,nom_cursos,des_cursos,cant_horas,cant_capacidades,usu_creacion,fec_creacion ");
         $this->db->from("maecursos");
         $this->db->order_by('nom_cursos', 'DESC') ;
         return $this->db->get()->result_object() ;
@@ -430,18 +430,8 @@ class Usuarios_model extends CI_Model
     }
     public function insertarCursos($datos)
     {
-        $data = array(
-            'nom_cursos'              => null,
-            'des_cursos'              => null,
-            'usu_creacion'            => null,
-            'usu_modificacion'        => null
-        );
-        foreach ($datos as $tempKey => $tempVal) {
-            if (array_key_exists($tempKey, $data)) {
-                $data[$tempKey] = $tempVal;
-            }
-        }
-        return     $this->db->insert('maecursos', $data);
+
+        return     $this->db->insert('maecursos', $datos);
     }
 
     public function insertarBimestre($datos)
@@ -951,7 +941,7 @@ class Usuarios_model extends CI_Model
     }
     public function buscarCursos($id)
     {
-        $this->db->select(" id,nom_cursos,des_cursos ")->from("maecursos");
+        $this->db->select(" id,nom_cursos,des_cursos,cant_horas,cant_capacidades ")->from("maecursos");
         $this->db->where('id in ('.$id.')') ;
         return $this->db->get()->result_object() ;
     }
@@ -1001,16 +991,8 @@ class Usuarios_model extends CI_Model
     }
     public function editarCursosa($datos, $id)
     {
-        $data = array(
-            'nom_cursos'    => null,
-            'des_cursos'    => null
-        );
-        foreach ($datos as $tempKey => $tempVal) {
-            if (array_key_exists($tempKey, $data)) {
-                $data[$tempKey] = $tempVal;
-            }
-        }
-        $this->db->set($data);
+
+        $this->db->set($datos);
         $this->db->where('id', $id);
         $this->db->update('maecursos');
     }
@@ -1470,13 +1452,13 @@ class Usuarios_model extends CI_Model
         $this->db->order_by("id_bimestre,id", "asc");
         return $this->db->get()->result();
     }
-    public function busqueda_notas_config($grado, $curso)
+    public function busqueda_notas_config($curso)
     {#rl.id_bimestre seteado porque se sobre entiende que debe de cumplir para todos los trimestres
         $this->db->distinct();
         $this->db->select("ma.id,ma.nom_notas,ma.des_notas")
                  ->from("maenotas ma")
-                 ->join("relnotas rl", "on ma.id=rl.id_nota")
-                 ->where("rl.estado=1 and ma.ano=".date('Y')."    and ma.pe is null and rl.id_curso=".$curso." and rl.id_grado=".$grado)
+                 ->join("rel_curso_nota rl", "on ma.id=rl.id_nota")
+                 ->where("rl.estado=1 and ma.ano=".date('Y')."     and rl.id_curso=".$curso)
                  ->order_by('ma.nom_notas', 'ASC');
         return $this->db->get()->result_array();
     }

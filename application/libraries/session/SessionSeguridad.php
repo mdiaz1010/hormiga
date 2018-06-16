@@ -57,9 +57,11 @@ class  SessionSeguridad {
             $CI->load->view('errors/html/error_acces_denied');
         }
     }
-    public static function tiempo_maximo()
+    public static function tiempo_maximo($cantidad)
     {
-        var_dump($this->session); die();
+        if(count($cantidad)==0){
+            redirect('login/index');
+        }
     }
 
 }

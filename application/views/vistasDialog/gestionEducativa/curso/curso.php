@@ -23,9 +23,18 @@
                         onkeyup="javascript:this.value=this.value.toUpperCase();" name='txtdescr' size="10">
                 </td>
                 <td class="col-lg-3">
+                    <input type="text" id='txtcanthoras' name='txtcanthoras' class="form-control" placeholder="horas..."
+                        width="80" height="80">
+                </td>
+                <td class="col-lg-3">
+                    <input type="text" id='txtcantcapacidades' name='txtcantcapacidades' class="form-control" placeholder="capacidades..."
+                        width="80" height="80">
+                </td>
+                <td class="col-lg-3">
                     <input type="button" id='btnCurso' name='btnCurso' class="form-control btn-danger" value="Registrar Curso"
                         width="80" height="80">
                 </td>
+
             </tr>
         </table>
     </form>
@@ -60,6 +69,8 @@
                     $("#bandejaAula").load("<?= site_url('GestionEducativa/vistabandejaaula/') ?>");
                     $("#txtdescr").val('');
                     $("#txtcurso").val('');
+                    $("#txtcanthoras").val('');
+                    $("#txtcantcapacidades").val('');
                     return false;
                 }
             });

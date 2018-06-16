@@ -81,7 +81,7 @@
     <div class="x_panel">
       <div class="x_title">
         <h2>
-          <a href="javascript: registrarAula()">
+          <a href="#" class="registrar_aulas">
             <h2 class="panel-title">REGISTRO DE AULA</h1>
           </a>
           </h2>

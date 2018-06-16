@@ -1,4 +1,5 @@
 //actualizar bandeja
+
 $.ajax({
     type: "POST",
     url: "vistabandejaaulas",
@@ -167,7 +168,7 @@ $('#ContainerNotas').dialog({
 
 $('#ContainerCurso').dialog({
     autoOpen: false,
-    width: 520,
+    width: 700,
     height: 500,
     modal: true,
     closeOnEscape: true,
@@ -308,27 +309,12 @@ $("#btn_notas").click(function () {
     });
 });
 
-function registrarAula() {
-    var horario = $("#horarioArray").val();
-    var dias = $("#diasArray").val();
-    //alert(dias); return true;
+$(".registrar_aulas").click(function () {
 
-    var grado = $("#gradorol").val();
-    var seccion = $("#seccionrol").val();
-    var curso = $("#cursorol").val();
     var profesor = $("#profesor").val();
-    if (grado === '') {
-        $('#result_errors').html("<font color='red'>Seleccionar GRADO   (*) Obligatorio</font>");
-    } else if (seccion === '') {
-        $('#result_errors').html("<font color='red'>Seleccionar SECCION (*) Obligatorio</font>");
-    } else if (curso === '') {
-        $('#result_errors').html("<font color='red'>Seleccionar CURSO   (*) Obligatorio</font>");
-    } else if (profesor === '') {
-        $('#result_errors').html("<font color='red'>Seleccionar PROFESOR(*) Obligatorio</font>");
-    } else if (horario.length === '') {
-        $('#result_errors').html("<font color='red'>ESCOGER HORARIOS(*) Obligatorio</font>");
-    } else if (dias.length === '') {
-        $('#result_errors').html("<font color='red'>ESCOGER DIAS(*) Obligatorio</font>");
+    if (profesor == '') {
+        $('#result_errors').show();
+        return true;
     } else {
         $.ajax({
             type: 'POST',
@@ -338,6 +324,7 @@ function registrarAula() {
                 $('#DIVcarga').dialog('open');
             },
             success: function (datos) {
+                $('#result_success').show();
                 $('#DIVcarga').dialog('close');
                 //   location.reload();
                 $("#bandejaAula").load("vistabandejaaula");
@@ -347,5 +334,6 @@ function registrarAula() {
 
 
         });
+
     }
-}
+});

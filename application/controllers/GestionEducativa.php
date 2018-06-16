@@ -13,6 +13,7 @@ class GestionEducativa extends CI_Controller
             ,"headData"=> (object) array("titulo"=>"Crear Cliente")
             ,"footerData"=> (object) array()
         );
+        SessionSeguridad::tiempo_maximo($this->session->webCasSession);
     }
     public function index()
     {
@@ -28,10 +29,13 @@ class GestionEducativa extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
+
         $this->htmlData['bodyData']->rolesCursos        = $this->Rol_model->getCursos();
         $this->htmlData['bodyData']->rolesSeccion       = $this->Rol_model->getSeccion();
         $this->htmlData['bodyData']->rolesGrado         = $this->Rol_model->getGrados();
         $this->htmlData['bodyData']->profesores         = $this->Rol_model->getProfesores();
+        $this->htmlData['bodyData']->horas              = $this->Usuarios_model->getHorarioss();
+        $this->htmlData['bodyData']->dias               = $this->Usuarios_model->getDiass();
         $this->htmlData['headData']->titulo             = "GestionEducativa";
         $this->load->view('vistasDialog/gestionEducativa/bandejaAula', $this->htmlData);
     }
@@ -225,43 +229,44 @@ class GestionEducativa extends CI_Controller
     }
     public function registrarAula()
     {
-        $profesor              =                                              $this->input->post('profesor')           ;
-        $curso                 = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('cursorol'))          ;
-        $seccion               = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('seccionrol'))        ;
-        $grado                 = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('gradorol'))          ;
-        $turno                 =      Utilitario::limpiarCaracteresEspeciales($this->input->post('turnorol'))          ;
-        $horari                =                                              $this->input->post('horarioArray')       ;
-        $diasri                =                                              $this->input->post('diasArray')          ;
-        $descri                =                                              $this->input->post('descripcion')        ;
-        $horario= explode(',', $horari);
-        $dias= explode(',', $diasri);
+        $profesor              = $this->input->post('profesor')          ;
+        $curso                 = $this->input->post('cursorol')          ;
+        $seccion               = $this->input->post('seccionrol')        ;
+        $grado                 = $this->input->post('gradorol')          ;
+        $hora_dia              = $this->input->post('hora_dia')          ;
         $i=0;
-
-
         $this->load->model("Usuarios_model", '', true)             ;
         $this->load->library('encryption')                       ;
         $prof= $this->Usuarios_model->busquedaProfesor($profesor);
-        $idprof= $prof[0]->id                                    ;
+        $idprof= $prof[0]->id;
+        foreach($hora_dia as $key =>$array_salon)
+        {
+            if($curso[$key]!='0' || $grado[$key]!='0' || $seccion[$key]!='0')
+            $list_salon= array('id_profesor'  =>(int)$idprof,
+                                 'id_curso'     =>(int)$curso[$key],
+                                 'id_grado'     =>(int)$grado[$key],
+                                 'id_seccion'   =>(int)$seccion[$key],
+                                 'horario'      =>(int)explode('-',$array_salon)[0],
+                                 'dia'          =>(int)explode('-',$array_salon)[1],
+                                 'ano'         =>(int)date('Y')          ,
+                                 'estado'      =>1                  ,
+                                 'usu_creacion'=> $this->session->webCasSession->usuario->USUARIO,
+                                 'fec_creacion'=>date('Y-m-d')
+                                );
 
 
-        foreach ($dias as $dia) {
-            for ($i=0;$i<count($horario);$i++) {
-                $data= array(
-            'id_curso'    =>        $curso             ,
-            'id_profesor' =>        (int)$idprof       ,
-            'id_seccion'  =>        $seccion           ,
-            'id_grado'    =>        $grado             ,
-            'des_aula'    =>        $descri            ,
-            'dia'         =>        $dia               ,
-            'horario'     =>        $horario[$i]       ,
-            'ano'         =>        date('Y')          ,
-            'estado'      =>        1                  ,
-            'usu_creacion'=> $this->session->webCasSession->usuario->USUARIO
-        );
 
-                $this->Usuarios_model->registrarAula($data);
+            if(!$this->Usuarios_model->registrarAula($list_salon))
+            {
+                $msj = $this->db->error();
+            }else{
+                $msj ='success';
             }
         }
+
+        var_dump($msj);
+
+
     }
     public function editarGrado()
     {
@@ -390,10 +395,14 @@ class GestionEducativa extends CI_Controller
         $busqueda=$this->Usuarios_model->buscarCursos($codigo);
         $nombre= $busqueda[0]->nom_cursos;
         $descri= $busqueda[0]->des_cursos;
+        $cant_horas= $busqueda[0]->cant_horas;
+        $cant_capacidades= $busqueda[0]->cant_capacidades;
         $datos= array(
             'id'       =>$codigo,
             'nom_cursos'=>$nombre,
-            'des_cursos'=>$descri
+            'des_cursos'=>$descri,
+            'cant_horas'=>$cant_horas,
+            'cant_capacidades'=>$cant_capacidades
         );
         $this->htmlData['bodyData']->datos =   $datos;
         $this->load->view('vistasDialog/gestionEducativa/curso/editar', $this->htmlData);
@@ -469,10 +478,15 @@ class GestionEducativa extends CI_Controller
         $nombre      = $this->input->post('txtcursos');
         $descri      = $this->input->post('txtdescr');
         $codigo1     = $this->input->post('txtcodigo');
+        $canthoras     = $this->input->post('canthoras');
+        $cantcapacidades     = $this->input->post('cantcapacidades');
         $datos       = array(
                                 "nom_cursos"=> $nombre,
-                                "des_cursos"=> $descri
+                                "des_cursos"=> $descri,
+                                "cant_horas"=> (int)$canthoras,
+                                "cant_capacidades"=> (int)$cantcapacidades
                         );
+
         $this->Usuarios_model->editarCursosa($datos, $codigo1);
     }
     public function editarBimestres()
@@ -647,10 +661,14 @@ class GestionEducativa extends CI_Controller
     {
         $nombre        = $this->input->post("txtcurso");
         $descri        = $this->input->post("txtdescr");
+        $txtcanthoras        = $this->input->post("txtcanthoras");
+        $txtcantcapacidades        = $this->input->post("txtcantcapacidades");
         $this->load->model("Usuarios_model", '', true);
         $insert= array(
                     'nom_cursos'         => $nombre      ,
                     'des_cursos'         => $descri      ,
+                    'cant_horas'         => $txtcanthoras      ,
+                    'cant_capacidades'   => $txtcantcapacidades      ,
                     'ano'                 =>date('Y')    ,
                     'usu_creacion'        => $this->session->webCasSession->usuario->USUARIO,
                     'fec_creacion'        =>date('Y-m-d'),

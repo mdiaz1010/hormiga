@@ -54,6 +54,10 @@ class SessionCheck {
         }
     }
 
+    public static function tiempo_maximo($usuario)
+    {
+       count($usuario); die();
+    }
 
     private function tienePermiso(){
         $this->ci->session->webCasSession->modulos ;

@@ -30,7 +30,7 @@ $(document).ready(function () {
       data: $("#loginf").serialize(),
       type: "POST",
       dataType: 'json',
-      url: "login",
+      url: "login/",
       beforeSend: function (datos) {
         $("#DIVcargando").dialog("open");
       },
@@ -58,7 +58,7 @@ $(document).ready(function () {
         data: $("#loginf").serialize(),
         type: "POST",
         dataType: 'json',
-        url: "login",
+        url: "login/",
         beforeSend: function (datos) {
           $("#DIVcargando").dialog("open");
         },

@@ -206,6 +206,10 @@ class Login extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $dotacionPresente =  $this->Usuarios_model->busquedaTotal();
+
+        if($dotacionPresente[0]['cantidad']=='1'){
+            echo "No existe información registrada"; die();
+        }
         $notas = array(
           0=>array('nombre'=>'DIRECTOR'                 ,'nota'=>$dotacionPresente[1]['cantidad'],'rango'=>'18,19,20'),
           1=>array('nombre'=>'PROFESOR'                 ,'nota'=>$dotacionPresente[2]['cantidad'],'rango'=>'14,15,16,17'),
@@ -248,7 +252,7 @@ class Login extends CI_Controller
         $this->load->model("Rol_model", '', true);
 
         if(empty($this->session->webCasSession->usuario->CODIGO)){
-            redirect('login');
+            redirect('login/');
         }
         $profesor= $this->session->webCasSession->usuario->CODIGO;
         $ano     =date('Y');
@@ -346,6 +350,7 @@ class Login extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);//
+        SessionSeguridad::tiempo_maximo($this->session->webCasSession);
         $alu= $this->session->webCasSession->usuario->CODIGO;
         $ano     = $this->Usuarios_model->busquedaAno($alu);
         if ($ano[0]->ano==date('Y')) {

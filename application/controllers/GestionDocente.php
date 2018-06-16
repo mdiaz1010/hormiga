@@ -8,7 +8,7 @@ class GestionDocente extends CI_Controller
     {
         parent::__construct();
         $this->load->library('export_excel');
-
+        SessionSeguridad::tiempo_maximo($this->session->webCasSession);
         $this->htmlData = array(
             "body"=> get_class($this)
             ,"bodyData"=> (object) array()
@@ -304,7 +304,7 @@ class GestionDocente extends CI_Controller
         $grado=$this->input->post('grado');
         $curso=$this->input->post('seccion');
         $cantidad_bimestre=$this->Usuarios_model->getbi();
-        $busquedaBimestre=$this->Usuarios_model->busqueda_notas_config($grado, $curso);
+        $busquedaBimestre=$this->Usuarios_model->busqueda_notas_config($curso);
         $list_notas=array_unique(array_column($busquedaBimestre, 'nom_notas'));
         #echo count($list_notas); die();
         $list_keys =array_chunk(array_column($busquedaBimestre, 'id'), (int)$cantidad_bimestre);
@@ -587,7 +587,7 @@ class GestionDocente extends CI_Controller
         }
         $validacion_head=$this->Docente_model->head_validacion($busqueda);
         $head_notas=$this->Docente_model->head($busqueda);
-        $busquedaBimestre=$this->Usuarios_model->busqueda_notas_config($id_grado, $id_curso);
+        $busquedaBimestre=$this->Usuarios_model->busqueda_notas_config($id_curso);
         $header_notas =array_unique(array_column($head_notas, 'nom_notas'));
         $cant_notas=array_unique(array_column($busquedaBimestre, 'nom_notas'));
         if (count($header_notas)!=count($cant_notas)) {
@@ -659,6 +659,9 @@ class GestionDocente extends CI_Controller
         array_unshift($column, $column_i);
         $head=array_keys(array_diff(array_column($head_not, 1), array('off')));
         $cabecera=array_column($head_not, 0);
+        if(empty($this->Docente_model->detalle_alumno($busqueda,false))==true){
+            echo "<strong>No se han registrado alumnos</strong>";die();
+        }
         $notas_detalle= $this->Docente_model->detalle_alumno($busqueda,false);
 
         $pesos= $this->Docente_model->detalle_alumno_peso($busqueda,$notas_detalle[0]['id_alumno']);

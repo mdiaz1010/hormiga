@@ -116,7 +116,7 @@
         autoOpen: false,
         hide: "drop",
         modal: true,
-        width: '420',
+        width: 420,
         height: 780,
         fluid: true,
         closeOnEscape: true,
@@ -137,7 +137,7 @@
                 var telefo = $("#txttelefocuenta").val();
                 var docume = $("#txtdocumecuenta").val();
                 var emails = $("#txtemailscuenta").val();
-                if (nombre === '') {
+                if (nombre == '') {
                     $('#result_nombre').html("<font color='red'>Campo Nombre (*) Obligatorio</font>");
                     return true;
                 } else {

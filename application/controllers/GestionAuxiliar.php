@@ -7,7 +7,7 @@ class GestionAuxiliar extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        
+        SessionSeguridad::tiempo_maximo($this->session->webCasSession);
         $this->htmlData = array(
             "body"=> get_class($this)
             ,"bodyData"=> (object) array()

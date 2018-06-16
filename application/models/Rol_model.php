@@ -8,11 +8,11 @@ class Rol_model extends CI_Model
     {
         parent::__construct();
     }
-     
+
     public function getList($id = null, $rolMaximo = null)
     {
         $this->db->select(" * ")->from("webusuariosrolhijo");
-       
+
         // die($sql);
         if ($id!=null) {
             $this->db->where('id', $id);
@@ -27,7 +27,7 @@ class Rol_model extends CI_Model
         $this->db->select('id')
                 ->from('webmodulos')
                 ->where('WebUsuariosRol_id=', $codigo);
-        
+
         return $this->db->get()->result_object();
     }
     public function getCursos()
@@ -52,7 +52,7 @@ class Rol_model extends CI_Model
                 ->from('maepersona mp')
                 ->join('maeusuarios mu', 'mp.id=mu.id_persona')
                 ->where('mu.role_usuario', 4);
-        
+
         return $this->db->get()->result_object();
     }
     public function getUsuario()
@@ -61,7 +61,7 @@ class Rol_model extends CI_Model
                 ->select('mp.ape_pat_per,mu.role_usuario')
                 ->from('maepersona mp')
                 ->join('maeusuarios mu', 'mp.id=mu.id_persona');
-        
+
         return $this->db->get()->result_object();
     }
     public function busquedaRol($rolhijo)
@@ -70,7 +70,7 @@ class Rol_model extends CI_Model
         $this->db->where('id', $rolhijo) ;
         return $this->db->get()->result_object() ;
     }
-    
+
     public function getPermisosList($usuarioId, $moduloId = null)
     {
         $codigo=1;
@@ -86,14 +86,14 @@ class Rol_model extends CI_Model
     }
     public function getPermisosDisponible($usuarioId)
     {
-        $this->db->select(' 
+        $this->db->select('
                 wu.id,
                 wu.webusuarios_id,
                 wu.WebModulos_id,
                 wb.id,
                 wb.descripcion,
-                wb.titulo             
-                
+                wb.titulo
+
                 ')
                 ->from('webmodulos wb')
                 ->join('webusuariopermisos wu', 'wb.id=wu.webmodulos_id ')
@@ -131,7 +131,7 @@ class Rol_model extends CI_Model
         } else {
             $campo='me.role_usuario in (1,2,5)';
         }
-        
+
         $this->db->select('
             ma.id           as codigo,
             ma.nom_per      as nombre,

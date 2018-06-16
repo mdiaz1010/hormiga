@@ -15,18 +15,18 @@
             </td>
             <td class="col-lg-3">
                 <input type="text" id='txtcodigos' style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                    name="txtcodigos" size="20" value="CURS000<?php echo $bodyData->datos[" id "]?>" readonly>
+                    name="txtcodigos" size="20" value="CURS000<?php echo $bodyData->datos["id"]?>" readonly>
             </td>
         </tr>
         <input type="hidden" id='txtcodigo' style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-            name="txtcodigo" size="20" value="<?php echo $bodyData->datos[" id "]?>" readonly>
+            name="txtcodigo" size="20" value="<?php echo $bodyData->datos["id"]?>" readonly>
         <tr>
             <td class="col-lg-3">
                 <label>Bimestre:</label>
             </td>
             <td class="col-lg-3">
                 <input type="text" id='txtbimestres' style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                    name="txtbimestres" size="20" value="<?php echo $bodyData->datos[" nom_bimestre "]?>">
+                    name="txtbimestres" size="20" value="<?php echo $bodyData->datos["nom_bimestre"]?>">
             </td>
             <tr>
                 <tr>
@@ -34,8 +34,7 @@
                         <label>Desde:</label>
                     </td>
                     <td class="col-lg-3">
-                        <input type="date" id='desdes' name='desdes' size="20" value="<?php echo $bodyData->datos[" desde
-                            "]?>">
+                        <input type="date" id='desdes' name='desdes' size="20" value="<?php echo $bodyData->datos["desde"]?>">
                     </td>
                 </tr>
                 <tr>
@@ -43,8 +42,7 @@
                         <label>Hasta:</label>
                     </td>
                     <td class="col-lg-3">
-                        <input type="date" id='hastas' name='hastas' size="20" value="<?php echo $bodyData->datos[" hasta
-                            "]?>">
+                        <input type="date" id='hastas' name='hastas' size="20" value="<?php echo $bodyData->datos["hasta"]?>">
                     </td>
                 </tr>
     </table>

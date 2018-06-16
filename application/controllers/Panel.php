@@ -13,6 +13,7 @@ class Panel extends CI_Controller
             ,"bodyData"=> (object) array()
             ,
         );
+        SessionSeguridad::tiempo_maximo($this->session->webCasSession);
     }
 
     public function index()

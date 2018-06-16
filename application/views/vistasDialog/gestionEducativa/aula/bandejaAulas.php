@@ -44,7 +44,7 @@
                     </label>
                 </td>
             </tr>
-            <?php 
+            <?php
                                             $i++;
                                             }
                                             ?>
@@ -80,7 +80,7 @@
                 $(this).dialog("close");
             },
             "CANCELAR": function () {
-                $(this).dialog("close"); //Se cancela operación                              
+                $(this).dialog("close"); //Se cancela operación
             }
         }
     });
@@ -124,7 +124,7 @@
                 $(this).dialog("close");
             },
             "NO": function () {
-                $(this).dialog("close"); //Se cancela operación                              
+                $(this).dialog("close"); //Se cancela operación
             }
         }
     });

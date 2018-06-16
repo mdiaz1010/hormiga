@@ -27,8 +27,11 @@
             $this->modulos = $modulos;
             $this->modulosGrupos = $modulosGrupos;
             $this->usuario=$usuario;
+
             $this->agrupar();
             $this->iniAnidado();
+
+
         }
 
         private function agrupar()
@@ -59,7 +62,7 @@
                             $this->modulosGrupos_agrupados [$modulosGrupo->id][] =  $modulo;
                             unset($this->modulos[$moduloKey]);
                             $verficadorDeUso++;
-                        }
+                       }
                     }
                     if ($verficadorDeUso == 0) {
                         unset($this->modulosGrupos[$modulosGrupoKey]);
