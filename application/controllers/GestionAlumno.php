@@ -216,6 +216,9 @@ class GestionAlumno extends CI_Controller
         if ($ano[0]->ano==date('Y')) {
             $gradosec= array('grado'=>$resultado['id_grado'],'seccion'=>$resultado['id_seccion']);
             $resultadoCurs= $this->Usuarios_model->busquedaCursoAlu($gradosec);
+            if(isset($resultadoCurs)){
+                echo "No existe cursos registrados";die();
+            }
         }
         if (isset($resultadoCurs)==true) {
             $this->htmlData['bodyData']->respuesta         = 1 ;
@@ -455,6 +458,9 @@ class GestionAlumno extends CI_Controller
         if (isset($valores)==true) {
             $data    = array('grado'=>$valores['id_grado'],'seccion'=>$valores['id_seccion']);
             $curso   = $this->Usuarios_model->busquedaCursoAlu($data) ;
+            if(isset($curso)){
+                echo "No existe cursos registrados";die();
+            }
         }
         if (isset($curso)==true) {
             $this->htmlData['bodyData']->respuesta                 = 1 ;

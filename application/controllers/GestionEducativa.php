@@ -242,6 +242,7 @@ class GestionEducativa extends CI_Controller
         foreach($hora_dia as $key =>$array_salon)
         {
             if($curso[$key]!='0' || $grado[$key]!='0' || $seccion[$key]!='0')
+            {
             $list_salon= array('id_profesor'  =>(int)$idprof,
                                  'id_curso'     =>(int)$curso[$key],
                                  'id_grado'     =>(int)$grado[$key],
@@ -262,9 +263,10 @@ class GestionEducativa extends CI_Controller
             }else{
                 $msj ='success';
             }
+            }
         }
 
-        var_dump($msj);
+        echo json_encode($msj);
 
 
     }

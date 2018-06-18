@@ -375,6 +375,7 @@ class Login extends CI_Controller
         if ($ano[0]->ano==date('Y')) {
             $valores  = $this->Usuarios_model->busquedaGradoSeccion2($alu, $ano[0]->ano) ;
             $resultado=  $this->Usuarios_model->getBusquedaAulaAlu($valores['id_grado'], $valores['id_seccion'], $ano[0]->ano);
+
         }
         if (isset($resultado)==true) {
             $i=1;

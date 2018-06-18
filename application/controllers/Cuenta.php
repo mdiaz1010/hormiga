@@ -151,6 +151,8 @@ class Cuenta extends CI_Controller
 
     public function import_data()
     {
+        @set_time_limit(0);
+        @mysql_query("SET NAMES 'utf8'");
         $this->load->model('Usuarios_model', '', true);
         $this->load->model('Rol_model', '', true);
         $this->load->library('Spreadsheet_Excel_Reader');
@@ -195,7 +197,7 @@ class Cuenta extends CI_Controller
             }
             $ultimoId++;
             $data_excel[$i-1]['id']=$ultimoId;
-            $data_excel[$i-1]['ape_pat_per']=$sheets['cells'][$i][2];
+            $data_excel[$i-1]['ape_pat_per']=utf8_encode($sheets['cells'][$i][2]);
             $data_excel[$i-1]['estado']=1;
             $data_excel[$i-1]['usu_creacion']="administrador";
             $data_excel[$i-1]['fec_creacion']=date("Y-m-d");
@@ -228,6 +230,8 @@ class Cuenta extends CI_Controller
 
     public function import_data_alumnos()
     {
+        @set_time_limit(0);
+        @mysql_query("SET NAMES 'utf8'");
         $this->load->model('Usuarios_model', '', true);
         $this->load->model('Rol_model', '', true);
         $this->load->library('Spreadsheet_Excel_Reader');
@@ -235,29 +239,8 @@ class Cuenta extends CI_Controller
         $ultimoId=$recuperaId[0]->id;
         $ultimoIdNota= $this->Usuarios_model->ultimoIdNotas();
 
-
-        /*
-        foreach($_FILES['images']['error'] as $key => $error){
-            if($error == UPLOAD_ERR_OK){
-                $name = $_FILES['images']['name'][$key];
-                $namegeneric = $name;
-                $ruta = "temp/masivo/".$namegeneric;
-                if(move_uploaded_file($_FILES['images']['tmp_name'][$key], $ruta)){
-                $archivo= array(
-                    'upload_path'          =>base_url().$ruta,
-                    'allowed_types'        =>'xls',
-                        );
-                }else{
-                    $errors= error_get_last();
-                    echo "COPY ERROR: ".$errors['type'];
-                    echo "<br />\n".$errors['message']."<br />\n";
-                }
-            }
-        }
-        */
-
         $this->spreadsheet_excel_reader->setOutputEncoding('CP1251');
-        $this->spreadsheet_excel_reader->read("C:/Users/Marco/Desktop/informe_total8.xls");
+        $this->spreadsheet_excel_reader->read("C:\Users\Marco\Desktop\informe_total.xls");
         $sheets= $this->spreadsheet_excel_reader->sheets[0];
 
         $data_excel= array();

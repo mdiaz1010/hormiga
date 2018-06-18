@@ -112,6 +112,7 @@
 
 
 <script type="text/javascript">
+$("#dataTables-usuario").dataTable();
     $("#DIVEDITARCUENTA").dialog({
         autoOpen: false,
         hide: "drop",
@@ -283,7 +284,4 @@
             $(this).find('.modal-footer .nombre').html('');
         });
     });
-</script>
-<script>
-    $("#dataTables-usuario").dataTable();
 </script>

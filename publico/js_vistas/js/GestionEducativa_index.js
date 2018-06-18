@@ -324,12 +324,20 @@ $(".registrar_aulas").click(function () {
                 $('#DIVcarga').dialog('open');
             },
             success: function (datos) {
-                $('#result_success').show();
-                $('#DIVcarga').dialog('close');
-                //   location.reload();
-                $("#bandejaAula").load("vistabandejaaula");
-                $("#bandejaprincipal").load("vistabandejaaulas");
-                return false;
+                if (datos == '"success"') {
+
+                    $('#result_success').show();
+                    $('#result_errors').hide();
+                    $('#DIVcarga').dialog('close');
+                    //   location.reload();
+                    $("#bandejaAula").load("vistabandejaaula");
+                    $("#bandejaprincipal").load("vistabandejaaulas");
+                    return false;
+                } else {
+                    $('#result_errors').show();
+                    $('#result_success').hide();
+                    $('#DIVcarga').dialog('close');
+                }
             }
 
 
