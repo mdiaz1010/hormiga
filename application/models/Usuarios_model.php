@@ -234,44 +234,58 @@ class Usuarios_model extends CI_Model
         $this->db->select(" MAX(id) as ultimo ")->from("maepersona");
         return $this->db->get()->result_object() ;
     }
+    public function capacidad_curso()
+    {
+        $this->db->select("round(count(*)/(select count(*) from maebimestre)) as capacidad")
+                 ->from('rel_curso_nota')
+                 ->group_by('id_curso');
+        return $this->db->get()->result_array() ;
+    }
     public function comparacionGrado($ano, $grado, $bimestre)
     {
-        $this->db->select(" mu.nom_cursos as curso,mg.nom_grado as grado, ms.nom_seccion as seccion,rn.id_grado,rn.id_curso,rn.id_bimestre,rn.id_seccion,AVG(rn.nota) as nota,
-                            (select count(*) from relaulalumno rl where rl.id_grado=rn.id_grado and rl.id_seccion=rn.id_seccion) as cantidad
-                          ")->from("relnotas rn ")
+
+        $this->db->distinct();
+        $this->db->select(" mu.nom_cursos as curso,mg.nom_grado as grado, ms.nom_seccion as seccion,rn.id_grado,rn.id_curso,mi.id_bimestre,rna.id_seccion,sum(rna.nota*rn.peso)/((select count(*) from relaulalumno rl where rl.id_grado=rn.id_grado and rl.id_seccion=rna.id_seccion)* (select round(count(*)/(select count(*) from maebimestre)) from rel_curso_nota where id_curso=rn.id_curso group by id_curso) ) as nota,
+                            (select count(*) from relaulalumno rl where rl.id_grado=rn.id_grado and rl.id_seccion=rna.id_seccion) as cantidad
+                          ")->from("rel_notas_detalle rn ")
+                            ->join("rel_notas_detalle_alumno rna", "on rna.id_nota=rn.id")
                             ->join("maenotas mi", "on rn.id_nota=mi.id")
                             ->join("maegrados mg", "on rn.id_grado=mg.id")
-                            ->join("maeseccion ms", "on rn.id_seccion=ms.id")
+                            ->join("maeseccion ms", "on rna.id_seccion=ms.id")
                             ->join("maecursos mu", "on rn.id_curso=mu.id")
-                            ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado." and rn.id_bimestre=".$bimestre." and mi.pe is not null and  mi.id_bimestre is not null")
-                            ->group_by("rn.id_grado,rn.id_curso,rn.id_bimestre,rn.id_seccion")
-                            ->order_by("rn.id_seccion,rn.id_curso", "asc");
+                            ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado." and mi.id_bimestre=".$bimestre)
+                            ->group_by("rn.id_grado,rn.id_curso,mi.id_bimestre,rna.id_seccion")
+                            ->order_by("rna.id_seccion,rn.id_curso", "asc");
         return $this->db->get()->result_object() ;
     }
     public function comparacionGrados($ano, $grado)
     {
-        $this->db->select(" mu.nom_cursos as curso,mg.nom_grado as grado, ms.nom_seccion as seccion,rn.id_grado,rn.id_curso,rn.id_bimestre,rn.id_seccion,sum(rn.nota) as nota,
-                            (select count(*) from relaulalumno rl where rl.id_grado=rn.id_grado and rl.id_seccion=rn.id_seccion) as cantidad
-                          ")->from("relnotas rn ")
-                            ->join("maenotas mi", "on rn.id_nota=mi.id")
-                            ->join("maegrados mg", "on rn.id_grado=mg.id")
-                            ->join("maeseccion ms", "on rn.id_seccion=ms.id")
-                            ->join("maecursos mu", "on rn.id_curso=mu.id")
-                            ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado." and mi.pe is not null and mi.id_bimestre is null")
-                            ->group_by("id_grado,id_curso,id_bimestre,id_seccion")
-                            ->order_by("rn.id_seccion,rn.id_curso", "asc");
+
+        $this->db->distinct();
+        $this->db->select(" mu.nom_cursos as curso,mg.nom_grado as grado, ms.nom_seccion as seccion,rn.id_grado,rn.id_curso,rna.id_seccion,sum(rna.nota*rn.peso)/(select round(count(*)) from rel_curso_nota where id_curso=rn.id_curso group by id_curso) as nota,
+                            (select count(*) from relaulalumno rl where rl.id_grado=rn.id_grado and rl.id_seccion=rna.id_seccion) as cantidad
+                          ")->from("rel_notas_detalle rn ")
+                            ->join("rel_notas_detalle_alumno rna", "on rna.id_nota=rn.id")
+                            ->join("maenotas   mi", "on rn.id_nota=mi.id")
+                            ->join("maegrados  mg", "on rn.id_grado=mg.id")
+                            ->join("maeseccion ms", "on rna.id_seccion=ms.id")
+                            ->join("maecursos  mu", "on rn.id_curso=mu.id")
+                            ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado)
+                            ->group_by("rn.id_grado,rn.id_curso,rna.id_seccion")
+                            ->order_by("rna.id_seccion,rn.id_curso", "asc");
         return $this->db->get()->result_object() ;
     }
     public function comparacionGradoCurso($ano, $grado, $bimestre)
     {
         $this->db->distinct();
         $this->db->select(" mu.nom_cursos as curso
-                          ")->from("relnotas rn ")
+                          ")->from("rel_notas_detalle rn ")
+                            ->join("rel_notas_detalle_alumno rna", "on rna.id_nota=rn.id")
                             ->join("maegrados mg", "on rn.id_grado=mg.id")
                             ->join("maenotas mi", "on rn.id_nota=mi.id")
-                            ->join("maeseccion ms", "on rn.id_seccion=ms.id")
+                            ->join("maeseccion ms", "on rna.id_seccion=ms.id")
                             ->join("maecursos mu", "on rn.id_curso=mu.id")
-                            ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado." and rn.id_bimestre=".$bimestre." and mi.pe is not null and mi.id_bimestre is not null")
+                            ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado." and mi.id_bimestre=".$bimestre)
                             ->order_by("mu.nom_cursos", "asc");
         return $this->db->get()->result_object() ;
     }
@@ -279,12 +293,12 @@ class Usuarios_model extends CI_Model
     {
         $this->db->distinct();
         $this->db->select(" mu.nom_cursos as curso
-                          ")->from("relnotas rn ")
-                            ->join("maenotas mi", "on rn.id_nota=mi.id")
+                          ")->from("rel_notas_detalle rn ")
+                            ->join("rel_notas_detalle_alumno rna", "on rn.id=rna.id_nota")
                             ->join("maegrados mg", "on rn.id_grado=mg.id")
-                            ->join("maeseccion ms", "on rn.id_seccion=ms.id")
+                            ->join("maeseccion ms", "on rna.id_seccion=ms.id")
                             ->join("maecursos mu", "on rn.id_curso=mu.id")
-                            ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado."  and mi.pe is not null and mi.id_bimestre is not null")
+                            ->where("rn.estado=1 and rn.ano=".$ano." and rn.id_grado=".$grado)
                             ->order_by("mu.nom_cursos", "asc");
         return $this->db->get()->result_object() ;
     }
@@ -303,7 +317,7 @@ class Usuarios_model extends CI_Model
     public function puestoSalonTotal()
     {
         $this->db->distinct();
-        $this->db->select("ma.ape_pat_per as alumno,CONCAT(mg.nom_grado,'°',me.nom_seccion) as grado,rl.id_alumno,round(avg(rl.nota),2) as nota ")->from("relnotas rl")
+        $this->db->select("ma.ape_pat_per as alumno,CONCAT(mg.nom_grado,'°',me.nom_seccion) as grado,rl.id_alumno,round(SUM(rl.nota),2) as nota ")->from("relnotas rl")
                 ->join("maenotas mn", "on rl.id_nota=mn.id")
                 ->join("maepersona   ma", "on rl.id_alumno =ma.id")
                 ->join("maegrados    mg", "on rl.id_grado  =mg.id")
@@ -502,6 +516,22 @@ class Usuarios_model extends CI_Model
         if($boolean==true){
             $this->db->limit(3);
         }
+        return $this->db->get()->result_array() ;
+    }
+    public function reporteNotasFinal_dir()
+    {
+        $this->db->select("mp.ape_pat_per as alumno,CONCAT(mg.nom_grado,' ',ms.nom_seccion) as grado , rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso),2) as nota ")
+                 ->from("rel_notas_detalle_alumno rnda")
+                 ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
+                 ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
+                 ->join("maepersona mp"        , "ON rnda.id_alumno =mp.id")
+                 ->join("maegrados  mg "       , "ON rnda.id_grado=mg.id")
+                 ->join("maeseccion  ms "       , "ON rnda.id_seccion=ms.id");
+        $this->db->where(array('rnda.ano'=>date('Y'))) ;
+        $this->db->where('rnd.estado=1  and rnda.estado=1 ');
+        $this->db->group_by('rnda.id_alumno,rnda.id_seccion,rnda.id_grado');
+        $this->db->order_by('nota','desc');
+        $this->db->limit(3);
         return $this->db->get()->result_array() ;
     }
     public function reporteNotasFinal10($data)
@@ -1176,7 +1206,7 @@ class Usuarios_model extends CI_Model
                 ->from('relaula')
                 ->where('id_grado', $data);
         $query = $this->db->get();
-        return $query->result();
+        return $query->result_array();
     }
     public function buscarmensaje($data)
     {

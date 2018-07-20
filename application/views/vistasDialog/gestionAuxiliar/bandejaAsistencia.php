@@ -21,22 +21,22 @@
     <?php
     } ?>
         <form name="registroMarca" id="registroMarca" method="POST">
-            <table class="table table-striped table-bordered dt-responsive nowrap  " cellspacing="0" width="100%" id="dataTables-asistencia">
-                <thead class="bg-success">
-                    <tr>
-                        <th style="border: hidden;color: #3b752e;">
+            <table class="table table-bordered" cellspacing="0" width="100%" id="dataTables-asistencia">
+                <thead style="color: #fff;background-color: #2A3F54;">
+                    <tr class="heading">
+                        <th>
                             <center>NRO</center>
                         </th>
-                        <th style="border: hidden;color: #3b752e;">
+                        <th>
                             <center>ALUMNO</center>
                         </th>
-                        <th style="border: hidden;color: #3b752e;">
+                        <th>
                             <center>% ASISTENCIA</center>
                         </th>
-                        <th style="border: hidden;color: #3b752e;">
+                        <th>
                             <center>ASISTENCIA</center>
                         </th>
-                        <th style="border: hidden;color: #3b752e;">
+                        <th>
                             <center>OPCION</center>
                         </th>
                     </tr>
@@ -77,7 +77,7 @@
                             </td>
                             <td>
                                 <CENTER>
-                                    <a href="javascript:void(0)" class="Detalle" data-alumno="<?=$cuentasTemp->alumno; ?>" data-codigo="<?=$cuentasTemp->id; ?>">
+                                    <a data-toggle="modal" data-target=".bs-example-modal-lg"  href="javascript:void(0)" class="Detalle" data-alumno="<?=$cuentasTemp->alumno; ?>" data-codigo="<?=$cuentasTemp->id; ?>">
                                     Ver Detalle</a>
                                 </CENTER>
                             </td>
@@ -90,6 +90,27 @@
                 </tbody>
             </table>
         </form>
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Historial de asistencia</h4>
+                </div>
+                <div class="modal-body" id="DIVVERDETALLE">
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button"  data-dismiss="modal" class="btn btn" style="color: #fff;background-color: #2A3F54;">Cerrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
         <?php
 } else {
         echo "<div class='alert_result'>No se encuentra ningun alumno registrado.</div>";
@@ -122,28 +143,7 @@
                     });
 
                 });
-                $("#DIVVERDETALLE").dialog({
-                    autoOpen: false,
-                    hide: "drop",
-                    width: 1100,
-                    height: 600,
-                    closeOnEscape: false,
-                    open: function (event, ui) {
-                        $(this).closest(".ui-dialog").find(".ui-dialog-titlebar-close").hide();
-                    },
-                    modal: true,
-                    buttons: {
-                        "CERRAR": function () {
-                            $(this).dialog("close"); //Se cancela operación                              
-                        }
-                    }
-                });
-                $("#DIVVERDETALLE").dialog({
-                    draggable: false
-                });
-                $("#DIVVERDETALLE").dialog({
-                    resizable: false
-                });
+
                 $(".Detalle").click(function () {
                     var codigo = $(this).data("codigo");
                     var alumno = $(this).data("alumno");
@@ -164,7 +164,7 @@
                             if (datos.length > 0) {
                                 $('#DIVcargas').dialog('close');
                                 $('#DIVVERDETALLE').html(datos);
-                                $('#DIVVERDETALLE').dialog('open');
+
                             }
                             return false;
                         }

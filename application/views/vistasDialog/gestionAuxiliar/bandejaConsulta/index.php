@@ -76,8 +76,7 @@
 
     $.ajax({
       type: 'POST',
-      url: '<?=base_url('
-      GestionEducativa / buscarUser ') ?>',
+      url: '<?=base_url('GestionEducativa/buscarUser') ?>',
       data: {
         nombre: nombre
       },

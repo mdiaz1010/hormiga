@@ -18,6 +18,8 @@
     <!-- Custom Theme Style -->
     <link href="<?=base_url('publico/html_libs/custom_theme/css/custom.css')?>" rel="stylesheet">
 
+    <!-- file -->
+
     <!-- jQuery -->
     <script src="<?= base_url('publico/html_libs/jquery/dist/jquery.min.js')?>"></script>
     <!-- Bootstrap -->
@@ -33,7 +35,7 @@
 
     <link    href="<?=base_url('publico/css/jquery-ui.css')?>" rel="stylesheet">
 
-<script type="text/javascript" src="<?= base_url('publico/js/bootstrap-filestyle.min.js')?>">
+
 </script>
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-bs/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')?>" rel="stylesheet">

@@ -198,6 +198,28 @@ class Login extends CI_Controller
     }
     public function vistaDirector()
     {
+
+   //     $merito_alumno =  $this->Usuarios_model->reporteNotasFinal_dir();
+
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);
+        $dotacionPresente =  $this->Usuarios_model->busquedaTotal();
+
+
+
+        $notas = array(
+          0=>array('nombre'=>'DIRECTOR'                 ,'nota'=>$dotacionPresente[1]['cantidad'],'rango'=>'18,19,20'),
+          1=>array('nombre'=>'PROFESOR'                 ,'nota'=>$dotacionPresente[2]['cantidad'],'rango'=>'14,15,16,17'),
+          2=>array('nombre'=>'ALUMNO'                   ,'nota'=>$dotacionPresente[4]['cantidad'],'rango'=>'11,12,13'),
+          3=>array('nombre'=>'AUXILIAR   '              ,'nota'=>$dotacionPresente[3]['cantidad'],'rango'=>'0 a 10'),
+        );
+
+
+
+
+
+        $this->htmlData['bodyData']->usuariosTotales =  $this->Usuarios_model->reporteCantidadToral();
+        $this->htmlData['bodyData']->notas =  $notas;
         $this->htmlData['body'] .= "/index";
         $this->load->view('plantillas_base/standar/body', $this->htmlData);
     }
@@ -224,10 +246,61 @@ class Login extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
-        $this->htmlData['bodyData']->merito          =  $this->Usuarios_model->puestoSalonTotal();
+        $this->htmlData['bodyData']->merito          =  $this->Usuarios_model->reporteNotasFinal_dir();
 
 
         $this->load->view('vistasDialog/login/director/merito', $this->htmlData);
+    }
+    public function verdetalleAlumnoDir()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);
+
+        $codigo=$this->input->post("codigo");
+        $ano=date('Y');
+        if ($codigo==false || $ano==false) {
+            echo "Ingrese el curso";
+            return true;
+        }
+        $data=array('id_alumno'=>$codigo,
+                    'ano'=>$ano,
+                   );
+
+
+        $arrayNotasTotal= $this->Usuarios_model->reporteNotasAluCurTol($data);
+
+        foreach ($arrayNotasTotal as $conocer2) {
+            $i=0;
+            foreach ($arrayNotasTotal as $conocer3) {
+                if ($conocer2->nombre==$conocer3->nombre) {
+                    $arrayConocerTot[$conocer2->nombre][$i]=$conocer3->nota;
+                    $i++;
+                }
+            }
+        }
+        $j=0;
+        $haber="";
+
+        foreach ($arrayConocerTot as $mostrar) {
+            $data[$j]=implode(',', $arrayConocerTot[$arrayNotasTotal[$j]->nombre]);
+            $haber.="{
+                       name: '".$arrayNotasTotal[$j]->nombre."',
+                       data: [".$data[$j]."]
+                             },";
+            $j++;
+        }
+        $haber1=  substr($haber, 0, -1);
+
+        $bimestre= $this->Usuarios_model->busquedaBimestre();
+        $bimestre= array_column($bimestre,'nom_bimestre');
+
+        $this->htmlData['bodyData']->bimestre                   = json_encode($bimestre) ;
+        $this->htmlData['bodyData']->haber                   = $haber1 ;
+        $this->htmlData['bodyData']->ano                     = $ano ;
+
+
+        $this->htmlData['bodyData']->resultadoTot            = $arrayConocerTot ;
+        $this->load->view('vistasDialog/gestionEducativa/notaGeneral/reporteNotas', $this->htmlData);
     }
     public function vistaSubDirector()
     {
@@ -447,6 +520,7 @@ class Login extends CI_Controller
         $this->htmlData['bodyData']->salon           = $arraysalon ;
         $this->htmlData['bodyData']->grado           = $arraygrado ;
         $this->htmlData['bodyData']->total           = $totales ;
+        $this->htmlData['bodyData']->codigo           = $alu ;
         $this->load->view('vistasDialog/login/alumno/puestos', $this->htmlData);
     }
     public function rendimiento()

@@ -36,7 +36,7 @@ class GestionAuxiliar extends CI_Controller
         } else {
             $cantidad[0]->cantidad=0;
         }
-        
+
         $this->htmlData['bodyData']->usuarios                = $this->Rol_model->getUsuario();
         $this->htmlData['bodyData']->cantidad                = $cantidad[0]->cantidad;
         $this->htmlData['bodyData']->cantidadR                = $cantidadR[0]->cantidad;
@@ -88,7 +88,7 @@ class GestionAuxiliar extends CI_Controller
         $clave  =$this->input->post('clave');
         $data=array('clav_usuario'=>$clave);
         $dato=array('direccion'=>$direc,'fecha_nac'=>$fecha);
-        
+
 
         foreach ($_FILES['images']['error'] as $key => $error) {
             if ($error == UPLOAD_ERR_OK) {
@@ -105,7 +105,7 @@ class GestionAuxiliar extends CI_Controller
                     'tipo'        =>$tipo,
                     'usu_modificacion'=>$this->session->webCasSession->usuario->USUARIO
                         );
-              
+
                     $this->Usuarios_model->cambiardat($archivo, $alumno) ;
                 } else {
                     $errors= error_get_last();
@@ -117,7 +117,7 @@ class GestionAuxiliar extends CI_Controller
         $this->Usuarios_model->cambiarclave($data, $alumno) ;
         $this->Usuarios_model->cambiardat($dato, $alumno) ;
     }
-    
+
     public function asistencia()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -148,7 +148,7 @@ class GestionAuxiliar extends CI_Controller
             foreach ($busquedaSecc as $bus) {
                 $html.="<option value='$bus->id'>$bus->nom_seccion</option>";
             }
-        
+
             echo $html;
         } else {
             $html="<option value='' selected>Seleccione</option>";
@@ -171,19 +171,19 @@ class GestionAuxiliar extends CI_Controller
                 $contador++;
             }
         }
-        
-        
+
+
         $i=0;
         foreach ($resultado as $result) {
             $alumnos[$i]=$result->id_alumno;
             $i++;
         }
-        
+
         if (isset($alumnos)==true) {
             $resultado2= implode(',', $alumnos);
 
             $arrayporcentaje = $this->Usuarios_model->busquedaAsistenciaAux($resultado2);
-         
+
             $arrayporcentajeP= $this->Usuarios_model->busquedaAsistenciaPAux($resultado2);
 
 
@@ -193,9 +193,9 @@ class GestionAuxiliar extends CI_Controller
             foreach ($arrayporcentajeP as $porcentajep) {
                 $arrayporcentap[]= (int)$porcentajep->asistencia;
             }
-     
 
- 
+
+
 
             for ($i=0;$i<count($alumnos);$i++) {
                 if (isset($arrayporcentat[$i]['cantidad'])) {
@@ -208,10 +208,10 @@ class GestionAuxiliar extends CI_Controller
                     $porcentaje[$i]=100;
                 }
             }
-       
-        
+
+
             $arrayalumno= $this->Usuarios_model->busquedaAlumnoN($resultado2);
-        
+
             $this->htmlData['bodyData']->results          = $arrayalumno ;
             $this->htmlData['bodyData']->filtrog          = $busqueda['id_grado'] ;
             $this->htmlData['bodyData']->filtros          = $busqueda['id_seccion'] ;
@@ -241,7 +241,7 @@ class GestionAuxiliar extends CI_Controller
         $grado        = $this->input->post('id_grado');
         $arrayAlumno  = $this->input->post('txtcodigo');
         $arrayMarcad  = $this->input->post('txtmarcado');
-        
+
         foreach ($arrayAlumno as $array) {
             $insercion= array(
               "id_grado"=>$grado,
@@ -254,7 +254,7 @@ class GestionAuxiliar extends CI_Controller
               'fecha_val'=>date('Y-m-d'),
               'usu_creacion'=>$this->session->webCasSession->usuario->USUARIO
             );
-            
+
             $this->Usuarios_model->insertAsitenciaAux($insercion);
         }
         $asistieronAl= implode(',', $arrayMarcad);
@@ -277,7 +277,7 @@ class GestionAuxiliar extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $id  =$this->input->post('id');
-        
+
         $this->htmlData['bodyData']->codigo        = $id ;
         $resultado= $this->Usuarios_model->buscardocumentosasistencia($id);
         $this->htmlData['bodyData']->results         = $resultado ;
@@ -294,7 +294,7 @@ class GestionAuxiliar extends CI_Controller
         $alumno  =$this->input->post('alumno');
         $fecha  =$this->input->post('fecha');
         $data= array('respuesta'=>$id);
-       
+
         $this->Usuarios_model->cambiarRespuestaA($data, $codigo);
         $fecha= substr($fecha, 0, 10);
         $this->Usuarios_model->cambiarRespuesta($data, $grado, $seccion, $alumno, trim($fecha));
@@ -308,8 +308,8 @@ class GestionAuxiliar extends CI_Controller
         $curso   =$this->input->post('curso');
         $alumno  =$this->input->post('alumno');
         $fecha  =$this->input->post('fecha');
-              
-        
+
+
         $tipo         =$this->input->post('tipo');
         $codigo       =$this->input->post('codigo');
         $cambio= array('tipo_obs'=>$tipo);
@@ -319,10 +319,10 @@ class GestionAuxiliar extends CI_Controller
             $observacion="El alumno justifico su inasistencia";
         }
         $cambio2= array('mensaje'=>$observacion);
-         
+
         $this->Usuarios_model->cambiarObservacion($cambio, $codigo);
         $fecha= substr($fecha, 0, 10);
-        
+
         $this->Usuarios_model->cambiarObservacionProf($cambio2, $grado, $seccion, $curso, $alumno, trim($fecha));
     }
     public function inasistencia()
@@ -335,13 +335,13 @@ class GestionAuxiliar extends CI_Controller
         } else {
             $datos      = $this->Usuarios_model->buscarInfoG();
         }
-        
+
         $i=0;
         foreach ($datos as $dato) {
             $datosNombre= $this->Usuarios_model->busquedaDatos($dato->id_alumno);
             $datosGrados= $this->Usuarios_model->buscarGrados($dato->id_grado);
             $datosSeccio= $this->Usuarios_model->buscarSecciones($dato->id_seccion);
-        
+
             $respuesta  = $this->Usuarios_model->busquedaRespuesta();
             if (isset($datosNombre[0]->apepat)==true) {
                 $arrayDato[]=array('id'=>$dato->id,
@@ -374,8 +374,8 @@ class GestionAuxiliar extends CI_Controller
         } else {
             $datos= $this->Usuarios_model->comparacionAsistencia();
         }
-                
-        
+
+
         $respuesta= $this->Usuarios_model->busquedaRespuesta();
         $i=0;
         foreach ($datos as $dato) {
@@ -394,7 +394,7 @@ class GestionAuxiliar extends CI_Controller
                            'id_seccion'=>$dato->id_seccion,
                            'id_curso'=>$dato->id_curso,
                            'respuesta'=>$dato->tipo_obs
-          
+
                            );
             }
         }
@@ -404,7 +404,7 @@ class GestionAuxiliar extends CI_Controller
         } else {
             $this->htmlData['bodyData']->results=0;
         }
-        
+
         $this->load->view('vistasDialog/gestionAuxiliar/evasion/index', $this->htmlData);
     }
     public function buscarUser()
@@ -418,13 +418,13 @@ class GestionAuxiliar extends CI_Controller
             $datos=$this->Usuarios_model->busquedaDatos($usuario10);
             $alu= $usuario10;
             $alumnos=array('id_alumno'=>$alu);
-           
-        
-        
+
+
+
             switch ($datos[0]->user) {
     case 1:
         $valores  = $this->Usuarios_model->busquedaGradoSeccion($alumnos) ;
-        
+
         if (isset($datos[0]->ruta)==false) {
             $valor='publico/media/user.png';
         } else {
@@ -436,13 +436,13 @@ class GestionAuxiliar extends CI_Controller
                            'grados'=>"DIRECTOR",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $usuario10 ;
-       
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusquedaDir', $this->htmlData);   break;
     case 2:
-        
+
         $valores  = $this->Usuarios_model->busquedaGradoSeccion($alumnos) ;
-        
+
         if (isset($datos[0]->ruta)==false) {
             $valor='publico/media/user.png';
         } else {
@@ -454,7 +454,7 @@ class GestionAuxiliar extends CI_Controller
                            'grados'=>"DIRECTOR",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $usuario10 ;
-       
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusquedaDir', $this->htmlData);   break;
     case 3: $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusqueda', $this->htmlData);      break;
@@ -470,20 +470,20 @@ class GestionAuxiliar extends CI_Controller
                            'usuari'=>$datos[0]->usuari,'correo'=>$datos[0]->correo,'telefo'=>$datos[0]->telefo,
                            'grados'=>"DOCENTE",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $ano     =date('Y');
-        
+
         $resultado=  $this->Usuarios_model->getBusquedaAulaProf($alumnos['id_alumno'], $ano);
-        
+
         $i=0;
 
-        
+
         foreach ($resultado as $res) {
             $arrayResultado[$res->horario][$res->dia]=array('materia'=>trim(substr($res->GRADO, 0, 5)).'°'.$res->SECCION.' '.$res->descripcion);
             $color[substr($res->GRADO, 0, 5).'°'.$res->SECCION.' '.$res->descripcion]='#'.substr(md5(rand(20, 100)), 0, 6);
             $title[substr($res->GRADO, 0, 5).'°'.$res->SECCION.' '.$res->descripcion]=$res->CURSOS;
-            
+
             $i++;
         }
-    
+
         $horarioDia= $this->Usuarios_model->getDiass();
         $horarioHor= $this->Usuarios_model->getHorarioss();
         $this->htmlData['bodyData']->dias            = $horarioDia ;
@@ -496,7 +496,7 @@ class GestionAuxiliar extends CI_Controller
         // no break
     case 5:
         $valores  = $this->Usuarios_model->busquedaGradoSeccion($alumnos) ;
-        
+
         if (isset($datos[0]->ruta)==false) {
             $valor='publico/media/user.png';
         } else {
@@ -508,10 +508,10 @@ class GestionAuxiliar extends CI_Controller
                            'grados'=>"DIRECTOR",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $usuario10 ;
-       
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusquedaDir', $this->htmlData);   break;
-        
+
     default:
         $valores  = $this->Usuarios_model->busquedaGradoSeccion($alumnos) ;
         $grado  =$this->Usuarios_model->buscarGrados($valores[0]->id_grado) ;
@@ -527,7 +527,7 @@ class GestionAuxiliar extends CI_Controller
                            'usuari'=>$datos[0]->usuari,'correo'=>$datos[0]->correo,'telefo'=>$datos[0]->telefo,
                            'grados'=>$gradoSecc,'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $ano     =date('Y');
-             
+
         $resultado=  $this->Usuarios_model->getBusquedaAulaAlu($valores[0]->id_grado, $valores[0]->id_seccion, $ano);
 
         $puesto_grado=$this->Usuarios_model->puestoGrado($valores[0]->id_grado);
@@ -585,7 +585,7 @@ class GestionAuxiliar extends CI_Controller
             $arrayNotA[]=array('nota'=>round($tray->nota/$sum),
                                                         'desc'=>$tray->desc);
         }
-        
+
         foreach ($resultado as $res) {
             $arrayResultado[$res->horario][$res->dia]=array('materia'=>trim(substr($res->GRADO, 0, 5)).'°'.$res->SECCION.' '.$res->descripcion);
             $color[substr($res->GRADO, 0, 5).'°'.$res->SECCION.' '.$res->descripcion]='#'.substr(md5(rand(20, 100)), 0, 6);

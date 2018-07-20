@@ -38,10 +38,10 @@
     foreach ($bodyData->horas as $horas):
 
 
-        if((int)$horas->codigo==8){
-            $h=0;
+        if((int)$horas->codigo>=8 ){
+
             $turno='Tarde';
-        }
+
         $h++;
     ?>
         <tr>
@@ -88,10 +88,10 @@
             </select>
             </label>
             </td>
-        <?php endforeach;?>
+        <?php  endforeach;?>
 
         </tr>
-        <?php endforeach;?>
+        <?php } endforeach;?>
     </tbody>
 </table>
 </div>

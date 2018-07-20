@@ -14,20 +14,10 @@
             <div class="col-xs-10">
                 <form method="post" name="crearusuario" id="crearusuario">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                            Nombre:
-                            <input name="nombre" id="nombre" placeholder="Nombres" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                value="<?=$bodyData->results['nombre']?>" readonly>
-                        </label>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        <label class="control-label col-md-9 col-sm-9 col-xs-12">
                             Apellido Paterno:
                             <input name="apepat" id="apepat" placeholder="Apellido paterno" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                                 value="<?=$bodyData->results['apepat']?>" readonly>
-                        </label>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                            Apellido Materno:
-                            <input name="apemat" id="apemat" placeholder="Apellido materno" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                value="<?=$bodyData->results['apemat']?>" readonly>
                         </label>
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">
                             Rol:

@@ -344,7 +344,9 @@ class GestionDocente extends CI_Controller
         } else {
             $dotacionPresente =  $this->Usuarios_model->reporteNotasMerito10($busqueda,false);
         }
-
+        if(count($dotacionPresente)==0){
+            echo "No existe información registrada"; die();
+        }
         $a=0;
         $b=0;
         $c=0;
@@ -402,9 +404,7 @@ class GestionDocente extends CI_Controller
         }
         $this->htmlData['bodyData']->datos =  $busqueda;
         $this->htmlData['bodyData']->lastEvents =  $this->Usuarios_model->reporteCantidad($busqueda);
-        $cantidad= $this->Usuarios_model->cantidadXbimestre($id_curso);
-        $peso=($cantidad[0]->cantidad);
-        $this->htmlData['bodyData']->estadisticasPaeArray =  $this->Usuarios_model->reporteNotas($busqueda, $peso);
+        $this->htmlData['bodyData']->estadisticasPaeArray =  $this->Usuarios_model->reporteNotasMerito10($busqueda, false);
         $this->htmlData['bodyData']->dotacionPresente = $dotacionPresenteContador;
         $this->load->view('vistasDialog/gestionDocente/bandejaReporteN/bandejaReporteN', $this->htmlData);
     }

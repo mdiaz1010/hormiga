@@ -24,21 +24,12 @@
 
                 <form method="post" name="crearusuario" id="crearusuario">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                            Nombre:
-                            <input name="nombre" id="nombre" placeholder="Nombres" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
+                        <label class="control-label col-md-6 col-sm-6 col-xs-12">
+                            Apellidos y nombres:
+                            <input name="apepat" id="apepat" placeholder="Apellidos y nombres" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                                 required>
                         </label>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                            Apellido Paterno:
-                            <input name="apepat" id="apepat" placeholder="Apellido paterno" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                required>
-                        </label>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                            Apellido Materno:
-                            <input name="apemat" id="apemat" placeholder="Apellido materno" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                required>
-                        </label>
+
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">
                             Rol:
                             <select name="rol" class="form-control" id='rol' required>

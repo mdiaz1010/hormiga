@@ -1061,6 +1061,57 @@ class GestionEducativa extends CI_Controller
         $this->htmlData['bodyData']->idHor           = $horarioHori ;
         $this->load->view('vistasDialog/login/alumno/horarios', $this->htmlData);
     }
+    public function verdetalleAlumnoDir()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);
+
+        $codigo=$this->input->post("codigo");
+        $ano=date('Y');
+        if ($codigo==false || $ano==false) {
+            echo "Ingrese el curso";
+            return true;
+        }
+        $data=array('id_alumno'=>$codigo,
+                    'ano'=>$ano,
+                   );
+
+
+        $arrayNotasTotal= $this->Usuarios_model->reporteNotasAluCurTol($data);
+
+        foreach ($arrayNotasTotal as $conocer2) {
+            $i=0;
+            foreach ($arrayNotasTotal as $conocer3) {
+                if ($conocer2->nombre==$conocer3->nombre) {
+                    $arrayConocerTot[$conocer2->nombre][$i]=$conocer3->nota;
+                    $i++;
+                }
+            }
+        }
+        $j=0;
+        $haber="";
+
+        foreach ($arrayConocerTot as $mostrar) {
+            $data[$j]=implode(',', $arrayConocerTot[$arrayNotasTotal[$j]->nombre]);
+            $haber.="{
+                       name: '".$arrayNotasTotal[$j]->nombre."',
+                       data: [".$data[$j]."]
+                             },";
+            $j++;
+        }
+        $haber1=  substr($haber, 0, -1);
+
+        $bimestre= $this->Usuarios_model->busquedaBimestre();
+        $bimestre= array_column($bimestre,'nom_bimestre');
+
+        $this->htmlData['bodyData']->bimestre                   = json_encode($bimestre) ;
+        $this->htmlData['bodyData']->haber                   = $haber1 ;
+        $this->htmlData['bodyData']->ano                     = $ano ;
+
+
+        $this->htmlData['bodyData']->resultadoTot            = $arrayConocerTot ;
+        $this->load->view('vistasDialog/gestionEducativa/notaGeneral/reporteNotas', $this->htmlData);
+    }
     public function puestos()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -1091,6 +1142,7 @@ class GestionEducativa extends CI_Controller
         $this->htmlData['bodyData']->salon           = $arraysalon ;
         $this->htmlData['bodyData']->grado           = $arraygrado ;
         $this->htmlData['bodyData']->total           = $totales ;
+        $this->htmlData['bodyData']->codigo           = $alu ;
         $this->load->view('vistasDialog/login/alumno/puestos', $this->htmlData);
     }
     public function rendimiento()
@@ -1127,6 +1179,7 @@ class GestionEducativa extends CI_Controller
             $this->load->view('vistasDialog/login/alumno/rendimiento', $this->htmlData);
         }
     }
+
     public function notasProfesor()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -1207,10 +1260,7 @@ class GestionEducativa extends CI_Controller
         $bimestre=$this->input->post("bimestre");
         $grados=$this->Usuarios_model->buscarGrados($grado);
         $seccion=$this->Usuarios_model->busquedaSeccion($grado);
-
-        foreach ($seccion as $secc) {
-            $arraySeccion[]=$secc->id_seccion;
-        }
+        $arraySeccion=array_column($seccion, 'id_seccion');
         $sec=implode(',', $arraySeccion);
         $nomsec=$this->Usuarios_model->buscarSecciones($sec);
         $texto='';
@@ -1222,12 +1272,13 @@ class GestionEducativa extends CI_Controller
         if ($bimestre!="total") {
             $reporte=$this->Usuarios_model->comparacionGrado($ano, $grado, $bimestre);
             $reporte2=$this->Usuarios_model->comparacionGradoCurso($ano, $grado, $bimestre);
+
             $i=0;
             foreach ($reporte as $mostrar) {
                 $i=0;
                 foreach ($reporte as $mostrar2) {
                     if ($mostrar->id_curso==$mostrar2->id_curso) {
-                        $arrayCurso[$mostrar->curso][$i]=round($mostrar2->nota, 2);
+                        $arrayCurso[$mostrar->curso][$i]=$mostrar2->nota;
                         $i++;
                     }
                 }
@@ -1235,6 +1286,7 @@ class GestionEducativa extends CI_Controller
         } else {
             $reporte=$this->Usuarios_model->comparacionGrados($ano, $grado);
             $reporte2=$this->Usuarios_model->comparacionGradoCursos($ano, $grado);
+
             $i=0;
             foreach ($reporte as $mostrar) {
                 $i=0;

@@ -16,7 +16,7 @@
                 <div class="col-xs-10">
                     <form method="post" name="crearusuario" id="crearusuario">
                         <div class="form-group">
-                            <label class="control-label col-md-6 col-sm-6 col-xs-12">
+                            <label class="control-label col-md-9 col-sm-9 col-xs-12">
                                 Nombres y Apellidos:
                                 <input name="apepat" id="apepat" placeholder="Apellido paterno" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                                     value="<?=$bodyData->results1['apepat']?>" readonly>

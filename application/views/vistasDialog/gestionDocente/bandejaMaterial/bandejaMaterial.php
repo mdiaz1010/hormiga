@@ -133,7 +133,6 @@ $("#btncargar").click(function(){
                 $("#DIVcarga").dialog("close");
                 if (datos.length > 0) {
                     $('#DIVSUBIDA').html(datos);
-                    $('#DIVSUBIDA').dialog('open');
                 }
                 return false;
             }
