@@ -14,7 +14,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="animated flipInY col-lg-4 col-md-4 col-sm-8 col-xs-12">
+  <div class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="tile-stats">
       <div class="icon">
         <a href="javascript:" class="inasistencia">
@@ -45,7 +45,7 @@
       </a>
     </div>
   </div>
-  <div class="animated flipInY col-lg-4 col-md-4 col-sm-8 col-xs-12">
+  <div class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="tile-stats">
       <div class="icon">
         <a href="javascript:" class="evasion">
@@ -80,7 +80,7 @@
       </a>
     </div>
   </div>
-  <div class="animated flipInY col-lg-4 col-md-4 col-sm-8 col-xs-12">
+  <div class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="tile-stats">
       <div class="icon">
         <a href="<?=base_url('GestionAuxiliar/asistencia')?>" class="asistencia">

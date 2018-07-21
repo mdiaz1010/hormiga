@@ -1,25 +1,25 @@
 <?php if (($bodyData->results)!=0) {
     ?>
 <form name="registroMarca" id="registroMarca" method="POST">
-    <table class="table table-striped table-bordered dt-responsive nowrap  " cellspacing="0" width="100%" id="dataTables-asistencia5">
-        <thead class="bg-success">
+    <table class="table table-bordered" cellspacing="0" width="100%" id="dataTables-asistencia5">
+        <thead style="color: #fff;background-color: #2A3F54;">
             <tr>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>NRO</center>
                 </th>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>ALUMNO</center>
                 </th>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>GRADO Y SECCION</center>
                 </th>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>CURSO</center>
                 </th>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>FECHA</center>
                 </th>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>TIPO</center>
 
             </tr>
@@ -28,27 +28,27 @@
             <?php $i=1;
     foreach ($bodyData->results as $resultado): ?>
             <tr>
-                <td style="width:1px;">
+                <td >
                     <center>
                         <?=$i?>
                     </center>
                 </td>
-                <td style="width:20px;">
+                <td >
                     <?=$resultado['nombre']?>
                 </td>
-                <td style="width:2px;">
+                <td >
                     <center>
                         <strong>
                             <?=$resultado['grados']?>
                         </strong>
                     </center>
                 </td>
-                <td style="width:20px;">
+                <td >
                     <center>
                         <?=$resultado['cursos']?>
                     </center>
                 </td>
-                <td style="width:20px;">
+                <td >
                     <center>
                         <?=$resultado['fechas']?>
                     </center>

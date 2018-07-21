@@ -503,6 +503,11 @@ class Usuarios_model extends CI_Model
         $this->db->select(" horario ")->from("relaula")->where("id_seccion", $codigo);
         return $this->db->get()->result_object() ;
     }
+    public function busquedaHorarios($codigo,$grado)
+    {
+        $this->db->select(" horario ")->from("relaula")->where("id_seccion=".$codigo.' and id_grado='.$grado);
+        return $this->db->get()->result_object() ;
+    }
     public function reporteNotasFinal($data,$boolean)
     {
         $this->db->select("mp.ape_pat_per,rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota ")

@@ -64,11 +64,7 @@
             <td <?=$readonly; ?>
                 <?=$color; ?>>
                     <center>
-                        <a <?=$hidden; ?>
-                            <?=$hidden1?> class="ver" data-toggle="modal" data-target=".bs-example1-modal-lg"
-                            data-codigo="<?=$cuentasTemp->id?>" title="Ver archivo subido" href="#">
-                                    <span class="fa fa-search"></span>
-                        </a>
+
                         <a data-toggle="modal" data-target=".bs-example-modal-lg" <?=$hidden; ?>
                             <?=$hidden1?> class="edita" data-codigo="
                                 <?=$cuentasTemp->id?>" data-fecha="

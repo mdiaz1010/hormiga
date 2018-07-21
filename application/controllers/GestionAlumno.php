@@ -349,6 +349,7 @@ class GestionAlumno extends CI_Controller
         $id     =$this->input->post('id');
         $fecha  =$this->input->post('fecha');
         $buscar =$this->Usuarios_model->buscarmensaje($id);
+        $resultado= $this->Usuarios_model->buscardocumentosasistencia($id);
         if (isset($buscar)==true) {
             $this->htmlData['bodyData']->mensaje       = $buscar[0]->mensaje ;
         } else {
@@ -357,6 +358,7 @@ class GestionAlumno extends CI_Controller
         }
         $this->htmlData['bodyData']->codigo        = $id ;
         $this->htmlData['bodyData']->fecha         = $fecha ;
+        $this->htmlData['bodyData']->results         = $resultado ;
         $this->load->view('vistasDialog/gestionAlumno/bandejaAsistencia/bandejaAsistencia', $this->htmlData);
     }
     public function editarAsistenciasAl()

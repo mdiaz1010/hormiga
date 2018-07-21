@@ -465,10 +465,14 @@ class Login extends CI_Controller
             $this->htmlData['bodyData']->respuesta           = 0 ;
         }
         $data= array('id_alumno'=>$alu,'id_grado'=>$valores['id_grado'],'id_seccion'=>$valores['id_seccion']);
-        $turnohor= $this->Usuarios_model->busquedaHorario($data['id_seccion']);
+        $turnohor= $this->Usuarios_model->busquedaHorarios($data['id_seccion'],$data['id_grado']);
+
         $horarioHor= $this->Usuarios_model->getHorarioss();
+
         $horarioHori= $this->Usuarios_model->getHorariossid($turnohor[0]->horario);
+
         $horarioDia= $this->Usuarios_model->getDiass();
+
         $this->htmlData['bodyData']->dias            = $horarioDia ;
         $this->htmlData['bodyData']->horas           = $horarioHor ;
         $this->htmlData['bodyData']->idHor           = $horarioHori ;
@@ -629,11 +633,12 @@ class Login extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $id  =$this->input->post('id');
-
+        $mensaje =$this->input->post('mensaje');
         $this->htmlData['bodyData']->codigo        = $id ;
         $resultado= $this->Usuarios_model->buscardocumentosasistencia($id);
         $this->htmlData['bodyData']->results         = $resultado ;
-        $this->load->view('vistasDialog/gestionAlumno/bandejaAsistencia/verArchivo', $this->htmlData);
+        $this->htmlData['bodyData']->mensaje         = $mensaje ;
+        $this->load->view('vistasDialog/gestionAuxiliar/inasistencia/verArchivo', $this->htmlData);
     }
     public function evasion()
     {

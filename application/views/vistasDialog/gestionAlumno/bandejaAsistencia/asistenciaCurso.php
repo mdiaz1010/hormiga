@@ -64,15 +64,32 @@
                 <td <?=$hidden?>
                     <?=$color; ?> >
                         <center>
+                           <a data-toggle="modal" data-target=".bs-example-modal-lg" href="javascript:" ><span class="fa fa-search"></span></a>
 
-                            <textarea rows="1" class="form-control" style="border:none" readonly style="width:500px;">
-                                <?=trim($cuentasTemp->mensaje)?>
-                            </textarea>
                         </center>
                 </td>
 
 
         </tr>
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Observacion</h4>
+              </div>
+              <div class="modal-body"  title="INTRANET EDUCATIVA :: SUBIR ARCHIVOS ">
+                    <?=trim($cuentasTemp->mensaje)?>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
         <?php
                                                $i++;
                                                 $j++;
@@ -82,155 +99,9 @@
     </tbody>
 </table>
 
-<div id="DIVVERASISTENCIA" title="INTRANET EDUCATIVA :: ARCHIVO SUBIDO"></div>
-<div id="DIVEDITARASISTENCIA1" title="INTRANET EDUCATIVA :: SUBIR ARCHIVO"></div>
 <script type="text/javascript">
-    $("#DIVEDITARASISTENCIA1").dialog({
-        autoOpen: false,
-        hide: "drop",
-        width: 400,
-        height: 280,
-        closeOnEscape: true,
-        open: function (event, ui) {
-            $(this).closest(".ui-dialog").find(".ui-dialog-titlebar-close").hide();
-        },
-        modal: true,
-        buttons: {
-            "SI": function () {
-                var DocAdj = $("#docAdj").val();
-                if (DocAdj.length > 0) {
-                    var inputimage = document.getElementById('docAdj'),
 
-                        formdata = new FormData();
-                    var i = 0,
-                        len = inputimage.files.length,
-                        img, reader, file;
-                    document.getElementById('response').innerHTML = 'Subiendo...';
-                    for (; i < len; i++) {
-                        file = inputimage.files[i];
-                        if (formdata)
-                            formdata.append('images[]', file);
-                    }
-                    var txtid = $("#txtid").val();
-                    var txtfec = $("#txtfec").val();
-                    var txtarchivo = $("#txtarchivo").val();
-                    var mensaje = $("#mensaje").val();
-                    formdata.append('txtid', txtid);
-                    formdata.append('txtfec', txtfec);
-                    formdata.append('txtarchivo', txtarchivo);
-                    formdata.append('mensaje', mensaje);
-                    $.ajax({
-                        type: 'POST',
-                        url: "editarAsistenciasAl",
-                        data: formdata,
-                        processData: false,
-                        contentType: false,
-                        success: function (data) {
-                            //      javascript:location.reload();
-                        }
-                    });
-                }
-                $(this).dialog("close");
 
-                $(this).dialog("close");
-            },
-
-            "NO": function () {
-                $(this).dialog("close"); //Se cancela operación
-
-            }
-        }
-    });
-
-    $("#DIVEDITARASISTENCIA1").dialog({
-        draggable: false
-    });
-    $("#DIVEDITARASISTENCIA1").dialog({
-        resizable: false
-    });
-
-    $("#DIVVERASISTENCIA").dialog({
-        autoOpen: false,
-        hide: "drop",
-        width: 600,
-        height: 390,
-        closeOnEscape: false,
-        open: function (event, ui) {
-            $(this).closest(".ui-dialog").find(".ui-dialog-titlebar-close").hide();
-        },
-        modal: true,
-        buttons: {
-
-            "CERRAR": function () {
-                $(this).dialog("close"); //Se cancela operación
-
-            }
-        }
-    });
-
-    $("#DIVVERASISTENCIA").dialog({
-        draggable: false
-    });
-    $("#DIVVERASISTENCIA").dialog({
-        resizable: false
-    });
-
-    $(".edita").click(function () {
-
-        var id = $(this).data("codigo");
-        var fecha = $(this).data("fecha");
-        $.ajax({
-            type: 'POST',
-            url: "editarAsistenciaAl",
-            data: {
-                id: id,
-                fecha: fecha
-            },
-            success: function (datos) {
-                if (datos.length > 0) {
-                    $('#DIVEDITARASISTENCIA1').html(datos);
-                    $('#DIVEDITARASISTENCIA1').dialog('open');
-                }
-                return false;
-            }
-        });
-    });
-    $(".ver").click(function () {
-        var id = $(this).data("codigo");
-        console.log(id);
-
-        $.ajax({
-            type: 'POST',
-            url: "verAsistenciaAl",
-            data: {
-                id: id
-            },
-            success: function (datos) {
-                if (datos.length > 0) {
-                    $('#DIVVERASISTENCIA').html(datos);
-                    $('#DIVVERASISTENCIA').dialog('open');
-                }
-                return false;
-            }
-        });
-    });
-
-    $(".guard").click(function () {
-        var id = $(this).data("codigo");
-        var fecha = $(this).data("fecha");
-        var mensaje = $("#mensaje").val();
-        alert(mensaje);
-        return true;
-        $.ajax({
-            type: 'POST',
-            url: "guardarmensajeAs",
-            data: {
-                id: id,
-                fecha: fecha,
-                mensaje: mensaje
-            }
-        });
-    });
 
 
     var f = new Date();

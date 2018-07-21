@@ -277,11 +277,12 @@ class GestionAuxiliar extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $id  =$this->input->post('id');
-
+        $mensaje =$this->input->post('mensaje');
         $this->htmlData['bodyData']->codigo        = $id ;
         $resultado= $this->Usuarios_model->buscardocumentosasistencia($id);
         $this->htmlData['bodyData']->results         = $resultado ;
-        $this->load->view('vistasDialog/gestionAlumno/bandejaAsistencia/verArchivo', $this->htmlData);
+        $this->htmlData['bodyData']->mensaje         = $mensaje ;
+        $this->load->view('vistasDialog/gestionAuxiliar/inasistencia/verArchivo', $this->htmlData);
     }
     public function registrarRespuesta()
     {
@@ -290,14 +291,15 @@ class GestionAuxiliar extends CI_Controller
         $id  =$this->input->post('respuesta');
         $codigo  =$this->input->post('codigo');
         $grado   =$this->input->post('grado');
+        $curso   =$this->input->post('curso');
         $seccion =$this->input->post('seccion');
         $alumno  =$this->input->post('alumno');
         $fecha  =$this->input->post('fecha');
-        $data= array('respuesta'=>$id);
+        $data= array('respuesta'=>trim($id));
 
         $this->Usuarios_model->cambiarRespuestaA($data, $codigo);
         $fecha= substr($fecha, 0, 10);
-        $this->Usuarios_model->cambiarRespuesta($data, $grado, $seccion, $alumno, trim($fecha));
+      //  $this->Usuarios_model->cambiarRespuesta($data, $grado, $seccion, $curso, $alumno, trim($fecha));
     }
     public function registrarObservacion()
     {
@@ -312,7 +314,7 @@ class GestionAuxiliar extends CI_Controller
 
         $tipo         =$this->input->post('tipo');
         $codigo       =$this->input->post('codigo');
-        $cambio= array('tipo_obs'=>$tipo);
+        $cambio= array('tipo_obs'=>trim($tipo));
         if ($tipo==1) {
             $observacion="El alumno no ingresó al salon de clases";
         } else {

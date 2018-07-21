@@ -1,28 +1,25 @@
 <?php if (($bodyData->results)!=0) {
     ?>
 <form name="registroMarca" id="registroMarca" method="POST">
-    <table class="table table-striped table-bordered dt-responsive nowrap  " cellspacing="0" width="100%" id="dataTables-asistencia">
-        <thead class="bg-success">
+    <table class="table table-bordered" cellspacing="0" width="100%" id="dataTables-asistencia">
+        <thead style="color: #fff;background-color: #2A3F54;">
             <tr>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>NRO</center>
                 </th>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>ALUMNO</center>
                 </th>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>GRADO Y SECCION</center>
                 </th>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>FECHA</center>
                 </th>
-                <th style="border: hidden;color: #3b752e;">
-                    <center>MENSAJE</center>
-                </th>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>DOCUMENTO ADJUNTO</center>
                 </th>
-                <th style="border: hidden;color: #3b752e;">
+                <th >
                     <center>RESPUESTA</center>
                 </th>
             </tr>
@@ -31,43 +28,36 @@
             <?php $i=1;
     foreach ($bodyData->results as $resultado):?>
             <tr>
-                <td style="width:2px;">
+                <td >
                     <center>
                         <?=$i?>
                     </center>
                 </td>
-                <td style="width:100px;">
+                <td >
                     <?=$resultado['nombre']?>
                 </td>
-                <td style="width:1px;">
+                <td >
                     <center>
                         <strong>
                             <?=$resultado['grados'].'°'.$resultado['seccio']?>
                         </strong>
                     </center>
                 </td>
-                <td style="width:5px;">
+                <td >
                     <center>
                         <strong>
                             <?=$resultado['fecha']?>
                         </strong>
                     </center>
                 </td>
-                <td>
+                <td >
                     <center>
-                        <textarea readonly class="form-control" style="width:500px;" rows="1">
-                            <?=$resultado['mensaj']?>
-                        </textarea>
-                    </center>
-                </td>
-                <td style="width:1px;">
-                    <center>
-                        <a class="ver" data-codigo="<?=$resultado['id']?>" title="Ver archivo subido" href="javascript:">
+                        <a class="ver" data-codigo="<?=$resultado['id']?>" data-mensaje="<?=$resultado['mensaj']?>" title="Ver archivo subido" data-toggle="modal" data-target=".bs-example-modal-lg"  href="javascript:void(0)">
                             <span class="fa fa-search"></span>
                         </a>
                     </center>
                 </td>
-                <td style="width:1px;">
+                <td >
                     <center>
                         <select name="respuesta[]" id="respuesta[]" data-codigo="<?=$resultado['id']?>" data-fecha="<?=$resultado['fecha']?>" data-usu="<?=$resultado['codigo']?>">
                             <option value="">Sin revisar</option>
@@ -85,7 +75,7 @@
                     </center>
                 </td>
                 <?php  $i++;
-                                    
+
     endforeach; ?>
             </tr>
         </tbody>
@@ -95,34 +85,31 @@
 } else {
         echo "<div class='alert_result'>No hay registro de inasistencia justificada.</div>";
     } ?>
-    <div id="DIVVERASISTENCIA" title="INTRANET EDUCATIVA :: ARCHIVO SUBIDO"></div>
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">Justificacion</h4>
+                </div>
+                <div class="" id="DIVVERASISTENCIA">
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button"  data-dismiss="modal" class="btn btn" style="color: #fff;background-color: #2A3F54;">Cerrar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
         $("#dataTables-asistencia").dataTable();
-        $("#DIVVERASISTENCIA").dialog({
-            autoOpen: false,
-            hide: "drop",
-            width: 600,
-            height: 390,
-            closeOnEscape: false,
-            open: function (event, ui) {
-                $(this).closest(".ui-dialog").find(".ui-dialog-titlebar-close").hide();
-            },
-            modal: true,
-            buttons: {
 
-                "CERRAR": function () {
-                    $(this).dialog("close"); //Se cancela operación
-
-                }
-            }
-        });
-
-        $("#DIVVERASISTENCIA").dialog({
-            draggable: false
-        });
-        $("#DIVVERASISTENCIA").dialog({
-            resizable: false
-        });
         $('[id="respuesta[]"]').change(function () {
             var respuesta = $(this).val();
             var codigo = $(this).data("codigo");
@@ -139,17 +126,18 @@
         });
         $(".ver").click(function () {
             var id = $(this).data("codigo");
-
+            var mensaje = $(this).data("mensaje");
             $.ajax({
                 type: 'POST',
                 url: "verAsistenciaAl",
                 data: {
-                    id: id
+                    id: id,
+                    mensaje:mensaje
                 },
                 success: function (datos) {
                     if (datos.length > 0) {
                         $('#DIVVERASISTENCIA').html(datos);
-                        $('#DIVVERASISTENCIA').dialog('open');
+
                     }
                     return false;
                 }
@@ -192,7 +180,7 @@
             modal: true,
             buttons: {
                 "CERRAR": function () {
-                    $(this).dialog("close"); //Se cancela operación                              
+                    $(this).dialog("close"); //Se cancela operación
                 }
             }
         });

@@ -54,7 +54,7 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
 }
 ?>
 
-<div class="modal fade bs-example2-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade bs-example2-modal-lg" id="modal_x" tabindex="-1"  aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -114,6 +114,7 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
                                             id: ide,
                                             fecha: fecha
                                         }));
+                                        location.reload();
                                     }
                                 });
 
