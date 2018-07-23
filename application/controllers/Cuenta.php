@@ -112,32 +112,7 @@ class Cuenta extends CI_Controller
                 $n=0;
 
 
-                foreach ($cursos as $cur) {
-                    for ($b=0;$b<count($bimestre);$b++) {
-                        $notas=$this->Usuarios_model->busquedaNotas($bimestre[$b]->id);
-                        for ($n=0;$n<count($notas);$n++) {
-                            $insertRelAula= array('id_grado'=>$grado,
-                                                    'id_seccion'=>$seccion,
-                                                    'id_curso'=>$cur->id_curso,
-                                                    'id_bimestre'=>$bimestre[$b]->id,
-                                                    'id_nota'=>$notas[$n]->id,
-                                                    'id_alumno'=>$ultimoId,
-                                                    'ano'=>(int)date('Y'),
-                                                    'usu_creacion'=> $this->session->webCasSession->usuario->USUARIO,
-                                                    'fec_creacion'=>date('Y-m-d'));
-                            $this->Usuarios_model->insertarrelnotas($insertRelAula);
-                        }
-                    }
-                    $insertRelAula= array('id_grado'=>$grado,
-                                                    'id_seccion'=>$seccion,
-                                                    'id_curso'=>$cur->id_curso,
-                                                    'id_nota'=>$ultimoIdNota[0]->id,
-                                                    'id_alumno'=>$ultimoId,
-                                                    'ano'=>(int)date('Y'),
-                                                    'usu_creacion'=> $this->session->webCasSession->usuario->USUARIO,
-                                                    'fec_creacion'=>date('Y-m-d'));
-                    $this->Usuarios_model->insertarrelnotas($insertRelAula);
-                }
+
                 $this->Usuarios_model->insertarAlumno($insertAlumno);
                 //print_r($insertAlumno);die();
             }
@@ -284,34 +259,7 @@ class Cuenta extends CI_Controller
             $bimestre=$this->Usuarios_model->busquedaBimestre();
             $b=0;
             $n=0;
-            foreach ($cursos as $cur) {
-                for ($b=0;$b<count($bimestre);$b++) {
-                    $notas=$this->Usuarios_model->busquedaNotas($bimestre[$b]->id);
-                    for ($n=0;$n<count($notas);$n++) {
-                        $insertRelAula= array('id_grado'      =>$sheets['cells'][$i][6],
-                                                    'id_seccion'    =>$sheets['cells'][$i][7],
-                                                    'id_curso'      =>$cur->id_curso,
-                                                    'id_bimestre'   =>$bimestre[$b]->id,
-                                                    'id_nota'       =>$notas[$n]->id,
-                                                    'id_alumno'     =>$ultimoId,
-                                                    'ano'           =>(int)date('Y'),
-                                                    'usu_creacion'  => "administrador",
-                                                    'fec_creacion'  =>date('Y-m-d'),
-                                                    'estado'        =>1);
-                        $this->Usuarios_model->insertarrelnotas($insertRelAula);
-                    }
-                }
-                $insertRelAula= array('id_grado'    =>$sheets['cells'][$i][6],
-                                                    'id_seccion'  =>$sheets['cells'][$i][7],
-                                                    'id_curso'    =>$cur->id_curso,
-                                                    'id_nota'     =>$ultimoIdNota[0]->id,
-                                                    'id_alumno'   =>$ultimoId,
-                                                    'ano'         =>(int)date('Y'),
-                                                    'usu_creacion'=> "administrador",
-                                                    'fec_creacion'=>date('Y-m-d'),
-                                                    'estado'      =>1);
-                $this->Usuarios_model->insertarrelnotas($insertRelAula);
-            }
+
             $this->Usuarios_model->insertarAlumno($insertAlumno);
             foreach ($busquedapermisos as $busqueda) {
                 $this->Rol_model->setPermiso($ultimoId, $busqueda->id);

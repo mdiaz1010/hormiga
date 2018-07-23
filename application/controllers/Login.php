@@ -268,7 +268,7 @@ class Login extends CI_Controller
 
 
         $arrayNotasTotal= $this->Usuarios_model->reporteNotasAluCurTol($data);
-
+        if(empty($arrayNotasTotal)){ echo "No existe información registrada"; die();}
         foreach ($arrayNotasTotal as $conocer2) {
             $i=0;
             foreach ($arrayNotasTotal as $conocer3) {
