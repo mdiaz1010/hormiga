@@ -22,6 +22,7 @@
 
     <!-- jQuery -->
     <script src="<?= base_url('publico/html_libs/jquery/dist/jquery.min.js')?>"></script>
+    <script src="<?= base_url('publico/js/jquery.validate.min.js')?>"></script>
     <!-- Bootstrap -->
     <script src="<?= base_url('publico/html_libs/bootstrap/dist/js/bootstrap.min.js')?>"></script>
     <!-- FastClick -->

@@ -63,11 +63,11 @@
             <?php $i++;
         endforeach; ?>
                 </tbody>
-            </table>             
+            </table>
                       </div>
                   </div>
                 </div>
-              </div>    
+              </div>
      <?php
     } else {
         ?>
@@ -88,12 +88,12 @@
             <table class="table table-bordered table-hover table-striped tablesorter" >
                 <thead>
                     <tr>
-                        <th><small><center>Horas</center></small></th>    
+                        <th><small><center>Horas</center></small></th>
             <?php foreach ($bodyData->dias as $dias): ?>
-                    <th><small><?=$dias->dias?></small></th>   
+                    <th><small><?=$dias->dias?></small></th>
             <?php endforeach; ?>
                     </tr>
-                </thead>    
+                </thead>
                 <tbody>
             <?php $i=1;
         foreach ($bodyData->horas as $horas):?>
@@ -121,13 +121,13 @@
             <?php $i++;
         endforeach; ?>
 
-                </tbody>                
-            </table>   
+                </tbody>
+            </table>
                       </div>
                   </div>
                 </div>
-              </div>    
-  
+              </div>
+
      <?php
     } ?>
 <div class="col-md-6 col-sm-6 col-xs-12">
@@ -143,18 +143,18 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                  <div class="table-responsive">    
+                  <div class="table-responsive">
                   <table class="table table-bordered table-hover table-striped tablesorter">
                     <thead>
                       <tr class="headings">
                           <th  class="flat" title="Puesto ocupado en el salon">Puesto salon      </th>
                           <th  class="flat" title="Puesto ocupado en todo el grado en el que se encuentra">Puesto Grado        </th>
                           <th  class="flat" title="Puesto ocupado en todo el colegio">Puesto Colegio      </th>
-                        
-                        <th>Puntaje </th>                   
+
+                        <th>Puntaje </th>
                       </tr>
                     </thead>
-                    <tbody>  
+                    <tbody>
                         <tr>
                             <td><center><?=$bodyData->salon['puesto']?>/<?=$bodyData->total['salon']?></center></td>
                             <td><center><?=$bodyData->grado['puesto']?>/<?=$bodyData->total['grado']?></center></td>
@@ -163,11 +163,11 @@
                         </tr>
                     </tbody>
 
-                  </table>     
-                  </div>    
+                  </table>
+                  </div>
                   </div>
                 </div>
-              </div>     
+              </div>
               <div class="col-md-6 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -181,60 +181,60 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                       <div id="container1" ></div>            
-                    
+                       <div id="container1" ></div>
+
                   </div>
                 </div>
-              </div>      
+              </div>
      <div class="clearfix"></div>
-                 
-    
+
+
  </div>
 
  <?php $i=0;
     foreach ($bodyData->trayecto as $tray): ?>
-        <input type="hidden" name="trayecto[]"      id="trayecto"      value="<?=round($tray['nota'], 2)?>">        
-        <input type="hidden" name="trayectoSal[]"   id="trayectoSal"   value="<?=round($bodyData->trayectoSal[$i]['nota'], 2)?>">        
-        <input type="hidden" name="trayectoGra[]"   id="trayectoGra"   value="<?=round($bodyData->trayectoGra[$i]['nota'], 2)?>">        
-        <input type="hidden" name="trayectoCol[]"   id="trayectoCol"   value="<?=round($bodyData->trayectoCol[$i]['nota'], 2)?>">        
-        <input type="hidden" name="descripc[]"      id="descripc"      value="<?=$tray['desc']?>">        
+        <input type="hidden" name="trayecto[]"      id="trayecto"      value="<?=round($tray['nota'], 2)?>">
+        <input type="hidden" name="trayectoSal[]"   id="trayectoSal"   value="<?=round($bodyData->trayectoSal[$i]['nota'], 2)?>">
+        <input type="hidden" name="trayectoGra[]"   id="trayectoGra"   value="<?=round($bodyData->trayectoGra[$i]['nota'], 2)?>">
+        <input type="hidden" name="trayectoCol[]"   id="trayectoCol"   value="<?=round($bodyData->trayectoCol[$i]['nota'], 2)?>">
+        <input type="hidden" name="descripc[]"      id="descripc"      value="<?=$tray['desc']?>">
  <?php $i++;
-    endforeach; ?>       
+    endforeach; ?>
 
-<script src="<?= base_url('publico/js/highcharts.js') ?>"></script> 
+<script src="<?= base_url('publico/js/highcharts.js') ?>"></script>
 <script src="<?= base_url('publico/js/exporting.js') ?>"></script>
 
 <script type="text/javascript">
 var trayecto    = [];
 
- 		$("input[name='trayecto[]']").each(function() {			
-			var value = parseFloat($(this).val());		    		   
+ 		$("input[name='trayecto[]']").each(function() {
+			var value = parseFloat($(this).val());
 		    	trayecto.push(value);
-		});       
+		});
 var trayectoSal    = [];
 
- 		$("input[name='trayectoSal[]']").each(function() {			
-			var value = parseFloat($(this).val());		    		   
+ 		$("input[name='trayectoSal[]']").each(function() {
+			var value = parseFloat($(this).val());
 		    	trayectoSal.push(value);
-		});  
+		});
 var trayectoGra    = [];
 
- 		$("input[name='trayectoGra[]']").each(function() {			
-			var value = parseFloat($(this).val());		    		   
+ 		$("input[name='trayectoGra[]']").each(function() {
+			var value = parseFloat($(this).val());
 		    	trayectoGra.push(value);
-		});      
+		});
 var trayectoCol    = [];
 
- 		$("input[name='trayectoCol[]']").each(function() {			
-			var value = parseFloat($(this).val());		    		   
+ 		$("input[name='trayectoCol[]']").each(function() {
+			var value = parseFloat($(this).val());
 		    	trayectoCol.push(value);
-		});                      
+		});
 var descripcion = [];
 
- 		$("input[name='descripc[]']").each(function() {			
-			var value = $(this).val();		    		   
+ 		$("input[name='descripc[]']").each(function() {
+			var value = $(this).val();
 		    	descripcion.push(value);
-		});                   
+		});
 Highcharts.chart('container1', {
     chart: {
         type: 'line'
@@ -243,7 +243,7 @@ Highcharts.chart('container1', {
         text: ''
     },
     subtitle: {
-        text: '<?=date('Y')?> Año del buen servicio al ciudadano' 
+        text: '<?=date('Y')?> Año del buen servicio al ciudadano'
     },
     xAxis: {
         categories: descripcion

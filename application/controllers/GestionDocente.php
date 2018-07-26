@@ -1259,21 +1259,31 @@ class GestionDocente extends CI_Controller
         $bimestre     = $this->input->post('txtbimestre');
         $nomarchi     = $this->input->post('txtarchivo');
         $desarchi     = $this->input->post('txtdescripcion');
+        $extensiones_permitidas = array('pdf','docx','png','jpg','jpeg','pptx','txt');
 
 
-
-        $id_grado=$this->Usuarios_model->buscarGrados($grado);
-        $id_bimes=$this->Usuarios_model->buscarBimestre($bimestre);
 
 
         foreach ($_FILES['images']['error'] as $key => $error) {
+
+            if($_FILES['images']['size'][$key]==0){
+                    echo "x"; die();
+            }
             if ($error == UPLOAD_ERR_OK) {
+
+                $extension = explode('/',strtolower($_FILES['images']['type'][$key]));
+
+                if($extension[1]!=$extensiones_permitidas[array_search($extension[1],$extensiones_permitidas)]){
+                    echo "n"; die();
+                }
+
+
                 $name = $_FILES['images']['name'][$key];
                 $tipo = $_FILES['images']['type'][$key];
-                $namegeneric = $id_grado[0]->nom_grado."-".$name;
+                $namegeneric = $curso.time().$name;
                 $searcharray = array(' ');
                 $namegeneric = str_replace($searcharray, '', $namegeneric);
-                $ruta = "temp/repositorio/".date('Y')."/".$id_grado[0]->id."/".$id_bimes[0]->id."/".$namegeneric;
+                $ruta = "temp/repositorio/".date('Y')."/".$grado."/".$seccion."/".$bimestre."/".$namegeneric;
                 if (move_uploaded_file($_FILES['images']['tmp_name'][$key], $ruta)) {
                     $archivo= array(
                     'nom_archivo' =>$nomarchi,
@@ -1287,10 +1297,12 @@ class GestionDocente extends CI_Controller
                     'id_bimestre' =>$bimestre,
                     'ano'         => date('Y'),
                     'usu_creacion'=>$this->session->webCasSession->usuario->USUARIO,
-                    'fec_creacion'=>date('Y-m-d')
+                    'fec_creacion'=>date('Y-m-d H:i:s'),
+                    'notificacion'=>0
                         );
 
-                    $this->Usuarios_model->GuardarArchivoProf($archivo);
+                    if($this->Usuarios_model->GuardarArchivoProf($archivo))
+                        echo "1";
                 } else {
                     $errors= error_get_last();
                     echo "COPY ERROR: ".$errors['type'];

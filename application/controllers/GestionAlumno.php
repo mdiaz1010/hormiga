@@ -615,7 +615,7 @@ class GestionAlumno extends CI_Controller
             } else {
                 $resultado='Su nivel de rendimiento es considerado PREVIO <strong>INICIO</strong>';
             }
-            $arrayConocer[]=array('curso'=>$conocer->nombre,'nota'=>$conocer->nota,'bimestre'=>$conocer->desc,'resultado'=>$resultado);
+            $arrayConocer[]=array('curso'=>$conocer->nombre,'nota'=>$conocer->nota,'bimestre'=>$conocer->nombi,'resultado'=>$resultado);
         }
 
         $this->htmlData['bodyData']->haber                   = $haber1 ;

@@ -463,6 +463,13 @@ class Usuarios_model extends CI_Model
         $this->db->order_by('fec_creacion', 'asc');
         return $this->db->get()->result_array() ;
     }
+    public function buscardocumentos_bandeja($data)
+    {
+        $this->db->select(" dc.id,mc.nom_cursos,dc.nom_archivo,dc.nombre,dc.ruta,dc.ano,dc.tipo,dc.fec_creacion,dc.fec_modificacion,dc.descripcion ")->from("documentos_docentes dc")->join('maecursos mc','on dc.id_curso=mc.id');
+        $this->db->where(array('dc.id_grado'=>$data['id_grado'],'dc.id_seccion'=>$data['id_seccion'],'dc.ano'=>date('Y'),'notificacion'=>0)) ;
+        $this->db->order_by('dc.fec_creacion', 'asc');
+        return $this->db->get()->result_array() ;
+    }
     public function buscardocumentosasistencia($data)
     {
         $this->db->select(" id,id_asistencia,fecha_jus,nombre,ruta,ano,fec_creacion ")->from("documentos_asistencia");
@@ -519,8 +526,50 @@ class Usuarios_model extends CI_Model
         $this->db->where('rnd.estado=1  and rnda.estado=1 ');
         $this->db->group_by('rnda.id_grado,rnda.id_seccion,rnda.id_alumno');
         if($boolean==true){
+            $this->db->order_by('nota','desc');
             $this->db->limit(3);
         }
+        return $this->db->get()->result_array() ;
+    }
+    public function nota_vacia($codigo)
+    {
+        $this->db->distinct();
+        $this->db->select("id_curso")
+                 ->from("rel_notas_detalle_alumno ")
+                 ->where("id_alumno=".$codigo." and estado=1 and ano=".date('Y')." and nota is null");
+        return $this->db->get()->result_array() ;
+    }
+    public function validar_registro($codigo)
+    {
+        $this->db->distinct();
+        $this->db->select("id_curso")
+                 ->from("rel_notas_detalle_alumno ")
+                 ->where("id_alumno=".$codigo." and estado=1 and ano=".date('Y'));
+        return $this->db->get()->result_array() ;
+    }
+    public function reporteNotasFinal_alumno($data,$no_curso)
+    {
+
+        $this->db->select("rnda.id_curso,mc.nom_cursos,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota,
+        case
+            when
+                round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2)>10.49
+            then 'APROBADO'
+            else 'DESAPROBADO'
+        end as criterio
+        ")
+                 ->from("rel_notas_detalle_alumno rnda")
+                 ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
+                 ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
+                 ->join("maecursos   mc"        , "ON rnda.id_curso    =mc.id")
+                 ->join("maepersona mp"        , "ON rnda.id_alumno =mp.id");
+        $this->db->where(array('rnda.id_grado'=>$data['id_grado'],'rnda.id_seccion'=>$data['id_seccion'],'rnda.ano'=>$data['ano'],'rnda.id_alumno'=>$data['id_alumno'])) ;
+        $this->db->where('rnd.estado=1  and rnda.estado=1 ');
+        if(count($no_curso)!=0){
+            $this->db->where(' rnda.id_curso not in ('.$no_curso.')');
+        }
+        $this->db->group_by('rnda.id_curso');
+        $this->db->order_by('mc.nom_cursos','asc');
         return $this->db->get()->result_array() ;
     }
     public function reporteNotasFinal_dir()
@@ -561,7 +610,7 @@ class Usuarios_model extends CI_Model
         $this->db->where('rnd.estado=1  and rnda.estado=1 ');
         $this->db->group_by('rnda.id_grado,rnda.id_seccion,rnda.id_alumno');
         if($boolean==true){
-
+            $this->db->order_by('nota','desc');
             $this->db->limit(3);
         }
         return $this->db->get()->result_array() ;
@@ -588,10 +637,11 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAlu($data)
     {
-        $this->db->select("round(sum(rnda.nota*rnd.peso),2) as nota,ma.id_bimestre as desc")
+        $this->db->select("round(sum(rnda.nota*rnd.peso),2) as nota,ma.id_bimestre as desci,me.nom_bimestre as desc")
         ->from("rel_notas_detalle_alumno rnda")
         ->join("rel_notas_detalle rnd", "on rnda.id_nota=rnd.id")
         ->join("maenotas ma"          , "on rnd.id_nota =ma.id")
+        ->join("maebimestre me"          , "on ma.id_bimestre =me.id")
         ->where('rnda.id_alumno='.$data['id_alumno'].' and
                  rnda.ano='.date('Y').' and
                  rnda.estado=1         and
@@ -602,10 +652,11 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAluCurTol($data)
     {
-        $this->db->select("ma.id_bimestre as desc,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota,mc.nom_cursos as nombre ")
+        $this->db->select("ma.id_bimestre as desc,me.nom_bimestre as nombi,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota,mc.nom_cursos as nombre ")
         ->from("rel_notas_detalle_alumno rnda")
         ->join('rel_notas_detalle rnd', ' ON rnda.id_nota=rnd.id')
         ->join('maenotas  ma', ' ON rnd.id_nota =ma.id')
+        ->join("maebimestre me"          , "on ma.id_bimestre =me.id")
         ->join('maecursos mc', ' ON rnda.id_curso=mc.id');
         $this->db->where('rnda.id_alumno='.$data['id_alumno'].' and  rnda.estado=1 and rnd.estado=1  and rnda.ano='.$data['ano']) ;
         $this->db->group_by('ma.id_bimestre,mc.nom_cursos');
@@ -614,11 +665,12 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAluCur($data)
     {
-        $this->db->select("ma.id_bimestre as desc,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota,mc.nom_cursos as nombre ")
+        $this->db->select("ma.id_bimestre as desc,me.nom_bimestre as nombi,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota,mc.nom_cursos as nombre ")
 
         ->from("rel_notas_detalle_alumno rnda")
         ->join('rel_notas_detalle rnd', ' on rnda.id_nota=rnd.id')
         ->join('maenotas  ma'         , ' on rnd.id_nota =ma.id')
+        ->join("maebimestre me"          , "on ma.id_bimestre =me.id")
         ->join('maecursos mc'         , ' on rnda.id_curso=mc.id');
         $this->db->where('rnda.id_alumno='.$data['id_alumno'].' and rnda.ano='.$data['ano'].' and rnda.id_curso='.$data['id_curso']) ;
         $this->db->where('rnda.estado=1 and rnd.estado=1');
@@ -1023,6 +1075,11 @@ class Usuarios_model extends CI_Model
         $this->db->where('id', $id);
         $this->db->update('maeseccion');
         //    return $this->db->insert('WebUsuarios', $data);
+    }
+    public function editar_notificacion_bandeja()
+    {
+        $this->db->set(array('notificacion'=>1));
+        $this->db->update('documentos_docentes');
     }
     public function editarCursosa($datos, $id)
     {
@@ -1582,6 +1639,14 @@ class Usuarios_model extends CI_Model
         $this->db->limit(1);
 
         return  $this->db->get()->result_object() ;
+    }
+    public function notificacion_repositorio($data)
+    {
+        $this->db->distinct();
+        $this->db->select("count(*) as cantidad");
+        $this->db->from("documentos_docentes ")
+                 ->where('id_grado='.$data['id_grado'].' and id_seccion='.$data['id_seccion'].' and ano='.date('Y').' and notificacion=0');
+        return  $this->db->get()->row_array() ;
     }
     public function cambio_clave($datos,$id)
     {

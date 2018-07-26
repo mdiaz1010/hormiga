@@ -7,7 +7,9 @@
 <script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/handsontable.full.min.js"></script>
 
 <div class="list-group right">
-
+    <a class="btn btn-success" href="<?= base_url("GestionDocente/dexcel")?>" target="_blank" title="Exportar en excel">
+        <i class="fa fa-file-excel-o"></i>
+    </a>
     <button class="btn btn-danger " title="Registrar Notas" type="button" name="btnNotas" id="btnNotas">
         <i class="fa fa-floppy-o"></i>
     </button>
@@ -41,7 +43,7 @@
     } ?>
 
     <script type="text/javascript">
-    $("#DIVcargas").dialog("close");
+        $("#DIVcargas").dialog("close");
         var busqueda = <?=json_encode($bodyData->datos) ?>;
         var data1 = <?= json_encode($bodyData->tabla) ?>;
         var bool = '';
@@ -159,7 +161,7 @@
                 $('#error').show();
             }
         });
-        </script>
+    </script>
 
 
     <?php
@@ -167,4 +169,4 @@
     echo "No cuenta con la información necesaria para mostrar esta interfaz.";
 }
 ?>
-<script type="text/javascript" src="<?= base_url('publico/js_vistas/js/cargar_data.js')?>"></script>
+        <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/cargar_data.js')?>"></script>

@@ -7,8 +7,9 @@
 </h2>
 
 <div class="clearfix"></div>
-</div>
+
 <div class="x_content">
+<br>
     <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped tablesorter">
             <thead>

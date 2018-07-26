@@ -75,7 +75,7 @@
 
 
 <?php foreach ($bodyData->info as $info):?>
-<input type="hidden" name="semestre[]" id="semestre" value="<?=$info->desc?>">
+<input type="hidden" name="semestre[]" id="semestre" value="<?=$info->nombi?>">
 <input type="hidden" name="nota[]" id="nota" value="<?=$info->nota?>">
 <?php endforeach;?>
 

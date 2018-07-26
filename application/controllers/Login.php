@@ -426,15 +426,33 @@ class Login extends CI_Controller
         SessionSeguridad::tiempo_maximo($this->session->webCasSession);
         $alu= $this->session->webCasSession->usuario->CODIGO;
         $ano     = $this->Usuarios_model->busquedaAno($alu);
+
         if ($ano[0]->ano==date('Y')) {
             $valores  = $this->Usuarios_model->busquedaGradoSeccion2($alu, $ano[0]->ano) ;
             $resultado=  $this->Usuarios_model->getBusquedaAulaAlu($valores['id_grado'], $valores['id_seccion'], $ano[0]->ano);
+            $valores['ano']= $ano[0]->ano;
+            $cantidad_cursos=$this->Usuarios_model->busquedaCurso($valores);
+            $nota_vacia = array_column($this->Usuarios_model->nota_vacia($alu),'id_curso');
         }
+
         if (isset($resultado)==true) {
             $this->htmlData['bodyData']->respuesta           = 1 ;
         } else {
             $this->htmlData['bodyData']->respuesta           = 0 ;
         }
+        $emergente['promedio']=count($cantidad_cursos)-count($nota_vacia);
+        if(empty($this->Usuarios_model->validar_registro($alu)))
+        {
+             $emergente['promedio']=0;
+        }
+        if($emergente['promedio']==0){
+            $disabled='display: none;';
+        }else{
+            $disabled='';
+        }
+        $emergente['repositorio']= $this->Usuarios_model->notificacion_repositorio($valores)['cantidad'];
+        $this->htmlData['bodyData']->disabled         = $disabled ;
+        $this->htmlData['bodyData']->emergente         = $emergente ;
         $this->htmlData['body']                          .= "/gestionAlumno";
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('plantillas_base/standar/body', $this->htmlData);
@@ -600,6 +618,95 @@ class Login extends CI_Controller
             $this->htmlData['bodyData']->results=0;
         }
         $this->load->view('vistasDialog/gestionAuxiliar/inasistencia/index', $this->htmlData);
+    }
+    public function notificacion_general()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);//
+        SessionSeguridad::tiempo_maximo($this->session->webCasSession);
+        $alu= $this->session->webCasSession->usuario->CODIGO;
+        $ano     = $this->Usuarios_model->busquedaAno($alu);
+
+        if ($ano[0]->ano==date('Y')) {
+            $valores  = $this->Usuarios_model->busquedaGradoSeccion2($alu, $ano[0]->ano) ;
+            $resultado=  $this->Usuarios_model->getBusquedaAulaAlu($valores['id_grado'], $valores['id_seccion'], $ano[0]->ano);
+            $valores['ano']= $ano[0]->ano;
+            $cantidad_cursos=$this->Usuarios_model->busquedaCurso($valores);
+            $nota_vacia = array_column($this->Usuarios_model->nota_vacia($alu),'id_curso');
+        }
+
+        if (isset($resultado)==true) {
+            $this->htmlData['bodyData']->respuesta           = 1 ;
+        } else {
+            $this->htmlData['bodyData']->respuesta           = 0 ;
+        }
+        $emergente['promedio']=count($cantidad_cursos)-count($nota_vacia);
+        if(empty($this->Usuarios_model->validar_registro($alu)))
+        {
+             $emergente['promedio']=0;
+        }
+        if($emergente['promedio']==0){
+            $disabled='display: none;';
+        }else{
+            $disabled='';
+        }
+        $emergente['repositorio']= $this->Usuarios_model->notificacion_repositorio($valores)['cantidad'];
+
+        $this->htmlData['bodyData']->disabled         = $disabled ;
+        $this->htmlData['bodyData']->emergente         = $emergente ;
+        $this->load->view('vistasDialog/gestionAlumno/bandejaMaterial/notificaciones', $this->htmlData);
+    }
+    public function repositorio_bandeja()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $codigo = $this->session->webCasSession->usuario->CODIGO;
+        $data_salon = $this->Usuarios_model->consultarano($codigo);
+        $list_salon = array('id_alumno'=>$codigo,'id_grado'=>$data_salon[0]->id_grado,'id_seccion'=>$data_salon[0]->id_seccion,'ano'=>$data_salon[0]->ano);
+        $list_bandeja = $this->Usuarios_model->buscardocumentos_bandeja($list_salon);
+        $this->Usuarios_model->editar_notificacion_bandeja();
+        if(count($list_bandeja)==0){ echo "No se ha registrado nueva información. Cabe resaltar que todo material subido por el docente se encuentra dentro de su repositorio."; die();}
+        $this->htmlData['bodyData']->result=$list_bandeja;
+        $this->load->view('vistasDialog/gestionAlumno/bandejaMaterial/repositorio_bandeja', $this->htmlData);
+    }
+    public function promedio_final()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $codigo = $this->session->webCasSession->usuario->CODIGO;
+        $data_salon = $this->Usuarios_model->consultarano($codigo);
+        $list_salon = array('id_alumno'=>$codigo,'id_grado'=>$data_salon[0]->id_grado,'id_seccion'=>$data_salon[0]->id_seccion,'ano'=>$data_salon[0]->ano);
+        $nota_vacia = implode(',',array_column($this->Usuarios_model->nota_vacia($codigo),'id_curso'));
+        if(empty($this->Usuarios_model->validar_registro($codigo)))
+        {
+            echo "No existe información registrada"; die();
+        }
+        if(empty($nota_vacia))
+        {$nota_vacia=0;}
+        $notas_finales_cursos = $this->Usuarios_model->reporteNotasFinal_alumno($list_salon,$nota_vacia);
+        $list_criterio=array_column($notas_finales_cursos,'criterio');
+        $arreglo=[];
+        foreach($list_criterio as $key => $desaprobado){
+                if($desaprobado=='DESAPROBADO')
+                {
+                    $arreglo[]=$key;
+                }
+        }
+
+        if(count($this->Usuarios_model->nota_vacia($codigo))>=1){
+            $mensaje= "Si no visualiza algun curso es debido a que aún el docente no ha registrado las notas en su totalidad.";
+        }else{
+        if(count($arreglo)==0){
+            $mensaje= "Usted ha pasado el presente año satisfactoriamente";
+        }else if(count($arreglo)>=4){
+            $mensaje= "Usted ha repetido el presente año escolar";
+        }else{
+            $mensaje= "Debe de acercarse a la institución para subsanar los cursos desaprobados.";
+        }
+    }
+        $this->htmlData['bodyData']->mensaje=$mensaje;
+        $this->htmlData['bodyData']->results=$notas_finales_cursos;
+        $this->load->view('vistasDialog/gestionAlumno/bandejaNota/notas_finales', $this->htmlData);
+
+
     }
     public function registrarRespuesta()
     {

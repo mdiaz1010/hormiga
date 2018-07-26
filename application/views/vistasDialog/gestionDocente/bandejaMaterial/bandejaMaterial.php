@@ -19,7 +19,7 @@
 </div>
 
 
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="subar" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -32,7 +32,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" name="btncargar" id="btncargar" data-dismiss="modal" class="btn btn-primary">Cargar archivo</button>
+        <button type="button" name="btncargar" id="btncargar"  class="btn btn-primary">Cargar archivo</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
 
@@ -40,6 +40,7 @@
   </div>
 </div>
 <script type="text/javascript">
+
 $("#btncargar").click(function(){
 
                 var DocAdj = $("#docAdj").val();
@@ -62,6 +63,14 @@ $("#btncargar").click(function(){
                     var bimestre = $("#txtbimestre").val();
                     var descripcion = $("#txtdescripcion").val();
                     var txtarchivo = $("#txtarchivo").val();
+                    if(descripcion==''){
+                        $("#mensaje").html('<div class="alert alert-danger" role="alert">Ingresar un Nombre* al archivo</div>');
+                        return true;
+                    }
+                    if(txtarchivo==''){
+                        $("#mensaje").html('<div class="alert alert-danger" role="alert">Ingresar una Descripción* al archivo</div>');
+                        return true;
+                    }
                     formdata.append('txtseccion', seccion);
                     formdata.append('txtgrado', grado);
                     formdata.append('txtcurso', curso);
@@ -74,11 +83,20 @@ $("#btncargar").click(function(){
                         data: formdata,
                         processData: false,
                         contentType: false,
-                        beforeSend: function () {
+                        beforeSend: function (dato) {
                             $("#DIVcarga").dialog("open");
                         },
-                        success: function () {
+                        success: function (dato) {
+
                             $("#DIVcarga").dialog("close");
+                            if(dato=="n"){
+                                alert("El archivo que intenta subir no es permitido, por favor verificar el tipo de extensión. Extensiones permitidas: ('pdf','docx','png','jpg','jpeg','pptx','txt')");
+                                return true;
+                            }else if (dato=="x"){
+                                alert("El archivo que intenta subir supera el peso permitido, por favor verificar que el peso del archivo sea menor o igual a 1MB");
+                                return true;
+                            }
+                             $('#subar').modal('toggle');
                             $("#bandejaMaterial2").load(
                                 "<?= base_url('GestionDocente/verbandejaprof') ?>", {
                                     curso: curso,
@@ -86,8 +104,11 @@ $("#btncargar").click(function(){
                                     seccion: seccion,
                                     bimestre: bimestre
                                 });
+
                         }
                     });
+                }else{
+                    $("#mensaje").html('<div class="alert alert-danger" role="alert">Adjuntar el documento a compartir</div>');
                 }
 
 });

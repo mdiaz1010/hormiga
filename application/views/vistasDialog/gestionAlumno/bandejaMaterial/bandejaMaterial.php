@@ -30,7 +30,7 @@ if (count($bodyData->results)==0 || $bodyData->arrayBusqueda['id_curso']=='Selec
                 <div class="caption">
                     <font style="font-style: italic;">
                         <strong>
-                            <?=$result['nom_archivo'].'<br>'.$result['fec_creacion']?>
+                            <?=$result['descripcion'].'<br>'.$result['fec_creacion']?>
                         </strong>
                     </font>
                 </div>
