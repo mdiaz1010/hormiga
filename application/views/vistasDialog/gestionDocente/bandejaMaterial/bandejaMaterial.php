@@ -61,16 +61,13 @@ $("#btncargar").click(function(){
                     var grado = $("#txtgrado").val();
                     var curso = $("#txtcurso").val();
                     var bimestre = $("#txtbimestre").val();
-                    var descripcion = $("#txtdescripcion").val();
+                    var descripcion = document.getElementById("editor-one").innerHTML;
                     var txtarchivo = $("#txtarchivo").val();
-                    if(descripcion==''){
+                    if(txtarchivo==''){
                         $("#mensaje").html('<div class="alert alert-danger" role="alert">Ingresar un Nombre* al archivo</div>');
                         return true;
                     }
-                    if(txtarchivo==''){
-                        $("#mensaje").html('<div class="alert alert-danger" role="alert">Ingresar una Descripción* al archivo</div>');
-                        return true;
-                    }
+
                     formdata.append('txtseccion', seccion);
                     formdata.append('txtgrado', grado);
                     formdata.append('txtcurso', curso);

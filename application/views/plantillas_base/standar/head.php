@@ -31,6 +31,8 @@
         <script src="<?= base_url('publico/js/dataTables.bootstrap.js')?>"></script>
         <link href="<?= base_url('publico/css/dataTables.bootstrap.css')?>" rel="stylesheet">
 
+
+
     <!-- dialog-->
     <script   src="<?= base_url('publico/js/jquery-ui.js')?>"></script>
 
