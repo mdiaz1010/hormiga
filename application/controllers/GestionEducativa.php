@@ -1346,17 +1346,22 @@ class GestionEducativa extends CI_Controller
         $this->load->model("Rol_model", '', true);//
         $alumno=$this->session->webCasSession->usuario->CODIGO;
         $fecha  =$this->input->post('fecha');
-        $direc  =$this->input->post('direccion');
+        $telef  =$this->input->post('telefono');
+        $docum  =ltrim($this->input->post('documento'));
+        $direc  =ltrim($this->input->post('direccion'));
+        $email  =$this->input->post('email');
         $clave  =$this->input->post('clave');
         $data=array('clav_usuario'=>$clave);
-        $dato=array('direccion'=>$direc,'fecha_nac'=>$fecha);
+        $dato=array('direccion'=>$direc,'documento'=>$docum,'fecha_nac'=>$fecha);
+        $datoC=array('des_correo'=>$email,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d H:m:s'));
+        $datoT=array('num_tel'=>$telef,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d H:m:s'));
 
 
         foreach ($_FILES['images']['error'] as $key => $error) {
             if ($error == UPLOAD_ERR_OK) {
                 $name = $_FILES['images']['name'][$key];
                 $tipo = $_FILES['images']['type'][$key];
-                $namegeneric = $alumno."-".$name;
+                $namegeneric = $alumno."-".time().$name;
                 $searcharray = array(' ');
                 $namegeneric = str_replace($searcharray, '', $namegeneric);
                 $ruta = "temp/repositorio/fotos/".$namegeneric;
@@ -1378,5 +1383,7 @@ class GestionEducativa extends CI_Controller
         }
         $this->Usuarios_model->cambiarclave($data, $alumno) ;
         $this->Usuarios_model->cambiardat($dato, $alumno) ;
+        $this->Usuarios_model->editartelefon($datoT, $alumno) ;
+        $this->Usuarios_model->editarcorreos($datoC, $alumno) ;
     }
 }

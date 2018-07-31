@@ -17,12 +17,7 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a class="close-link">
-                            <i class="fa fa-close">
-                            </i>
-                        </a>
-                    </li>
+
 
                 </ul>
 

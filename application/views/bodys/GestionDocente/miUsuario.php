@@ -1,4 +1,6 @@
 <?php ?>
+<link rel="stylesheet" href="<?=base_url('publico/kartik-file/css/fileinput.min.css')?>" />
+<script src="<?=base_url('publico/kartik-file/js/fileinput.min.js')?>"></script>
 <link href="<?= base_url('publico/js_vistas/css/password.css') ?>" rel="stylesheet">
 <script src="<?= base_url('publico/js/strength.js')?>"></script>
 <div class="row">
@@ -8,7 +10,7 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>
-                    <span class="fa fa-search"></span> INTRANET EDUCATIVO - Consultar Informacion </h2>
+                    <span class="fa fa-search"></span> INTRANET EDUCATIVO - Información personal </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
                         <a class="collapse-link">
@@ -27,7 +29,7 @@
                 <div class="col-xs-10">
                     <form method="post" name="crearusuario" id="crearusuario">
                         <div class="form-group">
-                            <label class="control-label col-md-6 col-sm-6 col-xs-12">
+                            <label class="control-label col-md-9 col-sm-9 col-xs-12">
                                 Apellidos y Nombres:
                                 <input name="apepat" id="apepat" placeholder="Apellido paterno" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
                                     value="<?=$bodyData->results['apepat']?>" readonly>
@@ -58,15 +60,13 @@
                             <label class="control-label col-md-9 col-sm-9 col-xs-12">
                                 Direccion:
                                 <textarea name="direccion" id="direccion" placeholder="Direccion " class="form-control" style="text-transform:uppercase;"
-                                    onkeyup="javascript:this.value=this.value.toUpperCase();" rows="1">
-                                    <?=$bodyData->results['direcc']?>
-                                </textarea>
+                                    onkeyup="javascript:this.value=this.value.toUpperCase();" rows="1"><?=ltrim($bodyData->results['direcc'])?></textarea>
                             </label>
                         </div>
                         <div class="form-group">
-                            <label class="file-preview-image col-md-6 col-sm-6 col-xs-12">
+                            <label class=" col-md-12 col-sm-12 col-xs-12">
                                 Foto:
-                                <input name="docAdj" id="docAdj" type="file" class="form-control">
+                                <input type="file" name="docAdj[]" id="docAdj"  class="file" data-edit="insertImage"/>
                             </label>
                         </div>
                     </form>
@@ -140,7 +140,7 @@
     #centrador {
         text-align: center;
         width: 150px;
-        height: 180px;
+        height: 150px;
 
     }
 

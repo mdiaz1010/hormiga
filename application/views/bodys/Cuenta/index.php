@@ -12,11 +12,7 @@
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </li>
-                    <li>
-                        <a class="close-link">
-                            <i class="fa fa-close"></i>
-                        </a>
-                    </li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -146,11 +142,7 @@
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </li>
-                    <li>
-                        <a class="close-link">
-                            <i class="fa fa-close"></i>
-                        </a>
-                    </li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -179,11 +171,7 @@
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </li>
-                    <li>
-                        <a class="close-link">
-                            <i class="fa fa-close"></i>
-                        </a>
-                    </li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -212,11 +200,7 @@
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </li>
-                    <li>
-                        <a class="close-link">
-                            <i class="fa fa-close"></i>
-                        </a>
-                    </li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -228,7 +212,8 @@
     </div>
 
 </div>
-<div id="DIVEDITARCUENTA" title="INTRANET :: Edicion de cuenta"></div>
+
+
 <div id="DIVcargas" title="EN PROCESO">
     <center>
         <strong>Espere estamos cargando la informacion...</strong>

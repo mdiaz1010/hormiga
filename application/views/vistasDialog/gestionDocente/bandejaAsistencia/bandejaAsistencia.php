@@ -46,7 +46,7 @@
                                             $i=1;
     $j=0;
     foreach ($bodyData->results as $cuentasTemp) {
-        if (isset($bodyData->porcentaje[$cuentasTemp->id])==false) {
+        if (empty($bodyData->porcentaje[$cuentasTemp->id])) {
             $valor='100';
         } else {
             $valor=round($bodyData->porcentaje[$cuentasTemp->id], 2);
@@ -123,6 +123,7 @@
         echo "<div class='alert_result'>No se encuentra ningun alumno registrado.</div>";
     } ?>
     <script type="text/javascript">
+    $("#dataTables-asistencia").dataTable();
         $('#DIVcargando').dialog({
             autoOpen: false,
             hide: 'drop',
@@ -161,13 +162,15 @@
                 },
                 success: function () {
                     $('#DIVcargando').dialog('close');
-                    window.location.href = "reportPrincipal";
+                    alert("Se realizó el registro satisfactoriamente");
+                    window.location.href = "asistencia";
                 }
             });
         });
 
         $(".Detalle").click(function () {
             var codigo = $(this).data("codigo");
+
             var alumno = $(this).data("alumno");
             var curso = $(this).data("curso");
             var alu = alumno.replace(' ', '-');
@@ -216,6 +219,3 @@
             width: 100px;
         }
     </style>
-    <script>
-        $("#dataTables-asistencia").dataTable();
-    </script>

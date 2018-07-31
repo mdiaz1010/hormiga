@@ -8,7 +8,7 @@
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+
                       </li>
                     </ul>
                     <div class="clearfix"></div>
@@ -55,7 +55,7 @@
                     <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Leyenda de Notas</button></li>
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+
                       </li>
                     </ul>
                     <div class="clearfix"></div>
@@ -135,6 +135,6 @@
      -moz-border-radius: 50%;
      -webkit-border-radius: 50%;
      border-radius: 50%;
-     background: #A9F5A9;
+     background: #E0ECF8;
 }
 </style>

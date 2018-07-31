@@ -64,14 +64,23 @@
                 <td <?=$hidden?>
                     <?=$color; ?> >
                         <center>
-                           <a data-toggle="modal" data-target=".bs-example-modal-lg" href="javascript:" ><span class="fa fa-search"></span></a>
+                           <a data-toggle="modal" data-target=".bs-example6-modal-lg" href="javascript:" ><span class="fa fa-search"></span></a>
 
                         </center>
                 </td>
 
 
         </tr>
-        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+
+        <?php
+                                               $i++;
+                                                $j++;
+                                            }
+                                            ?>
+
+    </tbody>
+</table>
+   <div class="modal fade bs-example6-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
@@ -90,15 +99,6 @@
             </div>
           </div>
         </div>
-        <?php
-                                               $i++;
-                                                $j++;
-                                            }
-                                            ?>
-
-    </tbody>
-</table>
-
 <script type="text/javascript">
 
 

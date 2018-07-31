@@ -84,17 +84,22 @@ class GestionAuxiliar extends CI_Controller
         $this->load->model("Rol_model", '', true);//
         $alumno=$this->session->webCasSession->usuario->CODIGO;
         $fecha  =$this->input->post('fecha');
-        $direc  =$this->input->post('direccion');
+        $telef  =$this->input->post('telefono');
+        $docum  =ltrim($this->input->post('documento'));
+        $direc  =ltrim($this->input->post('direccion'));
+        $email  =$this->input->post('email');
         $clave  =$this->input->post('clave');
-        $data=array('clav_usuario'=>$clave);
-        $dato=array('direccion'=>$direc,'fecha_nac'=>$fecha);
 
+        $data=array('clav_usuario'=>$clave);
+        $dato=array('direccion'=>$direc,'documento'=>$docum,'fecha_nac'=>$fecha);
+        $datoC=array('des_correo'=>$email,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d H:m:s'));
+        $datoT=array('num_tel'=>$telef,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d H:m:s'));
 
         foreach ($_FILES['images']['error'] as $key => $error) {
             if ($error == UPLOAD_ERR_OK) {
                 $name = $_FILES['images']['name'][$key];
                 $tipo = $_FILES['images']['type'][$key];
-                $namegeneric = $alumno."-".$name;
+                $namegeneric = $alumno."-".time().$name;
                 $searcharray = array(' ');
                 $namegeneric = str_replace($searcharray, '', $namegeneric);
                 $ruta = "temp/repositorio/fotos/".$namegeneric;
@@ -116,6 +121,8 @@ class GestionAuxiliar extends CI_Controller
         }
         $this->Usuarios_model->cambiarclave($data, $alumno) ;
         $this->Usuarios_model->cambiardat($dato, $alumno) ;
+        $this->Usuarios_model->editartelefon($datoT, $alumno) ;
+        $this->Usuarios_model->editarcorreos($datoC, $alumno) ;
     }
 
     public function asistencia()
@@ -283,6 +290,57 @@ class GestionAuxiliar extends CI_Controller
         $this->htmlData['bodyData']->results         = $resultado ;
         $this->htmlData['bodyData']->mensaje         = $mensaje ;
         $this->load->view('vistasDialog/gestionAuxiliar/inasistencia/verArchivo', $this->htmlData);
+    }
+    public function verdetalleAlumnoDir()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);
+
+        $codigo=$this->input->post("codigo");
+        $ano=date('Y');
+        if ($codigo==false || $ano==false) {
+            echo "Ingrese el curso";
+            return true;
+        }
+        $data=array('id_alumno'=>$codigo,
+                    'ano'=>$ano,
+                   );
+
+
+        $arrayNotasTotal= $this->Usuarios_model->reporteNotasAluCurTol($data);
+        if(empty($arrayNotasTotal)){ echo "No existe información registrada"; die();}
+        foreach ($arrayNotasTotal as $conocer2) {
+            $i=0;
+            foreach ($arrayNotasTotal as $conocer3) {
+                if ($conocer2->nombre==$conocer3->nombre) {
+                    $arrayConocerTot[$conocer2->nombre][$i]=$conocer3->nota;
+                    $i++;
+                }
+            }
+        }
+        $j=0;
+        $haber="";
+
+        foreach ($arrayConocerTot as $mostrar) {
+            $data[$j]=implode(',', $arrayConocerTot[$arrayNotasTotal[$j]->nombre]);
+            $haber.="{
+                       name: '".$arrayNotasTotal[$j]->nombre."',
+                       data: [".$data[$j]."]
+                             },";
+            $j++;
+        }
+        $haber1=  substr($haber, 0, -1);
+
+        $bimestre= $this->Usuarios_model->busquedaBimestre();
+        $bimestre= array_column($bimestre,'nom_bimestre');
+
+        $this->htmlData['bodyData']->bimestre                   = json_encode($bimestre) ;
+        $this->htmlData['bodyData']->haber                   = $haber1 ;
+        $this->htmlData['bodyData']->ano                     = $ano ;
+
+
+        $this->htmlData['bodyData']->resultadoTot            = $arrayConocerTot ;
+        $this->load->view('vistasDialog/gestionEducativa/notaGeneral/reporteNotas', $this->htmlData);
     }
     public function registrarRespuesta()
     {

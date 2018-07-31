@@ -24,7 +24,7 @@ if (count($bodyData->results)==0) {
         } ?>
 
 
-    <div class="col-md-55">
+    <div class="col-md-3 col-sm-6 col-xs-12">
         <div class="thumbnail">
             <div class="image view view-first">
                 <img style="width: 100%; display: block;" src="<?= $resultado; ?>" alt="image" id="imagen" />

@@ -61,7 +61,7 @@ $("#btncargar").click(function(){
                     var grado = $("#txtgrado").val();
                     var curso = $("#txtcurso").val();
                     var bimestre = $("#txtbimestre").val();
-                    var descripcion = document.getElementById("editor-one").innerHTML;
+                    var descripcion =  $("#editor-one").val();;
                     var txtarchivo = $("#txtarchivo").val();
                     if(txtarchivo==''){
                         $("#mensaje").html('<div class="alert alert-danger" role="alert">Ingresar un Nombre* al archivo</div>');

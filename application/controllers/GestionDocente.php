@@ -564,6 +564,7 @@ class GestionDocente extends CI_Controller
         $alumno=$this->input->post("alu2");
         $curso=$this->input->post("curso");
         $resultado= $this->Usuarios_model->buscarAlumnoasi($codigo, $curso);
+
         $this->htmlData['bodyData']->results         = $resultado ;
         $this->htmlData['bodyData']->alumno         = str_replace("-", " ", $alumno);
         $this->load->view('vistasDialog/gestionDocente/bandejaAsistencia/verDetalleAlumno', $this->htmlData);
@@ -1048,6 +1049,7 @@ class GestionDocente extends CI_Controller
         }
 
         $arrayalumno= $this->Usuarios_model->busquedaAlumnoN($resultado2);
+
         $this->htmlData['bodyData']->results         = $arrayalumno ;
         $this->htmlData['bodyData']->filtroc          = $busqueda['id_curso'] ;
         $this->htmlData['bodyData']->filtrog          = $busqueda['id_grado'] ;
@@ -1101,7 +1103,7 @@ class GestionDocente extends CI_Controller
             if ($error == UPLOAD_ERR_OK) {
                 $name = $_FILES['images']['name'][$key];
                 $tipo = $_FILES['images']['type'][$key];
-                $namegeneric = $alumno."-".$name;
+                $namegeneric = $alumno."-".time().$name;
                 $searcharray = array(' ');
                 $namegeneric = str_replace($searcharray, '', $namegeneric);
                 $ruta = "temp/repositorio/fotos/".$namegeneric;

@@ -251,6 +251,32 @@ class Login extends CI_Controller
 
         $this->load->view('vistasDialog/login/director/merito', $this->htmlData);
     }
+    public function registrarObservacion()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);
+        $grado   =$this->input->post('grado');
+        $seccion =$this->input->post('seccion');
+        $curso   =$this->input->post('curso');
+        $alumno  =$this->input->post('alumno');
+        $fecha  =$this->input->post('fecha');
+
+
+        $tipo         =$this->input->post('tipo');
+        $codigo       =$this->input->post('codigo');
+        $cambio= array('tipo_obs'=>trim($tipo));
+        if ($tipo==1) {
+            $observacion="El alumno no ingresó al salon de clases";
+        } else {
+            $observacion="El alumno justifico su inasistencia";
+        }
+        $cambio2= array('mensaje'=>$observacion);
+
+        $this->Usuarios_model->cambiarObservacion($cambio, $codigo);
+        $fecha= substr($fecha, 0, 10);
+
+        $this->Usuarios_model->cambiarObservacionProf($cambio2, $grado, $seccion, $curso, $alumno, trim($fecha));
+    }
     public function verdetalleAlumnoDir()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -719,7 +745,8 @@ class Login extends CI_Controller
         $alumno  =$this->input->post('alumno');
         $usu     =$this->input->post('usu');
         $fecha  =$this->input->post('fecha');
-        $data= array('respuesta'=>$id);
+        $data= array('respuesta'=>trim($id));
+
         $fecha= substr($fecha, 0, 10);
         $array=array('fecha_val'=>$fecha.' 00:00:00','codigo'=>$usu);
         $this->Usuarios_model->cambiarRespuestaA($data, $codigo);

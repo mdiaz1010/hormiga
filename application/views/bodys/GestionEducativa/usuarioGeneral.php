@@ -1,4 +1,6 @@
 <?php ?>
+<link rel="stylesheet" href="<?=base_url('publico/kartik-file/css/fileinput.min.css')?>" />
+<script src="<?=base_url('publico/kartik-file/js/fileinput.min.js')?>"></script>
 <link href="<?= base_url('publico/js_vistas/css/password.css') ?>" rel="stylesheet">
 <script src="<?= base_url('publico/js/strength.js')?>"></script>
 <div class="row">
@@ -8,7 +10,7 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>
-                    <span class="fa fa-search"></span> INTRANET EDUCATIVO - Consultar Informacion </h2>
+                    <span class="fa fa-search"></span> INTRANET EDUCATIVO - Información personal </h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
                         <a class="collapse-link">
@@ -16,10 +18,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="close-link">
-                            <i class="fa fa-close"></i>
-                        </a>
-                    </li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -27,20 +26,11 @@
                 <div class="col-xs-10">
                     <form method="post" name="crearusuario" id="crearusuario">
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                                Nombre:
-                                <input name="nombre" id="nombre" placeholder="Nombres" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                    value="<?=$bodyData->results['nombre']?>" readonly>
-                            </label>
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                                Apellido Paterno:
-                                <input name="apepat" id="apepat" placeholder="Apellido paterno" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                    value="<?=$bodyData->results['apepat']?>" readonly>
-                            </label>
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                                Apellido Materno:
+
+                            <label class="control-label col-md-9 col-sm-9 col-xs-12">
+                                Apellidos y nombres:
                                 <input name="apemat" id="apemat" placeholder="Apellido materno" class="form-control" style="text-transform:uppercase;" onkeyup="javascript:this.value=this.value.toUpperCase();"
-                                    value="<?=$bodyData->results['apemat']?>" readonly>
+                                    value="<?=$bodyData->results['apepat']?>" readonly>
                             </label>
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">
                                 Rol:
@@ -50,17 +40,17 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">
                                 Telefono:
                                 <input name="telefono" id="telefono" placeholder="Telefono" type="text" class="form-control" value="<?=$bodyData->results['telefo']?>"
-                                    readonly>
+                                    >
                             </label>
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">
                                 Dni:
                                 <input name="documento" id="documento" placeholder="documento" type="text" class="form-control" required value="<?=$bodyData->results['docume']?>"
-                                    readonly>
+                                    >
                             </label>
                             <label class="control-label col-md-6 col-sm-6 col-xs-12">
                                 email:
                                 <input name="email" id="email" placeholder="email" type="email " class="form-control" required value="<?=$bodyData->results['correo']?>"
-                                    readonly>
+                                    >
                             </label>
 
                         </div>
@@ -72,15 +62,13 @@
                             <label class="control-label col-md-9 col-sm-9 col-xs-12">
                                 Direccion:
                                 <textarea name="direccion" id="direccion" placeholder="Direccion " class="form-control" style="text-transform:uppercase;"
-                                    onkeyup="javascript:this.value=this.value.toUpperCase();" rows="1">
-                                    <?=$bodyData->results['direcc']?>
-                                </textarea>
+                                    onkeyup="javascript:this.value=this.value.toUpperCase();" rows="1"><?=ltrim($bodyData->results['direcc'])?></textarea>
                             </label>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-6 col-sm-6 col-xs-12">
+                            <label class="control-label col-md-12 col-sm-12 col-xs-12">
                                 Foto:
-                                <input name="docAdj" id="docAdj" type="file" class="form-control">
+                                <input type="file" name="docAdj[]" id="docAdj"  class="file" data-edit="insertImage"/>
                             </label>
                         </div>
                     </form>
@@ -111,11 +99,7 @@
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </li>
-                    <li>
-                        <a class="close-link">
-                            <i class="fa fa-close"></i>
-                        </a>
-                    </li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -154,7 +138,7 @@
     #centrador {
         text-align: center;
         width: 150px;
-        height: 180px;
+        height: 150px;
 
     }
 
@@ -171,6 +155,9 @@
         if (clave === clave2) {
             var fecha = $("#fecha").val();
             var direccion = $("#direccion").val();
+            var telefono = $("#telefono").val();
+            var correo   = $("#email").val();
+            var documento = $("#documento").val();
             var clave = $("#myPassword").val();
             var DocAdj = $("#docAdj").val();
 
@@ -189,6 +176,9 @@
             formdata.append('fecha', fecha);
             formdata.append('direccion', direccion);
             formdata.append('clave', clave);
+            formdata.append('telefono', telefono);
+            formdata.append('documento', documento);
+            formdata.append('email', correo);
             $.ajax({
                 type: 'POST',
                 url: "editarInfo",
@@ -196,6 +186,7 @@
                 processData: false,
                 contentType: false,
                 success: function () {
+                    alert("Se editaron los datos satisfactoriamente.");
                     location.reload();
                 }
             });

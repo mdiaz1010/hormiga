@@ -169,6 +169,7 @@ $("#btnSi").click(function(){
                         processData: false,
                         contentType: false,
                         success: function (data) {
+                            alert("Se registró su justificación exitosamente.");
                             //      javascript:location.reload();
                         }
                     });

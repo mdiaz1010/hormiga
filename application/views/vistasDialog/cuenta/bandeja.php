@@ -1,24 +1,24 @@
 <?php
 ?>
-<table class="table table-striped table-bordered dt-responsive nowrap  " cellspacing="0" width="100%" id="dataTables-usuario">
-    <thead class="bg-success">
+<table class="table table-bordered" cellspacing="0" width="100%" id="dataTables-usuario">
+    <thead style="color: #fff;background-color: #2A3F54;">
         <tr>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>NOMBRES</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>USUARIO</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>TELEFONO</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>CORREO</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center> CARGO</center>
             </th>
-            <th style="border: hidden;color: #3b752e;">
+            <th >
                 <center>OPCIONES</center>
             </th>
         </tr>
@@ -56,9 +56,9 @@
                     </CENTER>
                 </td>
                 <td>
-                    <label style="margin-right: 7px;">
+                    <label>
                         <i class="fa fa-edit"></i>
-                        <a href="javascript:" data-id="<?=$cuentasTemp->CODIGO?>" class="Editar">Cuenta</a>
+                        <a href="javascript:" data-toggle="modal" data-target=".bs-example3-modal-lg"  data-id="<?=$cuentasTemp->CODIGO?>" class="Editar">Cuenta</a>
                     </label>
 
 
@@ -75,7 +75,28 @@
     </tbody>
 </table>
 
+<div class="modal fade bs-example3-modal-lg" id="modal_x" tabindex="-1"  aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
 
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Editar informacion</h4>
+      </div>
+      <div class="modal-body" id="DIVEDITARCUENTA">
+
+      </div>
+
+      <div class="modal-footer">
+        <button name="diveditar_boton" id="diveditar_boton" type="button"  data-dismiss="modal" class="btn btn-default" >EDITAR</button>
+        <button name="btnNo" id="btnNo" type="button" class="btn btn-primary" data-dismiss="modal">CERRAR</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 <!--  MODAL DE LISTA DE REGISTROS -->
 <div class="modal   fade" id="permisosModal" tabindex="-1" role="dialog" aria-labelledby="permisosModalLabel">
     <div class="modal-dialog modal-lg" role="document">
@@ -113,107 +134,79 @@
 
 <script type="text/javascript">
 $("#dataTables-usuario").dataTable();
-    $("#DIVEDITARCUENTA").dialog({
-        autoOpen: false,
-        hide: "drop",
-        modal: true,
-        width: 420,
-        height: 780,
-        fluid: true,
-        closeOnEscape: true,
-        draggable: true,
-        responsive: true,
-        open: function (event, ui) {
-            $(this).closest(".ui-dialog").find(".ui-dialog-titlebar-close").hide();
+
+
+$("#diveditar_boton").click(function () {
+
+
+    var apepat = $("#txtapepatcuenta").val();
+
+    var usuari = $("#txtusuaricuenta").val();
+    var claves = $("#txtclavescuenta").val();
+    var telefo = $("#txttelefocuenta").val();
+    var docume = $("#txtdocumecuenta").val();
+    var emails = $("#txtemailscuenta").val();
+
+
+
+    if (apepat === '') {
+        $('#result_apepat').html("<font color='red'>Campo  (*) Obligatorio</font>");
+        return true;
+    } else {
+        $('#result_apepat').html("");
+    }
+
+    if (usuari === '') {
+        $('#result_usuario').html("<font color='red'>Campo (*) Obligatorio</font>");
+        return true;
+    } else {
+        $('#result_usuario').html("");
+    }
+    if (claves === '') {
+        $('#result_clave').html("<font color='red'>Campo   (*) Obligatorio</font>");
+        return true;
+    } else {
+        $('#result_clave').html("");
+    }
+    if (telefo === '') {
+        $('#result_telefono').html("<font color='red'>Campo(*) Obligatorio</font>");
+        return true;
+    } else {
+        $('#result_telefono').html("");
+    }
+    if (docume === '') {
+        $('#result_dni').html("<font color='red'>Campo     (*) Obligatorio</font>");
+        return true;
+    } else {
+        $('#result_dni').html("");
+    }
+    if (emails === '') {
+        $('#result_email').html("<font color='red'>Campo   (*) Obligatorio</font>");
+        return true;
+    } else {
+        $('#result_email').html("");
+    }
+
+    $.ajax({
+        data: $("#edicioncuenta").serialize(),
+        type: 'POST',
+        url: "editarcuenta",
+        beforeSend: function () {
+            $('#DIVcargas').dialog('open');
         },
-        buttons: {
-            "EDITAR CUENTA": function () {
-
-                var nombre = $("#txtnombrecuenta").val();
-
-                var apepat = $("#txtapepatcuenta").val();
-                var apemat = $("#txtapematcuenta").val();
-                var usuari = $("#txtusuaricuenta").val();
-                var claves = $("#txtclavescuenta").val();
-                var telefo = $("#txttelefocuenta").val();
-                var docume = $("#txtdocumecuenta").val();
-                var emails = $("#txtemailscuenta").val();
-                if (nombre == '') {
-                    $('#result_nombre').html("<font color='red'>Campo Nombre (*) Obligatorio</font>");
-                    return true;
-                } else {
-                    $('#result_nombre').html("");
-                }
-                if (apepat === '') {
-                    $('#result_apepat').html("<font color='red'>Campo  (*) Obligatorio</font>");
-                    return true;
-                } else {
-                    $('#result_apepat').html("");
-                }
-                if (apemat === '') {
-                    $('#result_apemat').html("<font color='red'>Campo  (*) Obligatorio</font>");
-                    return true;
-                } else {
-                    $('#result_apemat').html("");
-                }
-                if (usuari === '') {
-                    $('#result_usuario').html("<font color='red'>Campo (*) Obligatorio</font>");
-                    return true;
-                } else {
-                    $('#result_usuario').html("");
-                }
-                if (claves === '') {
-                    $('#result_clave').html("<font color='red'>Campo   (*) Obligatorio</font>");
-                    return true;
-                } else {
-                    $('#result_clave').html("");
-                }
-                if (telefo === '') {
-                    $('#result_telefono').html("<font color='red'>Campo(*) Obligatorio</font>");
-                    return true;
-                } else {
-                    $('#result_telefono').html("");
-                }
-                if (docume === '') {
-                    $('#result_dni').html("<font color='red'>Campo     (*) Obligatorio</font>");
-                    return true;
-                } else {
-                    $('#result_dni').html("");
-                }
-                if (emails === '') {
-                    $('#result_email').html("<font color='red'>Campo   (*) Obligatorio</font>");
-                    return true;
-                } else {
-                    $('#result_email').html("");
-                }
-
-                $.ajax({
-                    data: $("#edicioncuenta").serialize(),
-                    type: 'POST',
-                    url: "editarcuenta",
-                    beforeSend: function () {
-                        $('#DIVcargas').dialog('open');
-                    },
-                    success: function () {
-                        $('#DIVcargas').dialog('close');
-                        $("#bandejaprincipal").load("vistabandeja");
-                    }
-                });
-                $(this).dialog("close");
-            },
-            "CANCELAR": function () {
-                $(this).dialog("close"); //Se cancela operación
-            }
+        success: function () {
+            $('#DIVcargas').dialog('close');
+            alert("Se editaron los datos de : " + apepat + " satisfactoriamente");
+            $("#bandejaprincipal").load("vistabandeja");
         }
     });
-    $("#DIVEDITARCUENTA").dialog({
-        draggable: true
-    });
-    $("#DIVEDITARCUENTA").dialog({
-        resizable: true
-    });
+});
+
+
+
     $(".Editar").click(function () {
         var codigo = $(this).data("id");
+
         $.ajax({
             type: 'POST',
             url: "vereditarcuenta",
@@ -227,14 +220,13 @@ $("#dataTables-usuario").dataTable();
                 if (datos.length > 0) {
                     $('#DIVcargas').dialog('close');
                     $('#DIVEDITARCUENTA').html(datos);
-                    $('#DIVEDITARCUENTA').dialog('open');
+
                 }
                 return false;
             }
         });
     });
-</script>
-<script>
+
     $(document).ready(function () {
         $('[name="permisosTrigger"]').click(function ($element) {
             var id = $(this).attr("data-id");
@@ -271,16 +263,13 @@ $("#dataTables-usuario").dataTable();
             });
         }
     });
-</script>
 
-<script>
     /*LIMPIEZA */
     $(document).ready(function () {
         $('#permisosModal').on('hidden.bs.modal', function (e) {
             /*LIMPIAR DISPARADORES */
             $(this).find('button').unbind();
-            $(this).find('.modal-body').html('<center><img src="<?= base_url('
-                publico / media / ajax - loader2.gif ')?>" width="80" height="80" ></center>');
+            $(this).find('.modal-body').html('<center><img src="<?= base_url('publico/media/ajax-loader2.gif')?>" width="80" height="80" ></center>');
             $(this).find('.modal-footer .nombre').html('');
         });
     });

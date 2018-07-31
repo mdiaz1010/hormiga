@@ -38,7 +38,7 @@
                                             $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
                                             foreach ($bodyData->results as $cuentasTemp) {
                                                 if (trim($cuentasTemp->asistencia)=='f') {
-                                                    $color='bgcolor="#F78181"';
+                                                    $color='bgcolor="#F8E0E0"';
                                                     //$color='bgcolor="#F7819F"';
                                                 } else {
                                                     $color='';
@@ -65,11 +65,14 @@
                                 </CENTER>
                             </td>
                             <td <?=$color; ?>>
+                            <?php if(empty($cuentasTemp->mensaje)){ ?>
+                            <CENTER></CENTER>
+                            <?php }else{?>
                                 <CENTER>
-                                    <textarea rows="2" readonly class="form-control">
-                                        <?=$cuentasTemp->mensaje?>
-                                    </textarea>
+                                    <textarea style="border: none;" rows="2" readonly class="form-control"><?=$cuentasTemp->mensaje?></textarea>
                                 </CENTER>
+                            <?php }?>
+
                             </td>
                             <?php if ($cuentasTemp->respuesta=='1') {
                                                     $mensaje='SI';

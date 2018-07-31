@@ -307,10 +307,8 @@ class Cuenta extends CI_Controller
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $codigo = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtid'));
-        $nombre = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtnombrecuenta'));
         $apepat = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtapepatcuenta'));
-        $apemat = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtapematcuenta'));
-        $roless = (int)Utilitario::limpiarCaracteresEspeciales($this->input->post('txtrolcuenta'));
+
         $usuari = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtusuaricuenta'));
         $claves = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtclavescuenta'));
         $telefo = Utilitario::limpiarCaracteresEspeciales($this->input->post('txttelefocuenta'));
@@ -321,9 +319,7 @@ class Cuenta extends CI_Controller
 
 
         $datospersona= array(
-          'nom_per'         =>$nombre,
           'ape_pat_per'     =>$apepat,
-          'ape_mat_per'     =>$apemat,
           'direccion'       =>$direcc,
           'descripcion'     =>$descri,
           'documento'       =>$docume,
@@ -339,13 +335,13 @@ class Cuenta extends CI_Controller
         $datosusuario= array(
             'nom_usuario'       =>$usuari,
             'clav_usuario'      =>$claves,
-            'role_usuario'      =>$roless,
             'usu_modificacion'  =>$this->session->webCasSession->usuario->USUARIO
         );
         $datostelefon= array(
             'num_tel'           =>$telefo,
             'usu_modificacion'  =>$this->session->webCasSession->usuario->USUARIO
         );
+
         $this->Usuarios_model->editarpersona($datospersona, $codigo);
         $this->Usuarios_model->editarcorreos($datoscorreos, $codigo);
         $this->Usuarios_model->editarusuario($datosusuario, $codigo);

@@ -49,9 +49,7 @@
                         <label class="control-label col-md-9 col-sm-9 col-xs-12">
                             Direccion:
                             <textarea name="direccion" id="direccion" placeholder="Direccion " class="form-control" style="text-transform:uppercase;"
-                                onkeyup="javascript:this.value=this.value.toUpperCase();" rows="1">
-                                <?=$bodyData->results['direcc']?>
-                            </textarea>
+                                onkeyup="javascript:this.value=this.value.toUpperCase();" rows="1"><?=$bodyData->results['direcc']?></textarea>
                         </label>
                     </div>
                     <div class="form-group">

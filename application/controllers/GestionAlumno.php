@@ -255,7 +255,7 @@ class GestionAlumno extends CI_Controller
             if ($error == UPLOAD_ERR_OK) {
                 $name = $_FILES['images']['name'][$key];
                 $tipo = $_FILES['images']['type'][$key];
-                $namegeneric = $alumno."-".$name;
+                $namegeneric = $alumno."-".time().$name;
                 $searcharray = array(' ');
                 $namegeneric = str_replace($searcharray, '', $namegeneric);
                 $ruta = "temp/repositorio/fotos/".$namegeneric;
@@ -379,7 +379,7 @@ class GestionAlumno extends CI_Controller
             if ($error == UPLOAD_ERR_OK) {
                 $name = $_FILES['images']['name'][$key];
                 $tipo = $_FILES['images']['type'][$key];
-                $namegeneric = trim($i.$codigo)."-".$name;
+                $namegeneric = trim($i.$codigo)."-".$name.time();
                 $i++;
                 $searcharray = array(' ');
                 $namegeneric = str_replace($searcharray, '', $namegeneric);

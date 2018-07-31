@@ -16,7 +16,7 @@ $('#rol').change(function () {
 
 
 //actualizar bandeja
-$("#bandejaprincipal").load("vistabandeja");
+$('#bandejaprincipal').load('vistabandeja');
 
 
 //HORARIO CARGA
@@ -85,6 +85,7 @@ $("#btnregistrar").click(function () {
             url: "crear",
             data: $("#crearusuario").serialize(),
             success: function () {
+                alert("Se registró el usuario satisfactoriamente");
                 $("result_error").html("<font color ='green'>REGISTRO CORRECTO</font>");
                 $("#bandejaprincipal").load("vistabandeja");
                 $("#crearusuario")[0].reset();
@@ -205,26 +206,4 @@ $(document).ready(function () {
         $(this).find('.modal-body').html('<center><img src="publico/media/ajax-loader2.gif" width="80" height="80" ></center>');
         $(this).find('.modal-footer .nombre').html('');
     });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-$(document).ready(function () {
-    $('#dataTables-example').dataTable();
-});
-$(":file").filestyle({
-    buttonName: "btn-primary"
 });

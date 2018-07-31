@@ -36,9 +36,7 @@
                 </tr>
                 <tr>
                     <td colspan="4" class="col-lg-3">
-                        <textarea placeholder="DESCRIPCION..." class="form-control" name="txtdescripcion" id="txtdescripcion" style="text-align:left; width: 321px; height: 47px;">
-                            <?php echo $bodyData->descripcion;?>
-                        </textarea>
+                        <textarea placeholder="DESCRIPCION..." class="form-control" name="txtdescripcion" id="txtdescripcion" style="text-align:left; width: 321px; height: 47px;"><?php echo $bodyData->descripcion;?></textarea>
                         <br>
                     </td>
                 </tr>

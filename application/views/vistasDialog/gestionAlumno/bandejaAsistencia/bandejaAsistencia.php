@@ -7,7 +7,7 @@
     <input type="hidden" id='txtfec' class="form-control" name="txtfec" value="<?= trim($bodyData->fecha)?>" readonly>
   <div class="form-group">
     <label for="exampleFormControlTextarea1">Mensaje<span class="required">*</span></label>
-    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"><?=(ltrim($bodyData->mensaje))?></textarea>
+    <textarea class="form-control" id="mensaje" rows="3"><?=(ltrim($bodyData->mensaje))?></textarea>
   </div>
 
     <div class="col-sm-12">

@@ -937,8 +937,8 @@ class Usuarios_model extends CI_Model
         $this->db->distinct();
         $this->db->select("id,ano,dia,mes,asistencia,fecha_val,mensaje,
                 CASE respuesta
-                    WHEN 1 THEN 'SI'
-                    WHEN 2 THEN 'NO'
+                    WHEN 2 THEN 'SI'
+                    WHEN 1 THEN 'NO'
                 END
                 as respuesta")->from("asistencia_alumno_aux");
         $this->db->where('id_alumno='.$codigo.'  and ano='.date('Y'))
