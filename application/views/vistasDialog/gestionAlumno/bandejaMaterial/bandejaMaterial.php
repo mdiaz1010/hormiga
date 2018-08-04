@@ -22,7 +22,7 @@ if (count($bodyData->results)==0 || $bodyData->arrayBusqueda['id_curso']=='Selec
             $resultado= base_url(trim($result['ruta']));
         } ?>
 
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-6 col-xs-12">
         <div id="centrador" class="thumbnail">
             <a href="<?= base_url(trim($result['ruta']))?>" target="_blank" style=" outline: none;" class="img-rounded">
                 <img id="imagen" src="<?= $resultado; ?>" class="img-responsive center-block" align="top" alt="Lights" style="width:100%"

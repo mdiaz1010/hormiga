@@ -17,8 +17,7 @@
             </div>
             <div class="x_content">
 
-                <div class="form-group">
-                    <div class="col-sm-12">
+
 
                         <form method="post" name="crearusuario" id="crearusuarioss">
                             <div class="form-group">
@@ -55,8 +54,7 @@
 
 
                         </form>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -86,7 +84,11 @@
         </div>
     </div>
 </div>
-
+<input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
+<div id="DIVcargas" title="EN PROCESO ... ">
+    Espere mientras se gestiona la informaci&oacute;n.
+    <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
+</div>
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionDocente_index.js')?>"></script>
 <?php
 } else {

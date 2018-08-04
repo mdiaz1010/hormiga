@@ -91,7 +91,7 @@
     if ($(this).data("boolean") == false) {
       $.ajax({
         type: 'POST',
-        url: 'buscarUser',
+        url: url+'GestionEducativa/buscarUser',
         data: {
           nombre: nombre
         },

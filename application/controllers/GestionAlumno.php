@@ -18,7 +18,9 @@ class GestionAlumno extends CI_Controller
 
     public function index()
     {
+        echo "hola mundo"; die();
     }
+
     public function consultarNotas()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -33,10 +35,9 @@ class GestionAlumno extends CI_Controller
             $i++;
         }
         $this->htmlData['bodyData']->valores           = $arrayvalores ;
-        $this->htmlData['body']                          .= "/notas";
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
 
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionAlumno/notas', $this->htmlData);
     }
     public function bandejaNota()
     {
@@ -202,9 +203,9 @@ class GestionAlumno extends CI_Controller
         } else {
             $this->htmlData['bodyData']->respuesta           = 0 ;
         }
-        $this->htmlData['body']                          .= "/horario";
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionAlumno/horario', $this->htmlData);
     }
     public function consultarAsistencia()
     {
@@ -232,9 +233,9 @@ class GestionAlumno extends CI_Controller
         } else {
             $this->htmlData['bodyData']->respuesta         = 0 ;
         }
-        $this->htmlData['body']                          .= "/asistencia";
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionAlumno/asistencia', $this->htmlData);
     }
     public function editarInfo()
     {
@@ -305,11 +306,11 @@ class GestionAlumno extends CI_Controller
                            'direcc'=>$datos[0]->direcc,'docume'=>$datos[0]->docume,'claves'=>$datos[0]->claves,
                            'usuari'=>$datos[0]->usuari,'correo'=>$datos[0]->correo,'telefo'=>$datos[0]->telefo,
                            'grados'=>$gradoSecc,'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
-        $this->htmlData['body']                          .= "/miUsuario";
+
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $alumno ;
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionAlumno/miUsuario', $this->htmlData);
     }
 
     public function bandejaAsistenciaAlu($curso=false)
@@ -483,9 +484,9 @@ class GestionAlumno extends CI_Controller
             $this->htmlData['bodyData']->data                 = $data ;
         } else {
             $this->htmlData['bodyData']->respuesta                 = 0 ;
-            $this->htmlData['body']                          .= "/repositorio";
+
         }
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionAlumno/repositorio', $this->htmlData);
     }
     public function comboBandeMate()
     {
@@ -532,9 +533,9 @@ class GestionAlumno extends CI_Controller
             $i++;
         }
         $this->htmlData['bodyData']->valores           = $arrayvalores ;
-        $this->htmlData['body']                          .= "/record";
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionAlumno/record', $this->htmlData);
     }
     public function comboCursoRecord()
     {

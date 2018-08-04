@@ -921,14 +921,16 @@ class GestionEducativa extends CI_Controller
         $this->load->model("Rol_model", '', true);
         $nombre="";
         $arrayDatos = $this->Rol_model->busquedaDatosGeneral($nombre);
-        $this->htmlData['body']                           .= "/consultaGeneral";
+
+
         $this->htmlData['bodyData']->datos                 =$arrayDatos;
         $this->htmlData['bodyData']->usuarios              = $this->Rol_model->getUsuario();
         $this->htmlData['headData']->titulo                = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionEducativa/consultaGeneral', $this->htmlData);
     }
     public function buscarUser()
     {
+
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $usuario= $this->input->post('nombre');
@@ -1194,9 +1196,14 @@ class GestionEducativa extends CI_Controller
         $this->load->model("Rol_model", '', true);
         $nombre= $this->input->post("nombre");
         $boolean= $this->input->post("boolean");
-
         $arrayDatos = $this->Rol_model->busquedaDatosGeneral($nombre);
 
+            $boolean="false";
+
+
+        if(empty($arrayDatos)){
+            echo "No se encontraron datos."; die();
+        }
 
 
         $this->htmlData['bodyData']->boolean                 =$boolean;

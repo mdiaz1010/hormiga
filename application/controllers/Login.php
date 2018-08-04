@@ -91,9 +91,10 @@ class Login extends CI_Controller
                             'session_user_acces_rol'  => $usuario->ROLES                ,
                             'session_user_nombre'     => $usuario->USUARIO              ,
                             'session_user_documento'  => $usuario->DOCUMENTO            ,
-                            'session_user_usuario'    => $usuario->USUARIO             ,
+                            'session_user_usuario'    => $usuario->USUARIO              ,
                             'session_user_email'      => $usuario->CORREO               ,
-                            'session_user_img'        => $usuario->RUTA               ,
+                            'session_user_img'        => $usuario->RUTA                 ,
+                            'session_user_nom'        => $usuario->NOMBRE               ,
                             'session_user_logged_in'  => true                           ,
                         );
                 //print_r($newdata); die();
@@ -148,7 +149,7 @@ class Login extends CI_Controller
                         $propiedades->webCasSession->modulos[$i] = $modulo;
                     }
                 }
-                //    print_r($newdata); die();
+
 
                 $modulosGrupos = $this->Modulos_model->GetModulosGrupos($usuario->ROLES)    ;
                 $newdata = array('session_modulosGrupos' => array());
@@ -210,7 +211,7 @@ class Login extends CI_Controller
         $notas = array(
           0=>array('nombre'=>'DIRECTOR'                 ,'nota'=>$dotacionPresente[1]['cantidad'],'rango'=>'18,19,20'),
           1=>array('nombre'=>'PROFESOR'                 ,'nota'=>$dotacionPresente[2]['cantidad'],'rango'=>'14,15,16,17'),
-          2=>array('nombre'=>'ALUMNO'                   ,'nota'=>$dotacionPresente[4]['cantidad'],'rango'=>'11,12,13'),
+          2=>array('nombre'=>'ALUMNO'                   ,'nota'=>$dotacionPresente[5]['cantidad'],'rango'=>'11,12,13'),
           3=>array('nombre'=>'AUXILIAR   '              ,'nota'=>$dotacionPresente[3]['cantidad'],'rango'=>'0 a 10'),
         );
 
@@ -288,7 +289,8 @@ class Login extends CI_Controller
             echo "Ingrese el curso";
             return true;
         }
-        $data=array('id_alumno'=>$codigo,
+        $data=array(
+                    'id_alumno'=>$codigo,
                     'ano'=>$ano,
                    );
 

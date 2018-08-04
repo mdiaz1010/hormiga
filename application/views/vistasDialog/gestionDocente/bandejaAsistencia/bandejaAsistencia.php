@@ -88,6 +88,7 @@
     } ?>
                 </tbody>
             </table>
+            <input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
 </form>
 
 
@@ -143,6 +144,7 @@
         });
 
         $(".btnMarca").click(function () {
+            var url= $("#url").val();
             var arrayAlumno = [];
             var arrayMarcado = [];
             $("input[name='txtcodigo[]']").each(function () {
@@ -154,7 +156,7 @@
                 arrayMarcado.push(value);
             });
             $.ajax({
-                url: "registrarAsitencia",
+                url: url+"GestionDocente/registrarAsitencia",
                 data: $("#registroMarca").serialize(),
                 type: "POST",
                 beforeSend: function () {
@@ -170,14 +172,14 @@
 
         $(".Detalle").click(function () {
             var codigo = $(this).data("codigo");
-
+            var url= $("#url").val();
             var alumno = $(this).data("alumno");
             var curso = $(this).data("curso");
             var alu = alumno.replace(' ', '-');
             var alu2 = alu.replace(' ', '-');
             $.ajax({
                 type: 'POST',
-                url: "verdetalleAlumno",
+                url: url+"GestionDocente/verdetalleAlumno",
                 data: {
                     codigo: codigo,
                     alu2: alu2,
@@ -190,7 +192,7 @@
                     if (datos.length > 0) {
                         $('#DIVcargas').dialog('close');
                         $('#DIVVERDETALLE').html(datos);
-                        $('#DIVVERDETALLE').dialog('open');
+
                     }
                     return false;
                 }

@@ -99,5 +99,6 @@
 <script>
 </script>
 <script type="text/javascript">
+
     $("#dataTables-asistedet").dataTable();
 </script>

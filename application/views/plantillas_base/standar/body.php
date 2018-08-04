@@ -13,7 +13,7 @@
             <div class="main_container">
                 <?=$this->load->view("plantillas_base/standar/panel_izq", (isset($panel))?array('panelData'=> &$panel):'', true);?>
                     <?=$this->load->view("plantillas_base/standar/top_navbar", (isset($navbar))?array('navbarData'=> &$navbar):'', true);?>
-                        <div class="right_col" role="main" style="padding: 30px 50px 0;">
+                        <div class="right_col" role="main" style="padding: 30px 50px 0;" id="cuerpo">
                             <?=$this->load->view("bodys/".$body, (isset($bodyData))? array('bodyData'=> &$bodyData):'', true);?>
                         </div>
                         <?=$this->load->view("plantillas_base/standar/footer", (isset($footer))?array('footerData'=> &$footer):'', true);?>

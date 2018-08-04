@@ -11,9 +11,9 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                                                   
+
                 <form  method="post"  name="crearusuario" id="crearusuario" >
-                
+
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                     Grado:
                     <select name="rol_grado"  class="form-control" id='rol_grado' required>
@@ -30,12 +30,12 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                     Seccion:
                     <select name="rol_seccion"  class="form-control" id='rol_seccion' required></select>
-                </label>                    
-                
-                
-                
-                
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">                    
+                </label>
+
+
+
+
+                <label class="control-label col-md-3 col-sm-3 col-xs-12">
                 <label>Fecha:</label>
                                     <div class='input-group date' >
                                         <input type='text' name="fecha" id='fecha' class="form-control "  disabled="true"/>
@@ -43,25 +43,25 @@
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
                                     </div>
-                </label>                
+                </label>
                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                 <label>Hora:</label>
-                                        <div class='input-group date' name="horadiv" id="horadiv"  >    
-                                         <input type='text' name="hora" id='hora' class="form-control "  disabled="true"/>                                           
+                                        <div class='input-group date' name="horadiv" id="horadiv"  >
+                                         <input type='text' name="hora" id='hora' class="form-control "  disabled="true"/>
                                         <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-calendar"></span>
                                         </span>
                                         </div>
-                </label>                    
-                </form>       
+                </label>
+                </form>
                   </div>
-                                                                    
-                
-                                               
+
+
+
 
                   </div>
                 </div>
-                 
+
                <div class="col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -76,16 +76,16 @@
                   </div>
                   <div class="x_content">
 
-                      <div class="table-responsive" id="bandejaAsistencia">                      
+                      <div class="table-responsive" id="bandejaAsistencia">
                       </div>
                   </div>
                 </div>
-              </div>  
+              </div>
 
 
 
-                           
-                      
+
+
 
 <div id="DIVVERDETALLE" title="INTRANET :: Ver asistencia"></div>
 <div id="DIVcargas"       title="EN PROCESO ... "> Espere mientras se gestiona la informaci&oacute;n.   <img src="<?= base_url('publico/media/loading.gif')?>"  width="20" height="20"> </div>

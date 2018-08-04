@@ -19,7 +19,7 @@
 
                 <form method="post" name="crearusuario" id="crearusuario">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">
                             Grado:
                             <select name="rol_grado" class="form-control" id='rol_grado' required>
                                 <option>Seleccione</option>
@@ -33,36 +33,17 @@
                         } ?>
                             </select>
                         </label>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">
                             Seccion:
                             <select name="rol_seccion" class="form-control" id='rol_seccion' required></select>
                         </label>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">
                             Curso:
                             <select name="rol_curso" class="form-control" id='rol_curso' required></select>
                         </label>
                     </div>
                 </form>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                        <label>Fecha:</label>
-                        <div class='input-group date'>
-                            <input type='text' name="fecha" id='fecha' class="form-control " disabled="true" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                    </label>
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                        <label>Hora:</label>
-                        <div class='input-group date' name="horadiv" id="horadiv">
-                            <input type='text' name="hora" id='hora' class="form-control " disabled="true" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                    </label>
-                </div>
+
 
 
 
@@ -70,11 +51,11 @@
             </div>
         </div>
     </div>
-
+    <input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
     <div class="col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>REGISTRO DE ASISTENCIA</h2>
+                <h2>ASISTENCIA</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
                         <a class="collapse-link">
@@ -106,6 +87,4 @@
 
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionDocente_asistencia.js')?>"></script>
 <?php
-} else {
-                            echo "No cuenta con la información necesaria registrada para mostrar esta interfaz.";
-                        } ?>
+} else { echo "No cuenta con la información necesaria registrada para mostrar esta interfaz."; } ?>

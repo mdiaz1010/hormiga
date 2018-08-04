@@ -17,7 +17,7 @@
     <link href="<?=base_url('publico/html_libs/dropzone/dist/min/dropzone.min.css') ?>" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="<?=base_url('publico/html_libs/custom_theme/css/custom.css')?>" rel="stylesheet">
-
+    <link rel="stylesheet" href="<?=base_url('publico/css/site-demos.css')?>">
     <!-- file -->
 
     <!-- jQuery -->

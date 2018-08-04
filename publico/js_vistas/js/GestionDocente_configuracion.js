@@ -1,18 +1,14 @@
+var url = $("#url").val();
 $('#DIVcargas').dialog({
     autoOpen: false,
     hide: 'drop',
-    width: 300,
-    height: 150,
+    width: 360,
+    height: 80,
     closeOnEscape: false,
     open: function (event, ui) {
         $(".ui-dialog-titlebar-close").hide();
     },
-    modal: true,
-    buttons: {
-        "CERRAR": function () {
-            $(this).dialog("close");
-        }
-    }
+    modal: true
 });
 
 
@@ -26,7 +22,7 @@ $(document).ready(function () {
             $("#rol_curso").html("");
             $("#rol_nota").html("");
         } else {
-            $.post('comboCursoGradoProf', {
+            $.post(url + 'GestionDocente/comboCursoGradoProf', {
                 grado: grado
             }, function (data) {
                 $('#rol_seccion').html(data);
@@ -45,7 +41,7 @@ $(document).ready(function () {
             $("#rol_curso").html("");
             $("#rol_nota").html("");
         } else {
-            $.post('comboConfiguracion', {
+            $.post(url + 'GestionDocente/comboConfiguracion', {
                 grado: grado,
                 seccion: seccion
             }, function (data) {
@@ -68,16 +64,17 @@ $(document).ready(function () {
         if (nota === '') {
             $("#bandejaNotas").html("Ingrese el Bimestre...");
         } else {
-
+            $("#DIVcargas").dialog('open');
             $.ajax({
                 type: "POST",
-                url: "comboConfiguracionNota",
+                url: url + 'GestionDocente/comboConfiguracionNota',
                 data: {
                     nota: nota,
                     curso: curso,
                     grado: grado
                 },
                 success: function (datos) {
+                    $("#DIVcargas").dialog('close');
                     $('#bandejaNotas').html(datos);
                     return false;
                 }

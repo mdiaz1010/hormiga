@@ -130,7 +130,7 @@
                     if (empty($modulo->isVisible)) {
                         return;
                     }/// no graficar los q deben estar ocultos (AJAX u otros)
-                    $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?'href="'.site_url($modulo->uri).'"' :'' ;
+                    $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
                     if (!isset($modulo->hijos)) {
                         echo ' <li><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
                     } else {
@@ -149,7 +149,7 @@
                 if (empty($modulo->isVisible)) {
                     return;
                 }/// no graficar los q deben estar ocultos (AJAX u otros)
-                $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?'href="'.site_url($modulo->uri).'"' :'' ;
+                $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
                 if (!isset($modulo->hijos)) {
                     echo ' <li><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
                 } else {
@@ -262,10 +262,10 @@
     } ?>
                 </div>
                 <div class="profile_info">
-                    <span>Bienvenido,</span>
-                    <h2>
-                        <?=$this->session->webCasSession->usuario->USUARIO?>
-                    </h2>
+                    <span>Bienvenido,</span> <br>
+                    <small>
+                        <?=$this->session->webCasSession->usuario->NOMBRE?>
+                    </small>
                 </div>
             </div>
             <!-- /menu profile quick info -->
@@ -301,3 +301,9 @@
             <!-- /menu footer buttons -->
         </div>
     </div>
+    <script>
+            $(".body_load").click(function(){
+                var uri = $(this).data('uri');
+                        $("#cuerpo").load(uri);
+            });
+    </script>

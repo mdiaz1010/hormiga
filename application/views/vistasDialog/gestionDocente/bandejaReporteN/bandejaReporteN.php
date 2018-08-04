@@ -60,7 +60,7 @@
                                 <canvas id="polarArea" style="    height: 350px;"></canvas>
                             </div>
                         </div>
-                        <form method='POST' id='formReport' name="formReport" action="comboBandeNotReportG1" target="TheWindow">
+                        <form method='POST' id='formReport' name="formReport" action="<?=base_url();?>GestionDocente/comboBandeNotReportG1" target="TheWindow">
                         <div class="col-md-4">
                             <div class="list-group">
 
@@ -233,7 +233,7 @@
                 var grado = $(this).data("grado");
                 var seccion = $(this).data("seccion");
                 var bimestre = $(this).data("bimestre");
-                window.open("comboBandeNotReportG1",{curso:curso,grado:grado,seccion:seccion,bimestre:bimestre});
+                window.open(url+"GestionDocente/comboBandeNotReportG1",{curso:curso,grado:grado,seccion:seccion,bimestre:bimestre});
 
             });
 

@@ -66,9 +66,7 @@
                     <center>
 
                         <a data-toggle="modal" data-target=".bs-example-modal-lg" <?=$hidden; ?>
-                            <?=$hidden1?> class="edita" data-codigo="
-                                <?=$cuentasTemp->id?>" data-fecha="
-                                    <?=$cuentasTemp->fecha_val?>" title="Subir archivo" href="#">
+                            <?=$hidden1?> class="edita" data-codigo="<?=$cuentasTemp->id?>" data-fecha="<?=$cuentasTemp->fecha_val?>" title="Subir archivo" href="#">
                                         <span class="fa fa-edit"></span>
                         </a>
                     </center>
@@ -164,7 +162,7 @@ $("#btnSi").click(function(){
                     formdata.append('mensaje', mensaje);
                     $.ajax({
                         type: 'POST',
-                        url: "editarAsistenciasAl",
+                        url: url+'GestionAlumno/editarAsistenciasAl',
                         data: formdata,
                         processData: false,
                         contentType: false,
@@ -185,7 +183,7 @@ $("#btnSi").click(function(){
         var fecha = $(this).data("fecha");
         $.ajax({
             type: 'POST',
-            url: "editarAsistenciaAl",
+            url: url+'GestionAlumno/editarAsistenciaAl',
             data: {
                 id: id,
                 fecha: fecha
@@ -204,7 +202,7 @@ $("#btnSi").click(function(){
 
         $.ajax({
             type: 'POST',
-            url: "verAsistenciaAl",
+            url: url+'GestionAlumno/verAsistenciaAl',
             data: {
                 id: id
             },
@@ -225,7 +223,7 @@ $("#btnSi").click(function(){
 
         $.ajax({
             type: 'POST',
-            url: "guardarmensajeAs",
+            url: url+'GestionAlumno/guardarmensajeAs',
             data: {
                 id: id,
                 fecha: fecha,

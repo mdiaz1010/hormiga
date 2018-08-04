@@ -138,7 +138,7 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
                                 var ruta = $("#ruta").val();
                                 $.ajax({
                                     type: 'POST',
-                                    url: "eliminarMaterialesAs",
+                                    url: url+'GestionAlumno/eliminarMaterialesAs',
                                     data: {
                                         codigo: ide,
                                         ruta: ruta
@@ -160,7 +160,7 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
             var ruta = $(this).data("ruta");
             $.ajax({
                 type: 'POST',
-                url: "eliminarMaterialAs",
+                url: url+'GestionAlumno/eliminarMaterialAs',
                 data: {
                     id: id,
                     fecha: fec,

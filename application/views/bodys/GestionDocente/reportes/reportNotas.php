@@ -11,20 +11,15 @@
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </li>
-                    <li>
-                        <a class="close-link">
-                            <i class="fa fa-close"></i>
-                        </a>
-                    </li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
 
-                <div class="form-group">
-                    <div class="col-sm-12">
+
                         <form method="post" name="reporteNotas" id="reporteNotas">
-                            <div class="container">
+                    <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">
                                     Grado:
                                     <select name="rol_grado" class="form-control" id='rol_grado' required>
@@ -56,8 +51,7 @@
 
 
                         </form>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -65,18 +59,14 @@
     <div class="col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-
+                <h2>REPORTES</h2>
                 <ul class="nav navbar-right panel_toolbox">
                     <li>
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </li>
-                    <li>
-                        <a class="close-link">
-                            <i class="fa fa-close"></i>
-                        </a>
-                    </li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -91,6 +81,11 @@
         </div>
     </div>
 
+</div>
+<input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
+<div id="DIVcargas" title="EN PROCESO ... ">
+    Espere mientras se gestiona la informaci&oacute;n.
+    <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
 </div>
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionDocente_reporteN.js')?>"></script>
 <?php

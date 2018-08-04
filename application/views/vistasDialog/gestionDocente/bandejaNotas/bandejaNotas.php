@@ -34,7 +34,7 @@
 
 </div>
 <div class="x_content">
-    <div id="ResultadoTabla"></div>
+    <div id="ResultadoTabla" class="hot handsontable htRowHeaders htColumnHeaders" style="height: 100%; overflow: hidden; width: 100%;" data-originalstyle="height: 100%; overflow: hidden; width: 100%;"></div>
 </div>
 
 <?php
@@ -43,6 +43,7 @@
     } ?>
 
     <script type="text/javascript">
+
         $("#DIVcargas").dialog("close");
         var busqueda = <?=json_encode($bodyData->datos) ?>;
         var data1 = <?= json_encode($bodyData->tabla) ?>;
@@ -124,7 +125,7 @@
             if (contador === 0) {
                 $.ajax({
                     type: 'POST',
-                    url: 'registrarNotas',
+                    url: url+'GestionDocente/registrarNotas',
                     data: {
                         'tblExcel': data1,
                         'grado': $('#rol_grado').val(),

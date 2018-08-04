@@ -16,6 +16,8 @@
     <link rel="icon" href="<?=base_url('publico/media/indice.ico')?>" type="image/x-icon" />
     <link href="<?= base_url('publico/html_libs/bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?=base_url('publico/login/css/style.css')?>">
+    <link rel="stylesheet" href="<?=base_url('publico/css/site-demos.css')?>">
+    <script src="<?= base_url('publico/js/jquery.validate.min.js')?>"></script>
     <!-- Font Awesome -->
     <link href="<?=base_url('publico/html_libs/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet">
     <title>Inicio Sesion | EDUMPRO</title>

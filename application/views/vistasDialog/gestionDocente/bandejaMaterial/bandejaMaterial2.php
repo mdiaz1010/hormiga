@@ -34,12 +34,12 @@ if (count($bodyData->results)==0) {
                     </p>
                     <div class="tools tools-bottom">
                         <a href="<?= base_url(trim($result['ruta']))?>" target="_blank" style=" outline: none;" class="fa fa-link"></a>
-                        <a href="javascript:" data-id="<?=$result['id']?>" data-bimestre="<?=$bodyData->arrayBusqueda['id_bimestre']?>" data-curso="<?=$bodyData->arrayBusqueda['id_curso']?>"
+                        <a data-toggle="modal" data-target="#modal_editar" href="javascript:" data-id="<?=$result['id']?>" data-bimestre="<?=$bodyData->arrayBusqueda['id_bimestre']?>" data-curso="<?=$bodyData->arrayBusqueda['id_curso']?>"
                             data-seccion="<?=$bodyData->arrayBusqueda['id_seccion']?>" data-grado="<?=$bodyData->arrayBusqueda['id_grado']?>"
                             class="editarMaterial" class="img-responsive center-block">
                             <i class="fa fa-pencil"></i>
                         </a>
-                        <a href="javascript:" data-id="<?=$result['id']?>" data-bimestre="<?=$bodyData->arrayBusqueda['id_bimestre']?>" data-curso="<?=$bodyData->arrayBusqueda['id_curso']?>"
+                        <a data-toggle="modal" data-target="#modal_eliminar" href="javascript:" data-id="<?=$result['id']?>" data-bimestre="<?=$bodyData->arrayBusqueda['id_bimestre']?>" data-curso="<?=$bodyData->arrayBusqueda['id_curso']?>"
                             data-seccion="<?=$bodyData->arrayBusqueda['id_seccion']?>" data-grado="<?=$bodyData->arrayBusqueda['id_grado']?>"
                             class="eliminarMaterial" class="img-responsive center-block" data-ruta="<?=$result['ruta']?>">
                             <i class="fa fa-times"></i>
@@ -61,8 +61,49 @@ if (count($bodyData->results)==0) {
 }
 
 ?>
-<div id="DIVELIMINARMATERIAL" title="INTRANET EDUCATIVA :: ELIMINAR MATERIAL"></div>
-<div id="DIVEDITARMATERIAL" title="INTRANET EDUCATIVA :: EDITAR MATERIAL"></div>
+<div class="modal fade bs-example3-modal-lg" id="modal_editar" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Editar información</h4>
+      </div>
+      <div class="modal-body" id="DIVEDITARMATERIAL">
+
+      </div>
+
+      <div class="modal-footer">
+        <button name="btnSi" id="btnSi" type="button" class="btn btn-default" data-dismiss="modal" >SI</button>
+        <button name="btnNo" id="btnNo" type="button" class="btn btn-primary" data-dismiss="modal">NO</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal " id="modal_eliminar" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Eliminar material</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="DIVELIMINARMATERIAL">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnEliminar" data-dismiss="modal" class="btn btn-primary">Si</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="DIVcargando" title="EN PROCESO">
 
     <center>
@@ -70,7 +111,9 @@ if (count($bodyData->results)==0) {
         <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
     </center>
 </div>
+<input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
 <script type="text/javascript">
+
     $('#DIVcargando').dialog({
         autoOpen: false,
         hide: 'drop',
@@ -89,18 +132,9 @@ if (count($bodyData->results)==0) {
         resizable: false
     });
 
-    $("#DIVEDITARMATERIAL").dialog({
-        autoOpen: false,
-        hide: "drop",
-        width: 340,
-        height: 200,
-        closeOnEscape: false,
-        open: function (event, ui) {
-            $(this).closest(".ui-dialog").find(".ui-dialog-titlebar-close").hide();
-        },
-        modal: true,
-        buttons: {
-            "SI": function () {
+    var url= $("#url").val();
+          $("#btnSi").click(function(){
+
                 var ide = $("#codigo").val();
                 var seccion = $("#txtseccion").val();
                 var grado = $("#txtgrado").val();
@@ -108,16 +142,20 @@ if (count($bodyData->results)==0) {
                 var bimestre = $("#txtbimestre").val();
                 $.ajax({
                     type: 'POST',
-                    url: "editarMateriales",
+                    url: url+"GestionDocente/editarMateriales",
                     data: $("#editarMaterial").serialize(),
                     beforeSend: function () {
                         $("#DIVcargando").dialog("open");
 
                     },
-                    success: function () {
+                    success: function (data) {
                         $("#DIVcargando").dialog("close");
-                        $("#bandejaMaterial2").load(
-                            "<?= site_url('GestionDocente/verbandejaprof') ?>", {
+                        if(data=='0'){
+                            alert("No se han hecho modificaciones debido a que no se permite campos vacíos");
+                            return true;
+                        }
+
+                        $("#bandejaMaterial2").load("<?= site_url('GestionDocente/verbandejaprof') ?>", {
                                 grado:grado,
                                 bimestre: bimestre,
                                 curso: curso,
@@ -126,81 +164,45 @@ if (count($bodyData->results)==0) {
                     }
                 });
 
-                $(this).dialog("close");
-            },
+            });
 
-            "NO": function () {
-                $(this).dialog("close"); //Se cancela operación
 
-            }
-        }
+    $("#btnEliminar").click(function(){
+
+
+
+                    var ide = $("#codigo").val();
+                    var seccion = $("#txtseccion").val();
+                    var grado = $("#txtgrado").val();
+                    var curso = $("#txtcurso").val();
+                    var bimestre = $("#txtbimestre").val();
+                    var ruta = $("#txtruta").val();
+                    $.ajax({
+                        type: 'POST',
+                        url: url+"GestionDocente/eliminarMateriales",
+                        data: {
+                            codigo: ide,
+                            ruta: ruta
+                        },
+                        success: function () {
+                            $("#DIVcargando").dialog("open");
+                        },
+                        success: function () {
+                            $("#DIVcargando").dialog("close");
+                            $("#bandejaMaterial2").load(
+                                "<?= site_url('GestionDocente/verbandejaprof/') ?>", {
+                                    grado:grado,
+                                    bimestre: bimestre,
+                                    curso: curso,
+                                    seccion: seccion
+                                });
+                        }
+                    });
+
+
     });
-
-    $("#DIVEDITARMATERIAL").dialog({
-        draggable: false
-    });
-    $("#DIVEDITARMATERIAL").dialog({
-        resizable: false
-    });
-
-    $("#DIVELIMINARMATERIAL").dialog({
-        autoOpen: false,
-        hide: "drop",
-        width: 340,
-        height: 130,
-        closeOnEscape: false,
-        open: function (event, ui) {
-            $(this).closest(".ui-dialog").find(".ui-dialog-titlebar-close").hide();
-        },
-        modal: true,
-        buttons: {
-            "SI": function () {
-                var ide = $("#codigo").val();
-                var seccion = $("#txtseccion").val();
-                var grado = $("#txtgrado").val();
-                var curso = $("#txtcurso").val();
-                var bimestre = $("#txtbimestre").val();
-                var ruta = $("#txtruta").val();
-                $.ajax({
-                    type: 'POST',
-                    url: "eliminarMateriales",
-                    data: {
-                        codigo: ide,
-                        ruta: ruta
-                    },
-                    success: function () {
-                        $("#DIVcargando").dialog("open");
-                    },
-                    success: function () {
-                        $("#DIVcargando").dialog("close");
-                        $("#bandejaMaterial2").load(
-                            "<?= site_url('GestionDocente/verbandejaprof/') ?>", {
-                                grado:grado,
-                                bimestre: bimestre,
-                                curso: curso,
-                                seccion: seccion
-                            });
-                    }
-                });
-
-                $(this).dialog("close");
-            },
-
-            "NO": function () {
-                $(this).dialog("close"); //Se cancela operación
-
-            }
-        }
-    });
-
-    $("#DIVELIMINARMATERIAL").dialog({
-        draggable: false
-    });
-    $("#DIVELIMINARMATERIAL").dialog({
-        resizable: false
-    });
-
     $(".editarMaterial").click(function () {
+
         var id = $(this).data("id");
         var grado = $(this).data("grado");
         var curso = $(this).data("curso");
@@ -208,7 +210,7 @@ if (count($bodyData->results)==0) {
         var bimestre = $(this).data("bimestre");
         $.ajax({
             type: 'POST',
-            url: "editarMaterial",
+            url: url+"GestionDocente/editarMaterial",
             data: {
                 id: id,
                 curso: curso,
@@ -219,7 +221,7 @@ if (count($bodyData->results)==0) {
             success: function (datos) {
                 if (datos.length > 0) {
                     $('#DIVEDITARMATERIAL').html(datos);
-                    $('#DIVEDITARMATERIAL').dialog('open');
+
                 }
                 return false;
             }
@@ -234,7 +236,7 @@ if (count($bodyData->results)==0) {
         var ruta = $(this).data("ruta");
         $.ajax({
             type: 'POST',
-            url: "eliminarMaterial",
+            url: url+"GestionDocente/eliminarMaterial",
             data: {
                 id: id,
                 curso: curso,
@@ -246,7 +248,7 @@ if (count($bodyData->results)==0) {
             success: function (datos) {
                 if (datos.length > 0) {
                     $('#DIVELIMINARMATERIAL').html(datos);
-                    $('#DIVELIMINARMATERIAL').dialog('open');
+
                 }
                 return false;
             }

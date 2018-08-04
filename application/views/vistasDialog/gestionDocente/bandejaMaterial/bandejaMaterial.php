@@ -61,7 +61,7 @@ $("#btncargar").click(function(){
                     var grado = $("#txtgrado").val();
                     var curso = $("#txtcurso").val();
                     var bimestre = $("#txtbimestre").val();
-                    var descripcion =  $("#editor-one").val();;
+                    var descripcion =  $("#editor").val();;
                     var txtarchivo = $("#txtarchivo").val();
                     if(txtarchivo==''){
                         $("#mensaje").html('<div class="alert alert-danger" role="alert">Ingresar un Nombre* al archivo</div>');
@@ -76,7 +76,7 @@ $("#btncargar").click(function(){
                     formdata.append('txtarchivo', txtarchivo);
                     $.ajax({
                         type: 'POST',
-                        url: "registrarArchivoProf",
+                        url: url+"GestionDocente/registrarArchivoProf",
                         data: formdata,
                         processData: false,
                         contentType: false,
@@ -130,14 +130,13 @@ $("#btncargar").click(function(){
 
 
     $(".btnArchivo").click(function () {
-
         var curso = $(this).data("curso");
         var grado = $(this).data("grado");
         var seccion = $(this).data("seccion");
         var bimestre = $(this).data("bimestre");
         $.ajax({
             type: 'POST',
-            url: "subirArchivoProf",
+            url: url+"GestionDocente/subirArchivoProf",
             data: {
                 curso: curso,
                 grado: grado,

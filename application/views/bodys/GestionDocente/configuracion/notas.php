@@ -19,7 +19,7 @@
             <form  method="post"  name="crearusuario" id="crearusuario" >
                 <div class="form-group" >
 
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4 col-xs-12">
                     Grado:
                     <select name="rol_grado"  class="form-control" id='rol_grado' required>
                         <option >Seleccione</option>
@@ -31,11 +31,11 @@
                         } ?>
                     </select>
                 </label>
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4 col-xs-12">
                     Curso:
                     <select name="rol_seccion"  class="form-control" id='rol_seccion' required></select>
                 </label>
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label col-md-4 col-sm-4 col-xs-12">
                     Nota:
                     <select name="rol_nota"    class="form-control" id='rol_nota' required></select>
                 </label>
@@ -120,6 +120,7 @@
 } else {
                             echo "No cuenta con la información necesaria registrada para mostrar esta interfaz.";
                         } ?>
+<input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
 <style>
 .circulo {
      width: 40px;

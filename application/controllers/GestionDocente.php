@@ -36,9 +36,9 @@ class GestionDocente extends CI_Controller
         } else {
             $this->htmlData['bodyData']->respuesta     = 0 ;
         }
-        $this->htmlData['body']                           .= "/gestionDocente/notas";
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionDocente/gestionDocente/notas', $this->htmlData);
     }
     public function dexcel()
     {
@@ -65,9 +65,9 @@ class GestionDocente extends CI_Controller
         } else {
             $this->htmlData['bodyData']->respuesta     = 0 ;
         }
-        $this->htmlData['body']                          .= "/gestionDocente/material";
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionDocente/gestionDocente/material', $this->htmlData);
     }
     public function asistencia()
     {
@@ -87,9 +87,9 @@ class GestionDocente extends CI_Controller
         } else {
             $this->htmlData['bodyData']->respuesta     = 0 ;
         }
-        $this->htmlData['body']                           .= "/gestionDocente/asistencia";
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionDocente/gestionDocente/asistencia', $this->htmlData);
     }
     public function registrarNotas()
     {
@@ -200,9 +200,8 @@ class GestionDocente extends CI_Controller
         } else {
             $this->htmlData['bodyData']->respuesta       = 1 ;
         }
-        $this->htmlData['body']                  .= "/reportes/reportPrincipal" ;
         $this->htmlData['headData']->titulo       = "GESTION :: INTRANET"       ;
-        $this->load->view('plantillas_base/standar/body', $this->htmlData)       ;
+        $this->load->view('bodys/GestionDocente/reportes/reportPrincipal', $this->htmlData)       ;
     }
     public function reportAsistencia()
     {
@@ -210,7 +209,7 @@ class GestionDocente extends CI_Controller
         $this->load->model("Rol_model", '', true);//
         $this->htmlData['body']                  .= "/reportes/reportAsistencia";
         $this->htmlData['headData']->titulo       = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys', $this->htmlData);
     }
     public function reportNotas()
     {
@@ -230,9 +229,9 @@ class GestionDocente extends CI_Controller
         } else {
             $this->htmlData['bodyData']->respuesta     = 0 ;
         }
-        $this->htmlData['body']                           .= "/reportes/reportNotas";
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionDocente/reportes/reportNotas', $this->htmlData);
     }
     public function comboSeccionProf()
     {
@@ -509,7 +508,7 @@ class GestionDocente extends CI_Controller
         $this->htmlData['bodyData']->curso           = $title ;
         $this->htmlData['body']                  .= "/reportes/reportPrincipal" ;
         $this->htmlData['headData']->titulo       = "GESTION :: INTRANET"       ;
-        $this->load->view('plantillas_base/standar/body', $this->htmlData)       ;
+        $this->load->view('bodys', $this->htmlData)       ;
     }
     public function comboBandeNotReportG3()
     {
@@ -553,8 +552,8 @@ class GestionDocente extends CI_Controller
             $this->htmlData['bodyData']->respuesta     = 0 ;
         }
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->htmlData['body']                  .= "/configuracion/notas" ;
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+
+        $this->load->view('bodys/GestionDocente/configuracion/notas', $this->htmlData);
     }
     public function verdetalleAlumno()
     {
@@ -1077,11 +1076,11 @@ class GestionDocente extends CI_Controller
                            'direcc'=>$datos[0]->direcc,'docume'=>$datos[0]->docume,'claves'=>$datos[0]->claves,
                            'usuari'=>$datos[0]->usuari,'correo'=>$datos[0]->correo,'telefo'=>$datos[0]->telefo,
                            'grados'=>"DOCENTE",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
-        $this->htmlData['body']                          .= "/miUsuario";
+        
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $alumno ;
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionDocente/miUsuario', $this->htmlData);
     }
     public function editarInfo()
     {
@@ -1098,8 +1097,20 @@ class GestionDocente extends CI_Controller
         $dato=array('direccion'=>$direc,'fecha_nac'=>$fecha,'documento'=>$dni);
         $datoC=array('des_correo'=>$email,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d'));
         $datoT=array('num_tel'=>$telefono,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d'));
-
+        $extensiones_permitidas = array('png','jpg','jpeg');
+        if(isset($_FILES['images']['name'][0])){
         foreach ($_FILES['images']['error'] as $key => $error) {
+            if($_FILES['images']['size'][$key]==0){
+                    echo "x"; die();
+            }
+            if ($error == UPLOAD_ERR_OK) {
+
+                $extension = explode('/',strtolower($_FILES['images']['type'][$key]));
+
+                if($extension[1]!=$extensiones_permitidas[array_search($extension[1],$extensiones_permitidas)]){
+                    echo "n"; die();
+                }
+            }
             if ($error == UPLOAD_ERR_OK) {
                 $name = $_FILES['images']['name'][$key];
                 $tipo = $_FILES['images']['type'][$key];
@@ -1116,6 +1127,7 @@ class GestionDocente extends CI_Controller
                         );
 
                     $this->Usuarios_model->cambiardat($archivo, $alumno) ;
+                    echo "1";
                 } else {
                     $errors= error_get_last();
                     echo "COPY ERROR: ".$errors['type'];
@@ -1123,11 +1135,13 @@ class GestionDocente extends CI_Controller
                 }
             }
         }
+    }
         $this->Usuarios_model->cambiarclave($data, $alumno) ;
         $this->Usuarios_model->cambiardat($dato, $alumno) ;
         $this->Usuarios_model->editartelefon($datoT, $alumno) ;
         $this->Usuarios_model->editarcorreos($datoC, $alumno) ;
     }
+
     public function editarMaterial()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -1139,7 +1153,7 @@ class GestionDocente extends CI_Controller
         $seccion=$this->input->post('seccion');
         $arrayEliminar= array('grado'=>$grado,'bimestre'=>$bimestre,'curso'=>$curso,'seccion'=>$seccion);
         $archi=$this->Usuarios_model->editarMateriales1($id);
-        $nomArchivo=$archi[0]->nom_archivo;
+        $nomArchivo=array('archivo'=>$archi[0]->nom_archivo,'descripcion'=>$archi[0]->descripcion);
         $this->htmlData['bodyData']->id         = $id ;
         $this->htmlData['bodyData']->arrayEliminar         = $arrayEliminar ;
         $this->htmlData['bodyData']->nomArchivo         = $nomArchivo ;
@@ -1166,7 +1180,13 @@ class GestionDocente extends CI_Controller
         $this->load->model("Rol_model", '', true);
         $id=$this->input->post('id');
         $archivo=$this->input->post('archivo');
-        $data= array('nom_archivo'=>$archivo);
+        $descrip=$this->input->post('editor');
+        $data= array('nom_archivo'=>$archivo,'descripcion'=>$descrip);
+        if($archivo=='' || $descrip==''){
+            echo "0";
+            die();
+        }
+
         $this->Usuarios_model->editarMateriales2($id, $data);
     }
     public function eliminarMateriales()
@@ -1265,7 +1285,7 @@ class GestionDocente extends CI_Controller
 
 
 
-
+        if(isset($_FILES['images']['name'][0])){
         foreach ($_FILES['images']['error'] as $key => $error) {
 
             if($_FILES['images']['size'][$key]==0){
@@ -1312,5 +1332,6 @@ class GestionDocente extends CI_Controller
                 }
             }
         }
+    }
     }
 }

@@ -78,28 +78,7 @@
                 </form>
 
 
-                <div class="form-group">
 
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                        <label>Fecha:</label>
-                        <div class='input-group date'>
-                            <input type='text' name="fecha" id='fecha' class="form-control " disabled="true" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                    </label>
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                        <label>Hora:</label>
-                        <div class='input-group date' name="horadiv" id="horadiv">
-                            <input type='text' name="hora" id='hora' class="form-control " disabled="true" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                    </label>
-
-                </div>
 
             </div>
 
@@ -108,8 +87,24 @@
 
 
 
-        <div class="x_panel">
-            <div id="bandejaNotas"></div>
+        <div class="x_panel " >
+            <div class="x_title">
+                <h2>NOTAS</h2>
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                    </li>
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <div id="bandejaNotas" ></div>
+            </div>
+
         </div>
 
 
@@ -121,6 +116,7 @@
     Espere mientras se gestiona la informaci&oacute;n.
     <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
 </div>
+<input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionDocente_notas.js')?>"></script>
 <?php
 } else {

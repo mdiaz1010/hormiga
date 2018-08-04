@@ -108,7 +108,7 @@
   var acumulado = $("#acumulado").val();
   $.ajax({
     type: "POST",
-    url: "cargarConfiguracionNotas",
+    url: url+'GestionDocente/cargarConfiguracionNotas',
     data: {
       grado: grado,
       curso: curso,
@@ -135,7 +135,7 @@
     contador++;
 
     var abreviacion = $("#abreviacion").val();
-    $.post('verificar_abreviacion', {
+    $.post(url+'GestionDocente/verificar_abreviacion', {
       abreviacion: abreviacion,
       grado: grado,
       curso: curso,
@@ -164,7 +164,7 @@
           alert('Rellenar los campos obligatorios *');
           return true;
         }
-        $.post('valido_abreviacion_notas', {
+        $.post(url+'GestionDocente/valido_abreviacion_notas', {
           grado: grado,
           curso: curso,
           abreviacion: abreviacion,
@@ -221,14 +221,14 @@
     var ano = $("#ano").val();
     $.ajax({
       type: "POST",
-      url: "registrar_configuracion_nota",
+      url: url+'GestionDocente/registrar_configuracion_nota',
       data: $("#registrarNotasConf").serialize(),
       beforeSend: function( datos){
         $('#DIVcargas_general').dialog('open');
       },
       success: function (datos) {
         if (datos == 1) {
-          $.post('cambiar_estado_configuracion', {
+          $.post(url+'GestionDocente/cambiar_estado_configuracion', {
             grado: grado,
             curso: curso,
             nota: nota,
@@ -237,7 +237,7 @@
             nota: nota,
             descontar: descontar
           });
-          $("#divGrilla").load("cargarConfiguracionNotas", {
+          $("#divGrilla").load(url+'GestionDocente/cargarConfiguracionNotas', {
             grado: grado,
             curso: curso,
             nota: nota,

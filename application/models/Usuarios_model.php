@@ -14,13 +14,14 @@ class Usuarios_model extends CI_Model
         return
                 $this->db->select('
         ma.id           as CODIGO,
-	mu.nom_usuario	as USUARIO      ,
-        ma.documento   as DOCUMENTO    ,
-        mt.num_tel	as TELEFONO     ,
-        mu.clav_usuario as CLAVE        ,
-        mu.role_usuario as ROLES        ,
+	    mu.nom_usuario	as USUARIO   ,
+        ma.documento   as DOCUMENTO  ,
+        mt.num_tel	as TELEFONO      ,
+        mu.clav_usuario as CLAVE     ,
+        mu.role_usuario as ROLES     ,
         mc.des_correo	as CORREO	 ,
-        ma.ruta         as RUTA
+        ma.ruta         as RUTA      ,
+        ma.ape_pat_per       as NOMBRE
                       ')
                 ->from('maepersona  ma')
                 ->join('maecorreos  mc', 'ma.id=mc.id_persona')
@@ -1107,7 +1108,7 @@ class Usuarios_model extends CI_Model
     }
     public function editarMateriales1($id)
     {
-        $this->db->select('nom_archivo')->from('documentos_docentes');
+        $this->db->select('nom_archivo,descripcion')->from('documentos_docentes');
         $this->db->where('id', $id);
         $query = $this->db->get();
         return $query->result();

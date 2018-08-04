@@ -54,12 +54,14 @@
         <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
     </center>
 </div>
+<input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/cargar_data.js')?>"></script>
 <script type="text/javascript">
     var nombre1 = $("#buscarUsuario").val();
+    var url= $("#url").val();
     $.ajax({
         type: 'POST',
-        url: 'consultaGeneralDir',
+        url: url+'GestionEducativa/consultaGeneralDir',
         data: {
             nombre: nombre1,
             boolean: "true"
@@ -78,7 +80,7 @@
         var nombre = $("#buscarUsuario").val();
         $.ajax({
             type: 'POST',
-            url: 'consultaGeneralDir',
+            url: url+'GestionEducativa/consultaGeneralDir',
             data: {
                 nombre: nombre,
                 boolean: "false"
@@ -102,7 +104,7 @@
 
         $.ajax({
             type: 'POST',
-            url: 'buscarUser',
+            url: url+'GestionEducativa/buscarUser',
             data: {
                 nombre: nombre,
                 boolean: "false"
