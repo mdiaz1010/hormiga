@@ -54,6 +54,10 @@ $("#archivoprof").validate({
             editor:{
             required: true,
             maxlength:220
+            },
+            docAdj:{
+            required: true,
+            extension: "docx|txt|jpg|png|jpeg|pptx|pdf"
             }
         },
         messages: {
@@ -65,6 +69,10 @@ $("#archivoprof").validate({
             editor: {
             required: " Este campo es obligatorio",
             maxlength: "Solo puede ingresar un máximo de 220 caracteres."
+            },
+            docAdj :{
+            required :"Este campo es obligatorio",
+            extension: "El documento que intenta ingresar no , está dentro de las extensiones permitidas"
             }
         }
 

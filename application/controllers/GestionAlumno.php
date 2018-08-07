@@ -18,7 +18,42 @@ class GestionAlumno extends CI_Controller
 
     public function index()
     {
-        echo "hola mundo"; die();
+
+                $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);//
+        SessionSeguridad::tiempo_maximo($this->session->webCasSession);
+        $alu= $this->session->webCasSession->usuario->CODIGO;
+        $ano     = $this->Usuarios_model->busquedaAno($alu);
+
+        if ($ano[0]->ano==date('Y')) {
+            $valores  = $this->Usuarios_model->busquedaGradoSeccion2($alu, $ano[0]->ano) ;
+            $resultado=  $this->Usuarios_model->getBusquedaAulaAlu($valores['id_grado'], $valores['id_seccion'], $ano[0]->ano);
+            $valores['ano']= $ano[0]->ano;
+            $cantidad_cursos=$this->Usuarios_model->busquedaCurso($valores);
+            $nota_vacia = array_column($this->Usuarios_model->nota_vacia($alu),'id_curso');
+        }
+
+        if (isset($resultado)==true) {
+            $this->htmlData['bodyData']->respuesta           = 1 ;
+        } else {
+            $this->htmlData['bodyData']->respuesta           = 0 ;
+        }
+        $emergente['promedio']=count($cantidad_cursos)-count($nota_vacia);
+        if(empty($this->Usuarios_model->validar_registro($alu)))
+        {
+             $emergente['promedio']=0;
+        }
+        if($emergente['promedio']==0){
+            $disabled='display: none;';
+        }else{
+            $disabled='';
+        }
+        $emergente['repositorio']= $this->Usuarios_model->notificacion_repositorio($valores)['cantidad'];
+        $this->htmlData['bodyData']->disabled         = $disabled ;
+        $this->htmlData['bodyData']->emergente         = $emergente ;
+
+        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->load->view('bodys/Login/gestionAlumno', $this->htmlData);
     }
 
     public function consultarNotas()
@@ -245,14 +280,27 @@ class GestionAlumno extends CI_Controller
         $fecha  =$this->input->post('fecha');
         $direc  =$this->input->post('direccion');
         $clave  =$this->input->post('clave');
+        $dni    =$this->input->post('documento');
         $email  =$this->input->post('email');
         $telefono  =$this->input->post('telefono');
         $data=array('clav_usuario'=>$clave);
         $dato=array('direccion'=>$direc,'fecha_nac'=>$fecha);
         $datoC=array('des_correo'=>$email,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d'));
         $datoT=array('num_tel'=>$telefono,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d'));
-
+        $extensiones_permitidas = array('png','jpg','jpeg');
+        if(isset($_FILES['images']['name'][0])){
         foreach ($_FILES['images']['error'] as $key => $error) {
+            if($_FILES['images']['size'][$key]==0){
+                    echo "x"; die();
+            }
+            if ($error == UPLOAD_ERR_OK) {
+
+                $extension = explode('/',strtolower($_FILES['images']['type'][$key]));
+
+                if($extension[1]!=$extensiones_permitidas[array_search($extension[1],$extensiones_permitidas)]){
+                    echo "n"; die();
+                }
+            }
             if ($error == UPLOAD_ERR_OK) {
                 $name = $_FILES['images']['name'][$key];
                 $tipo = $_FILES['images']['type'][$key];
@@ -269,6 +317,7 @@ class GestionAlumno extends CI_Controller
                         );
 
                     $this->Usuarios_model->cambiardat($archivo, $alumno) ;
+                    echo "1";
                 } else {
                     $errors= error_get_last();
                     echo "COPY ERROR: ".$errors['type'];
@@ -276,6 +325,7 @@ class GestionAlumno extends CI_Controller
                 }
             }
         }
+    }
         $this->Usuarios_model->cambiarclave($data, $alumno) ;
         $this->Usuarios_model->cambiardat($dato, $alumno) ;
         $this->Usuarios_model->editartelefon($datoT, $alumno) ;

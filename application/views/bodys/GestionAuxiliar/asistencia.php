@@ -14,7 +14,7 @@
 
                 <form  method="post"  name="crearusuario" id="crearusuario" >
 
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label col-md-6 col-sm-6 col-xs-12">
                     Grado:
                     <select name="rol_grado"  class="form-control" id='rol_grado' required>
                         <option >Seleccione</option>
@@ -27,7 +27,7 @@
                         ?>
                     </select>
                 </label>
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                <label class="control-label col-md-6 col-sm-6 col-xs-12">
                     Seccion:
                     <select name="rol_seccion"  class="form-control" id='rol_seccion' required></select>
                 </label>
@@ -35,24 +35,7 @@
 
 
 
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                <label>Fecha:</label>
-                                    <div class='input-group date' >
-                                        <input type='text' name="fecha" id='fecha' class="form-control "  disabled="true"/>
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                    </div>
-                </label>
-                <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                <label>Hora:</label>
-                                        <div class='input-group date' name="horadiv" id="horadiv"  >
-                                         <input type='text' name="hora" id='hora' class="form-control "  disabled="true"/>
-                                        <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                        </span>
-                                        </div>
-                </label>
+
                 </form>
                   </div>
 
@@ -61,16 +44,15 @@
 
                   </div>
                 </div>
-
+              <input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
                <div class="col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>REGISTRO DE ASISTENCIA</h2>
+                    <h2>ASISTENCIA</h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
+
                     </ul>
                     <div class="clearfix"></div>
                   </div>
@@ -88,5 +70,9 @@
 
 
 <div id="DIVVERDETALLE" title="INTRANET :: Ver asistencia"></div>
-<div id="DIVcargas"       title="EN PROCESO ... "> Espere mientras se gestiona la informaci&oacute;n.   <img src="<?= base_url('publico/media/loading.gif')?>"  width="20" height="20"> </div>
+<div id="DIVcargas"       title="EN PROCESO ... ">
+ Espere mientras se gestiona la informaci&oacute;n.
+<span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
+</div>
+
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionAuxiliar_asistencia.js')?>"></script>

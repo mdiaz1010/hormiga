@@ -1,5 +1,5 @@
+var url = $("#url").val();
 $('#rol').change(function () {
-
     var seleccion = document.getElementById('rol');
     var valor = seleccion.options[seleccion.selectedIndex].value; //coges el valor
     var texto = seleccion.options[seleccion.selectedIndex].text;
@@ -16,7 +16,7 @@ $('#rol').change(function () {
 
 
 //actualizar bandeja
-$('#bandejaprincipal').load('vistabandeja');
+$('#bandejaprincipal').load(url + 'Cuenta/vistabandeja');
 
 
 //HORARIO CARGA
@@ -82,12 +82,12 @@ $("#btnregistrar").click(function () {
     } else {
         $.ajax({
             type: "POST",
-            url: "crear",
+            url: url + "Cuenta/crear",
             data: $("#crearusuario").serialize(),
             success: function () {
                 alert("Se registró el usuario satisfactoriamente");
                 $("result_error").html("<font color ='green'>REGISTRO CORRECTO</font>");
-                $("#bandejaprincipal").load("vistabandeja");
+                $("#bandejaprincipal").load(url + "Cuenta/vistabandeja");
                 $("#crearusuario")[0].reset();
                 $('#result_error').html("");
                 return false;
@@ -111,7 +111,7 @@ $("#btnMasivo").click(function () {
     }
     $.ajax({
         type: 'POST',
-        url: "import_data",
+        url: url + "Cuenta/import_data",
         data: formdata,
         processData: false,
         contentType: false,
@@ -120,7 +120,7 @@ $("#btnMasivo").click(function () {
         },
         success: function () {
             $("#DIVcargas").dialog("close");
-            $("#bandejaprincipal").load("vistabandeja");
+            $("#bandejaprincipal").load(url + "Cuenta/vistabandeja");
             //location.reload();
         }
     });
@@ -141,7 +141,7 @@ $("#btnMasivoalu").click(function () {
     }
     $.ajax({
         type: 'POST',
-        url: "import_data_alumnos",
+        url: url + "Cuenta/import_data_alumnos",
         data: formdata,
         processData: false,
         contentType: false,
@@ -150,7 +150,7 @@ $("#btnMasivoalu").click(function () {
         },
         success: function () {
             $("#DIVcargas").dialog("close");
-            $("#bandejaprincipal").load("vistabandeja");
+            $("#bandejaprincipal").load(url + "Cuenta/vistabandeja");
             //location.reload();
         }
     });
@@ -169,7 +169,7 @@ $(document).ready(function () {
     function cargarData(id) {
 
         $.ajax({
-            url: "permisos",
+            url: url + "Cuenta/permisos",
             method: "POST",
             data: {
                 id: id

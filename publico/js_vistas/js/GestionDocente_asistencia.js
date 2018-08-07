@@ -17,9 +17,9 @@
    });
 
 
+   var url = $("#url").val();
    $(document).ready(function () {
 
-           var url = $("#url").val();
            $('#rol_grado').change(function () {
                    var grado = $(this).val();
                    if (grado === 'Seleccione') {

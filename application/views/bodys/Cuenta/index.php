@@ -213,7 +213,7 @@
 
 </div>
 
-
+<input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
 <div id="DIVcargas" title="EN PROCESO">
     <center>
         <strong>Espere estamos cargando la informacion...</strong>

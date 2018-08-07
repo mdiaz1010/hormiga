@@ -187,6 +187,23 @@ class Login extends CI_Controller
             echo json_encode(array('error'=>1,'vista'=>'index'));die();
         }
     }
+    public function asistencia()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);//
+
+        $profesor= array('profesor'=>$this->session->webCasSession->usuario->CODIGO);
+        $ano= date('Y');
+        $valores= $this->Usuarios_model->buscargradosAno($ano);
+        $this->htmlData['bodyData']->valores     = $valores ;
+        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+
+
+            $this->htmlData['body'] .= "/asistencia";
+            $this->load->view('plantillas_base/standar/body', $this->htmlData);
+
+
+    }
     public function gestionEducativa()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -211,7 +228,7 @@ class Login extends CI_Controller
         $notas = array(
           0=>array('nombre'=>'DIRECTOR'                 ,'nota'=>$dotacionPresente[1]['cantidad'],'rango'=>'18,19,20'),
           1=>array('nombre'=>'PROFESOR'                 ,'nota'=>$dotacionPresente[2]['cantidad'],'rango'=>'14,15,16,17'),
-          2=>array('nombre'=>'ALUMNO'                   ,'nota'=>$dotacionPresente[5]['cantidad'],'rango'=>'11,12,13'),
+          2=>array('nombre'=>'ALUMNO'                   ,'nota'=>$dotacionPresente[4]['cantidad'],'rango'=>'11,12,13'),
           3=>array('nombre'=>'AUXILIAR   '              ,'nota'=>$dotacionPresente[3]['cantidad'],'rango'=>'0 a 10'),
         );
 
@@ -595,7 +612,7 @@ class Login extends CI_Controller
             $trayectoSalon=$this->Usuarios_model->reporteNotasAluSal($data);
             $trayectoGrado=$this->Usuarios_model->reporteNotasAluGra($data);
             $trayectoColeg=$this->Usuarios_model->reporteNotasAluCol();
-            $cantidadCur  =$this->Usuarios_model->reporteCantidadCur($data);
+            //$cantidadCur  =$this->Usuarios_model->reporteCantidadCur($data);
 
             $sum=0;
 

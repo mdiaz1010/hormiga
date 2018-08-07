@@ -25,6 +25,23 @@ class GestionEducativa extends CI_Controller
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('plantillas_base/standar/body', $this->htmlData);
     }
+    public function vistaDirector()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);
+        $dotacionPresente =  $this->Usuarios_model->busquedaTotal();
+
+        $notas = array(
+          0=>array('nombre'=>'DIRECTOR'                 ,'nota'=>$dotacionPresente[1]['cantidad'],'rango'=>'18,19,20'),
+          1=>array('nombre'=>'PROFESOR'                 ,'nota'=>$dotacionPresente[2]['cantidad'],'rango'=>'14,15,16,17'),
+          2=>array('nombre'=>'ALUMNO'                   ,'nota'=>$dotacionPresente[4]['cantidad'],'rango'=>'11,12,13'),
+          3=>array('nombre'=>'AUXILIAR   '              ,'nota'=>$dotacionPresente[3]['cantidad'],'rango'=>'0 a 10'),
+        );
+
+        $this->htmlData['bodyData']->usuariosTotales =  $this->Usuarios_model->reporteCantidadToral();
+        $this->htmlData['bodyData']->notas =  $notas;
+        $this->load->view('bodys/Login/index', $this->htmlData);
+    }
     public function vistabandejaaula()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -836,35 +853,7 @@ class GestionEducativa extends CI_Controller
         //var_dump($this->htmlData['bodyData']->usuario);
         $this->load->view('vistasDialog/permisos', $this->htmlData);
     }
-    public function sistemas($usuarioId=null)
-    {
-        $usuarioId=$this->session->webCasSession->usuario->CODIGO;
-        if ($usuarioId==null or (int)$usuarioId == 0) {
-            echo " <p>Datos No Encontrados</p>";
-            return;
-        }
-        $this->load->model("Usuarios_model", '', true);
-        $usuario = $this->Usuarios_model->getClienteLocal($usuarioId);
-        $empresa = $this->Usuarios_model->getEmpresa($usuarioId);
-        if (count($usuario)<1) {
-            echo " <p>Datos No Encontrados</p>";
-            return;
-        }
-        $usuario = $usuario[0];
-        $this->load->library('encryption');
-        //$usuario->pass = $this->encryption->decrypt( $usuario->pass );
-        $this->htmlData['bodyData']->cuentas     = $this->Usuarios_model->getTipoLocal();
-        $this->htmlData['bodyData']->usuario =   $usuario;
-        $this->htmlData['bodyData']->empresa =   $empresa;
-        $this->htmlData['body']                          .= "/sistemas";
-        $this->htmlData['headData']->titulo               = "GestionEducativa";
 
-        if ($this->session->webCasSession->usuario->ROLES==1) {
-            $this->load->view('plantillas_base/standar2/body', $this->htmlData);
-        } else {
-            $this->load->view('plantillas_base/standar/body', $this->htmlData);
-        }
-    }
 
     public function editPerfil()
     {
@@ -980,7 +969,9 @@ class GestionEducativa extends CI_Controller
         $resultado=  $this->Usuarios_model->getBusquedaAulaProf($alumnos['id_alumno'], $ano);
 
         $i=0;
-
+        if(empty($resultado)){
+            echo "No existe información de este usuario"; die();
+        }
 
         foreach ($resultado as $res) {
             $arrayResultado[$res->horario][$res->dia]=array('materia'=>trim(substr($res->GRADO, 0, 5)).'°'.$res->SECCION.' '.$res->descripcion);
@@ -1186,9 +1177,8 @@ class GestionEducativa extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
-        $this->htmlData['body']                           .= "/notasProfesor";
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionEducativa/notasProfesor', $this->htmlData);
     }
     public function consultaGeneralDir()
     {
@@ -1224,9 +1214,9 @@ class GestionEducativa extends CI_Controller
         } else {
             $this->htmlData['bodyData']->resultado=1;
         }
-        $this->htmlData['body']                           .= "/notasGeneral";
+
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionEducativa/notasGeneral', $this->htmlData);
     }
     public function comboAnoDir()
     {
@@ -1343,9 +1333,8 @@ class GestionEducativa extends CI_Controller
                            'grados'=>"DIRECTOR",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $alumno ;
-        $this->htmlData['body']                           .= "/usuarioGeneral";
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionEducativa/usuarioGeneral', $this->htmlData);
     }
     public function editarInfo()
     {

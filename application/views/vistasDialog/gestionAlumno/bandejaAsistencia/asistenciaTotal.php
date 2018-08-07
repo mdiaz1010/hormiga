@@ -111,7 +111,7 @@
   </div>
 </div>
 
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="subir_justificacion" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
 
@@ -122,11 +122,11 @@
         <h4 class="modal-title" id="myModalLabel">Subir justificación</h4>
       </div>
       <div class="modal-body" id="DIVEDITARASISTENCIA1">
-
+      <div id="mensaje"></div>
       </div>
 
       <div class="modal-footer">
-        <button name="btnSi" id="btnSi" type="button" class="btn btn-default" data-dismiss="modal">SI</button>
+        <button name="btnSi" id="btnSi" type="button" class="btn btn-default" >SI</button>
         <button name="btnNo" id="btnNo" type="button" class="btn btn-primary" data-dismiss="modal">NO</button>
       </div>
 
@@ -134,11 +134,13 @@
   </div>
 </div>
 <script type="text/javascript">
+
+
 $("#btnSi").click(function(){
 
     var DocAdj = $("#docAdj").val();
 
-                if (DocAdj.length > 0) {
+
                     var inputimage = document.getElementById('docAdj'),
 
                         formdata = new FormData();
@@ -156,6 +158,9 @@ $("#btnSi").click(function(){
                     var txtfec = $("#txtfec").val();
                     var txtarchivo = $("#txtarchivo").val();
                     var mensaje = $("#mensaje").val();
+                    if(mensaje ==''){
+                        alert("El campo Mensaje* es obligatorio"); return true;
+                    }
                     formdata.append('txtid', txtid);
                     formdata.append('txtfec', txtfec);
                     formdata.append('txtarchivo', txtarchivo);
@@ -168,10 +173,10 @@ $("#btnSi").click(function(){
                         contentType: false,
                         success: function (data) {
                             alert("Se registró su justificación exitosamente.");
-                            //      javascript:location.reload();
+                            $('#subir_justificacion').modal('toggle');
                         }
                     });
-                }
+
 });
 
 

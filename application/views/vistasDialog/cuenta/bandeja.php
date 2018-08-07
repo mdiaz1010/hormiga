@@ -190,14 +190,14 @@ $("#diveditar_boton").click(function () {
     $.ajax({
         data: $("#edicioncuenta").serialize(),
         type: 'POST',
-        url: "editarcuenta",
+        url:  url+"Cuenta/editarcuenta",
         beforeSend: function () {
             $('#DIVcargas').dialog('open');
         },
         success: function () {
             $('#DIVcargas').dialog('close');
             alert("Se editaron los datos de : " + apepat + " satisfactoriamente");
-            $("#bandejaprincipal").load("vistabandeja");
+            $("#bandejaprincipal").load(url+"Cuenta/vistabandeja");
         }
     });
 });
@@ -209,7 +209,7 @@ $("#diveditar_boton").click(function () {
 
         $.ajax({
             type: 'POST',
-            url: "vereditarcuenta",
+            url: url+"Cuenta/vereditarcuenta",
             data: {
                 codigo: codigo
             },

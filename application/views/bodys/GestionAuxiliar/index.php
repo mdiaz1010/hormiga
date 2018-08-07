@@ -83,14 +83,14 @@
   <div class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="tile-stats">
       <div class="icon">
-        <a href="<?=base_url('GestionAuxiliar/asistencia')?>" class="asistencia">
+        <a href="javascript:" class="asistencia">
           <i class="fa fa-group"></i>
         </a>
       </div>
       <div class="count">
         <h2>
           <span class="badge bg-red">
-            <a href="<?=base_url('GestionAuxiliar/asistencia')?>">
+            <a href="javascript:" class="asistencia">
               <font color=white>
                 <?=$bodyData->asistencia?>
               </font>
@@ -98,7 +98,7 @@
           </span>
         </h2>
       </div>
-      <a href="<?=base_url('GestionAuxiliar/asistencia')?>" class="asistencia">
+      <a href="javascript:" class="asistencia">
         <h3>Registro de asistencia</h3>
       </a>
     </div>
@@ -141,5 +141,5 @@
 </div>
 
 
-
+<input type="hidden" name="url" id="url" value="<?=base_url();?>">
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionAuxiliar_index.js')?>"></script>

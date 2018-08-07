@@ -26,9 +26,8 @@ class Cuenta extends CI_Controller
         $this->htmlData['bodyData']->roles       = $this->Rol_model->getList(null, $this->session->webCasSession->usuario->ROLES  + 1);
         $this->htmlData['bodyData']->rolesSeccion       = $this->Rol_model->getSeccion();
         $this->htmlData['bodyData']->rolesGrado         = $this->Rol_model->getGrados();
-        $this->htmlData['body'] .= "/index";
         $this->htmlData['headData']->titulo      = "CUENTAS :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/Cuenta/index', $this->htmlData);
     }
 
     public function vistabandeja()

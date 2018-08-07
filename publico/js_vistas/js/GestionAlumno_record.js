@@ -7,12 +7,7 @@ $('#DIVcargas').dialog({
     open: function (event, ui) {
         $(".ui-dialog-titlebar-close").hide();
     },
-    modal: true,
-    buttons: {
-        "CERRAR": function () {
-            $(this).dialog("close");
-        }
-    }
+    modal: true
 });
 $('#DIVcargas').dialog({
     draggable: false

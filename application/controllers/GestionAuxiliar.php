@@ -43,9 +43,8 @@ class GestionAuxiliar extends CI_Controller
         $this->htmlData['bodyData']->cantidad2               = $cantidad2[0]->cantidad;
         $this->htmlData['bodyData']->cantidad2Azul               = $cantidad2azul[0]->cantidad;
         $this->htmlData['bodyData']->asistencia              = $busquedaAsis[0]->resultado;
-        $this->htmlData['body']                             .= "/index";
         $this->htmlData['headData']->titulo                  = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionAuxiliar/index', $this->htmlData);
     }
     public function consultarGeneralAux()
     {
@@ -72,11 +71,10 @@ class GestionAuxiliar extends CI_Controller
                            'direcc'=>$datos[0]->direcc,'docume'=>$datos[0]->docume,'claves'=>$datos[0]->claves,
                            'usuari'=>$datos[0]->usuari,'correo'=>$datos[0]->correo,'telefo'=>$datos[0]->telefo,
                            'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
-        $this->htmlData['body']                          .= "/miUsuario";
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $alumno ;
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionAuxiliar/miUsuario', $this->htmlData);
     }
     public function editarInfo()
     {
@@ -84,18 +82,29 @@ class GestionAuxiliar extends CI_Controller
         $this->load->model("Rol_model", '', true);//
         $alumno=$this->session->webCasSession->usuario->CODIGO;
         $fecha  =$this->input->post('fecha');
-        $telef  =$this->input->post('telefono');
-        $docum  =ltrim($this->input->post('documento'));
-        $direc  =ltrim($this->input->post('direccion'));
-        $email  =$this->input->post('email');
+        $direc  =$this->input->post('direccion');
         $clave  =$this->input->post('clave');
-
+        $dni    =$this->input->post('documento');
+        $email  =$this->input->post('email');
+        $telefono  =$this->input->post('telefono');
         $data=array('clav_usuario'=>$clave);
-        $dato=array('direccion'=>$direc,'documento'=>$docum,'fecha_nac'=>$fecha);
-        $datoC=array('des_correo'=>$email,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d H:m:s'));
-        $datoT=array('num_tel'=>$telef,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d H:m:s'));
-
+        $dato=array('direccion'=>$direc,'fecha_nac'=>$fecha,'documento'=>$dni);
+        $datoC=array('des_correo'=>$email,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d'));
+        $datoT=array('num_tel'=>$telefono,'usu_modificacion'=>$alumno,'fec_modificacion'=>date('Y-m-d'));
+        $extensiones_permitidas = array('png','jpg','jpeg');
+        if(isset($_FILES['images']['name'][0])){
         foreach ($_FILES['images']['error'] as $key => $error) {
+            if($_FILES['images']['size'][$key]==0){
+                    echo "x"; die();
+            }
+            if ($error == UPLOAD_ERR_OK) {
+
+                $extension = explode('/',strtolower($_FILES['images']['type'][$key]));
+
+                if($extension[1]!=$extensiones_permitidas[array_search($extension[1],$extensiones_permitidas)]){
+                    echo "n"; die();
+                }
+            }
             if ($error == UPLOAD_ERR_OK) {
                 $name = $_FILES['images']['name'][$key];
                 $tipo = $_FILES['images']['type'][$key];
@@ -112,6 +121,7 @@ class GestionAuxiliar extends CI_Controller
                         );
 
                     $this->Usuarios_model->cambiardat($archivo, $alumno) ;
+                    echo "1";
                 } else {
                     $errors= error_get_last();
                     echo "COPY ERROR: ".$errors['type'];
@@ -119,6 +129,7 @@ class GestionAuxiliar extends CI_Controller
                 }
             }
         }
+    }
         $this->Usuarios_model->cambiarclave($data, $alumno) ;
         $this->Usuarios_model->cambiardat($dato, $alumno) ;
         $this->Usuarios_model->editartelefon($datoT, $alumno) ;
@@ -129,13 +140,15 @@ class GestionAuxiliar extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);//
+
         $profesor= array('profesor'=>$this->session->webCasSession->usuario->CODIGO);
         $ano= date('Y');
         $valores= $this->Usuarios_model->buscargradosAno($ano);
         $this->htmlData['bodyData']->valores     = $valores ;
-        $this->htmlData['body']                           .= "/asistencia";
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        $this->load->view('plantillas_base/standar/body', $this->htmlData);
+        $this->load->view('bodys/GestionAuxiliar/asistencia', $this->htmlData);
+
+
     }
     public function comboSeccionAux()
     {

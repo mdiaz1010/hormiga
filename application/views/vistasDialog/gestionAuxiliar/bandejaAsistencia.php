@@ -117,6 +117,7 @@
     } ?>
 
             <script type="text/javascript">
+                    var url = $("#url").val();
                 $("#dataTables-asistencia").dataTable();
 
                 $(".btnMarca").click(function () {
@@ -133,11 +134,13 @@
                     });
 
                     $.ajax({
-                        url: "registrarAsistenciaAux",
+                        url: url+"GestionAuxiliar/registrarAsistenciaAux",
                         data: $("#registroMarca").serialize(),
                         type: "POST",
                         success: function (data) {
-                            window.location.href = "asistencia";
+                            alert("Se registraron los datos satisfactoriamente");
+                            $("#cuerpo").load(url+"GestionAuxiliar/asistencia");
+
                         }
 
                     });
@@ -152,7 +155,7 @@
                     var alu2 = alu.replace(' ', '-');
                     $.ajax({
                         type: 'POST',
-                        url: "verdetalleAlumnoAux",
+                        url: url+"GestionAuxiliar/verdetalleAlumnoAux",
                         data: {
                             codigo: codigo,
                             alu2: alu2

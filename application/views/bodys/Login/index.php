@@ -153,7 +153,7 @@
                     </div>
                     <div class="x_content">
                         <div id="merito" class="table-responsive">
-
+                            <center> <i id="estadistica-load" class="fa fa-circle-o-notch fa-spin" style="font-size:24px;color:#ec7063"></i></center>
                         </div>
                     </div>
                 </div>
@@ -254,7 +254,7 @@
                 }
             });
             $.post('merito', function (data) {
-                $("#merito").html('<i class="fa fa-circle-o-notch" style="font-size:48px;color:red"></i>');
+
                 $("#merito").html(data);
             });
         </script>

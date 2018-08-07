@@ -6,15 +6,17 @@
     <input type="hidden" id='txtid' class="form-control" name="txtid" value="<?= trim($bodyData->codigo)?>" readonly>
     <input type="hidden" id='txtfec' class="form-control" name="txtfec" value="<?= trim($bodyData->fecha)?>" readonly>
   <div class="form-group">
-    <label for="exampleFormControlTextarea1">Mensaje<span class="required">*</span></label>
-    <textarea class="form-control" id="mensaje" rows="3"><?=(ltrim($bodyData->mensaje))?></textarea>
+    <label class="control-label col-md-12 col-sm-12 col-xs-12" for="first-name">
+    Mensaje<span class="required">*</span>
+    <textarea class="form-control" id="mensaje" name="mensaje" rows="3"><?=(ltrim($bodyData->mensaje))?></textarea>
+    </label>
   </div>
 
-    <div class="col-sm-12">
-        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Adjuntar documento:
-            <span class="required">*</span>
+    <div class="form-group">
+        <label class="control-label col-md-12 col-sm-12 col-xs-12" for="first-name">
+            Adjuntar documento:
+            <input type="file" name="docAdj[]" id="docAdj" class=" file " data-edit="insertImage">
         </label><hr>
-                        <input type="file" name="docAdj[]" id="docAdj" class=" file col-md-12 col-sm-12 col-xs-12" data-edit="insertImage">
 
 
     </div>
@@ -131,6 +133,36 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
         }
     </style>
     <script type="text/javascript">
+
+
+    jQuery.validator.setDefaults({
+    debug: true,
+    success: "valid"
+    });
+$("#registrarArchivo").validate({
+
+        rules: {
+            mensaje:{
+            required: true,
+            maxlength:220
+            },
+            docAdj:{
+            required: true,
+            extension: "jpg|png|jpeg"
+            }
+        },
+        messages: {
+            mensaje: {
+            required: " Este campo es obligatorio",
+            maxlength: "Solo puede ingresar un máximo de 220 caracteres."
+            },
+            docAdj :{
+            required :"Este campo es obligatorio",
+            extension: "El documento que intenta ingresar no , está dentro de las extensiones permitidas"
+            }
+        }
+
+});
             $("#btn_si_eliminar").click(function(){
 
                                 var ide = $("#codigo").val();

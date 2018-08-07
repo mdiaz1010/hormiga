@@ -1,4 +1,10 @@
     var nombre1 = $("#nombre").val();
+    $(".asistencia").click(function () {
+        var url = $("#url").val();
+        $("#cuerpo").load(url + "GestionAuxiliar/asistencia");
+
+
+    });
     $.ajax({
         type: 'POST',
         url: 'consultarGeneralAux',

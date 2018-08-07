@@ -1,5 +1,6 @@
 <?php if ($bodyData->resultado<1) {
     ?>
+
 <div class="row">
     <div class="col-xs-12">
         <div class="x_panel">
@@ -11,11 +12,7 @@
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </li>
-                    <li>
-                        <a class="close-link">
-                            <i class="fa fa-close"></i>
-                        </a>
-                    </li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -24,7 +21,7 @@
 
                 <form method="post" name="crearusuario" id="crearusuarioss">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">
                             AÑO
                             <select name="rol_ano" class="form-control" id='rol_ano' required>
                                 <option>Seleccione</option>
@@ -38,42 +35,23 @@
                                         } ?>
                             </select>
                         </label>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">
                             GRADO
                             <select name="rol_grado" class="form-control" id='rol_grado' required></select>
                         </label>
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                        <label class="control-label col-md-4 col-sm-4 col-xs-12">
                             BIMESTRE
                             <select name="rol_bimestre" class="form-control" id='rol_bimestre' required></select>
                         </label>
                     </div>
                 </form>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                        <label>Fecha:</label>
-                        <div class='input-group date'>
-                            <input type='text' name="fecha" id='fecha' class="form-control " disabled="true" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                    </label>
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">
-                        <label>Hora:</label>
-                        <div class='input-group date' name="horadiv" id="horadiv">
-                            <input type='text' name="hora" id='hora' class="form-control " disabled="true" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                    </label>
-                </div>
+
 
 
             </div>
         </div>
     </div>
-
+    <input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
 
     <div class="col-xs-12">
         <div class="x_panel">
@@ -87,11 +65,7 @@
                             <i class="fa fa-chevron-up"></i>
                         </a>
                     </li>
-                    <li>
-                        <a class="close-link">
-                            <i class="fa fa-close"></i>
-                        </a>
-                    </li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -107,6 +81,10 @@
 
 
 
+</div>
+<div id="DIVcargas"       title="EN PROCESO ... ">
+ Espere mientras se gestiona la informaci&oacute;n.
+<span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
 </div>
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionEducativa_notasG.js')?>"></script>
 <?php

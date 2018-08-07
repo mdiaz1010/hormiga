@@ -1076,7 +1076,7 @@ class GestionDocente extends CI_Controller
                            'direcc'=>$datos[0]->direcc,'docume'=>$datos[0]->docume,'claves'=>$datos[0]->claves,
                            'usuari'=>$datos[0]->usuari,'correo'=>$datos[0]->correo,'telefo'=>$datos[0]->telefo,
                            'grados'=>"DOCENTE",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
-        
+
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $alumno ;
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";

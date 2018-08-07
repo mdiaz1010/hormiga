@@ -165,7 +165,8 @@
                 success: function () {
                     $('#DIVcargando').dialog('close');
                     alert("Se realizó el registro satisfactoriamente");
-                    window.location.href = "asistencia";
+                    $("#cuerpo").load(url+"GestionDocente/asistencia");
+
                 }
             });
         });
