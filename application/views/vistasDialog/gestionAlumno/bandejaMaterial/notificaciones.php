@@ -19,11 +19,12 @@
     <?php } ?>
     <i class="fa fa-folder-open"></i> Repositorio
 </a>
+<!--
 <a class="btn btn-app">
     <span class="badge bg-orange">12</span>
     <i class="fa fa-calendar"></i> Inasistencias
 </a>
-<!--
+
         <a class="btn btn-app">
           <span class="badge bg-orange">12</span>
           <i class="fa fa-calendar-o"></i> Eventos
@@ -47,14 +48,24 @@
         });
 
     });
-
-    $.post('horario', function (data) {
-        $("#horarios").html(data);
-    });
+$(".ver_merito").click(function(){
+    $('#puestos').show();
+    $('#meri').hide();
     $.post('puestos', function (data) {
         $("#puestos").html(data);
     });
+
+});
+$(".ver_rendimiento").click(function(){
+    $('#rendimiento').show();
+    $('#rendi').hide();
     $.post('rendimiento', function (data) {
         $("#rendimiento").html(data);
     });
+
+});
+    $.post('horario', function (data) {
+        $("#horarios").html(data);
+    });
+
 </script>

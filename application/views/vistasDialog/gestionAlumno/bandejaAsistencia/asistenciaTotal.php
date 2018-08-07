@@ -272,6 +272,3 @@ $("#btnSi").click(function(){
 
     //IMPRIMO LA FECHA
 </script>
-<script type="text/javascript">
-    $("#dataTables-asistedet").dataTable();
-</script>

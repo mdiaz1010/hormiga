@@ -933,6 +933,24 @@ class Usuarios_model extends CI_Model
                  ->order_by("2", "desc");
         return $this->db->get()->result_object();
     }
+    public function evasion_alumno($codigo)
+    {
+        $this->db->distinct();
+        $this->db->select("aux.tipo_obs,aux.fecha_val,aa.fec_creacion,aux.id as id,aa.id_alumno,aa.id_grado as id_grado,aa.id_seccion as id_seccion,aa.id_curso as id_curso,aux.asistencia,aa.asistencia")
+                 ->from("asistencia_alumno aa")
+                 ->join("asistencia_alumno_aux aux", "on aa.id_alumno=aux.id_alumno and aa.fecha_val=aux.fecha_val and aa.id_grado=aux.id_grado and aa.id_seccion=aux.id_seccion and aa.ano=aux.ano ")
+                ->where("aa.id_alumno=".$codigo." and tipo_obs!=2 and aa.asistencia!=aux.asistencia and aa.ano=".date('Y'))
+                 ->order_by("2", "desc");
+        return $this->db->get()->result_object();
+    }
+    public function inasistencia_alumno($codigo,$asistencia)
+    {
+        $this->db->distinct();
+        $this->db->select("count(*) as asistencia")
+                 ->from("asistencia_alumno_aux aux")
+                ->where("aux.id_alumno=".$codigo." and aux.asistencia='".$asistencia."' and  aux.ano=".date('Y'));
+        return $this->db->get()->row_array();
+    }
     public function buscarAlumnoasiAux($codigo)
     {
         $this->db->distinct();
@@ -942,7 +960,7 @@ class Usuarios_model extends CI_Model
                     WHEN 1 THEN 'NO'
                 END
                 as respuesta")->from("asistencia_alumno_aux");
-        $this->db->where('id_alumno='.$codigo.'  and ano='.date('Y'))
+        $this->db->where("id_alumno=".$codigo."    and asistencia='f'  and ano=".date('Y'))
                  ->order_by('ano,mes,dia', 'asc');
         return $this->db->get()->result_object() ;
     }

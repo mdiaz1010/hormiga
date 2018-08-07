@@ -11,8 +11,8 @@
 <input type="hidden" name="descripc[]" id="descripc" value="<?=$tray['desc']?>">
 <?php $i++; endforeach;?>
 
-<script src="<?= base_url('publico/js/highcharts.js') ?>"></script>
-<script src="<?= base_url('publico/js/exporting.js') ?>"></script>
+
+
 
 <script type="text/javascript">
     var trayecto = [];

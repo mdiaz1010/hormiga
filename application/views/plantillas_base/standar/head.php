@@ -31,8 +31,8 @@
         <script src="<?= base_url('publico/js/dataTables.bootstrap.js')?>"></script>
         <link href="<?= base_url('publico/css/dataTables.bootstrap.css')?>" rel="stylesheet">
 
-
-
+        <script src="<?= base_url('publico/js/highcharts.js') ?>"></script>
+        <script src="<?= base_url('publico/js/exporting.js') ?>"></script>
     <!-- dialog-->
     <script   src="<?= base_url('publico/js/jquery-ui.js')?>"></script>
 

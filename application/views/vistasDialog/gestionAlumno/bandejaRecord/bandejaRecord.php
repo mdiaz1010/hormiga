@@ -81,7 +81,7 @@
 
 
 
-<script src="<?= base_url('publico/js/highcharts.js') ?>"></script>
+
 
 
 <script type="text/javascript">

@@ -18,11 +18,7 @@
                 <h2>
                     <span class="fa fa-search"></span> INTRANET EDUCATIVO - Información personal </h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                    </li>
+
 
                 </ul>
                 <div class="clearfix"></div>

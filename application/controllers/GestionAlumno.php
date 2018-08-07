@@ -242,11 +242,63 @@ class GestionAlumno extends CI_Controller
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('bodys/GestionAlumno/horario', $this->htmlData);
     }
+    public function consultarEvasion()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);
+        $codigo=$this->session->webCasSession->usuario->CODIGO;
+
+            $datos= $this->Usuarios_model->evasion_alumno($codigo);
+
+
+
+        $respuesta= $this->Usuarios_model->busquedaRespuesta();
+        $i=0;
+        foreach ($datos as $dato) {
+            $datosNombre= $this->Usuarios_model->busquedaDatos($dato->id_alumno);
+            $datosGrados= $this->Usuarios_model->buscarGrados($dato->id_grado);
+            $datosSeccio= $this->Usuarios_model->buscarSecciones($dato->id_seccion);
+            $datosCurso = $this->Usuarios_model->buscarCursos($dato->id_curso);
+            if (isset($datosNombre[$i]->apepat)==true) {
+                $arrayDato[]=array('id'=>$dato->id,
+                       'nombre'=>$datosNombre[$i]->apepat.' '.$datosNombre[$i]->apemat.' '.$datosNombre[$i]->nombre,
+                       'grados'=>$datosGrados[$i]->nom_grado.'° '.$datosSeccio[$i]->nom_seccion,
+                       'cursos'=>$datosCurso[$i]->nom_cursos,
+                       'fechas'=>$dato->fec_creacion,
+                       'id_alumno'=>$dato->id_alumno,
+                       'id_grado'=>$dato->id_grado,
+                       'id_seccion'=>$dato->id_seccion,
+                       'id_curso'=>$dato->id_curso,
+                       'respuesta'=>$dato->tipo_obs
+
+                       );
+            }
+        }
+        if (isset($dato)==true) {
+            $this->htmlData['bodyData']->results=$arrayDato;
+            $this->htmlData['bodyData']->resultado=$respuesta;
+        } else {
+            $this->htmlData['bodyData']->results=0;
+        }
+
+        $this->load->view('vistasDialog/gestionAlumno/bandejaAsistencia/evasion', $this->htmlData);
+    }
     public function consultarAsistencia()
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $alumno=array('id_alumno'=>$this->session->webCasSession->usuario->CODIGO);
+
+        $alumno_evasion = $this->Usuarios_model->evasion_alumno($alumno['id_alumno']);
+        $alumno_inasistencia = $this->Usuarios_model->inasistencia_alumno($alumno['id_alumno'],'f');
+        $alumno_asistencia=  $this->Usuarios_model->inasistencia_alumno($alumno['id_alumno'],'p');
+
+        $list_historial = array(array('Evasion',count($alumno_evasion),false),
+                                array('Inasistencia',(int)$alumno_inasistencia['asistencia'],false),
+                                array('Asistencia',(int)$alumno_asistencia['asistencia'],false));
+
+        $nom_historial = array('Asistencia','Inasistencia','Evasiones');
+
         $resultado= $this->Usuarios_model->busquedaGradoSeccion($alumno);
         $ano=$this->Usuarios_model->busquedaAno($alumno['id_alumno']);
         if ($ano[0]->ano==date('Y')) {
@@ -256,15 +308,14 @@ class GestionAlumno extends CI_Controller
                 echo "No existe cursos registrados";die();
             }
         }
+
+
+
         if (isset($resultadoCurs)==true) {
             $this->htmlData['bodyData']->respuesta         = 1 ;
-            foreach ($resultadoCurs as $curso) {
-                $arrayCurso[]=$curso->id_curso;
-            }
-            $cursos= implode(',', $arrayCurso);
-            $maecursos=$this->Usuarios_model->buscarCursos($cursos);
+            $this->htmlData['bodyData']->nom_historial         = json_encode($nom_historial) ;
+            $this->htmlData['bodyData']->list_historial         = json_encode($list_historial) ;
             $this->htmlData['bodyData']->results         = $resultado ;
-            $this->htmlData['bodyData']->cursos         = $maecursos ;
         } else {
             $this->htmlData['bodyData']->respuesta         = 0 ;
         }
@@ -367,19 +418,15 @@ class GestionAlumno extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
-        if ($curso=='total') {
-            $resultado=$this->Usuarios_model->buscarAlumnoasiAux($this->session->webCasSession->usuario->CODIGO);
-        } else {
-            $resultado=$this->Usuarios_model->buscarAlumnoasi($this->session->webCasSession->usuario->CODIGO, $curso);
-        }
+
+        $resultado=$this->Usuarios_model->buscarAlumnoasiAux($this->session->webCasSession->usuario->CODIGO);
+
         $this->htmlData['bodyData']->curso         = $curso ;
-        $this->htmlData['bodyData']->results         = $resultado ;
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
-        if ($curso=='total') {
-            $this->load->view('vistasDialog/gestionAlumno/bandejaAsistencia/asistenciaTotal', $this->htmlData);
-        } else {
-            $this->load->view('vistasDialog/gestionAlumno/bandejaAsistencia/asistenciaCurso', $this->htmlData);
-        }
+        $this->htmlData['bodyData']->results       = $resultado ;
+        $this->htmlData['headData']->titulo        = "GESTION :: INTRANET";
+
+        $this->load->view('vistasDialog/gestionAlumno/bandejaAsistencia/asistenciaTotal', $this->htmlData);
+
     }
     public function guardarmensajeAs()
     {

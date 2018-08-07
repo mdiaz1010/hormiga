@@ -21,7 +21,7 @@
                 </th>
                 <th >
                     <center>TIPO</center>
-
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -91,7 +91,7 @@
 </form>
 <?php
 } else {
-        echo "<div class='alert_result'>No hay registro de inasistencia justificada.</div>";
+        echo "<div class='alert_result'>No hay registro de evasión justificada.</div>";
     } ?>
     <script type="text/javascript">
         $("#dataTables-asistencia5").dataTable();

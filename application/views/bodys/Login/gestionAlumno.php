@@ -11,11 +11,7 @@
         <h2>
           <i class="fa fa-bullhorn"></i> Notificaciones</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <li>
-            <a class="collapse-link">
-              <i class="fa fa-chevron-up"></i>
-            </a>
-          </li>
+
 
         </ul>
 
@@ -96,18 +92,17 @@
     <div class="x_panel">
       <div class="x_title">
         <h2>
-          <i class="fa fa-list-alt"></i> Orden de merito</h2>
+          <i class="fa fa-list-alt"></i> Orden de mérito</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <li>
-            <a class="collapse-link">
-              <i class="fa fa-chevron-up"></i>
-            </a>
-          </li>
+
 
         </ul>
         <div class="clearfix"></div>
       </div>
-      <div id="puestos">
+      <center>
+      <a  href="javascript:" id="meri" class="ver_merito"><small style="color:#ec7063;"><strong>Click aqui <span class="fa fa-eye"></span></strong></small></a>
+      </center>
+      <div id="puestos" style="display:none;" >
         <center>
           <i id="puestos-load" class="fa fa-circle-o-notch fa-spin" style="font-size:24px;color:#ec7063"></i>
         </center>
@@ -121,16 +116,15 @@
         <h2>
           <i class="fa fa-line-chart"></i> Rendimiento academico</h2>
         <ul class="nav navbar-right panel_toolbox">
-          <li>
-            <a class="collapse-link">
-              <i class="fa fa-chevron-up"></i>
-            </a>
-          </li>
+
 
         </ul>
         <div class="clearfix"></div>
       </div>
-      <div id="rendimiento">
+      <center>
+      <a  href="javascript:" id="rendi" class="ver_rendimiento"><small  style="color:#ec7063;" ><strong>Click aqui <span class="fa fa-eye"></span></strong></small></a>
+      </center>
+      <div id="rendimiento" style="display:none;">
         <center>
           <i id="rendimiento-load" class="fa fa-circle-o-notch fa-spin" style="font-size:24px;color:#ec7063"></i>
         </center>
