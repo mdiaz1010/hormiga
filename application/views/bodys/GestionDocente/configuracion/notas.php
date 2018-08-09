@@ -6,10 +6,7 @@
                   <div class="x_title">
                     <h2>CONFIGURACION DE NOTAS</h2>
                     <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
 
-                      </li>
                     </ul>
                     <div class="clearfix"></div>
                   </div>
@@ -53,10 +50,7 @@
                     <h2>AGREGAR NOTAS</h2>
                     <ul class="nav navbar-right panel_toolbox">
                     <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Leyenda de Notas</button></li>
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
 
-                      </li>
                     </ul>
                     <div class="clearfix"></div>
                   </div>

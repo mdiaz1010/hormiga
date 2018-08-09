@@ -6,11 +6,7 @@
             <div class="x_title">
                 <h2>GESTION DE ASITENCIA</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                    </li>
+
 
                 </ul>
                 <div class="clearfix"></div>
@@ -57,11 +53,7 @@
             <div class="x_title">
                 <h2>ASISTENCIA</h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                    </li>
+
 
                 </ul>
                 <div class="clearfix"></div>

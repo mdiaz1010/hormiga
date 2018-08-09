@@ -7,7 +7,7 @@
 <script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/handsontable.full.min.js"></script>
 
 <div class="list-group right">
-    <a class="btn btn-success" href="<?= base_url("GestionDocente/dexcel")?>" target="_blank" title="Exportar en excel">
+    <a class="btn btn-success excel" href="javascript:" title="Exportar en excel">
         <i class="fa fa-file-excel-o"></i>
     </a>
     <button class="btn btn-danger " title="Registrar Notas" type="button" name="btnNotas" id="btnNotas">
@@ -43,6 +43,17 @@
     } ?>
 
     <script type="text/javascript">
+    
+        $(".excel").click(function(){
+             window.open(url+'GestionDocente/dexcel/'+$('#rol_grado').val()+"/"+$('#rol_seccion').val()+"/"+$('#rol_bimestre').val()+"/"+$('#rol_curso').val(),'_blank' );
+            /*$.post(url+'GestionDocente/dexcel',
+            {           'grado': $('#rol_grado').val(),
+                        'seccion': $('#rol_seccion').val(),
+                        'curso': $('#rol_curso').val(),
+                        'bimestre': $('#rol_bimestre').val()
+            });*/
+        });
+
 
         $("#DIVcargas").dialog("close");
         var busqueda = <?=json_encode($bodyData->datos) ?>;

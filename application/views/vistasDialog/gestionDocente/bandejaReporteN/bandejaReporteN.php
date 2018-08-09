@@ -35,93 +35,20 @@
     // echo $fecha->format('Y-m-d');
     ?>
 
-        <div class="row">
+                    <div class="col-md-8 col-sm-8 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <strong><small> <i class="fa fa-edit"></i>Orden de merito</small></strong>
+                                <ul class="nav navbar-right panel_toolbox">
 
-            <div class="col-xs-12 col-sm-6   col-md-6">
-                <div class="panel panel-danger">
-                    <div class=" panel-heading">
-                        <h3 class=" ">
-                            <i class="fa fa-bar-chart-o"></i> Estadística Notas: </h3>
-                    </div>
 
-                    <div class="panel-body">
-
-                        <div class="row">
-                            <div class="col-md-6 ">
-                                <span id="trafico_terminales_dia">Dia:
-                                    <?=  date('d')  ?>
-                                </span>
-                                <i class="fa fa-check"></i>
+                                </ul>
+                                <div class="clearfix"></div>
                             </div>
+                            <div class="x_content table-responsive">
+                                <div class="col-md-9 col-sm-9 col-xs-12">
 
-                        </div>
-                        <div class="col-md-8">
-                            <div class="x_content">
-                                <canvas id="polarArea" style="    height: 350px;"></canvas>
-                            </div>
-                        </div>
-                        <form method='POST' id='formReport' name="formReport" action="<?=base_url();?>GestionDocente/comboBandeNotReportG1" target="TheWindow">
-                        <div class="col-md-4">
-                            <div class="list-group">
-
-                                <div class="list-group-item">
-
-                                    <a class="no_color_link">Cantidad de alumnos</a>
-                                    <span class="badge">
-                                        <?= $totalRegistros ?>
-                                    </span>
-
-                                </div>
-
-                                <input type='hidden' name="grado"       id="grado"      value="<?=$bodyData->datos['id_grado']?>">
-                                <input type='hidden' name="seccion"     id="seccion"    value="<?=$bodyData->datos['id_seccion']?>">
-                                <input type='hidden' name="bimestre"    id="bimestre"   value="<?=$bodyData->datos['id_bimestre']?>">
-                                <input type='hidden' name="curso"       id="curso"      value="<?=$bodyData->datos['id_curso']?>">
-
-                                <br>
-                                <input type="submit" class="btn btn-danger" value="Generar PDF">
-
-
-
-                            </div>
-                        </div>
-                        </form>
-                        <div class="col-xs-12">
-                            <div class="row">
                                 <table class="table table-bordered table-hover table-striped tablesorter">
-                                    <?php
-                            foreach ($listaYColor as $listaYColorTemp) {
-                                ?>
-                                        <tr>
-                                            <td class="col-xs-11">
-                                                <div class="col-xs-2" style="background: <?=$listaYColorTemp->color?>;padding: 5px;">
-                                                </div>
-                                                <?=$listaYColorTemp->nombre?>
-                                            </td>
-                                            <td class="col-xs-1">
-                                                <?=$listaYColorTemp->valor?>
-                                            </td>
-                                            <tr>
-                                                <?php
-                            }
-                        ?>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <i class="fa fa-edit"></i>Orden de merito </h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-
-                            <table class="table table-bordered table-hover table-striped tablesorter">
                                 <thead>
                                     <tr>
                                         <th>Puesto </th>
@@ -154,80 +81,187 @@
                                 </tbody>
 
                             </table>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                            <form method='POST' id='formReport' name="formReport" action="<?=base_url();?>GestionDocente/comboBandeNotReportG1" target="TheWindow">
+                            <div class="col-md-4">
 
 
-                        </div>
 
-                        <div class="text-right">
+
+
+                                        <span class="badge">
+                                        Cant. de alumnos:    <?= $totalRegistros ?>
+                                        </span>
+
+
+
+                                    <input type='hidden' name="grado"       id="grado"      value="<?=$bodyData->datos['id_grado']?>">
+                                    <input type='hidden' name="seccion"     id="seccion"    value="<?=$bodyData->datos['id_seccion']?>">
+                                    <input type='hidden' name="bimestre"    id="bimestre"   value="<?=$bodyData->datos['id_bimestre']?>">
+                                    <input type='hidden' name="curso"       id="curso"      value="<?=$bodyData->datos['id_curso']?>">
+
+                                    <br>
+                                    <input type="submit" class="btn btn-danger" value="Generar PDF">
+
+
+
+
+                            </div>
+                            </form>
+                            </div>
+                            </div>
 
                         </div>
                     </div>
-                </div>
-                <div class="panel panel-success">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            <i class="fa fa-check"></i>Leyenda</h3>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <strong><small><i class="fa fa-check"></i>Leyenda</small></strong>
+                                <ul class="nav navbar-right panel_toolbox">
+
+
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content table-responsive">
+                                <table class="table table-bordered table-hover table-striped tablesorter">
+                                    <tr>
+                                        <small>
+                                            <font style="font-style: italic;">
+                                                <td>Satisfactorio</td>
+                                                <td>18,19,20</td>
+                                            </font>
+                                        </small>
+                                    </tr>
+                                    <tr>
+                                        <small>
+                                            <font style="font-style: italic;">
+                                                <td>Proceso </td>
+                                                <td>14,15,16,17</td>
+                                            </font>
+                                        </small>
+                                    </tr>
+                                    <tr>
+                                        <small>
+                                            <font style="font-style: italic;">
+                                                <td>Inicio</td>
+                                                <td>11,12,13</td>
+                                            </font>
+                                        </small>
+                                    </tr>
+                                    <tr>
+                                        <small>
+                                            <font style="font-style: italic;">
+                                                <td>Previo Inicio</td>
+                                                <td>0 a 10</td>
+                                            </font>
+                                        </small>
+                                    </tr>
+                                </table>
+
+
+                            </div>
+                        </div>
                     </div>
-                    <table class="table table-bordered table-hover table-striped tablesorter">
-                        <tr>
-                            <small>
-                                <font style="font-style: italic;">
-                                    <td>Satisfactorio</td>
-                                    <td>18,19,20</td>
-                                </font>
-                            </small>
-                        </tr>
-                        <tr>
-                            <small>
-                                <font style="font-style: italic;">
-                                    <td>Proceso </td>
-                                    <td>14,15,16,17</td>
-                                </font>
-                            </small>
-                        </tr>
-                        <tr>
-                            <small>
-                                <font style="font-style: italic;">
-                                    <td>Inicio</td>
-                                    <td>11,12,13</td>
-                                </font>
-                            </small>
-                        </tr>
-                        <tr>
-                            <small>
-                                <font style="font-style: italic;">
-                                    <td>Previo Inicio</td>
-                                    <td>0 a 10</td>
-                                </font>
-                            </small>
-                        </tr>
-                    </table>
+
+
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <strong><small><i class="fa fa-bar-chart-o"></i> Reporte en porcentaje:</small></strong>
+                        <ul class="nav navbar-right panel_toolbox">
+
+
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content table-responsive">
+
+
+
+
+
+                            <div class="x_content">
+                                    <div id="pastel-porcentaje" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+                            </div>
+
+
+
+
+
+                    </div>
+                </div>
+        </div>
+
+
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <strong><small><i class="fa fa-bar-chart-o"></i> Reporte en cantidad:</small></strong>
+                    <ul class="nav navbar-right panel_toolbox">
+
+
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content table-responsive">
+
+
+                    <div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+
                 </div>
             </div>
-
         </div>
 
-        <div class="panel panel-info">
-            <div class=" panel-heading">
-                <h3 class=" ">
-                    <i class="fa fa-bar-chart-o"></i> Estadística Notas: </h3>
-            </div>
 
-            <div class="panel-body">
 
-                <div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
 
-            </div>
 
-        </div>
+
+
+
+
 
 
 
         <!-- /page content -->
-        <script src="<?= base_url('publico/js/highcharts.js') ?>"></script>
-        <script src="<?= base_url('publico/js/exporting.js') ?>"></script>
-        <script src="<?= base_url('publico/html_libs/Chart.js/dist/Chart.min.js') ?>"></script>
+
+
         <script type="text/javascript">
+
+                    Highcharts.chart('pastel-porcentaje', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: ' '
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: 'Porcentaje',
+                colorByPoint: true,
+                data: <?=$bodyData->list_pastel?>
+            }]
+        });
             $(".detalle").click(function () {
                 var curso = $(this).data("curso");
                 var grado = $(this).data("grado");

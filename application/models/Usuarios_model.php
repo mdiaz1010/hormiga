@@ -616,6 +616,22 @@ class Usuarios_model extends CI_Model
         }
         return $this->db->get()->result_array() ;
     }
+    public function reporteNotasMerito101($data,$boolean)
+    {
+        $this->db->select("mp.ape_pat_per as nombre,round(sum(rnda.nota*rnd.peso),0) as nota ")
+                 ->from("rel_notas_detalle_alumno rnda")
+                 ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
+                 ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
+                 ->join("maepersona mp"        , "ON rnda.id_alumno =mp.id");
+        $this->db->where(array('ma.id_bimestre'=>$data['id_bimestre'],'rnda.id_curso'=>$data['id_curso'],'rnda.id_grado'=>$data['id_grado'],'rnda.id_seccion'=>$data['id_seccion'],'rnda.ano'=>date('Y'))) ;
+        $this->db->where('rnd.estado=1  and rnda.estado=1 ');
+        $this->db->group_by('rnda.id_alumno,rnd.id_nota');
+        if($boolean==true){
+            $this->db->order_by('nota','desc');
+            $this->db->limit(3);
+        }
+        return $this->db->get()->result_array() ;
+    }
     public function reporteNotas($data, $cantidad)
     {
         $this->db->select("re.id_alumno,round(sum(re.nota)/".$cantidad.") as notas ")

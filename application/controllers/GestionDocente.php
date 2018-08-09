@@ -40,11 +40,32 @@ class GestionDocente extends CI_Controller
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('bodys/GestionDocente/gestionDocente/notas', $this->htmlData);
     }
-    public function dexcel()
+    public function dexcel($grado,$seccion,$bimestre,$curso)
     {
         $this->load->model("Usuarios_model", '', true);
-        $resultado= $this->Usuarios_model->getListPer();
-        $this->export_excel->to_excel($resultado, 'ARTE', 'CTA', 'COMPORT', 'COMU', 'EFIS', 'ETRA', 'EREL', 'FCC', 'HGE', 'INGL', 'MATE', 'PFRRHH');
+        /*$grado= $this->input->post('grado');
+        $seccion= $this->input->post('seccion');
+        $curso= $this->input->post('curso');
+        $bimestre= $this->input->post('bimestre');*/
+        $datos = array('id_grado'=>$grado,'id_seccion'=>$seccion,'id_curso'=>$curso,'id_bimestre'=>$bimestre,'ano'=>date('Y'));
+
+        $resultado= $this->Usuarios_model->reporteNotasMerito101($datos,false);
+        $list_nombre = array_values(array_unique(array_column($resultado,'nombre')));
+        $i=0;
+        foreach($list_nombre as $clave => $valor):
+            foreach($resultado as $key => $value)
+            {
+                if($valor==$value['nombre']){
+                        $i++;
+                        $list_fintal[$clave]['Apellidos y nombres']=$value['nombre'];
+                        $list_fintal[$clave]['C'.$i]=$value['nota'];
+                }else{
+                        $i=0;
+                }
+            }
+        endforeach;
+
+        $this->export_excel->to_excel($list_fintal, 'Reporte de notas');
     }
     public function material()
     {
@@ -368,6 +389,12 @@ class GestionDocente extends CI_Controller
           2=>array('nombre'=>'Inicio'               ,'nota'=>$c,'rango'=>'11,12,13'),
           3=>array('nombre'=>'Previo Inicio'        ,'nota'=>$d,'rango'=>'0 a 10'),
         );
+        $list_pastel = array(
+          0=>array('name'=>'Satisfactorio'        ,'y'=>$a),
+          1=>array('name'=>'Proceso'              ,'y'=>$b),
+          2=>array('name'=>'Inicio'               ,'y'=>$c),
+          3=>array('name'=>'Previo Inicio'        ,'y'=>$d),
+        );
 
         $dotacionPresenteUltimaMarca = array(); // solo para identificar si la ultima marca fue entrada o salida
         $dotacionPresenteContador = 0; // cuenta solo las ultimas marcas q fueron entradas
@@ -401,6 +428,8 @@ class GestionDocente extends CI_Controller
         if ($codiAlumno!='') {
             $this->htmlData['bodyData']->alumno          = $codiAlumno;
         }
+#echo json_encode($list_pastel); die();
+        $this->htmlData['bodyData']->list_pastel =  json_encode($list_pastel);
         $this->htmlData['bodyData']->datos =  $busqueda;
         $this->htmlData['bodyData']->lastEvents =  $this->Usuarios_model->reporteCantidad($busqueda);
         $this->htmlData['bodyData']->estadisticasPaeArray =  $this->Usuarios_model->reporteNotasMerito10($busqueda, false);
