@@ -56,13 +56,12 @@
 
 
 
-<link href="http://www.cubicol.pe/css/nanoscroller.css" media="screen" rel="stylesheet" type="text/css">
+<link href="<?=base_url('publico/css/nanoscroller.css')?>" media="screen" rel="stylesheet" type="text/css">
+<link href="<?=base_url('publico/css/main1.css')?>" media="screen" rel="stylesheet" type="text/css">
+<link href="<?=base_url('publico/css/main2.css')?>" media="screen" rel="stylesheet" type="text/css">
+<link href="<?=base_url('publico/css/estilo.css')?>" media="screen" rel="stylesheet" type="text/css">
 
 
 
 
-
-<link href="http://www.cubicol.pe/css/main.css?c37189d37c5ac801373ed9487db52ab1" media="screen" rel="stylesheet" type="text/css">
-<link href="http://emanuel.cubicol.pe/principal/estilo" media="screen" rel="stylesheet" type="text/css">
-<link href="http://emanuel.cubicol.pe/css/main.css" media="screen" rel="stylesheet" type="text/css">
 </head>

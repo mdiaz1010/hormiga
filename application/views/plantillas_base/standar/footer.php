@@ -37,14 +37,14 @@
 
 
 
-<script type="text/javascript" src="http://www.cubicol.pe/js/pace.min.js"></script>
-<script type="text/javascript" src="http://www.cubicol.pe/js/jquery.fullscreen-min.js"></script>
-<script type="text/javascript" src="http://www.cubicol.pe/js/switchery.min.js"></script>
 
-<script type="text/javascript" src="http://www.cubicol.pe/js/notify.min.js"></script>
+<script type="text/javascript" src="<?=base_url('publico/js/jquery.fullscreen-min.js')?>"></script>
+<script type="text/javascript" src="<?=base_url('publico/js/switchery.min.js')?>"></script>
 
-
+<script type="text/javascript" src="<?=base_url('publico/js/notify.min.js')?>"></script>
 
 
 
-<script type="text/javascript" src="http://www.cubicol.pe/js/app.js?afaa9b4a48993833ef46bbb2ea287407"></script>
+
+
+<script type="text/javascript" src="<?=base_url('publico/js/app.js')?>"></script>
