@@ -610,8 +610,8 @@ class Usuarios_model extends CI_Model
         $this->db->where(array('ma.id_bimestre'=>$data['id_bimestre'],'rnda.id_curso'=>$data['id_curso'],'rnda.id_grado'=>$data['id_grado'],'rnda.id_seccion'=>$data['id_seccion'],'rnda.ano'=>date('Y'))) ;
         $this->db->where('rnd.estado=1  and rnda.estado=1 ');
         $this->db->group_by('rnda.id_grado,rnda.id_seccion,rnda.id_alumno');
+        $this->db->order_by('nota','desc');
         if($boolean==true){
-            $this->db->order_by('nota','desc');
             $this->db->limit(3);
         }
         return $this->db->get()->result_array() ;
@@ -967,6 +967,22 @@ class Usuarios_model extends CI_Model
                 ->where("aux.id_alumno=".$codigo." and aux.asistencia='".$asistencia."' and  aux.ano=".date('Y'));
         return $this->db->get()->row_array();
     }
+    public function validar_documento($documento)
+    {
+        $this->db->distinct();
+        $this->db->select("count(*) as cantidad")
+                 ->from('maepersona')
+                 ->where("documento='".$documento."'");
+        return $this->db->get()->row_array();
+    }
+    public function validar_email($email)
+    {
+        $this->db->distinct();
+        $this->db->select("count(*) as cantidad")
+                 ->from('maecorreos')
+                 ->where("des_correo='".$email."'");
+        return $this->db->get()->row_array();
+    }
     public function buscarAlumnoasiAux($codigo)
     {
         $this->db->distinct();
@@ -974,6 +990,7 @@ class Usuarios_model extends CI_Model
                 CASE respuesta
                     WHEN 2 THEN 'SI'
                     WHEN 1 THEN 'NO'
+                    else 'NO'
                 END
                 as respuesta")->from("asistencia_alumno_aux");
         $this->db->where("id_alumno=".$codigo."    and asistencia='f'  and ano=".date('Y'))

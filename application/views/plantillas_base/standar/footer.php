@@ -18,7 +18,7 @@
 
       <ul>
         <li class="estilo_lista">
-          <i class="fa fa-phone"></i> (01) 957282186 - 6221238 </li>
+          <i class="fa fa-phone"></i>  957282186 - (01)6221238 </li>
         <li class="estilo_lista">
           <i class="fa fa-envelope"></i> mdiaz@edumpro.com </li>
       </ul>
@@ -33,4 +33,18 @@
     <div class="clearfix"></div>
     -->
 </footer>
-<!-- /footer content -->
+
+
+
+
+<script type="text/javascript" src="http://www.cubicol.pe/js/pace.min.js"></script>
+<script type="text/javascript" src="http://www.cubicol.pe/js/jquery.fullscreen-min.js"></script>
+<script type="text/javascript" src="http://www.cubicol.pe/js/switchery.min.js"></script>
+
+<script type="text/javascript" src="http://www.cubicol.pe/js/notify.min.js"></script>
+
+
+
+
+
+<script type="text/javascript" src="http://www.cubicol.pe/js/app.js?afaa9b4a48993833ef46bbb2ea287407"></script>

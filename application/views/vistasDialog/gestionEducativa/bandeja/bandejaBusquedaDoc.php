@@ -304,3 +304,4 @@
         $("#myPassword").strength();
     });
 </script>
+<script>tinymce.init({ selector:'textarea' });</script>

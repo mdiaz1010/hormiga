@@ -16,19 +16,20 @@
     <!-- Dropzone.js -->
     <link href="<?=base_url('publico/html_libs/dropzone/dist/min/dropzone.min.css') ?>" rel="stylesheet">
     <!-- Custom Theme Style -->
-    <link href="<?=base_url('publico/html_libs/custom_theme/css/custom.css')?>" rel="stylesheet">
+    <link href="<?=base_url('publico/html_libs/custom_theme/css/custom.min.css')?>" rel="stylesheet">
     <link rel="stylesheet" href="<?=base_url('publico/css/site-demos.css')?>">
     <!-- file -->
 
     <!-- jQuery -->
     <script src="<?= base_url('publico/html_libs/jquery/dist/jquery.min.js')?>"></script>
     <script src="<?= base_url('publico/js/jquery.validate.min.js')?>"></script>
+    <script src="<?= base_url('publico/vendors/switchery/dist/switchery.min.js')?>"></script>
     <!-- Bootstrap -->
     <script src="<?= base_url('publico/html_libs/bootstrap/dist/js/bootstrap.min.js')?>"></script>
     <!-- FastClick -->
     <script src="<?= base_url('publico/html_libs/fastclick/lib/fastclick.js')?>"></script>
         <script src="<?= base_url('publico/js/jquery.dataTables.js')?>"></script>
-        <script src="<?= base_url('publico/js/dataTables.bootstrap.js')?>"></script>
+
         <link href="<?= base_url('publico/css/dataTables.bootstrap.css')?>" rel="stylesheet">
 
         <script src="<?= base_url('publico/js/highcharts.js') ?>"></script>
@@ -38,8 +39,10 @@
 
     <link    href="<?=base_url('publico/css/jquery-ui.css')?>" rel="stylesheet">
 
+<!-- chosen -->
+    <script   src="<?= base_url('publico/chosen/chosen.jquery.js')?>"></script>
+    <link    href="<?=base_url('publico/chosen/chosen.css')?>" rel="stylesheet">
 
-</script>
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-bs/css/dataTables.bootstrap.min.css')?>" rel="stylesheet">
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')?>" rel="stylesheet">
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')?>"
@@ -47,5 +50,19 @@
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')?>"
     rel="stylesheet">
 <link href="<?= base_url('publico/html_libs/dataTables/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')?>" rel="stylesheet">
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=fzz01dgi8857m4hteuazyvyt017bxw97p899tgve2w7el4dr"></script>
 
+
+
+
+
+<link href="http://www.cubicol.pe/css/nanoscroller.css" media="screen" rel="stylesheet" type="text/css">
+
+
+
+
+
+<link href="http://www.cubicol.pe/css/main.css?c37189d37c5ac801373ed9487db52ab1" media="screen" rel="stylesheet" type="text/css">
+<link href="http://emanuel.cubicol.pe/principal/estilo" media="screen" rel="stylesheet" type="text/css">
+<link href="http://emanuel.cubicol.pe/css/main.css" media="screen" rel="stylesheet" type="text/css">
 </head>

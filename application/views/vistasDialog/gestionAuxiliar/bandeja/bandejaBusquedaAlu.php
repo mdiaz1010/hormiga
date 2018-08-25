@@ -97,18 +97,11 @@
                         <i class="fa fa-wrench"></i>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a href="#">Settings 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Settings 2</a>
-                        </li>
+
                     </ul>
                 </li>
                 <li>
-                    <a class="close-link">
-                        <i class="fa fa-close"></i>
-                    </a>
+
                 </li>
             </ul>
             <div class="clearfix"></div>
@@ -371,8 +364,6 @@
         <?php $i++;
     endforeach; ?>
 
-        <script src="<?= base_url('publico/js/highcharts.js') ?>"></script>
-        <script src="<?= base_url('publico/js/exporting.js') ?>"></script>
 
         <script type="text/javascript">
             var trayecto = [];
@@ -458,3 +449,4 @@
         echo "No cuenta con la información necesaria para mostrar esta interfaz.";
     }
 ?>
+<script>tinymce.init({ selector:'textarea' });</script>

@@ -18,11 +18,7 @@
                 <h2>
                     <span class="fa fa-search"></span> INTRANET EDUCATIVO - Información personal </h2>
                 <ul class="nav navbar-right panel_toolbox">
-                    <li>
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                    </li>
+
 
                 </ul>
                 <div class="clearfix"></div>
@@ -134,7 +130,7 @@
 
 <script type="text/javascript">
     $.validator.methods.email = function( value, element ) {
-    return this.optional( element ) || /[a-z]+@[a-z]+\.[a-z]+/.test( value );
+    return this.optional( element ) || /[a-zA-Z0-9_.+-]+@[a-z]+\.[a-z]+/.test( value );
     }
 
     $.validator.addMethod("maxDate", function(value, element) {
@@ -273,3 +269,4 @@
 
 
 </script>
+<script>tinymce.init({ selector:'textarea' });</script>

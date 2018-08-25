@@ -312,7 +312,7 @@ class Cuenta extends CI_Controller
         $claves = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtclavescuenta'));
         $telefo = Utilitario::limpiarCaracteresEspeciales($this->input->post('txttelefocuenta'));
         $docume = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtdocumecuenta'));
-        $correo = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtemailscuenta'));
+        $correo = trim($this->input->post('txtemailscuenta'));
         $direcc = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtdirecccuenta'));
         $descri = Utilitario::limpiarCaracteresEspeciales($this->input->post('txtdescricuenta'));
 
@@ -326,11 +326,11 @@ class Cuenta extends CI_Controller
         );
 
 
-        //    print_r($datospersona);die();
         $datoscorreos= array(
             'des_correo'        =>$correo,
             'usu_modificacion'  =>$this->session->webCasSession->usuario->USUARIO
         );
+
         $datosusuario= array(
             'nom_usuario'       =>$usuari,
             'clav_usuario'      =>$claves,

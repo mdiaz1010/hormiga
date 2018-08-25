@@ -77,6 +77,7 @@ Highcharts.chart('container7', {
 
 
     series: [{
+        name: 'Cantidad:',
         type: 'pie',
         allowPointSelect: true,
         keys: ['name', 'y', 'selected', 'sliced'],

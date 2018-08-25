@@ -1,5 +1,5 @@
 <div class="x_content">
-    <div id="container1"></div>
+    <div id="container111"></div>
 
 </div>
 
@@ -45,7 +45,7 @@
         var value = $(this).val();
         descripcion.push(value);
     });
-    Highcharts.chart('container1', {
+    Highcharts.chart('container111', {
         chart: {
             type: 'line'
         },

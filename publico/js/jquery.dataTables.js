@@ -561,7 +561,7 @@
 
 				/* Check that the class assignment is correct for sorting */
 				var bAsc = $.inArray('asc', oCol.asSorting) !== -1;
-				var bDesc = $.inArray('desc', oCol.asSorting) !== -1;
+				var bDesc = $.inArray('asc', oCol.asSorting) !== -1;
 				if (!oCol.bSortable || (!bAsc && !bDesc)) {
 					oCol.sSortingClass = oClasses.sSortableNone;
 					oCol.sSortingClassJUI = "";
@@ -8627,7 +8627,7 @@
 				 * initialisation. You can define which column(s) the sort is performed
 				 * upon, and the sorting direction, with this variable. The `sorting` array
 				 * should contain an array for each column to be sorted initially containing
-				 * the column's index and a direction string ('asc' or 'desc').
+				 * the column's index and a direction string ('asc' or 'asc').
 				 *  @type array
 				 *  @default [[0,'asc']]
 				 *
@@ -8638,7 +8638,7 @@
 				 *    // Sort by 3rd column first, and then 4th column
 				 *    $(document).ready( function() {
 				 *      $('#example').dataTable( {
-				 *        "order": [[2,'asc'], [3,'desc']]
+				 *        "order": [[2,'asc'], [3,'asc']]
 				 *      } );
 				 *    } );
 				 *
@@ -8650,7 +8650,7 @@
 				 *    } );
 				 */
 				"aaSorting": [
-					[0, 'desc']
+					[0, 'asc']
 				],
 
 
@@ -10732,7 +10732,7 @@
 				 * behaviour of the sort handler (i.e. only allow ascending ordering etc)
 				 * using this parameter.
 				 *  @type array
-				 *  @default [ 'asc', 'desc' ]
+				 *  @default [ 'asc', 'asc' ]
 				 *
 				 *  @name DataTable.defaults.column.orderSequence
 				 *  @dtopt Columns
@@ -10763,7 +10763,7 @@
 				 *      } );
 				 *    } );
 				 */
-				"asSorting": ['asc', 'desc'],
+				"asSorting": ['asc', 'asc'],
 
 
 				/**
@@ -13316,7 +13316,7 @@
 									classes.sSortDesc
 								)
 								.addClass(columns[idx] == 'asc' ?
-									classes.sSortAsc : columns[idx] == 'desc' ?
+									classes.sSortAsc : columns[idx] == 'asc' ?
 									classes.sSortDesc :
 									column.sSortingClass
 								);
@@ -13337,7 +13337,7 @@
 							cell
 								.removeClass(classes.sSortAsc + " " + classes.sSortDesc)
 								.addClass(columns[idx] == 'asc' ?
-									classes.sSortAsc : columns[idx] == 'desc' ?
+									classes.sSortAsc : columns[idx] == 'asc' ?
 									classes.sSortDesc :
 									column.sSortingClass
 								);
@@ -13352,7 +13352,7 @@
 									classes.sSortJUIDescAllowed
 								)
 								.addClass(columns[idx] == 'asc' ?
-									classes.sSortJUIAsc : columns[idx] == 'desc' ?
+									classes.sSortJUIAsc : columns[idx] == 'asc' ?
 									classes.sSortJUIDesc :
 									column.sSortingClassJUI
 								);

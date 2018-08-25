@@ -254,6 +254,12 @@ class GestionDocente extends CI_Controller
         $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('bodys/GestionDocente/reportes/reportNotas', $this->htmlData);
     }
+    public function bandeja()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->load->view('bodys/GestionDocente/bandeja/index', $this->htmlData);
+    }
     public function comboSeccionProf()
     {
         $this->load->model("Usuarios_model", '', true);
@@ -372,28 +378,28 @@ class GestionDocente extends CI_Controller
         $c=0;
         $d=0;
         foreach ($dotacionPresente as $notas) {
-            if ((int)$notas['nota']>=17.5) {
+            if (trim($notas['nota'])>=17.5) {
                 $a++;
-            } elseif ($notas['nota']>=13.5 && $notas['nota']<17.4) {
+            } else if (trim($notas['nota'])>=13.5) {
                 $b++;
-            } elseif ($notas['nota']>=10.5 && $notas['nota']<=13.4) {
+            } else if (trim($notas['nota'])>=10.5 ) {
                 $c++;
-            } else {
+            } else if (trim($notas['nota'])<=10){
                 $d++;
             }
         }
 
         $notas = array(
-          0=>array('nombre'=>'Satisfactorio'        ,'nota'=>$a,'rango'=>'18,19,20'),
-          1=>array('nombre'=>'Proceso'              ,'nota'=>$b,'rango'=>'14,15,16,17'),
-          2=>array('nombre'=>'Inicio'               ,'nota'=>$c,'rango'=>'11,12,13'),
-          3=>array('nombre'=>'Previo Inicio'        ,'nota'=>$d,'rango'=>'0 a 10'),
+          0=>array('nombre'=>'Satisfactorio (18,19,20)'        ,'nota'=>$a,'rango'=>'18,19,20'),
+          1=>array('nombre'=>'Proceso (14,15,16,17)'              ,'nota'=>$b,'rango'=>'14,15,16,17'),
+          2=>array('nombre'=>'Inicio (11,12,13)'               ,'nota'=>$c,'rango'=>'11,12,13'),
+          3=>array('nombre'=>'Previo Inicio (<=10)'        ,'nota'=>$d,'rango'=>'0 a 10'),
         );
         $list_pastel = array(
-          0=>array('name'=>'Satisfactorio'        ,'y'=>$a),
-          1=>array('name'=>'Proceso'              ,'y'=>$b),
-          2=>array('name'=>'Inicio'               ,'y'=>$c),
-          3=>array('name'=>'Previo Inicio'        ,'y'=>$d),
+          0=>array('name'=>'Satisfactorio (18,19,20)'        ,'y'=>$a),
+          1=>array('name'=>'Proceso (14,15,16,17)'              ,'y'=>$b),
+          2=>array('name'=>'Inicio (11,12,13)'               ,'y'=>$c),
+          3=>array('name'=>'Previo Inicio (<=10)'        ,'y'=>$d),
         );
 
         $dotacionPresenteUltimaMarca = array(); // solo para identificar si la ultima marca fue entrada o salida
@@ -485,25 +491,55 @@ class GestionDocente extends CI_Controller
 
         $pdf->Ln(7);
         $x = 1;
-
-
+        $a=0;$b=0;$c=0;$d=0;
 
         foreach ($meri as $alumno) {
             $pdf->Cell(15, 5, $x++, 'BL', 0, 'C', 0);
             $pdf->Cell(80, 5, utf8_decode($alumno['ape_pat_per']), 'B', 0, 'L', 0);
-            if ($alumno['nota']>=17.5) {
+            if (trim($alumno['nota'])>=17.5) {
                 $pdf->Cell(40, 5, 'SATISFACTORIO', 'B', 0, 'L', 0);
-            } elseif ($alumno['nota']>=13.5 && $alumno['nota']<17.4) {
+                $a++;
+            } else if (trim($alumno['nota'])>=13.5) {
                 $pdf->Cell(40, 5, 'PROCESO', 'B', 0, 'L', 0);
-            } elseif ($alumno['nota']>=10.5 && $alumno['nota']<=13.4) {
+                $b++;
+            } else if (trim($alumno['nota'])>=10.5) {
                 $pdf->Cell(40, 5, 'INICIO', 'B', 0, 'L', 0);
-            } else {
+                $c++;
+            } else if (trim($alumno['nota'])<=10){
                 $pdf->Cell(40, 5, 'PREVIO INICIO', 'B', 0, 'L', 0);
+                $d++;
             }
             $pdf->Cell(22, 5, utf8_decode($alumno['nota']), 'BR', 0, 'C', 0);
 
             $pdf->Ln(5);
         }
+        $porcentaje=$a+$b+$c+$d;
+
+            $aa=($a==0)?0:round(($a*100)/$porcentaje,2);
+            $bb=($b==0)?0:round(($b*100)/$porcentaje,2);
+            $cc=($c==0)?0:round(($c*100)/$porcentaje,2);
+            $dd=($d==0)?0:round(($d*100)/$porcentaje,2);
+            $pdf->Ln(7);
+            $pdf->Cell(40, 7, 'Estado', 'TBL', 0, 'L', '1');
+            $pdf->Cell(20, 7, 'Cantidad', 'TB', 0, 'L', '1');
+            $pdf->Cell(20, 7, 'Porcentaje', 'TBR', 0, 'c', '1');
+            $pdf->Ln(7);
+            $pdf->Cell(40, 7, 'Satisfatorio', 'TBL', 0, 'L', 0);
+            $pdf->Cell(20, 7, $a, 'TB', 0, 'L', 0);
+            $pdf->Cell(20, 7, $aa.'%', 'TBR', 0, 'BR', 0);
+            $pdf->Ln(7);
+            $pdf->Cell(40, 7, 'Proceso', 'TBL', 0, 'L', 0);
+            $pdf->Cell(20, 7, $b, 'TB', 0, 'L', 0);
+            $pdf->Cell(20, 7, $bb.'%', 'TBR', 0, 'BR', 0);
+            $pdf->Ln(7);
+            $pdf->Cell(40, 7, 'Inicio', 'TBL', 0, 'L', 0);
+            $pdf->Cell(20, 7, $c, 'TB', 0, 'L', 0);
+            $pdf->Cell(20, 7, $cc.'%', 'TBR', 0, 'BR', 0);
+            $pdf->Ln(7);
+            $pdf->Cell(40, 7, 'Previo inicio', 'TBL', 0, 'L', 0);
+            $pdf->Cell(20, 7, $d, 'TB', 0, 'L', 0);
+            $pdf->Cell(20, 7, $dd.'%', 'TBR', 0, 'BR', 0);
+            $pdf->Ln(7);
         $pdf->Output("doc.pdf", 'I');
     }
 
@@ -588,14 +624,100 @@ class GestionDocente extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
-        $codigo=$this->input->post("codigo");
-        $alumno=$this->input->post("alu2");
-        $curso=$this->input->post("curso");
-        $resultado= $this->Usuarios_model->buscarAlumnoasi($codigo, $curso);
+        $alumno=array('id_alumno'=>$this->input->post('codigo'));
+        $nom_alu=$this->input->post("alu2");
 
-        $this->htmlData['bodyData']->results         = $resultado ;
-        $this->htmlData['bodyData']->alumno         = str_replace("-", " ", $alumno);
+
+        $alumno_evasion = $this->Usuarios_model->evasion_alumno($alumno['id_alumno']);
+        $alumno_inasistencia = $this->Usuarios_model->inasistencia_alumno($alumno['id_alumno'],'f');
+        $alumno_asistencia=  $this->Usuarios_model->inasistencia_alumno($alumno['id_alumno'],'p');
+
+        $list_historial = array(array('Evasion',count($alumno_evasion),false),
+                                array('Inasistencia',(int)$alumno_inasistencia['asistencia'],false),
+                                array('Asistencia',(int)$alumno_asistencia['asistencia'],false));
+
+        $nom_historial = array('Asistencia','Inasistencia','Evasiones');
+
+        $resultado= $this->Usuarios_model->busquedaGradoSeccion($alumno);
+        $ano=$this->Usuarios_model->busquedaAno($alumno['id_alumno']);
+        if ($ano[0]->ano==date('Y')) {
+            $gradosec= array('grado'=>$resultado['id_grado'],'seccion'=>$resultado['id_seccion']);
+            $resultadoCurs= $this->Usuarios_model->busquedaCursoAlu($gradosec);
+            if(isset($resultadoCurs)==false){
+                echo "No existe cursos registrados";die();
+            }
+        }
+
+
+
+        if (isset($resultadoCurs)==true) {
+            $this->htmlData['bodyData']->respuesta         = 1 ;
+            $this->htmlData['bodyData']->nom_historial         = json_encode($nom_historial) ;
+            $this->htmlData['bodyData']->list_historial         = json_encode($list_historial) ;
+            $this->htmlData['bodyData']->results         = $resultado ;
+        } else {
+            $this->htmlData['bodyData']->respuesta         = 0 ;
+        }
+
+        $this->htmlData['bodyData']->alumno         = str_replace("-", " ", $nom_alu);
+        $this->htmlData['bodyData']->codigo         =$alumno['id_alumno'];
+        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
         $this->load->view('vistasDialog/gestionDocente/bandejaAsistencia/verDetalleAlumno', $this->htmlData);
+    }
+    public function bandejaAsistenciaAlu($curso=false)
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);
+        $codigo= $this->input->post('codigo');
+        $resultado=$this->Usuarios_model->buscarAlumnoasiAux($codigo);
+
+        $this->htmlData['bodyData']->curso         = $curso ;
+        $this->htmlData['bodyData']->results       = $resultado ;
+        $this->htmlData['headData']->titulo        = "GESTION :: INTRANET";
+
+        $this->load->view('vistasDialog/gestionDocente/bandejaAsistencia/asistenciaTotal', $this->htmlData);
+
+    }
+    public function consultarEvasion()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);
+        $codigo= $this->input->post('codigo');
+
+            $datos= $this->Usuarios_model->evasion_alumno($codigo);
+
+
+
+        $respuesta= $this->Usuarios_model->busquedaRespuesta();
+        $i=0;
+        foreach ($datos as $dato) {
+            $datosNombre= $this->Usuarios_model->busquedaDatos($dato->id_alumno);
+            $datosGrados= $this->Usuarios_model->buscarGrados($dato->id_grado);
+            $datosSeccio= $this->Usuarios_model->buscarSecciones($dato->id_seccion);
+            $datosCurso = $this->Usuarios_model->buscarCursos($dato->id_curso);
+            if (isset($datosNombre[$i]->apepat)==true) {
+                $arrayDato[]=array('id'=>$dato->id,
+                       'nombre'=>$datosNombre[$i]->apepat.' '.$datosNombre[$i]->apemat.' '.$datosNombre[$i]->nombre,
+                       'grados'=>$datosGrados[$i]->nom_grado.'° '.$datosSeccio[$i]->nom_seccion,
+                       'cursos'=>$datosCurso[$i]->nom_cursos,
+                       'fechas'=>$dato->fec_creacion,
+                       'id_alumno'=>$dato->id_alumno,
+                       'id_grado'=>$dato->id_grado,
+                       'id_seccion'=>$dato->id_seccion,
+                       'id_curso'=>$dato->id_curso,
+                       'respuesta'=>$dato->tipo_obs
+
+                       );
+            }
+        }
+        if (isset($dato)==true) {
+            $this->htmlData['bodyData']->results=$arrayDato;
+            $this->htmlData['bodyData']->resultado=$respuesta;
+        } else {
+            $this->htmlData['bodyData']->results=0;
+        }
+
+        $this->load->view('vistasDialog/gestionAlumno/bandejaAsistencia/evasion', $this->htmlData);
     }
     public function comboBandeNota()
     {
@@ -943,11 +1065,11 @@ class GestionDocente extends CI_Controller
                         'descripcion'   =>strtoupper($descripcion[$i]),
                         'peso'          =>$peso[$i]/100,
                         'estado'        =>1,
-                        'fec_creacion'  =>date('Y-m-d'),
+                        'fec_creacion'  =>date('Y-m-d h:m:s'),
                         'usu_creacion'  =>$this->session->webCasSession->usuario->USUARIO
 
                     );
-
+                    var_dump($save_informacion); die();
                     $ultimo_id=$this->Docente_model->registrar_nueva_configuracion($save_informacion);
 
                     if ((int)$ultimo_id==0 || $ultimo_id=='') {

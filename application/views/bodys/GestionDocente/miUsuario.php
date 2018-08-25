@@ -9,10 +9,8 @@
 -->
 <link rel="stylesheet" href="<?=base_url('publico/kartik-file/css/fileinput.min.css')?>" />
 
-<div class="row">
-</div>
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
+
+    <div class="col-md-12 col-sm-12 col-xs-12 animated fadeInRight">
         <div class="x_panel">
             <div class="x_title">
                 <h2>
@@ -102,7 +100,7 @@
         </div>
     </div>
 
-</div>
+
 <input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
 <style>
     .right {
@@ -130,7 +128,7 @@
 
 <script type="text/javascript">
     $.validator.methods.email = function( value, element ) {
-    return this.optional( element ) || /[a-z]+@[a-z]+\.[a-z]+/.test( value );
+    return this.optional( element ) || /[a-zA-Z0-9_.+-]+@[a-z]+\.[a-z]+/.test( value );
     }
 
     $.validator.addMethod("maxDate", function(value, element) {
@@ -269,3 +267,4 @@
 
 
 </script>
+<script>tinymce.init({ selector:'textarea' });</script>

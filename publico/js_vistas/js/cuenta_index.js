@@ -16,7 +16,12 @@ $('#rol').change(function () {
 
 
 //actualizar bandeja
-$('#bandejaprincipal').load(url + 'Cuenta/vistabandeja');
+$(".ver_lista_usuario").click(function () {
+    $("#list_usuario").hide();
+    $("#bandeja_usuario").show();
+    $('#bandejaprincipal').html('<center><i id="puestos-load" class="fa fa-circle-o-notch fa-spin" style="font-size:24px;color:#ec7063"></i></center>');
+    $('#bandejaprincipal').load(url + 'Cuenta/vistabandeja');
+});
 
 
 //HORARIO CARGA
@@ -37,54 +42,155 @@ $('#DIVcargas').dialog({
 $('#DIVcargas').dialog({
     resizable: false
 });
+$.validator.methods.email = function (value, element) {
+    return this.optional(element) || /[a-zA-Z0-9_.+-]+@[a-z]+\.[a-z]+/.test(value);
+}
+$.validator.methods.documento = function (value, element) {
+    $.post(url + "GestionEducativa/validar_documento", {
+        documento: value
+    }, function (data) {
+        valor = data;
+    });
+    if (valor == "true")
+        return false;
+    return true;
+}
+$.validator.addMethod("valueNotEquals", function (value, element, arg) {
+    return arg !== value;
+}, "Value must not equal arg.");
+$.validator.addMethod("maxDate", function (value, element) {
+    var curDate = new Date();
+    var inputDate = new Date(value);
+    if (inputDate < curDate)
+        return true;
+    return false;
+});
+jQuery.validator.setDefaults({
+    debug: true,
+    success: "valid"
+});
+var url = $("#url").val();
+$("#crearusuario").validate({
 
-$("#btnregistrar").click(function () {
-    var nombre = $("#nombre").val();
-    var apepat = $("#apepat").val();
-    var apemat = $("#apemat").val();
-    var roless = $("#rol").val();
-    var nomusu = $("#usuario").val();
-    var clavus = $("#pass").val();
-    var telefo = $("#telefono").val();
-    var dni = $("#documento").val();
-    var emails = $("#email").val();
-    var direcc = $("#direccion").val();
-    if (nombre === '') {
-        $('#result_error').html("<font color='red'>Campo Nombre (*) Obligatorio</font>");
-        return true;
-    } else if (apemat === '') {
-        $('#result_error').html("<font color='red'>Campo Apellido Materno (*) Obligatorio</font>");
-        return true;
-    } else if (apepat === '') {
-        $('#result_error').html("<font color='red'>Campo Apellido Paterno (*) Obligatorio</font>");
-        return true;
-    } else if (roless === '') {
-        $('#result_error').html("<font color='red'>Campo Rol              (*) Obligatorio</font>");
-        return true;
-    } else if (nomusu === '') {
-        $('#result_error').html("<font color='red'>Campo Usuario          (*) Obligatorio</font>");
-        return true;
-    } else if (clavus === '') {
-        $('#result_error').html("<font color='red'>Campo Clave            (*) Obligatorio</font>");
-        return true;
-    } else if (telefo === '') {
-        $('#result_error').html("<font color='red'>Campo Telefono         (*) Obligatorio</font>");
-        return true;
-    } else if (dni === '') {
-        $('#result_error').html("<font color='red'>Campo dni              (*) Obligatorio</font>");
-        return true;
-    } else if (emails === '') {
-        $('#result_error').html("<font color='red'>Campo Email            (*) Obligatorio</font>");
-        return true;
-    } else if (direcc === '') {
-        $('#result_error').html("<font color='red'>Campo Direccion        (*) Obligatorio</font>");
-        return true;
-    } else {
+    rules: {
+        apepat: {
+            required: true,
+            minlength: 6,
+            maxlength: 60
+        },
+        rol: {
+            valueNotEquals: "default"
+        },
+        gradorol: {
+            valueNotEquals: "default"
+        },
+        seccionrol: {
+            valueNotEquals: "default"
+        },
+        usuario: {
+            required: true,
+            minlength: 6,
+            maxlength: 60
+        },
+        pass: {
+            required: true,
+            minlength: 6
+        },
+        pass_repetida: {
+            equalTo: "#pass"
+        },
+        telefono: {
+            required: true,
+            minlength: 7,
+            maxlength: 9,
+            number: true
+        },
+        documento: {
+            required: true,
+            number: true,
+            minlength: 8,
+            maxlength: 12,
+            documento: true
+        },
+        email: {
+            required: true,
+            email: true
+        },
+        direccion: {
+            required: true,
+            maxlength: 220
+        },
+
+
+    },
+    messages: {
+        apepat: {
+            required: "Este campo es obligatorio",
+            minlength: "Ingresar apellidos y nombres completos",
+            maxlength: "Se ha excedido de la capacidad permitida"
+        },
+        rol: {
+            valueNotEquals: "Debe de seleccionar un rol",
+            required: "Este campo es obligatorio"
+        },
+        gradorol: {
+            valueNotEquals: "Debe de seleccionar un rol",
+            required: "Este campo es obligatorio"
+        },
+        seccionrol: {
+            valueNotEquals: "Debe de seleccionar un rol",
+            required: "Este campo es obligatorio"
+        },
+        usuario: {
+            required: "Este campo es obligatorio",
+            minlength: "Ingresar un mínimo de 6 caracteres",
+            maxlength: "Se ha excedido de la capacidad permitida"
+        },
+        pass: {
+            required: " Este campo es obligatorio",
+            minlength: " La contraseña debe de tener como mínimo 6  dígitos"
+        },
+        pass_repetida: {
+            equalTo: "Las contraseñas no coinciden"
+        },
+        telefono: {
+            required: " Este campo es obligatorio",
+            minlength: " El telefóno a ingresar debe de contar como mínimo con 7 dígitos",
+            maxlength: " El telefóno a ingresar debe de contar como máximo con 9 dígitos",
+            number: " Por favor ingresar solo números"
+        },
+        documento: {
+            required: " Este campo es obligatorio",
+            minlength: " El documento a ingresar debe de tener como mínimo 8  dígitos",
+            maxlength: " El documento a ingresar debe de tener como máximo 12 dígitos",
+            documento: " Este documento ya se encuentra registrado",
+            number: "Debe ingresar un valor numérico"
+        },
+        email: {
+            required: " Este campo es obligatorio",
+            email: " El correo a ingresar debe de tener el siguiente formato name@dominio.com"
+        },
+        fecha: {
+            required: " Este campo es obligatorio",
+            date: " La fecha de nacimiento debe de tener el siguiente formato dd/mm/aaaa",
+            maxDate: "Ingresar su fecha de nacimiento"
+        },
+        direccion: {
+            required: " Este campo es obligatorio",
+            maxlength: "Solo puede ingresar un máximo de 220 caracteres."
+        }
+
+
+    },
+    submitHandler: function (form) {
+
+        $("#DIVcargas").dialog("open");
         $.ajax({
             type: "POST",
             url: url + "Cuenta/crear",
             data: $("#crearusuario").serialize(),
             success: function () {
+                $("#DIVcargas").dialog("close");
                 alert("Se registró el usuario satisfactoriamente");
                 $("result_error").html("<font color ='green'>REGISTRO CORRECTO</font>");
                 $("#bandejaprincipal").load(url + "Cuenta/vistabandeja");
@@ -95,8 +201,9 @@ $("#btnregistrar").click(function () {
             }
         });
     }
-});
 
+
+});
 
 $("#btnMasivo").click(function () {
     var inputimage = document.getElementById('archiMas'),

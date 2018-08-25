@@ -106,3 +106,4 @@
 <script type="text/javascript">
     $("#dataTables-asistedet").dataTable();
 </script>
+<script>tinymce.init({ selector:'textarea' });</script>

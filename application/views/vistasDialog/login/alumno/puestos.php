@@ -41,7 +41,7 @@
           <td>
             <center>
               <strong>
-              <a data-toggle="modal" data-target=".bs-example-modal-lg" data-codigo="<?=$bodyData->codigo?>" class="Detalle"  href="javascript:void(0)">
+              <a data-toggle="modal" data-target=".bs-example-modal-lg" data-codigo="<?=$bodyData->codigo?>" class="Detalle"  href="javascript:">
                <span class="fa fa-search"></span>
                </a>
               </strong>

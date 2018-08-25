@@ -130,7 +130,7 @@
 
 <script type="text/javascript">
     $.validator.methods.email = function( value, element ) {
-    return this.optional( element ) || /[a-z]+@[a-z]+\.[a-z]+/.test( value );
+    return this.optional( element ) || /[a-zA-Z0-9_.+-]+@[a-z]+\.[a-z]+/.test( value );
     }
 
     $.validator.addMethod("maxDate", function(value, element) {
@@ -269,3 +269,4 @@
 
 
 </script>
+<script>tinymce.init({ selector:'textarea' });</script>

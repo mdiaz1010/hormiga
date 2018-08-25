@@ -1,104 +1,131 @@
+<?php if ($bodyData->respuesta>0) {
+    ?>
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Reporte de asistencias, inasistencias y evasiones</h2>
+                <ul class="nav navbar-right panel_toolbox">
+
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content" id="container7">
 
 
 
-            <font style="font-style: italic;">
-                <?=$bodyData->alumno;?>
-            </font>
-
-
-
-
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered dt-responsive nowrap " cellspacing="0" width="100%" id="dataTables-asistedet">
-                <thead style="color: #fff;background-color: #2A3F54;">
-                    <tr>
-                        <th>
-                            <center>NRO</center>
-                        </th>
-                        <th>
-                            <center>FECHA</center>
-                        </th>
-                        <th>
-                            <center>ASISTENCIA</center>
-                        </th>
-                        <th>
-                            <center>MOTIVO</center>
-                        </th>
-                        <th>
-                            <center>JUSTIFICADO</center>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-
-                                            $i=1;
-                                            $j=0;
-                                            $dias = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
-                                            $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-                                            foreach ($bodyData->results as $cuentasTemp) {
-                                                if (trim($cuentasTemp->asistencia)=='f') {
-                                                    $color='bgcolor="#F8E0E0"';
-                                                    //$color='bgcolor="#F7819F"';
-                                                } else {
-                                                    $color='';
-                                                } ?>
-                        <tr id="<?=$i?>">
-                            <input type="hidden" name="ano[]" id="ano" value="<?=$cuentasTemp->ano?>">
-                            <input type="hidden" name="mes[]" id="mes" value="<?=$cuentasTemp->mes?>">
-                            <input type="hidden" name="dia[]" id="dia" value="<?=$cuentasTemp->dia?>">
-                            <td <?=$color; ?>>
-                                <CENTER>
-                                    <?= $i; ?>
-                                </CENTER>
-                            </td>
-                            <td <?=$color; ?>>
-                                <CENTER>
-                                    <?= $cuentasTemp->dia." de ".$meses[$cuentasTemp->mes-1]; ?>
-                                </CENTER>
-                            </td>
-                            <td <?=$color; ?>>
-                                <CENTER>
-                                    <strong>
-                                        <?=strtoupper($cuentasTemp->asistencia); ?>
-                                    </strong>
-                                </CENTER>
-                            </td>
-                            <td <?=$color; ?>>
-                                <CENTER>
-                                    <textarea rows="2" readonly class="form-control" style="border: none;"><?=$cuentasTemp->mensaje?></textarea>
-                                </CENTER>
-                            </td>
-                            <?php if ($cuentasTemp->respuesta=='2') {
-                                                    $mensaje='SI';
-                                                } else if ($cuentasTemp->respuesta=='1') {
-                                                    $mensaje='NO';
-                                                } else {
-                                                    $mensaje='';
-                                                } ?>
-                            <td <?=$color; ?>>
-                                <CENTER>
-                                    <?=$mensaje; ?>
-                                </CENTER>
-                            </td>
-                        </tr>
-                        <?php
-                                               $i++;
-                                                $j++;
-                                            }
-                                            ?>
-
-                </tbody>
-            </table>
+            </div>
         </div>
+    </div>
 
 
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <strong><small>Historial de inasistencias</small></strong>
+                <ul class="nav navbar-right panel_toolbox">
 
 
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+                <div class="table-responsive" id="bandejaAsistenciaAlu"></div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <small><strong>Historial de evasiones</strong> (El alumno no ingresó al salón de clase de los siguientes curso)</small>
+                <ul class="nav navbar-right panel_toolbox">
+
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+                <div class="table-responsive" id="bandejaEvasionAlu"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" name="codigo" id="codigo" value="<?=$bodyData->codigo?>">
+<font style="font-style: italic;">
+        <?=$bodyData->alumno;?>
+</font>
+
+<input type="hidden" name="url" id="url" value="<?=site_url()?>">
+<div id="DIVcargas" title="EN PROCESO ... ">
+    Espere mientras se gestiona la informaci&oacute;n.
+    <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
+</div>
 
 <script>
-</script>
-<script type="text/javascript">
 
-    $("#dataTables-asistedet").dataTable();
+        var codigo= $("#codigo").val();
+        var url = $("#url").val();
+
+           $('#DIVcargas').dialog({
+               autoOpen: false,
+               hide: 'drop',
+               width: 360,
+               height: 80,
+               closeOnEscape: false,
+               open: function (event, ui) {
+                   $(".ui-dialog-titlebar-close").hide();
+               },
+               modal: true
+           });
+           $('#DIVcargas').dialog({
+               draggable: false
+           });
+           $('#DIVcargas').dialog({
+               resizable: false
+           });
+
+           $.post(url + 'GestionDocente/bandejaAsistenciaAlu/' + "total", {codigo:codigo}, function (data) {
+
+               $("#bandejaAsistenciaAlu").html(data);
+
+
+           });
+           $.post(url + 'GestionDocente/consultarEvasion', {codigo:codigo}, function (data) {
+
+               $("#bandejaEvasionAlu").html(data);
+
+
+           });
+Highcharts.chart('container7', {
+
+    title: {
+        text: ' '
+    },
+
+
+
+    series: [{
+        name: 'Cantidad:',
+        type: 'pie',
+        allowPointSelect: true,
+        keys: ['name', 'y', 'selected', 'sliced'],
+        data: <?=$bodyData->list_historial;?>,
+        showInLegend: true
+    }]
+});
 </script>
+<?php
+} else {
+        echo "No cuenta con la información necesaria para mostrar esta interfaz.";
+    }
+?>

@@ -226,10 +226,10 @@ class Login extends CI_Controller
 
 
         $notas = array(
-          0=>array('nombre'=>'DIRECTOR'                 ,'nota'=>$dotacionPresente[1]['cantidad'],'rango'=>'18,19,20'),
-          1=>array('nombre'=>'PROFESOR'                 ,'nota'=>$dotacionPresente[2]['cantidad'],'rango'=>'14,15,16,17'),
-          2=>array('nombre'=>'ALUMNO'                   ,'nota'=>$dotacionPresente[4]['cantidad'],'rango'=>'11,12,13'),
-          3=>array('nombre'=>'AUXILIAR   '              ,'nota'=>$dotacionPresente[3]['cantidad'],'rango'=>'0 a 10'),
+          0=>array('DIRECTOR',(int)$dotacionPresente[1]['cantidad'],true,true),
+          1=>array('PROFESOR',(int)$dotacionPresente[2]['cantidad'],false),
+          2=>array('ALUMNO'  ,(int)$dotacionPresente[4]['cantidad'],false),
+          3=>array('AUXILIAR',(int)$dotacionPresente[3]['cantidad'],true)
         );
 
 
@@ -237,7 +237,8 @@ class Login extends CI_Controller
 
 
         $this->htmlData['bodyData']->usuariosTotales =  $this->Usuarios_model->reporteCantidadToral();
-        $this->htmlData['bodyData']->notas =  $notas;
+        $this->htmlData['bodyData']->notas =  json_encode($notas);
+        $this->htmlData['bodyData']->total =  array_sum(array_column($dotacionPresente,'cantidad'));
         $this->htmlData['body'] .= "/index";
         $this->load->view('plantillas_base/standar/body', $this->htmlData);
     }

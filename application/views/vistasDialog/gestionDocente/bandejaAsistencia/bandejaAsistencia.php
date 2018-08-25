@@ -31,9 +31,6 @@
                             <center>ALUMNO</center>
                         </th>
                         <th>
-                            <center>% ASISTENCIA</center>
-                        </th>
-                        <th>
                             <center>ASISTENCIA</center>
                         </th>
                         <th>
@@ -66,10 +63,7 @@
                                     <?=$cuentasTemp->alumno; ?>
                                 </CENTER>
                             </td>
-                            <td>
-                                <CENTER>
-                                    <?=$valor; ?> %</CENTER>
-                            </td>
+
                             <td>
                                 <CENTER>
                                     <input type="checkbox" name="txtmarcado[]" id="txtmarcado" value="<?=$cuentasTemp->id; ?>" checked>
@@ -92,22 +86,22 @@
 </form>
 
 
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="detalle_alumno" tabindex="-1"  aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
+                <button type="button" class="close" id="cerrar" name="cerrar" data-dismiss="modal">
                     <span aria-hidden="true">×</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">Historial de asistencia</h4>
             </div>
-            <div class="modal-body" id="DIVVERDETALLE">
+            <div class="modal-body" id="DIVVERDETALLE12">
 
             </div>
             <div class="modal-footer">
 
-                <button type="button"  data-dismiss="modal" class="btn btn" style="color: #fff;background-color: #2A3F54;">Cerrar</button>
+                <button type="button"  data-dismiss="modal" id="cerrar"  name="cerrar" class="btn btn" style="color: #fff;background-color: #2A3F54;">Cerrar</button>
             </div>
 
         </div>
@@ -124,6 +118,7 @@
         echo "<div class='alert_result'>No se encuentra ningun alumno registrado.</div>";
     } ?>
     <script type="text/javascript">
+
     $("#dataTables-asistencia").dataTable();
         $('#DIVcargando').dialog({
             autoOpen: false,
@@ -192,13 +187,22 @@
                 success: function (datos) {
                     if (datos.length > 0) {
                         $('#DIVcargas').dialog('close');
-                        $('#DIVVERDETALLE').html(datos);
+                        $('#DIVVERDETALLE12').html(datos);
 
                     }
                     return false;
                 }
             });
         });
+    /*LIMPIEZA */
+    $(document).ready(function () {
+        $('#detalle_alumno').on('hidden.bs.modal', function (e) {
+            /*LIMPIAR DISPARADORES */
+            $(this).find('button').unbind();
+            $(this).find('.modal-body').html('<center><img src="<?= base_url('publico/media/ajax-loader2.gif')?>" width="80" height="80" ></center>');
+            $(this).find('.modal-footer .nombre').html('');
+        });
+    });
     </script>
     <style>
         .right {

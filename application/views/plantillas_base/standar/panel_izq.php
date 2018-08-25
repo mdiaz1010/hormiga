@@ -130,13 +130,13 @@
                     if (empty($modulo->isVisible)) {
                         return;
                     }/// no graficar los q deben estar ocultos (AJAX u otros)
-                    $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
+                    $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' href="#" class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
                     if (!isset($modulo->hijos)) {
-                        echo ' <li><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
+                        echo ' <li ><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
                     } else {
                         if ($modulo->modus!=3) {
-                            echo '<li><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
-                        '<ul class="nav child_menu">';
+                            echo '<li ><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
+                        '<ul class="nav-sub">';
                             foreach ($modulo->hijos  as $hijo) {
                                 $hijo->html_clases = '';
                                 $this->graficarModulo($hijo);
@@ -149,12 +149,12 @@
                 if (empty($modulo->isVisible)) {
                     return;
                 }/// no graficar los q deben estar ocultos (AJAX u otros)
-                $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
+                $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' href="#" class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
                 if (!isset($modulo->hijos)) {
-                    echo ' <li><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
+                    echo ' <li ><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
                 } else {
-                    echo '<li><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
-                        '<ul class="nav child_menu">';
+                    echo '<li ><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
+                        '<ul class="nav-sub">';
                     foreach ($modulo->hijos  as $hijo) {
                         $hijo->html_clases = '';
                         $this->graficarModulo($hijo);
@@ -169,9 +169,9 @@
         {
             //  var_dump($this->modulosGrupos_agrupados[3 ]); exit();
             foreach ($this->modulosGrupos as   $modulosGrupo) {
-                echo '<div "> '.
+                echo '<div > '.
                     //cambio para que no salga el nombre del cargo    '<h3>'.$modulosGrupo->titulo.'</h3>'.
-                            '<ul class="nav side-menu">';
+                            '<ul class="nav nav-pills nav-stacked">';
 
                 foreach ($this->modulosGrupos_agrupados[$modulosGrupo->id ] as $modulosGrupos_agrupados) {
                     $this->graficarModulo($modulosGrupos_agrupados);
@@ -207,21 +207,16 @@
             if (!$tieneModulosVisibles) {
                 return;
             }
-            echo '<div class="menu_section"> '.
-                    '<h3>General</h3>'.
-                        '<ul class="nav side-menu">'.count($this->modulos);
+            echo '<ul class="nav nav-pills nav-stacked">'.count($this->modulos);
             foreach ($this->modulos as $modulo) {
                 $this->graficarModulo($modulo);
             }
-            echo     '</ul>'.
-                '</div>';
+            echo     '</ul>';
         }
 
         public function graficarInicio()
         {
-            echo '<div class="menu_section"> '.
-                    ' '.
-                        '<ul class="nav side-menu">';
+            echo  '<ul class="nav nav-pills nav-stacked">';
             foreach ($this->modulos as $key => $modulo) {
                 if (empty($modulo->esPanelInicial)) {
                     continue;
@@ -229,8 +224,7 @@
                 $this->graficarModulo($modulo);
                 unset($this->modulos[$key]);
             }
-            echo     '</ul>'.
-                '</div>';
+            echo     '</ul>';
         }
     }
 
@@ -239,71 +233,48 @@
 ?>
 
 
-    <div class="col-md-3 left_col">
-        <div class="left_col scroll-view">
-            <!-- <div class="navbar nav_title" style="border: 0;">
-        <a href="#" class="site_title">
-           <img src="<?= base_url('publico/media/logo.png')?>" width="195" height="40"  style="margin-left: 10px;">
 
-        </a>
-      </div>
-       -->
-            <div class="clearfix"></div>
-            <div class="profile clearfix">
-                <div class="profile_pic">
-                    <?php if (isset($this->session->webCasSession->usuario->RUTA)==false) {
-    ?>
-                    <img src=" <?= base_url('publico/media/user.png')?>" alt="..." class="img-circle profile_img">
-                    <?php
-} else {
-        ?>
-                        <img src="<?= base_url($this->session->webCasSession->usuario->RUTA)?>" alt="..." class="img-circle  profile_img">
-                        <?php
-    } ?>
+    <aside class="sidebar sidebar-left nano">
+        <div class="nano-content">
+            <div class="sidebar-profile">
+                <div class="avatar">
+                    <?php if (isset($this->session->webCasSession->usuario->RUTA)==false) {?><img src=" <?= base_url('publico/media/user.png')?>" alt="profile" class="img-circle profile-img"><?php } else { ?><img src="<?= base_url($this->session->webCasSession->usuario->RUTA)?>" alt="profile" class="img-circle  profile-img"><?php } ?>
+                    <i class="on border-dark animated bounceIn"></i>
                 </div>
-                <div class="profile_info">
-                    <span>Bienvenido,</span> <br>
-                    <small>
-                        <?=$this->session->webCasSession->usuario->NOMBRE?>
-                    </small>
+                <div class="profile-body dropdown">
+
+                    <h4>
+                        <span class="col-md-11 col-sm-11 col-xs-11 name tooltip-hover-body" data-html="true">
+                            <?=$this->session->webCasSession->usuario->NOMBRE?>
+                        </span>
+                        <span class="col-md-1 col-sm-1 col-xs-1 caret"></span>
+                    </h4>
+
+                    <small class="title">Profersor(a)</small>
+
+
                 </div>
             </div>
-            <!-- /menu profile quick info -->
 
-            <br />
-
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+      <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <nav>
+                        <h5 class="sidebar-header">Menú</h5>
                 <?php
-                $class->graficarInicio();
-                $class->graficarGrupos();
-                $class->graficarGeneral();
-            ?>
-            </div>
-            <!-- /sidebar menu -->
 
-            <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
+                        $class->graficarInicio();
+                        $class->graficarGrupos();
+                        $class->graficarGeneral();
+                    ?>
+            </nav>
 
-                <a>
-                    <span class="glyphicon "></span>
-                </a>
-                <a>
-                    <span class="glyphicon "></span>
-                </a>
-                <a>
-                    <span class="glyphicon  "></span>
-                </a>
-                <a data-toggle="tooltip" href="<?= site_url('login/logout')?>" data-placement="top" title="Logout">
-                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                </a>
-            </div>
-            <!-- /menu footer buttons -->
+
+
         </div>
-    </div>
+    </aside>
+
     <script>
-            $(".body_load").click(function(){
-                var uri = $(this).data('uri');
-                        $("#cuerpo").load(uri);
-            });
+        $(".body_load").click(function () {
+            var uri = $(this).data('uri');
+            $("#cuerpo").load(uri);
+        });
     </script>

@@ -90,7 +90,7 @@
       </div>
 
       <div class="modal-footer">
-        <button name="diveditar_boton" id="diveditar_boton" type="button"  data-dismiss="modal" class="btn btn-default" >EDITAR</button>
+        <button name="diveditar_boton" id="diveditar_boton" type="button"   class="btn btn-default" >EDITAR</button>
         <button name="btnNo" id="btnNo" type="button" class="btn btn-primary" data-dismiss="modal">CERRAR</button>
       </div>
 
@@ -111,7 +111,7 @@
                 <center>
                     <img src="<?= base_url('publico/media/ajax-loader2.gif')?>" width="80" height="80">
                 </center>'
-                <!-- ACA es la Zona de Contenido... SI solo tuviera algo que colocar T.T -->hola
+
             </div>
             <div class="modal-footer">
                 <div class="row">
@@ -196,6 +196,7 @@ $("#diveditar_boton").click(function () {
         },
         success: function () {
             $('#DIVcargas').dialog('close');
+            $('#modal_x').modal('toggle');
             alert("Se editaron los datos de : " + apepat + " satisfactoriamente");
             $("#bandejaprincipal").load(url+"Cuenta/vistabandeja");
         }
@@ -220,7 +221,6 @@ $("#diveditar_boton").click(function () {
                 if (datos.length > 0) {
                     $('#DIVcargas').dialog('close');
                     $('#DIVEDITARCUENTA').html(datos);
-
                 }
                 return false;
             }

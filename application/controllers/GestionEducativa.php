@@ -27,19 +27,29 @@ class GestionEducativa extends CI_Controller
     }
     public function vistaDirector()
     {
+
+   //     $merito_alumno =  $this->Usuarios_model->reporteNotasFinal_dir();
+
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
         $dotacionPresente =  $this->Usuarios_model->busquedaTotal();
 
+
+
         $notas = array(
-          0=>array('nombre'=>'DIRECTOR'                 ,'nota'=>$dotacionPresente[1]['cantidad'],'rango'=>'18,19,20'),
-          1=>array('nombre'=>'PROFESOR'                 ,'nota'=>$dotacionPresente[2]['cantidad'],'rango'=>'14,15,16,17'),
-          2=>array('nombre'=>'ALUMNO'                   ,'nota'=>$dotacionPresente[4]['cantidad'],'rango'=>'11,12,13'),
-          3=>array('nombre'=>'AUXILIAR   '              ,'nota'=>$dotacionPresente[3]['cantidad'],'rango'=>'0 a 10'),
+          0=>array('DIRECTOR',(int)$dotacionPresente[1]['cantidad'],true,true),
+          1=>array('PROFESOR',(int)$dotacionPresente[2]['cantidad'],false),
+          2=>array('ALUMNO'  ,(int)$dotacionPresente[4]['cantidad'],false),
+          3=>array('AUXILIAR',(int)$dotacionPresente[3]['cantidad'],true)
         );
 
+
+
+
+
         $this->htmlData['bodyData']->usuariosTotales =  $this->Usuarios_model->reporteCantidadToral();
-        $this->htmlData['bodyData']->notas =  $notas;
+        $this->htmlData['bodyData']->notas =  json_encode($notas);
+        $this->htmlData['bodyData']->total =  array_sum(array_column($dotacionPresente,'cantidad'));
         $this->load->view('bodys/Login/index', $this->htmlData);
     }
     public function vistabandejaaula()
@@ -1200,6 +1210,30 @@ class GestionEducativa extends CI_Controller
         $this->htmlData['bodyData']->datos                 =$arrayDatos;
         $this->htmlData['headData']->titulo                = "GESTION :: INTRANET";
         $this->load->view('vistasDialog/gestionEducativa/bandejaConsulta/index', $this->htmlData);
+    }
+    public function validar_documento()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $documento = $this->input->post('documento');
+        $validar_documento= $this->Usuarios_model->validar_documento($documento);
+
+        if(empty($validar_documento['cantidad'])){
+            echo "false";
+        }else{
+            echo "true";
+        }
+    }
+    public function validar_email()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $email = $this->input->post('email');
+        $validar_documento= $this->Usuarios_model->validar_email($email);
+
+        if(empty($validar_documento['cantidad'])){
+            echo "false";
+        }else{
+            echo "true";
+        }
     }
     public function notasGeneral()
     {
