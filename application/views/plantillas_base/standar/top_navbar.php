@@ -8,7 +8,7 @@
   <div class="brand">
 
 
-    <a href="/academico" class="logo">
+    <a href="#" class="logo">
       <img src="http://emanuel.cubicol.pe/img/logo.png?d35e72f6c7e24e3f51993fb5edf69610" />
     </a>
 
@@ -17,13 +17,13 @@
   <ul class="nav navbar-nav navbar-left">
 
     <li class="toggle-navigation toggle-left">
-      <button class="sidebar-toggle tooltip-hover-body" id="toggle-left" data-original-title="Contraer/Expandir Menú">
+      <button class="sidebar-toggle tooltip-hover-body" id="toggle-left" title="Contraer/Expandir Menú">
         <i class="fa fa-bars"></i>
       </button>
     </li>
 
     <li class="profile hidden-xs">
-      <a href="<?=base_url()?>" class="btn btn-transparent tooltip-hover-body" data-original-title="Ir al inicio">
+      <a href="<?=base_url()?>" class="btn btn-transparent tooltip-hover-body" title="Ir al inicio">
         <i class="fa fa-home"></i>
       </a>
     </li>
@@ -50,7 +50,7 @@
 
 
     <li class="profile hidden-xs">
-      <a href="/academico/reporte" class="btn btn-transparent tooltip-hover-body" data-original-title="Reportes">
+      <a href="/academico/reporte" class="btn btn-transparent tooltip-hover-body" title="Reportes">
         <i class="fa fa fa-file-text-o"></i>
       </a>
     </li>

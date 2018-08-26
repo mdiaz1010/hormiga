@@ -26,7 +26,7 @@
 
     <div class="form-group">
         <label class=" col-md-12 col-sm-12 col-xs-12">
-            Extensiones permitidas: docx,txt,jpg,png,jpeg,pptx,pdf
+            Extensiones permitidas: (docx,txt,jpg,png,jpeg,pptx,pdf)
             <input type="file" name="docAdj[]" id="docAdj"  class="file" data-edit="insertImage"/>
         </label>
     </div>

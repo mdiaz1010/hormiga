@@ -4,9 +4,9 @@
     <?php if ((int)$bodyData->contador==0) {
         ?>
     <div class="list-group right">
-        <a class="btn btn-danger btnMarca" href="javascript:" aria-label="Archivo" style="clear: right;">
-            <i class="fa fa-floppy-o" aria-hidden="true" style="clear: right;"></i>
-        </a>
+        <button class="btn btn-danger btnMarca" href="javascript:" aria-label="Archivo" style="clear: right;">
+            Guardar
+        </button>
     </div>
     <?php
     } else {

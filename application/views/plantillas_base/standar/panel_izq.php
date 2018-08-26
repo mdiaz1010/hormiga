@@ -237,17 +237,17 @@
     <aside class="sidebar sidebar-left nano">
         <div class="nano-content">
             <div class="sidebar-profile">
-                <div class="avatar">
-                    <?php if (isset($this->session->webCasSession->usuario->RUTA)==false) {?><img src=" <?= base_url('publico/media/user.png')?>" alt="profile" class="img-circle profile-img"><?php } else { ?><img src="<?= base_url($this->session->webCasSession->usuario->RUTA)?>" alt="profile" class="img-circle  profile-img"><?php } ?>
-                    <i class="on border-dark animated bounceIn"></i>
+                <div class="avatar" align="center">
+                    <?php if (isset($this->session->webCasSession->usuario->RUTA)==false) {?><img src=" <?= base_url('publico/media/user.png')?>" alt="profile" class="img-responsive avatar-view"><?php } else { ?><img src="<?= base_url($this->session->webCasSession->usuario->RUTA)?>" alt="profile" class="img-responsive avatar-view" height="100" width="100"><?php } ?>
+
                 </div>
                 <div class="profile-body dropdown">
 
                     <h4>
-                        <span class="col-md-11 col-sm-11 col-xs-11 name tooltip-hover-body" data-html="true">
+                        <span class="col-md-11 col-sm-11 col-xs-11 name " data-html="true">
                             <?=$this->session->webCasSession->usuario->NOMBRE?>
                         </span>
-                        <span class="col-md-1 col-sm-1 col-xs-1 caret"></span>
+
                     </h4>
 
                     <small class="title">Profersor(a)</small>

@@ -7,9 +7,9 @@
 <script type="text/javascript" src="<?= base_url(); ?>publico/handsontable/js/handsontable.full.min.js"></script>
 
 <div class="list-group right">
-    <a class="btn btn-success excel" href="javascript:" title="Exportar en excel">
+    <button class="btn btn-success excel" type="button" title="Exportar en excel">
         <i class="fa fa-file-excel-o"></i>
-    </a>
+    </button>
     <button class="btn btn-danger " title="Registrar Notas" type="button" name="btnNotas" id="btnNotas">
         <i class="fa fa-floppy-o"></i>
     </button>

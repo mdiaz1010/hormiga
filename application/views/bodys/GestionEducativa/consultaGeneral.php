@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row col-lg-12">
+    <div class="col-xs-12 col-md-12 col-sm-12 animated fadeInRight">
         <div class="col-lg-4"></div>
         <div class="col-lg-4"></div>
         <div class="col-lg-4">
@@ -21,26 +21,28 @@
         </div>
 
         <div class="title_right">
-            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search animated fadeInRight">
+
                 <div class="input-group">
-                    <input type="text" name="buscarUsuario" id="buscarUsuario" class="form-control" placeholder="Buscar...">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default busqueda1" type="button">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </span>
+                    <input type="text" name="buscarUsuario" id="buscarUsuario" class="form-control" placeholder="Apellidos y nombres...">
+                    <div class="input-group-btn">
+                        <button  type="button" class="btn btn-sm btn-primary busqueda1">Buscar</button>
+                    </div>
                 </div>
+
             </div>
         </div>
 
+
+
     </div>
 
-<div class="">
+    <div class="col-xs-12 col-md-12 col-sm-12 animated fadeInRight">
 
-    <div class="" id="bandejaprincipal"></div>
+        <div class="" id="bandejaprincipal"></div>
 
 
-</div>
+    </div>
 
 
 
@@ -58,10 +60,10 @@
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/cargar_data.js')?>"></script>
 <script type="text/javascript">
     var nombre1 = $("#buscarUsuario").val();
-    var url= $("#url").val();
+    var url = $("#url").val();
     $.ajax({
         type: 'POST',
-        url: url+'GestionEducativa/consultaGeneralDir',
+        url: url + 'GestionEducativa/consultaGeneralDir',
         data: {
             nombre: nombre1,
             boolean: "true"
@@ -80,7 +82,7 @@
         var nombre = $("#buscarUsuario").val();
         $.ajax({
             type: 'POST',
-            url: url+'GestionEducativa/consultaGeneralDir',
+            url: url + 'GestionEducativa/consultaGeneralDir',
             data: {
                 nombre: nombre,
                 boolean: "false"
@@ -104,7 +106,7 @@
 
         $.ajax({
             type: 'POST',
-            url: url+'GestionEducativa/buscarUser',
+            url: url + 'GestionEducativa/buscarUser',
             data: {
                 nombre: nombre,
                 boolean: "false"

@@ -2,11 +2,11 @@
 </script>
 <div class="container" id="materialDocentesubir" style="display:none;">
     <div class="list-group right">
-        <a class="btn btn-danger btnArchivo"  data-toggle="modal" data-target=".bs-example-modal-lg" href="javascript:" data-grado="<?php echo $bodyData->GRADO?>" data-seccion="<?php echo $bodyData->SECCION?>"
+        <button class="btn btn-danger btnArchivo"  data-toggle="modal" data-target=".bs-example-modal-lg" href="javascript:" data-grado="<?php echo $bodyData->GRADO?>" data-seccion="<?php echo $bodyData->SECCION?>"
             data-curso="<?php echo $bodyData->CURSOS?>" data-bimestre="<?php echo $bodyData->BIMESTRE?>" aria-label="Archivo"
             style="clear: right;">
-            <i class="fa fa-pencil" aria-hidden="true" style="clear: right;"></i>
-        </a>
+            Registrar material
+        </button>
     </div>
     <div id="bandejaMaterial2"></div>
 </div>

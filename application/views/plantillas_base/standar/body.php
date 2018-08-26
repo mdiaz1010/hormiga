@@ -18,7 +18,7 @@
 
                             <section class="main-content-wrapper">
 
-                                <section id="cuerpo" class=" right_col animated fadeInUp" role="main" style="padding: 30px 50px 0;">
+                                <section id="cuerpo" class=" right_col animated fadeInUp" role="main" >
 
                                     <?=$this->load->view("bodys/".$body, (isset($bodyData))? array('bodyData'=> &$bodyData):'', true);?>
 

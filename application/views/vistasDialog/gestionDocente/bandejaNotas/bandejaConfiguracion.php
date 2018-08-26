@@ -47,8 +47,10 @@
 
           <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-              <button class="btn btn-primary" id="btnLimpiar" name="btnLimpiar" type="reset">Limpiar </button>
-              <button type="button" id="btnRegistrar" name="btnRegistrar" class="btn btn-success">Registrar
+              <button class="btn btn-primary" id="btnLimpiar" name="btnLimpiar" type="reset">
+              <span class="fa fa-trash"></span>
+               </button>
+              <button type="button" id="btnRegistrar" name="btnRegistrar" class="btn btn-success">
                 <span class="fa fa-arrow-circle-right"></span>
               </button>
             </div>
