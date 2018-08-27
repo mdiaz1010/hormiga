@@ -130,12 +130,12 @@
                     if (empty($modulo->isVisible)) {
                         return;
                     }/// no graficar los q deben estar ocultos (AJAX u otros)
-                    $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' href="javascript:" class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
+                    $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' href="#" class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
                     if (!isset($modulo->hijos)) {
-                        echo ' <li class="nav-dropdown"><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
+                        echo ' <li ><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
                     } else {
                         if ($modulo->modus!=3) {
-                            echo '<li class="nav-dropdown"><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
+                            echo '<li ><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
                         '<ul class="nav-sub">';
                             foreach ($modulo->hijos  as $hijo) {
                                 $hijo->html_clases = '';
@@ -149,11 +149,11 @@
                 if (empty($modulo->isVisible)) {
                     return;
                 }/// no graficar los q deben estar ocultos (AJAX u otros)
-                $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' href="javascript:" class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
+                $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' href="#" class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
                 if (!isset($modulo->hijos)) {
-                    echo ' <li class="nav-dropdown"><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
+                    echo ' <li ><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
                 } else {
-                    echo '<li class="nav-dropdown"><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
+                    echo '<li ><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
                         '<ul class="nav-sub">';
                     foreach ($modulo->hijos  as $hijo) {
                         $hijo->html_clases = '';
@@ -169,13 +169,16 @@
         {
             //  var_dump($this->modulosGrupos_agrupados[3 ]); exit();
             foreach ($this->modulosGrupos as   $modulosGrupo) {
-                echo '<ul class="nav nav-pills nav-stacked">';
+                echo '<div > '.
+                    //cambio para que no salga el nombre del cargo    '<h3>'.$modulosGrupo->titulo.'</h3>'.
+                            '<ul class="nav nav-pills nav-stacked">';
 
                 foreach ($this->modulosGrupos_agrupados[$modulosGrupo->id ] as $modulosGrupos_agrupados) {
                     $this->graficarModulo($modulosGrupos_agrupados);
                     //if($modulosGrupo->id==3) var_dump($modulosGrupo->id ,$modulosGrupos_agrupados); // exit();
                 }
-                echo '</ul>';
+                echo     ' </ul>'.
+                    '</div>';
             }
         }
 
@@ -228,8 +231,6 @@
     $class = new organizarPila($modulos, $modulosGrupos, $usuario);
    // var_dump($class->modulos);exit();
 ?>
-
-
 
 
             <nav>
