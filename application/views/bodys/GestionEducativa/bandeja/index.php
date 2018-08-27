@@ -1,4 +1,5 @@
-<div class="row row-offcanvas row-offcanvas-left" id="mensajeria-intranet">
+<!--
+    <div class="row row-offcanvas row-offcanvas-left" id="mensajeria-intranet">
     <div class="col-md-2 col-sm-3 sidebar-offcanvas animated fadeInLeft" id="sidebar">
         <div class="col-md-12 col-sm-12 col-xs-12 ibox float-e-margins" style="padding: 0px;">
             <div class="col-md-12 col-sm-12 col-xs-12 ibox-content mailbox-content">
@@ -87,14 +88,14 @@
                     </div>
 
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <!--<form method="get" action="index.html" style="margin-bottom: 4px;">  onkeyup="buscarMensaje($('#txtEtiquetaid').val(), this.value);" -->
+
                         <div class="input-group">
                             <input type="text" class="form-control input-sm" id="txtsearch" placeholder="Buscar mensaje">
                             <div class="input-group-btn">
                                 <button id="btnBuscarMensaje" type="button" class="btn btn-sm btn-primary">Buscar</button>
                             </div>
                         </div>
-                        <!--</form>-->
+
                     </div>
 
 
@@ -144,7 +145,7 @@
 
 
 
-                <!-- <div class="col-md-12 col-sm-12 col-xs-12 mail-box mensajes-scroll" style="padding: 0px; min-height: 700px; height: 700px; max-height: 700px; overflow-y: auto;"> -->
+
                 <div class="mail-box mensajes-scroll" style="float: left; width: 100%; min-height: 713px; height: 713px; max-height: 713px; overflow-y: scroll;">
 
 
@@ -185,3 +186,7 @@
 
 
 </div>
+
+-->
+
+En construcción...
