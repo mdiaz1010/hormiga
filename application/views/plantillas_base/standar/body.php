@@ -3,62 +3,63 @@
 <html lang="es" class="no-js">
 <?=$this->load->view("plantillas_base/standar/head", (isset($head))? array('headData'=> &$head):'', true);?>
 
+    <body class="nav-md">
+        <div class="container body">
+            <div class="main_container">
+                <section id="main-wrapper" class="theme-default">
+                    <?=$this->load->view("plantillas_base/standar/top_navbar", (isset($navbar))?array('navbarData'=> &$navbar):'', true);?>
 
-    <body class="">
+                        <aside class="sidebar sidebar-left nano">
+                            <div class="nano-content">
+                                <div class="sidebar-profile">
+                                    <div class="avatar" align="center">
+                                        <?php if (isset($this->session->webCasSession->usuario->RUTA)==false) {?>
+                                        <img src=" <?= base_url('publico/media/user.png')?>" alt="profile" class="img-responsive avatar-view">
+                                        <?php } else { ?>
+                                        <img src="<?= base_url($this->session->webCasSession->usuario->RUTA)?>" alt="profile" class="img-responsive avatar-view"
+                                            height="100" width="100">
+                                        <?php } ?>
 
-        <section id="main-wrapper" class="theme-default">
-            <?=$this->load->view("plantillas_base/standar/top_navbar", (isset($navbar))?array('navbarData'=> &$navbar):'', true);?>
+                                    </div>
+                                    <div class="profile-body dropdown">
 
-                <aside class="sidebar sidebar-left nano">
-                    <div class="nano-content">
-                        <div class="sidebar-profile">
-                            <div class="avatar" align="center">
-                                <?php if (isset($this->session->webCasSession->usuario->RUTA)==false) {?>
-                                <img src=" <?= base_url('publico/media/user.png')?>" alt="profile" class="img-responsive avatar-view">
-                                <?php } else { ?>
-                                <img src="<?= base_url($this->session->webCasSession->usuario->RUTA)?>" alt="profile" class="img-responsive avatar-view"
-                                    height="100" width="100">
-                                <?php } ?>
+                                        <h4>
+                                            <span class="col-md-12 col-sm-12 col-xs-12 name " data-html="true">
+                                                <?=$this->session->webCasSession->usuario->NOMBRE?>
+                                            </span>
+
+                                        </h4>
+
+                                        <small class="title">Profersor(a)</small>
+
+
+                                    </div>
+                                </div>
+
+                                <?=$this->load->view("plantillas_base/standar/panel_izq", (isset($panel))?array('panelData'=> &$panel):'', true);?>
+
+
+
 
                             </div>
-                            <div class="profile-body dropdown">
-
-                                <h4>
-                                    <span class="col-md-12 col-sm-12 col-xs-12 name " data-html="true">
-                                        <?=$this->session->webCasSession->usuario->NOMBRE?>
-                                    </span>
-
-                                </h4>
-
-                                <small class="title">Profersor(a)</small>
+                        </aside>
 
 
-                            </div>
-                        </div>
+                        <section class="main-content-wrapper">
 
-                        <?=$this->load->view("plantillas_base/standar/panel_izq", (isset($panel))?array('panelData'=> &$panel):'', true);?>
+                            <section id="cuerpo" class="animated fadeInUp">
 
+                                <?=$this->load->view("bodys/".$body, (isset($bodyData))? array('bodyData'=> &$bodyData):'', true);?>
 
+                            </section>
+                            <?=$this->load->view("plantillas_base/standar/footer", (isset($footer))?array('footerData'=> &$footer):'', true);?>
+                                <?=$this->load->view("plantillas_base/standar/js", (isset($js))? array('jsData'=> &$js) :'', true);?>
+                        </section>
+                        <!--main content end-->
 
-
-                    </div>
-                </aside>
-
-
-                <section class="main-content-wrapper">
-
-                    <section id="cuerpo" class="animated fadeInUp">
-
-                        <?=$this->load->view("bodys/".$body, (isset($bodyData))? array('bodyData'=> &$bodyData):'', true);?>
-
-                    </section>
-                    <?=$this->load->view("plantillas_base/standar/footer", (isset($footer))?array('footerData'=> &$footer):'', true);?>
-                        <?=$this->load->view("plantillas_base/standar/js", (isset($js))? array('jsData'=> &$js) :'', true);?>
                 </section>
-                <!--main content end-->
-
-        </section>
-
+            </div>
+        </div>
 
     </body>
 
