@@ -11,7 +11,7 @@ class GestionAlumno extends CI_Controller
         $this->htmlData = array(
             "body"=> get_class($this)
             ,"bodyData"=> (object) array()
-            ,"headData"=> (object) array("titulo"=>"Gestion Alumno")
+            ,"headData"=> (object) array("titulo"=>"EDUMPRO - SISTEMA EDUCATIVO")
             ,"footerData"=> (object) array()
         );
     }
@@ -52,7 +52,7 @@ class GestionAlumno extends CI_Controller
         $this->htmlData['bodyData']->disabled         = $disabled ;
         $this->htmlData['bodyData']->emergente         = $emergente ;
 
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/Login/gestionAlumno', $this->htmlData);
     }
 
@@ -70,9 +70,15 @@ class GestionAlumno extends CI_Controller
             $i++;
         }
         $this->htmlData['bodyData']->valores           = $arrayvalores ;
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
 
         $this->load->view('bodys/GestionAlumno/notas', $this->htmlData);
+    }
+    public function bandeja()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
+        $this->load->view('bodys/GestionAlumno/bandeja/index', $this->htmlData);
     }
     public function bandejaNota()
     {
@@ -239,7 +245,7 @@ class GestionAlumno extends CI_Controller
             $this->htmlData['bodyData']->respuesta           = 0 ;
         }
 
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionAlumno/horario', $this->htmlData);
     }
     public function consultarEvasion()
@@ -320,7 +326,7 @@ class GestionAlumno extends CI_Controller
             $this->htmlData['bodyData']->respuesta         = 0 ;
         }
 
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionAlumno/asistencia', $this->htmlData);
     }
     public function editarInfo()
@@ -410,7 +416,7 @@ class GestionAlumno extends CI_Controller
 
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $alumno ;
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionAlumno/miUsuario', $this->htmlData);
     }
 
@@ -423,7 +429,7 @@ class GestionAlumno extends CI_Controller
 
         $this->htmlData['bodyData']->curso         = $curso ;
         $this->htmlData['bodyData']->results       = $resultado ;
-        $this->htmlData['headData']->titulo        = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo        = "EDUMPRO - SISTEMA EDUCATIVO";
 
         $this->load->view('vistasDialog/gestionAlumno/bandejaAsistencia/asistenciaTotal', $this->htmlData);
 
@@ -573,7 +579,7 @@ class GestionAlumno extends CI_Controller
             $seccion=$this->Usuarios_model->buscarSecciones($data['seccion']);
             $arrayCursos = $this->Usuarios_model->buscarCursos($cursos) ;
             $this->htmlData['body']                          .= "/repositorio";
-            $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+            $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
             $this->htmlData['bodyData']->curso                = $arrayCursos ;
             $this->htmlData['bodyData']->grado                = $grado ;
             $this->htmlData['bodyData']->seccion              = $seccion ;
@@ -631,7 +637,7 @@ class GestionAlumno extends CI_Controller
         }
         $this->htmlData['bodyData']->valores           = $arrayvalores ;
 
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionAlumno/record', $this->htmlData);
     }
     public function comboCursoRecord()

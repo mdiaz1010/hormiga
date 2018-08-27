@@ -22,7 +22,7 @@ class GestionEducativa extends CI_Controller
         $valores                                 = $this->Usuarios_model->getClientes() ;
         $this->htmlData['bodyData']->valores     = $valores ;
         $this->htmlData['body']                          .= "/index";
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('plantillas_base/standar/body', $this->htmlData);
     }
     public function vistaDirector()
@@ -924,7 +924,7 @@ class GestionEducativa extends CI_Controller
 
         $this->htmlData['bodyData']->datos                 =$arrayDatos;
         $this->htmlData['bodyData']->usuarios              = $this->Rol_model->getUsuario();
-        $this->htmlData['headData']->titulo                = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo                = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionEducativa/consultaGeneral', $this->htmlData);
     }
     public function buscarUser()
@@ -960,7 +960,7 @@ class GestionEducativa extends CI_Controller
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $usuario10 ;
 
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusquedaDir', $this->htmlData);   break;
     case 3: $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusqueda', $this->htmlData);      break;
     case 4:
@@ -1016,7 +1016,7 @@ class GestionEducativa extends CI_Controller
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $usuario10 ;
 
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusquedaDir', $this->htmlData);   break;
 
 
@@ -1187,7 +1187,7 @@ class GestionEducativa extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionEducativa/notasProfesor', $this->htmlData);
     }
     public function consultaGeneralDir()
@@ -1208,8 +1208,14 @@ class GestionEducativa extends CI_Controller
 
         $this->htmlData['bodyData']->boolean                 =$boolean;
         $this->htmlData['bodyData']->datos                 =$arrayDatos;
-        $this->htmlData['headData']->titulo                = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo                = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('vistasDialog/gestionEducativa/bandejaConsulta/index', $this->htmlData);
+    }
+    public function bandeja_2()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
+        $this->load->view('bodys/GestionEducativa/bandeja/index', $this->htmlData);
     }
     public function validar_documento()
     {
@@ -1249,7 +1255,7 @@ class GestionEducativa extends CI_Controller
             $this->htmlData['bodyData']->resultado=1;
         }
 
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionEducativa/notasGeneral', $this->htmlData);
     }
     public function comboAnoDir()
@@ -1367,7 +1373,7 @@ class GestionEducativa extends CI_Controller
                            'grados'=>"DIRECTOR",'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $alumno ;
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionEducativa/usuarioGeneral', $this->htmlData);
     }
     public function editarInfo()

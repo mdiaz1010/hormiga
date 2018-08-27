@@ -54,7 +54,7 @@
                         } ?>
                     <td title="<?=$curso; ?>" bgcolor="<?=$color?>">
                         <small>
-                            <font style="font-style: italic;" COLOR="#fdfefe">
+                            <font style="font-style: ;"COLOR="#fff">
                                 <?=$valor[$i][$j]; ?>
                             </font>
                         </small>
@@ -77,20 +77,12 @@
         <h2>
             <i class="fa fa-list"></i> TURNO TARDE</h2>
         <ul class="nav navbar-right panel_toolbox">
-            <li>
-                <a class="collapse-link">
-                    <i class="fa fa-chevron-up"></i>
-                </a>
-            </li>
-            <li>
-                <a class="close-link">
-                    <i class="fa fa-close"></i>
-                </a>
-            </li>
+
         </ul>
         <div class="clearfix"></div>
 </div>
 <div class="x_content">
+    <br>
     <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped tablesorter">
             <thead>
@@ -135,7 +127,7 @@
                         } ?>
                     <td title="<?=$curso; ?>" bgcolor="<?=$color; ?>">
                         <small>
-                            <font style="font-style: italic;" COLOR="#fdfefe">
+                            <font style="font-style: ;" COLOR="#fff">
                                 <?=$valor[$i][$j]; ?>
                             </font>
                         </small>

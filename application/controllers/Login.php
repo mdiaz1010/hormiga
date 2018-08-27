@@ -9,7 +9,7 @@ class Login extends CI_Controller
         $this->htmlData = array(
             "body"=> get_class($this)
             ,"bodyData"=> (object) array()
-            ,"headData"=> (object) array("titulo"=>"Crear Cliente")
+            ,"headData"=> (object) array("titulo"=>"EDUMPRO - SISTEMA EDUCATIVO")
             ,"footerData"=> (object) array()
         );
     }
@@ -196,7 +196,7 @@ class Login extends CI_Controller
         $ano= date('Y');
         $valores= $this->Usuarios_model->buscargradosAno($ano);
         $this->htmlData['bodyData']->valores     = $valores ;
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
 
 
             $this->htmlData['body'] .= "/asistencia";
@@ -211,7 +211,7 @@ class Login extends CI_Controller
         $valores                                 = $this->Usuarios_model->getClientes() ;
         $this->htmlData['bodyData']->valores     = $valores ;
         $this->htmlData['body']                          .= "/index";
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('plantillas_base/standar/body', $this->htmlData);
     }
     public function vistaDirector()
@@ -399,7 +399,7 @@ class Login extends CI_Controller
             $this->htmlData['bodyData']->respuesta       = 1 ;
         }
         $this->htmlData['body']                  .= "/gestionDocente" ;
-        $this->htmlData['headData']->titulo       = "GESTION :: INTRANET"       ;
+        $this->htmlData['headData']->titulo       = "EDUMPRO - SISTEMA EDUCATIVO"       ;
         $this->load->view('plantillas_base/standar/body', $this->htmlData)       ;
     }
     public function gestionAuxiliar()
@@ -429,7 +429,7 @@ class Login extends CI_Controller
         $this->htmlData['bodyData']->cantidad2Azul               = $cantidad2azul[0]->cantidad;
         $this->htmlData['bodyData']->asistencia              = $busquedaAsis[0]->resultado;
         $this->htmlData['body']                             .= "/gestionAuxiliar";
-        $this->htmlData['headData']->titulo                  = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo                  = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('plantillas_base/standar/body', $this->htmlData);
     }
     public function gestionAlumnoDir($alu)
@@ -462,7 +462,7 @@ class Login extends CI_Controller
         }
         $this->htmlData['bodyData']->results1         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo           = $alu ;
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('vistasDialog/gestionEducativa/busqueda/alumno', $this->htmlData);
     }
     public function gestionAlumno()
@@ -500,7 +500,7 @@ class Login extends CI_Controller
         $this->htmlData['bodyData']->disabled         = $disabled ;
         $this->htmlData['bodyData']->emergente         = $emergente ;
         $this->htmlData['body']                          .= "/gestionAlumno";
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('plantillas_base/standar/body', $this->htmlData);
     }
     public function horario()
@@ -779,7 +779,7 @@ class Login extends CI_Controller
         $nombre= $this->input->post("nombre");
         $arrayDatos = $this->Rol_model->busquedaDatosGeneral($nombre);
         $this->htmlData['bodyData']->datos                 =$arrayDatos;
-        $this->htmlData['headData']->titulo                = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo                = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('vistasDialog/gestionAuxiliar/bandejaConsulta/index', $this->htmlData);
     }
     public function verAsistenciaAl()

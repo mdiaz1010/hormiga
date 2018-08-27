@@ -50,11 +50,11 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">
                             Fecha de Nacimiento:
-                            <input name="fecha" id="fecha" type="date" placeholder="fecha" class="form-control" required value="<?=$bodyData->results1['fecha']?>">
+                            <input name="fecha" id="fecha" type="date" placeholder="fecha" class="form-control" readonly required value="<?=$bodyData->results1['fecha']?>">
                         </label>
                         <label class="control-label col-md-9 col-sm-9 col-xs-12">
                             Direccion:
-                            <textarea name="direccion" id="direccion" placeholder="Direccion " class="form-control" style="text-transform:uppercase;"
+                            <textarea name="direccion" id="direccion" placeholder="Direccion " readonly class="form-control" style="text-transform:uppercase;"
                                 onkeyup="javascript:this.value=this.value.toUpperCase();" rows="1"><?=$bodyData->results1['direcc']?></textarea>
                         </label>
                     </div>
@@ -449,4 +449,3 @@
         echo "No cuenta con la información necesaria para mostrar esta interfaz.";
     }
 ?>
-<script>tinymce.init({ selector:'textarea' });</script>

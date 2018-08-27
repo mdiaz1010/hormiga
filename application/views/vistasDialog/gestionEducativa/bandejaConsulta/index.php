@@ -4,7 +4,10 @@
     <div class="x_panel">
       <div class="x_content">
         <div class="row">
-          <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+          <div class="col-md-12 col-sm-12 col-xs-12 ">
+            <div class="title_left">
+              <h3><b>Contactos</b></h3>
+            </div>
             <ul class="pagination pagination-split">
 
             </ul>
@@ -70,10 +73,10 @@
 </div>
 </div>
 <div id="DIVcargas_general" title="EN PROCESO">
-    <center>
-        <strong>Espere estamos cargando la informacion...</strong>
-        <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
-    </center>
+  <center>
+    <strong>Espere estamos cargando la informacion...</strong>
+    <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
+  </center>
 </div>
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/cargar_data.js')?>"></script>
 <script type="text/javascript">
@@ -91,7 +94,7 @@
     if ($(this).data("boolean") == false) {
       $.ajax({
         type: 'POST',
-        url: url+'GestionEducativa/buscarUser',
+        url: url + 'GestionEducativa/buscarUser',
         data: {
           nombre: nombre
         },

@@ -11,7 +11,7 @@ class GestionAuxiliar extends CI_Controller
         $this->htmlData = array(
             "body"=> get_class($this)
             ,"bodyData"=> (object) array()
-            ,"headData"=> (object) array("titulo"=>"Crear Cliente")
+            ,"headData"=> (object) array("titulo"=>"EDUMPRO - SISTEMA EDUCATIVO")
             ,"footerData"=> (object) array()
         );
     }
@@ -43,7 +43,7 @@ class GestionAuxiliar extends CI_Controller
         $this->htmlData['bodyData']->cantidad2               = $cantidad2[0]->cantidad;
         $this->htmlData['bodyData']->cantidad2Azul               = $cantidad2azul[0]->cantidad;
         $this->htmlData['bodyData']->asistencia              = $busquedaAsis[0]->resultado;
-        $this->htmlData['headData']->titulo                  = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo                  = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionAuxiliar/index', $this->htmlData);
     }
     public function consultarGeneralAux()
@@ -53,8 +53,14 @@ class GestionAuxiliar extends CI_Controller
         $nombre= $this->input->post("nombre");
         $arrayDatos = $this->Rol_model->busquedaDatosGeneral($nombre);
         $this->htmlData['bodyData']->datos                 =$arrayDatos;
-        $this->htmlData['headData']->titulo                = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo                = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('vistasDialog/gestionAuxiliar/bandejaConsulta/index', $this->htmlData);
+    }
+    public function bandeja()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
+        $this->load->view('bodys/GestionAuxiliar/bandeja/index', $this->htmlData);
     }
     public function consultarDatos()
     {
@@ -73,7 +79,7 @@ class GestionAuxiliar extends CI_Controller
                            'fecha'=>$datos[0]->fecha,'ruta'=>$valor);
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $alumno ;
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionAuxiliar/miUsuario', $this->htmlData);
     }
     public function editarInfo()
@@ -145,7 +151,7 @@ class GestionAuxiliar extends CI_Controller
         $ano= date('Y');
         $valores= $this->Usuarios_model->buscargradosAno($ano);
         $this->htmlData['bodyData']->valores     = $valores ;
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionAuxiliar/asistencia', $this->htmlData);
 
 
@@ -510,7 +516,7 @@ class GestionAuxiliar extends CI_Controller
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $usuario10 ;
 
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusquedaDir', $this->htmlData);   break;
     case 2:
 
@@ -528,7 +534,7 @@ class GestionAuxiliar extends CI_Controller
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $usuario10 ;
 
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusquedaDir', $this->htmlData);   break;
     case 3: $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusqueda', $this->htmlData);      break;
     case 4:
@@ -582,7 +588,7 @@ class GestionAuxiliar extends CI_Controller
         $this->htmlData['bodyData']->results         = $arrayDatos ;
         $this->htmlData['bodyData']->codigo          = $usuario10 ;
 
-        $this->htmlData['headData']->titulo               = "GESTION :: INTRANET";
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('vistasDialog/gestionAuxiliar/bandeja/bandejaBusquedaDir', $this->htmlData);   break;
 
     default:

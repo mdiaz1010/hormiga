@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="<?=base_url('publico/media/indice.ico')?>" type="image/x-icon" />
     <title>
-        <?=(empty($headData->titulo))? "INTRANET :: EDUCATIVA": $headData->titulo ?>
+        <?=(empty($headData->titulo))? "EDUMPRO - SISTEMA EDUCATIVO": $headData->titulo ?>
     </title>
 
     <!-- Bootstrap -->

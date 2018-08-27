@@ -231,7 +231,7 @@
     $class = new organizarPila($modulos, $modulosGrupos, $usuario);
    // var_dump($class->modulos);exit();
 ?>
-
+ <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
 
             <nav>
                         <h5 class="sidebar-header">Menú</h5>
@@ -243,3 +243,4 @@
                     ?>
             </nav>
 
+</div>

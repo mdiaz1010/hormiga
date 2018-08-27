@@ -11,20 +11,18 @@
         </div>
     </div>
 </div>
-<div class="row">
 
 
-    <div class="page-title">
 
-        <div class="title_left">
-            <h3>Contactos</h3>
-        </div>
+
+
+
 
         <div class="title_right">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search animated fadeInRight">
 
                 <div class="input-group">
-                    <input type="text" name="buscarUsuario" id="buscarUsuario" class="form-control" placeholder="Apellidos y nombres...">
+                    <input type="text" name="buscarUsuario" id="buscarUsuario" class="form-control" placeholder="Escribe aquí el apellido y nombre...">
                     <div class="input-group-btn">
                         <button  type="button" class="btn btn-sm btn-primary busqueda1">Buscar</button>
                     </div>
@@ -35,7 +33,7 @@
 
 
 
-    </div>
+
 
     <div class="col-xs-12 col-md-12 col-sm-12 animated fadeInRight">
 
@@ -49,7 +47,7 @@
 
 
 
-</div>
+
 <div id="DIVcargas_general" title="EN PROCESO">
     <center>
         <strong>Espere estamos cargando la informacion...</strong>

@@ -83,9 +83,13 @@
         <div class="x_panel ">
             <div class="x_title">
                 <h2>NOTAS</h2>
+                <div class="actions pull-right">
                 <ul class="nav navbar-right panel_toolbox">
 
+
+                    <!-- <i class="fa fa-times"></i>-->
                 </ul>
+                </div>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">

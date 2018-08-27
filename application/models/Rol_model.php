@@ -129,7 +129,7 @@ class Rol_model extends CI_Model
         if ($dato!='') {
             $campo='me.role_usuario in (1,2,5,4,6) and ma.ape_pat_per='."'".$dato."'";
         } else {
-            $campo='me.role_usuario in (1,2,5)';
+            $campo='me.role_usuario in (2,5)';
         }
 
         $this->db->select('
