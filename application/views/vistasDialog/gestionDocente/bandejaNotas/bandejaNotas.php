@@ -43,7 +43,7 @@
     } ?>
 
     <script type="text/javascript">
-    
+
         $(".excel").click(function(){
              window.open(url+'GestionDocente/dexcel/'+$('#rol_grado').val()+"/"+$('#rol_seccion').val()+"/"+$('#rol_bimestre').val()+"/"+$('#rol_curso').val(),'_blank' );
             /*$.post(url+'GestionDocente/dexcel',

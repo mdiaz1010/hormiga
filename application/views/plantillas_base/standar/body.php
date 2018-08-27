@@ -2,40 +2,72 @@
 <!DOCTYPE html>
 <html lang="es" class="no-js">
 <?=$this->load->view("plantillas_base/standar/head", (isset($head))? array('headData'=> &$head):'', true);?>
-    <style>
-        body {
-            padding-right: 0 !important
-        }
-    </style>
 
-    <body class="nav-md">
-        <div class="container body">
-            <div class="main_container">
-                <section id="main-wrapper" class="theme-default">
-                    <?=$this->load->view("plantillas_base/standar/top_navbar", (isset($navbar))?array('navbarData'=> &$navbar):'', true);?>
+
+    <body class="">
+
+        <section id="main-wrapper" class="theme-default">
+            <?=$this->load->view("plantillas_base/standar/top_navbar", (isset($navbar))?array('navbarData'=> &$navbar):'', true);?>
+
+                <aside class="sidebar sidebar-left nano">
+                    <div class="nano-content">
+                        <div class="sidebar-profile">
+                            <div class="avatar" align="center">
+                                <?php if (isset($this->session->webCasSession->usuario->RUTA)==false) {?>
+                                <img src=" <?= base_url('publico/media/user.png')?>" alt="profile" class="img-responsive avatar-view">
+                                <?php } else { ?>
+                                <img src="<?= base_url($this->session->webCasSession->usuario->RUTA)?>" alt="profile" class="img-responsive avatar-view"
+                                    height="100" width="100">
+                                <?php } ?>
+
+                            </div>
+                            <div class="profile-body dropdown">
+
+                                <h4>
+                                    <span class="col-md-12 col-sm-12 col-xs-12 name " data-html="true">
+                                        <?=$this->session->webCasSession->usuario->NOMBRE?>
+                                    </span>
+
+                                </h4>
+
+                                <small class="title">Profersor(a)</small>
+
+
+                            </div>
+                        </div>
+
                         <?=$this->load->view("plantillas_base/standar/panel_izq", (isset($panel))?array('panelData'=> &$panel):'', true);?>
 
 
-                            <section class="main-content-wrapper">
 
-                                <section id="cuerpo" class=" right_col animated fadeInUp" role="main" >
 
-                                    <?=$this->load->view("bodys/".$body, (isset($bodyData))? array('bodyData'=> &$bodyData):'', true);?>
+                    </div>
+                </aside>
 
-                                </section>
-                                <?=$this->load->view("plantillas_base/standar/footer", (isset($footer))?array('footerData'=> &$footer):'', true);?>
-                                <?=$this->load->view("plantillas_base/standar/js", (isset($js))? array('jsData'=> &$js) :'', true);?>
-                            </section>
-                            <!--main content end-->
 
+                <section class="main-content-wrapper">
+
+                    <section id="cuerpo" class="animated fadeInUp">
+
+                        <?=$this->load->view("bodys/".$body, (isset($bodyData))? array('bodyData'=> &$bodyData):'', true);?>
+
+                    </section>
+                    <?=$this->load->view("plantillas_base/standar/footer", (isset($footer))?array('footerData'=> &$footer):'', true);?>
+                        <?=$this->load->view("plantillas_base/standar/js", (isset($js))? array('jsData'=> &$js) :'', true);?>
                 </section>
-            </div>
-        </div>
+                <!--main content end-->
+
+        </section>
+
+
     </body>
 
 
-
     <script type="text/javascript">
+        $(".body_load").click(function () {
+            var uri = $(this).data('uri');
+            $("#cuerpo").load(uri);
+        });
         $(document).ready(function () {
 
 

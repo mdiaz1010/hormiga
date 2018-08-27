@@ -1,15 +1,13 @@
 <?php ?>
 <!-- top navigation -->
 
-
-
 <header id="header">
   <!--logo start-->
   <div class="brand">
 
 
     <a href="#" class="logo">
-      <img src="http://emanuel.cubicol.pe/img/logo.png?d35e72f6c7e24e3f51993fb5edf69610" />
+      <img src="<?=base_url('publico/media/logo_edumpro.png')?>" />
     </a>
 
   </div>

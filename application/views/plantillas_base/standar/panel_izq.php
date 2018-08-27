@@ -130,12 +130,12 @@
                     if (empty($modulo->isVisible)) {
                         return;
                     }/// no graficar los q deben estar ocultos (AJAX u otros)
-                    $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' href="#" class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
+                    $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' href="javascript:" class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
                     if (!isset($modulo->hijos)) {
-                        echo ' <li ><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
+                        echo ' <li class="nav-dropdown"><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
                     } else {
                         if ($modulo->modus!=3) {
-                            echo '<li ><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
+                            echo '<li class="nav-dropdown"><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
                         '<ul class="nav-sub">';
                             foreach ($modulo->hijos  as $hijo) {
                                 $hijo->html_clases = '';
@@ -149,11 +149,11 @@
                 if (empty($modulo->isVisible)) {
                     return;
                 }/// no graficar los q deben estar ocultos (AJAX u otros)
-                $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' href="#" class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
+                $url =  ((strlen($modulo->uri)>1) and $modulo->uri!=null)?' href="javascript:" class="body_load" data-uri="'.site_url($modulo->uri).'"' :'' ;
                 if (!isset($modulo->hijos)) {
-                    echo ' <li ><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
+                    echo ' <li class="nav-dropdown"><a '.$url.' ><i class=" '.$modulo->html_clases .'"></i>'.$modulo->titulo .' <span class=" "></span></a> </li>';
                 } else {
-                    echo '<li ><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
+                    echo '<li class="nav-dropdown"><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
                         '<ul class="nav-sub">';
                     foreach ($modulo->hijos  as $hijo) {
                         $hijo->html_clases = '';
@@ -169,16 +169,13 @@
         {
             //  var_dump($this->modulosGrupos_agrupados[3 ]); exit();
             foreach ($this->modulosGrupos as   $modulosGrupo) {
-                echo '<div > '.
-                    //cambio para que no salga el nombre del cargo    '<h3>'.$modulosGrupo->titulo.'</h3>'.
-                            '<ul class="nav nav-pills nav-stacked">';
+                echo '<ul class="nav nav-pills nav-stacked">';
 
                 foreach ($this->modulosGrupos_agrupados[$modulosGrupo->id ] as $modulosGrupos_agrupados) {
                     $this->graficarModulo($modulosGrupos_agrupados);
                     //if($modulosGrupo->id==3) var_dump($modulosGrupo->id ,$modulosGrupos_agrupados); // exit();
                 }
-                echo     ' </ul>'.
-                    '</div>';
+                echo '</ul>';
             }
         }
 
@@ -234,29 +231,7 @@
 
 
 
-    <aside class="sidebar sidebar-left nano">
-        <div class="nano-content">
-            <div class="sidebar-profile">
-                <div class="avatar" align="center">
-                    <?php if (isset($this->session->webCasSession->usuario->RUTA)==false) {?><img src=" <?= base_url('publico/media/user.png')?>" alt="profile" class="img-responsive avatar-view"><?php } else { ?><img src="<?= base_url($this->session->webCasSession->usuario->RUTA)?>" alt="profile" class="img-responsive avatar-view" height="100" width="100"><?php } ?>
 
-                </div>
-                <div class="profile-body dropdown">
-
-                    <h4>
-                        <span class="col-md-11 col-sm-11 col-xs-11 name " data-html="true">
-                            <?=$this->session->webCasSession->usuario->NOMBRE?>
-                        </span>
-
-                    </h4>
-
-                    <small class="title">Profersor(a)</small>
-
-
-                </div>
-            </div>
-
-      <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
             <nav>
                         <h5 class="sidebar-header">Menú</h5>
                 <?php
@@ -267,14 +242,3 @@
                     ?>
             </nav>
 
-
-
-        </div>
-    </aside>
-
-    <script>
-        $(".body_load").click(function () {
-            var uri = $(this).data('uri');
-            $("#cuerpo").load(uri);
-        });
-    </script>

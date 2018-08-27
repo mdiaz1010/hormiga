@@ -1,6 +1,6 @@
 <?php if ($bodyData->respuesta==0) {
     ?>
-<div class="row animated fadeInRight">
+
     <div class="col-md-6 col-sm-12 col-xs-12 animated fadeInRight">
         <div class="x_panel">
             <div class="x_title">
@@ -146,7 +146,6 @@
             </div>
         </div>
     </div>
-</div>
 <?php
 } else {
         echo "No cuenta con la informacion necesaria registrada para mostrar esta interfaz";
