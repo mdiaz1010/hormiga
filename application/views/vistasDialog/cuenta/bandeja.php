@@ -196,8 +196,11 @@ $("#diveditar_boton").click(function () {
         },
         success: function () {
             $('#DIVcargas').dialog('close');
-            $('#modal_x').modal('toggle');
-                $('#diveditar_boton').notify("Se editaron los datos de "+apepat+" satisfactoriamente", {
+
+            $('#modal_x').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+                $.notify("Se editaron los datos de "+apepat+" satisfactoriamente", {
                     position: 'b l',
                     className: 'success',
                     autoHideDelay: 10 * 1000,

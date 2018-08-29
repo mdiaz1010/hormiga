@@ -191,11 +191,12 @@ $("#crearusuario").validate({
             data: $("#crearusuario").serialize(),
             success: function () {
                 $("#DIVcargas").dialog("close");
-                alert("Se registró el usuario satisfactoriamente");
+
                 $("result_error").html("<font color ='green'>REGISTRO CORRECTO</font>");
                 $("#bandejaprincipal").load(url + "Cuenta/vistabandeja");
                 $("#crearusuario")[0].reset();
                 $('#result_error').html("");
+
                 $.notify("Se registró al usuario satisfactoriamente", {
                     position: 'b l',
                     className: 'success',
