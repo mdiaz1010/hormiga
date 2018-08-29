@@ -92,11 +92,13 @@
                    }, function (data) {
                            $("#DIVcargas").dialog('close');
                            if (bimestre.length > 0) {
+                                   $("#bandejaMaterial").html('');
                                    $("#bandejaMaterial").html(data);
-                                   document.getElementById('materialDocentesubir').style.display = 'block';
+                                   return true;
+
                            } else {
                                    $("#bandejaMaterial").html("Ingrese el bimestre...");
-                                   document.getElementById('materialDocentesubir').style.display = 'none';
+
                            }
                    });
 

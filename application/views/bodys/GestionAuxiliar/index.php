@@ -2,17 +2,19 @@
   <div class="title_left">
     <h3> </h3>
   </div>
-  <div class="title_right">
-    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-      <div class="input-group">
-        <input type="text" id="nombre" class="form-control" name="nombre" placeholder="Buscar Usuario...">
-        <span class="input-group-btn">
-          <button class="btn btn-default consulta" type="button">Ir</button>
-        </span>
-      </div>
-    </div>
-  </div>
-</div>
+
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search animated fadeInRight">
+
+                <div class="input-group">
+                    <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Apellido y nombre...">
+                    <div class="input-group-btn">
+                        <button  type="button" class="btn btn-sm btn-primary consulta">Buscar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 <div class="row">
   <div class="animated flipInY col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="tile-stats">
@@ -114,16 +116,7 @@
       <div class="x_title">
         <h2></h2>
         <ul class="nav navbar-right panel_toolbox">
-          <li>
-            <a class="collapse-link">
-              <i class="fa fa-chevron-up"></i>
-            </a>
-          </li>
-          <li>
-            <a class="close-link">
-              <i class="fa fa-close"></i>
-            </a>
-          </li>
+
         </ul>
         <div class="clearfix"></div>
       </div>
@@ -142,4 +135,5 @@
 
 
 <input type="hidden" name="url" id="url" value="<?=base_url();?>">
+<input type="hidden" name="uri" id="uri" value="<?=base_url('GestionAuxiliar/asistencia')?>">
 <script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionAuxiliar_index.js')?>"></script>

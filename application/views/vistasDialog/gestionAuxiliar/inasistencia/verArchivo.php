@@ -27,10 +27,10 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
         } else {
             $resultado= base_url(trim($result->ruta));
         } ?>
-        <div class="col-md-55 form-group">
-        <label for="exampleFormControlTextarea2">Documento adjunto:<?=$key+1?></label>
+        <div class="col-md-4 col-sm-12 col-xs-12 form-group">
             <div class="thumbnail">
                 <div class="image view view-first">
+
                     <img id="imagen" src="<?= $resultado; ?>" class="img-responsive center-block" align="top" alt="Lights" style="width:100%" />
                     <div class="mask">
                         <p>Evidencia</p>

@@ -28,8 +28,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">×</span>
         </button>
-        <strong>!CORREGIR INFORMACION INGRESADA!</strong> Solo se permite el ingreso de valores numéricos entre cero y veinte, corregir
-        las celdas Rojas.
+        <strong>!CORREGIR INFORMACION INGRESADA!</strong> Solo se permite el ingreso de valores numéricos entre cero y veinte, corregir las celdas Rojas.
     </div>
 
 </div>
@@ -43,6 +42,7 @@
     } ?>
 
     <script type="text/javascript">
+
 
         $(".excel").click(function(){
              window.open(url+'GestionDocente/dexcel/'+$('#rol_grado').val()+"/"+$('#rol_seccion').val()+"/"+$('#rol_bimestre').val()+"/"+$('#rol_curso').val(),'_blank' );
@@ -152,13 +152,20 @@
 
 
                         if (dato.split(',').indexOf("0") != -1) {
-                            $('#exito').hide();
-                            $('#error').show();
+                                    $.notify("!CORREGIR INFORMACION INGRESADA! Solo se permite el ingreso de valores numéricos entre cero y veinte, corregir las celdas Rojas.", {
+                                        position: 'b l',
+                                        className:"error",
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
 
                         } else {
-
-                            $('#exito').show();
-                            $('#error').hide();
+                                    $.notify("!REGISTRO EXITOSO! Las notas han sido guardadas satisfactoriamente.", {
+                                        position: 'b l',
+                                        className:"success",
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
                         }
                         $("#DIVcargas").dialog("close");
                     },

@@ -87,30 +87,6 @@
 </table>
 
 
-
-<div class="modal fade bs-example1-modal-lg" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">×</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Ver justificación</h4>
-      </div>
-
-      <div class="modal-body" id="DIVVERASISTENCIA">
-
-      </div>
-      <div class="modal-footer">
-
-        <button name="btnNo" id="btnNo" type="button" class="btn btn-primary" data-dismiss="modal">CERRAR</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
 <div class="modal fade bs-example-modal-lg" id="subir_justificacion" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -159,7 +135,12 @@ $("#btnSi").click(function(){
                     var txtarchivo = $("#txtarchivo").val();
                     var mensaje = $("#mensaje").val();
                     if(mensaje ==''){
-                        alert("El campo Mensaje* es obligatorio"); return true;
+                            $.notify("Error, el campo mensaje es obligatorio.", {
+                                position: 'b r',
+                                className: 'error',
+                                autoHideDelay: 10 * 1000,
+                                clickToHide: true
+                            }); return true;
                     }
                     formdata.append('txtid', txtid);
                     formdata.append('txtfec', txtfec);
@@ -172,8 +153,17 @@ $("#btnSi").click(function(){
                         processData: false,
                         contentType: false,
                         success: function (data) {
-                            alert("Se registró su justificación exitosamente.");
-                            $('#subir_justificacion').modal('toggle');
+                            $.notify("Se registró su justificación satisfactoriamente", {
+                                position: 'b r',
+                                className: 'success',
+                                autoHideDelay: 10 * 1000,
+                                clickToHide: true
+                            });
+                                        $('#subir_justificacion').modal('hide');
+                                        $('body').removeClass('modal-open');
+                                            $('.modal-backdrop').remove();
+                                        var uri="<?=base_url('GestionAlumno/consultarAsistencia')?>";
+                                        $("#main-content").load(uri);
                         }
                     });
 
@@ -270,5 +260,5 @@ $("#btnSi").click(function(){
 
     }
 
-    //IMPRIMO LA FECHA
+
 </script>

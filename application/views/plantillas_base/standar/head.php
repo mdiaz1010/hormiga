@@ -68,4 +68,5 @@
 <script type="text/javascript" src="<?=base_url('publico/js/switchery.min.js')?>"></script>
 <script type="text/javascript" src="<?=base_url('publico/js/notify.min.js')?>"></script>
 <script type="text/javascript" src="<?=base_url('publico/js/app.js')?>"></script>
+
 </head>

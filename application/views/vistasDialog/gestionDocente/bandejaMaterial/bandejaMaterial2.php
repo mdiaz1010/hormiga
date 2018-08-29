@@ -1,8 +1,3 @@
-<?php
-if (count($bodyData->results)==0) {
-    echo "<div class='alert_result'>No se encuentro ningun material registrado.</div>";
-} else {
-    ?>
 <div class="col-md-12">
     <?php foreach ($bodyData->results as $result) {
         if (substr($result['nombre'], -4)=='docx') {
@@ -57,12 +52,9 @@ if (count($bodyData->results)==0) {
     <?php
     } ?>
 </div>
-<?php
-}
 
-?>
-<div class="modal fade bs-example3-modal-lg" id="modal_editar" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+<div class="modal" id="modal_editar" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
 
       <div class="modal-header">
@@ -71,7 +63,7 @@ if (count($bodyData->results)==0) {
         </button>
         <h4 class="modal-title" id="myModalLabel">Editar información</h4>
       </div>
-      <div class="modal-body" id="DIVEDITARMATERIAL">
+      <div class="modal-body" id="DIVEDITARMATERIAL" title="INTRANET EDUCATIVA :: EDITAR ARCHIVOS ">
 
       </div>
 
@@ -104,7 +96,7 @@ if (count($bodyData->results)==0) {
   </div>
 </div>
 
-<div id="DIVcargando" title="EN PROCESO">
+<div id="DIVcargando5" title="EN PROCESO">
 
     <center>
         <strong>Esperes estamos cargando la informacion...</strong>
@@ -114,7 +106,7 @@ if (count($bodyData->results)==0) {
 <input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
 <script type="text/javascript">
 
-    $('#DIVcargando').dialog({
+    $('#DIVcargando5').dialog({
         autoOpen: false,
         hide: 'drop',
         width: 360,
@@ -125,10 +117,10 @@ if (count($bodyData->results)==0) {
         },
         modal: true
     });
-    $('#DIVcargando').dialog({
+    $('#DIVcargando5').dialog({
         draggable: false
     });
-    $('#DIVcargando').dialog({
+    $('#DIVcargando5').dialog({
         resizable: false
     });
 
@@ -145,16 +137,29 @@ if (count($bodyData->results)==0) {
                     url: url+"GestionDocente/editarMateriales",
                     data: $("#editarMaterial").serialize(),
                     beforeSend: function () {
-                        $("#DIVcargando").dialog("open");
+                        $("#DIVcargando5").dialog("open");
 
                     },
                     success: function (data) {
-                        $("#DIVcargando").dialog("close");
+                        $("#DIVcargando5").dialog("close");
                         if(data=='0'){
-                            alert("No se han hecho modificaciones debido a que no se permite campos vacíos");
+                                    $.notify("No se han hecho modificaciones debido a que no se permite campos vacíos", {
+                                        position: 'b l',
+                                        className:'warn',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
                             return true;
                         }
 
+
+
+                                    $.notify("Se editó la información satisfactoriamente.", {
+                                        position: 'b l',
+                                        className:'success',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
                         $("#bandejaMaterial2").load("<?= site_url('GestionDocente/verbandejaprof') ?>", {
                                 grado:grado,
                                 bimestre: bimestre,
@@ -185,10 +190,17 @@ if (count($bodyData->results)==0) {
                             ruta: ruta
                         },
                         success: function () {
-                            $("#DIVcargando").dialog("open");
+                            $("#DIVcargando5").dialog("open");
                         },
                         success: function () {
-                            $("#DIVcargando").dialog("close");
+                            $("#DIVcargando5").dialog("close");
+
+                                    $.notify("Se eliminó el material satisfactoriamente.", {
+                                        position: 'b l',
+                                        className:'success',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
                             $("#bandejaMaterial2").load(
                                 "<?= site_url('GestionDocente/verbandejaprof/') ?>", {
                                     grado:grado,

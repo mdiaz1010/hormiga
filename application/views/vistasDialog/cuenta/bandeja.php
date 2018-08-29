@@ -197,7 +197,12 @@ $("#diveditar_boton").click(function () {
         success: function () {
             $('#DIVcargas').dialog('close');
             $('#modal_x').modal('toggle');
-            alert("Se editaron los datos de : " + apepat + " satisfactoriamente");
+                $('#diveditar_boton').notify("Se editaron los datos de "+apepat+" satisfactoriamente", {
+                    position: 'b l',
+                    className: 'success',
+                    autoHideDelay: 10 * 1000,
+                    clickToHide: true
+                });
             $("#bandejaprincipal").load(url+"Cuenta/vistabandeja");
         }
     });
@@ -220,6 +225,7 @@ $("#diveditar_boton").click(function () {
             success: function (datos) {
                 if (datos.length > 0) {
                     $('#DIVcargas').dialog('close');
+
                     $('#DIVEDITARCUENTA').html(datos);
                 }
                 return false;

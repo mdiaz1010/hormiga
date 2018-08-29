@@ -114,6 +114,12 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
                                             id: ide,
                                             fecha: fecha
                                         }));
+                                    $.notify("Se eliminó el archivo satisfactoriamente", {
+                                        position: 'b l',
+                                        className: 'success',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
                                         location.reload();
                                     }
                                 });

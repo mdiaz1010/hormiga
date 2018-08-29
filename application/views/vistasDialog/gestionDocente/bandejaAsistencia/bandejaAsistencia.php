@@ -1,10 +1,11 @@
+<script src="<?= base_url('publico/js/jquery.dataTables.js')?>"></script>
 <?php if (count($bodyData->results)>0) {
     ?>
 <form name="registroMarca" id="registroMarca" method="POST">
     <?php if ((int)$bodyData->contador==0) {
         ?>
     <div class="list-group right">
-        <button class="btn btn-danger btnMarca" href="javascript:" aria-label="Archivo" style="clear: right;">
+        <button class="btn btn-danger btnMarca"  type="button" title="Registrar asistencia" >
             Guardar
         </button>
     </div>
@@ -139,6 +140,9 @@
         });
 
         $(".btnMarca").click(function () {
+            var grado= $("#id_grado").val();
+            var seccion= $("#id_seccion").val();
+            var curso= $("#id_curso").val();
             var url= $("#url").val();
             var arrayAlumno = [];
             var arrayMarcado = [];
@@ -159,9 +163,19 @@
                 },
                 success: function () {
                     $('#DIVcargando').dialog('close');
-                    alert("Se realizó el registro satisfactoriamente");
-                    $("#cuerpo").load(url+"GestionDocente/asistencia");
+                                    $.notify("Se registró la asistencia satisfactoriamente", {
+                                        position: 'b l',
+                                        className:'success',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
+                        $("#bandejaAsistencia").load("<?= site_url('GestionDocente/comboBandeAsis') ?>", {
+                                   curso: curso,
+                                   grado: grado,
+                                   seccion: seccion
+                            });
 
+                    return true;
                 }
             });
         });

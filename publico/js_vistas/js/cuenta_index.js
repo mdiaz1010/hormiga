@@ -196,6 +196,12 @@ $("#crearusuario").validate({
                 $("#bandejaprincipal").load(url + "Cuenta/vistabandeja");
                 $("#crearusuario")[0].reset();
                 $('#result_error').html("");
+                $.notify("Se registró al usuario satisfactoriamente", {
+                    position: 'b l',
+                    className: 'success',
+                    autoHideDelay: 10 * 1000,
+                    clickToHide: true
+                });
                 return false;
 
             }

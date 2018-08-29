@@ -1,6 +1,6 @@
 <script type="text/javascript" src="<?= base_url('publico/js/bootstrap-filestyle.min.js')?>">
 </script>
-<div class="container" id="materialDocentesubir" style="display:none;">
+<div class="container" id="materialDocentesubir" >
     <div class="list-group right">
         <button class="btn btn-danger btnArchivo"  data-toggle="modal" data-target=".bs-example-modal-lg" href="javascript:" data-grado="<?php echo $bodyData->GRADO?>" data-seccion="<?php echo $bodyData->SECCION?>"
             data-curso="<?php echo $bodyData->CURSOS?>" data-bimestre="<?php echo $bodyData->BIMESTRE?>" aria-label="Archivo"
@@ -29,7 +29,7 @@
         <h4 class="modal-title" id="myModalLabel">Subir archivo</h4>
       </div>
       <div class="modal-body" id="DIVSUBIDA" title="INTRANET EDUCATIVA :: SUBIR ARCHIVOS ">
-
+          <div id="warning" name="warning"></div>
       </div>
       <div class="modal-footer">
         <button type="button" name="btncargar" id="btncargar"  class="btn btn-primary">Cargar archivo</button>
@@ -87,13 +87,29 @@ $("#btncargar").click(function(){
 
                             $("#DIVcarga").dialog("close");
                             if(dato=="n"){
-                                alert("El archivo que intenta subir no es permitido, por favor verificar el tipo de extensión. Extensiones permitidas: ('pdf','docx','png','jpg','jpeg','pptx','txt')");
+                                  $(".modal-body").notify("El archivo que intenta subir no es permitido, por favor verificar el tipo de extensión. Extensiones permitidas: ('pdf','docx','png','jpg','jpeg','pptx','txt')", {
+                                        position: 'b l',
+                                        className:'warn',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
                                 return true;
                             }else if (dato=="x"){
-                                alert("El archivo que intenta subir supera el peso permitido, por favor verificar que el peso del archivo sea menor o igual a 1MB");
+                                     $(".modal-body").notify("El archivo que intenta subir supera el peso permitido, por favor verificar que el peso del archivo sea menor o igual a 1MB", {
+                                        position: 'b l',
+                                        className:'warn',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
                                 return true;
                             }
                              $('#subar').modal('toggle');
+                                    $.notify("Se subió el archivo satisfactoriamente", {
+                                        position: 'b l',
+                                        className:'success',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
                             $("#bandejaMaterial2").load(
                                 "<?= base_url('GestionDocente/verbandejaprof') ?>", {
                                     curso: curso,
@@ -105,7 +121,12 @@ $("#btncargar").click(function(){
                         }
                     });
                 }else{
-                    $("#mensaje").html('<div class="alert alert-danger" role="alert">Adjuntar el documento a compartir</div>');
+                                    $(".modal-body").notify("Adjuntar el documento a compartir", {
+                                        position: 'b l',
+                                        className:'error',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
                 }
 
 });

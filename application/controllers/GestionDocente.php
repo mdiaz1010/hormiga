@@ -332,7 +332,7 @@ class GestionDocente extends CI_Controller
         $curso=$this->input->post('seccion');
         $cantidad_bimestre=$this->Usuarios_model->getbi();
         $busquedaBimestre=$this->Usuarios_model->busqueda_notas_config($curso);
-        $list_notas=array_unique(array_column($busquedaBimestre, 'nom_notas'));
+        $list_notas=array_unique(array_column($busquedaBimestre, 'des_notas'));
         #echo count($list_notas); die();
         $list_keys =array_chunk(array_column($busquedaBimestre, 'id'), (int)$cantidad_bimestre);
         $i=0;
@@ -385,7 +385,7 @@ class GestionDocente extends CI_Controller
                 $b++;
             } else if (trim($notas['nota'])>=10.5 ) {
                 $c++;
-            } else if (trim($notas['nota'])<=10){
+            } else if (trim($notas['nota'])<10.5){
                 $d++;
             }
         }
@@ -506,7 +506,7 @@ class GestionDocente extends CI_Controller
             } else if (trim($alumno['nota'])>=10.5) {
                 $pdf->Cell(40, 5, 'INICIO', 'B', 0, 'L', 0);
                 $c++;
-            } else if (trim($alumno['nota'])<=10){
+            } else if (trim($alumno['nota'])<10.5){
                 $pdf->Cell(40, 5, 'PREVIO INICIO', 'B', 0, 'L', 0);
                 $d++;
             }
@@ -1012,9 +1012,11 @@ class GestionDocente extends CI_Controller
         $descripcion=$this->input->post('descripcion');
         $peso       =$this->input->post('peso');
         $descontar  =$this->input->post('descontar');
+
         if (empty($abreviacion) || empty($peso) || empty($descripcion) || array_search('0',$peso)!='' || array_search(0,$peso)!='' || array_search('',$peso)!=''  ) {
-            $mensaje="No se ha ingresado informacion nueva";
-            echo json_encode($mensaje);
+            $alert='warn';
+            $mensaje="Sucedió un inconveniente, no se ha ingresado informacion nueva";
+            echo json_encode(array('mensaje'=>$mensaje,'alert'=>$alert));
             die();
         }
         if (is_null($peso)) {
@@ -1025,8 +1027,9 @@ class GestionDocente extends CI_Controller
         foreach($abreviacion as $list_abre){
             $det=$this->Docente_model->busqueda_notas_configuradas_abreviacion($grado, $curso, strtoupper($list_abre), $profesor, $ano);
             if(count($det)!=0){
-                $mensaje='Ya ses registró esta abreviación por favor ingresar una abreviación que no se haya registrado aún.';
-                echo json_encode($mensaje);
+                $alert='warn';
+                $mensaje='Sucedió un inconveniente, ya ses registró esta abreviación por favor ingresar una abreviación que no se haya registrado aún.';
+                echo json_encode(array('mensaje'=>$mensaje,'alert'=>$alert));
                 die();
             }
         }
@@ -1041,9 +1044,10 @@ class GestionDocente extends CI_Controller
         $sum_final= $suma_bd+(array_sum($peso))-(int)$descontar;
 
 
-        if ((int)$sum_final!=100) {
-            $mensaje="La suma total debe ser igual a 100";
-            echo json_encode($mensaje);
+        if ((string)trim($sum_final)!="100") {
+            $alert='warn';
+            $mensaje="Sucedió un inconveniente, la suma total debe ser igual a 100";
+            echo json_encode(array('mensaje'=>$mensaje,'alert'=>$alert));
             die();
         }
         $mensaje=1;
@@ -1074,7 +1078,9 @@ class GestionDocente extends CI_Controller
                     $ultimo_id=$this->Docente_model->registrar_nueva_configuracion($save_informacion);
 
                     if ((int)$ultimo_id==0 || $ultimo_id=='') {
-                        echo "Sucedió un incoveniente , verifique que cumplió con todo lo solicitado";
+                        $alert='error';
+                        $mensaje= "Sucedió un incoveniente , verifique que cumplió con todo lo solicitado";
+                        echo json_encode(array('mensaje'=>$mensaje,'alert'=>$alert));
                         die();
                     }else{
                         $datos= array('id_grado'=>$grado,'id_profesor'=>$profesor,'id_curso'=>$curso,'id_seccion'=>$secciones);
@@ -1099,7 +1105,9 @@ class GestionDocente extends CI_Controller
         }
         $i++;
     }
-        echo json_encode($mensaje);
+                        $alert='success';
+                        $mensaje= "Se registró la información satisfactoriamente";
+                        echo json_encode(array('mensaje'=>$mensaje,'alert'=>$alert,'dat'=>1));
     }
     public function comboCursoGradoProf()
     {
@@ -1364,9 +1372,17 @@ class GestionDocente extends CI_Controller
         $id_seccion=$this->input->post('seccion');
         $busqueda= array('id_bimestre'=>$bimestre,'id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion);
         $resultado= $this->Usuarios_model->buscardocumentos($busqueda);
-        $this->htmlData['bodyData']->results         = $resultado ;
-        $this->htmlData['bodyData']->arrayBusqueda         = $busqueda ;
-        $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/bandejaMaterial2', $this->htmlData);
+
+        if(count($resultado)<=0 || empty($resultado)){
+            echo "No se encuentro ningun material registrado.";
+            die();
+        }else{
+
+            $this->htmlData['bodyData']->results         = $resultado ;
+            $this->htmlData['bodyData']->arrayBusqueda         = $busqueda ;
+            $this->load->view('vistasDialog/gestionDocente/bandejaMaterial/bandejaMaterial2', $this->htmlData);
+
+        }
     }
     public function subirArchivoProf()
     {

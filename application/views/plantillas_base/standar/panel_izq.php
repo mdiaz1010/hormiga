@@ -138,7 +138,7 @@
                             echo '<li ><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
                         '<ul class="nav-sub">';
                             foreach ($modulo->hijos  as $hijo) {
-                                $hijo->html_clases = '';
+
                                 $this->graficarModulo($hijo);
                             }
                             echo    '</ul>'. '</li> ';
@@ -156,7 +156,7 @@
                     echo '<li ><a  '.$url.' ><i class="'.$modulo->html_clases .'"></i>'.$modulo->titulo .'<span class="fa fa-chevron-down"></span></a>   '.
                         '<ul class="nav-sub">';
                     foreach ($modulo->hijos  as $hijo) {
-                        $hijo->html_clases = '';
+
                         $this->graficarModulo($hijo);
                     }
                     echo    '</ul>'. '</li> ';

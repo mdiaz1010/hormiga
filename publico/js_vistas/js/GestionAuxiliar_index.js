@@ -23,6 +23,9 @@
 
     $(".asistencia").click(function () {
 
+        var uri = $("#uri").val();
+
+        $("#main-content").load(uri);
     });
     $(".inasistencia").click(function () {
         var codigo = $(this).data("codigo");

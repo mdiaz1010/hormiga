@@ -105,8 +105,8 @@
 
 
 
-                    <label class="control-label col-md-6 col-sm-6 col-xs-12">
-                        <input id="btnregistrar" type="submit" name="btnregistrar" class="btn btn-danger" value="REGISTRAR">
+                    <label class="control-label col-md-6 col-sm-6 col-xs-12 right">
+                        <input id="btnregistrar" type="submit" name="btnregistrar" class="right btn btn-danger" value="REGISTRAR">
                     </label>
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">
                         <p id="result_error"></p>

@@ -253,9 +253,20 @@
                 success: function (data) {
                     if(data=='n')
                     {
-                     alert("Está intentando subir un archivo con extensión no permitida"); return true;
+                                    $.notify("Está intentando subir un archivo con extensión no permitida", {
+                                        position: 'b r',
+                                        className:'warn',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
+                                    return true;
                     }
-                    alert("Se editaron los datos satisfactoriamente");
+                                    $.notify("Se editaron los datos satisfactoriamente", {
+                                        position: 'b r',
+                                        className:'success',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
                     location.reload();
                 }
             });
@@ -267,4 +278,4 @@
 
 
 </script>
-<script>tinymce.init({ selector:'textarea' });</script>
+<script>//tinymce.init({ selector:'textarea' });</script>

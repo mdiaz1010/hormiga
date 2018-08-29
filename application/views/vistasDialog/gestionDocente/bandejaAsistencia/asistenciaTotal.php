@@ -162,6 +162,7 @@ $("#btnSi").click(function(){
                         contentType: false,
                         success: function (data) {
                             alert("Se registró su justificación exitosamente.");
+
                             $('#subir_justificacion').modal('toggle');
                         }
                     });
@@ -222,6 +223,13 @@ $("#btnSi").click(function(){
                 id: id,
                 fecha: fecha,
                 mensaje: mensaje
+            },function(data){
+                                    $.notify("Se registró la asistencia satisfactoriamente", {
+                                        position: 'b r',
+                                        className:'success',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
             }
         });
     });

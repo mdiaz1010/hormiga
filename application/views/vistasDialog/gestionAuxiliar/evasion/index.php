@@ -116,6 +116,13 @@
                 curso: curso,
                 alumno: alumno,
                 fecha: fecha
+            },function(data){
+                            $.notify("Se envió la respuesta satisfactoriamente", {
+                                position: 'b r',
+                                className: 'success',
+                                autoHideDelay: 10 * 1000,
+                                clickToHide: true
+                            });
             });
         });
     </script>

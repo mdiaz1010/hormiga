@@ -122,7 +122,12 @@
                 fecha: fecha,
                 usu: usu
             });
-
+                            $.notify("Se registró la respuesta satisfactoriamente", {
+                                position: 'b r',
+                                className: 'success',
+                                autoHideDelay: 10 * 1000,
+                                clickToHide: true
+                            });
         });
         $(".ver").click(function () {
             var id = $(this).data("codigo");

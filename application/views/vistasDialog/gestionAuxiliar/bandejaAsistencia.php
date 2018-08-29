@@ -3,9 +3,9 @@
 <?php if ((int)$bodyData->contador==0) {
         ?>
 <div class="list-group right">
-    <a class="btn btn-danger btnMarca" href="javascript:" aria-label="Archivo" style="clear: right;">
-        <i class="fa fa-floppy-o" aria-hidden="true" style="clear: right;"></i>
-    </a>
+    <button class="btn btn-danger btnMarca"  style="clear: right;">
+       Guardar
+    </button>
 </div>
 <?php
     } else {
@@ -138,9 +138,18 @@
                         data: $("#registroMarca").serialize(),
                         type: "POST",
                         success: function (data) {
-                            alert("Se registraron los datos satisfactoriamente");
-                            $("#cuerpo").load(url+"GestionAuxiliar/asistencia");
+                            $.notify("Se registró la asistencia satisfactoriamente", {
+                                position: 'b r',
+                                className: 'success',
+                                autoHideDelay: 10 * 1000,
+                                clickToHide: true
+                            });
 
+                            $("#bandejaAsistencia").load("<?= site_url('GestionAuxiliar/comboBandeAsis') ?>", {
+                                    grado: $("#id_grado").val(),
+                                    seccion: $("#id_seccion").val()
+                                });
+                                return true;
                         }
 
                     });

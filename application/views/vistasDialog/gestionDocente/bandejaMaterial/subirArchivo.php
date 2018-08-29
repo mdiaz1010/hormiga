@@ -79,4 +79,4 @@ $("#archivoprof").validate({
 });
 //$(".textarea-content").trumbowyg();
 </script>
-<script>tinymce.init({ selector:'textarea' });</script>
+<script>//tinymce.init({ selector:'textarea' });</script>

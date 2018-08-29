@@ -1,5 +1,8 @@
+<!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" crossorigin="anonymous"></script>
+<script src="<?=base_url('publico/js/jquery.toast.js')?>"></script> -->
 <?php if ($bodyData->respuesta==1) {
     ?>
+
     <div class="col-xs-12 col-md-12 col-sm-12 animated fadeInRight">
         <div class="x_panel">
             <div class="x_title">

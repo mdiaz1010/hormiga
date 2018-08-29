@@ -35,8 +35,9 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
 } else {
     ?>
 
-    <label class="control-label col-md-12 col-sm-12 col-xs-12" for="first-name">Archivos adjuntos:
-                    <span class="required">*</span>
+    <label class="control-label col-md-12 col-sm-12 col-xs-12" for="first-name">Archivos adjuntos:<div id="eliminar_mate" name="eliminar_mate"></div>
+<br><br><br><br>
+
     </label>
     <div class="col-md-12">
         <?php foreach ($bodyData->results as $result) {
@@ -58,8 +59,9 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
             $resultado= base_url(trim($result->ruta));
         } ?>
 
-        <div class="col-md-55">
+        <div class="col-md-55" >
             <div class="thumbnail">
+
                 <div class="image view view-first">
 
                     <img id="imagen" src="<?= $resultado; ?>" class="img-responsive center-block" align="top" alt="Lights" style="width:100%" />
@@ -69,7 +71,7 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
                             <a href="<?= base_url(trim($result->ruta))?>" target="_blank" style=" outline: none;">
                                 <i class="fa fa-link"></i>
                             </a>
-                            <a data-toggle="modal" data-target=".bs-example3-modal-lg"  href="#" data-id="<?=$result->id?>" data-ruta="<?=$result->ruta?>" data-fec="<?=$result->fecha_jus?>" class="eliminarMaterial">
+                            <a class="eliminar_justificacion"  href="javascript:" data-id="<?=$result->id?>" data-ruta="<?=$result->ruta?>" data-fec="<?=$result->fecha_jus?>" >
                                 <i class="fa fa-times"></i>
                             </a>
 
@@ -80,9 +82,10 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
                     <p><?=$result->nombre.'<br>'.$result->fec_creacion?></p>
                 </div>
             </div>
+
+
+
         </div>
-
-
         <?php
     } ?>
     </div>
@@ -90,28 +93,6 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
 }
 ?>
 
-<div class="modal fade bs-example3-modal-lg" id="modal_x" tabindex="-1"  aria-hidden="true">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">×</span>
-        </button>
-        <h4 class="modal-title" id="myModalLabel">Eliminar archivo</h4>
-      </div>
-      <div class="modal-body" id="DIVELIMINARMATERIAL1">
-
-      </div>
-
-      <div class="modal-footer">
-        <button name="btn_si_eliminar" id="btn_si_eliminar" type="button" class="btn btn-default" data-dismiss="modal">SI</button>
-        <button name="btnNo" id="btnNo" type="button" class="btn btn-primary" data-dismiss="modal">NO</button>
-      </div>
-
-    </div>
-  </div>
-</div>
 
     <style>
         .right {
@@ -133,6 +114,32 @@ if (count($bodyData->results)==0 || $bodyData->results==0) {
         }
     </style>
     <script type="text/javascript">
+
+$(".eliminar_justificacion").click(function(){
+            var id = $(this).data("id");
+            var fec = $(this).data("fec");
+            var ruta = $(this).data("ruta");
+        $.notify.addStyle('foo', {
+        html:
+            "<div>" +
+            "<div class='clearfix'>" +
+                "<div class='title' data-notify-html='title'/>" +
+                "<div class='buttons'>" +
+                "<button class='btn btn-danger no'>Cancelar</button>" +
+                "<button class='btn btn-primary yes' data-id="+id+" data-fec="+fec+" data-ruta="+ruta+" data-notify-text='button'></button>" +
+                "</div>" +
+            "</div>" +
+            "</div>"
+        });
+        $("#eliminar_mate").notify({
+        title: '¿Eliminar el material seleccionado ?',
+        button: 'Si'
+        }, {
+        style: 'foo',
+        autoHide: false,
+        clickToHide: false
+        });
+});
 
 
     jQuery.validator.setDefaults({
@@ -163,49 +170,82 @@ $("#registrarArchivo").validate({
         }
 
 });
-            $("#btn_si_eliminar").click(function(){
+$(document).on('click', '.notifyjs-foo-base .no', function() {
+  //programmatically trigger propogating hide event
+  $(this).trigger('notify-hide');
+});
+$(document).on('click', '.notifyjs-foo-base .yes', function() {
+            var id = $(this).data("id");
+            var fec = $(this).data("fec");
+            var ruta = $(this).data("ruta");
 
-                                var ide = $("#codigo").val();
-                                var fecha = $("#fecha").val();
-                                var ruta = $("#ruta").val();
                                 $.ajax({
                                     type: 'POST',
                                     url: url+'GestionAlumno/eliminarMaterialesAs',
                                     data: {
-                                        codigo: ide,
+                                        codigo: id,
                                         ruta: ruta
                                     },
                                     success: function () {
-                                        $("#DIVVERASISTENCIA").load("verAsistenciaAl", $.param({
-                                            id: ide,
-                                            fecha: fecha
-                                        }));
-                                        location.reload();
+
+                                        $.notify("Se eliminó su justificación satisfactoriamente", {
+                                            position: 'b r',
+                                            className: 'success',
+                                            autoHideDelay: 10 * 1000,
+                                            clickToHide: true
+                                        });
+                                        $('#subir_justificacion').modal('hide');
+                                        $('body').removeClass('modal-open');
+                                            $('.modal-backdrop').remove();
+                                        var uri="<?=base_url('GestionAlumno/consultarAsistencia')?>";
+                                        $("#main-content").load(uri);
+                                            return true;
                                     }
                                 });
 
-            });
+});
 
-        $(".eliminarMaterial").click(function () {
-            var id = $(this).data("id");
-            var fec = $(this).data("fec");
-            var ruta = $(this).data("ruta");
-            $.ajax({
-                type: 'POST',
-                url: url+'GestionAlumno/eliminarMaterialAs',
-                data: {
-                    id: id,
-                    fecha: fec,
-                    ruta: ruta
-                },
-                success: function (datos) {
-                    if (datos.length > 0) {
-                        $('#DIVELIMINARMATERIAL1').html(datos);
 
-                    }
-                    return false;
-                }
-            });
+    $(document).ready(function () {
+        $('#subir_justificacion').on('hidden.bs.modal', function (e) {
+            /*LIMPIAR DISPARADORES */
+            $(this).find('button').unbind();
+            $(this).find('.modal-body').html('<center><img src="<?= base_url('publico/media/ajax-loader2.gif')?>" width="80" height="80" ></center>');
+            $(this).find('.modal-footer .nombre').html('');
         });
+    });
+
     </script>
-    <script>tinymce.init({ selector:'textarea' });</script>
+    <script>//tinymce.init({ selector:'textarea' });</script>
+
+<style>
+.notifyjs-foo-base {
+  opacity: 0.85;
+  width: 200px;
+  background: #F5F5F5;
+  padding: 5px;
+  border-radius: 10px;
+}
+
+.notifyjs-foo-base .title {
+  width: 100px;
+  float: left;
+  margin: 10px 0 0 10px;
+  text-align: right;
+}
+
+.notifyjs-foo-base .buttons {
+  width: 70px;
+  float: right;
+  font-size: 9px;
+  padding: 5px;
+  margin: 2px;
+}
+
+.notifyjs-foo-base button {
+  font-size: 9px;
+  padding: 5px;
+  margin: 2px;
+  width: 60px;
+}
+</style>

@@ -36,7 +36,7 @@ if ($bodyData->respuesta>0)
                     <table class="table table-striped  bulk_action">
                         <thead style="color: #fff; background-color: #2A3F54;">
                             <tr class="headings">
-                                <th class="column-title">Capacidad </th>
+                                <th class="column-title">Competencia </th>
                                 <th class="column-title">Evaluación </th>
                                 <th class="column-title">Descripcion de evaluación</th>
                                 <th class="column-title">Peso</th>

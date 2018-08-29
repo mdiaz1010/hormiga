@@ -188,6 +188,7 @@ class GestionAuxiliar extends CI_Controller
         $id_grado=$this->input->post("grado");
         $id_seccion=$this->input->post("seccion");
         $busqueda= array('id_grado'=>$id_grado,'id_seccion'=>$id_seccion);
+
         $resultado= $this->Usuarios_model->buscaralumno($busqueda);
         $validacionA= $this->Usuarios_model->validacionFechaAlumnoAux($busqueda);
 

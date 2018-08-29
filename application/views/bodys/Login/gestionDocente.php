@@ -54,7 +54,7 @@
                                 } ?>
                                 <td title="<?=$curso; ?>" bgcolor="<?=$color?>">
                                     <small>
-                                        <font style="font-style: italic;" COLOR="#fdfefe">
+                                        <font style="font-style: ;" COLOR="#fdfefe">
                                             <?=$valor[$i][$j]; ?>
                                         </font>
                                     </small>
@@ -127,7 +127,7 @@
                                         } ?>
                                 <td title="<?=$curso; ?>" bgcolor="<?=$color; ?>">
                                     <small>
-                                        <font style="font-style: italic;" COLOR="#fdfefe">
+                                        <font style="font-style: ;" COLOR="#fdfefe">
                                             <?=$valor[$i][$j]; ?>
                                         </font>
                                     </small>

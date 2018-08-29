@@ -146,9 +146,13 @@
     }, function (data) {
       var content = JSON.parse(data)
       if (content.result == 1) {
-        alert("Ya ses registró esta abreviación en: " + content.capacidad +
-          " por favor ingresar una abreviación que no se haya registrado aún.");
-        return true;
+                                    $.notify("Sucedió un inconveniente, ya ses registró esta abreviación en la competencia : " + content.capacidad +" por favor ingresar una abreviación que no se haya registrado aún.", {
+                                        position: 'b r',
+                                        className:"warn",
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
+                                    return true;
       } else {
 
         var descripcion = $("#descripcion").val();
@@ -159,12 +163,22 @@
 
         var index = abreviacion_.indexOf(abreviacion);
         if (index !== -1) {
-          alert('No se permite ingresar la misma abreviacion');
-          return true;
+                                    $.notify("Sucedió un inconveniente, no se permite ingresar la misma abreviación.", {
+                                        position: 'b r',
+                                        className:"warn",
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
+                                    return true;
         }
         if (abreviacion === '' || descripcion === '' || peso === '') {
-          alert('Rellenar los campos obligatorios *');
-          return true;
+                                    $.notify("Sucedió un inconveniente, todos los campos se deben de llenar, son obligatorios *", {
+                                        position: 'b r',
+                                        className:"warn",
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
+                                    return true;
         }
         $.post(url+'GestionDocente/valido_abreviacion_notas', {
           grado: grado,
@@ -175,7 +189,12 @@
           nota: nota
         }, function (datos) {
           if (datos === "1") {
-            alert("Esta abreviación ya se encuentra registrada, por favor cambiar el nombre");
+                                    $.notify("Sucedió un inconveniente, esta abreviación ya se encuentra registrada, por favor cambiar el nombre", {
+                                        position: 'b r',
+                                        className:"warn",
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
           } else {
             var concatenarFilas = '';
             concatenarFilas += '<tr id="contFilas' + contador + '">';
@@ -225,11 +244,12 @@
       type: "POST",
       url: url+'GestionDocente/registrar_configuracion_nota',
       data: $("#registrarNotasConf").serialize(),
+      dataType:"json",
       beforeSend: function( datos){
         $('#DIVcargas_general').dialog('open');
       },
       success: function (datos) {
-        if (datos == 1) {
+        if (datos.dat == 1) {
           $.post(url+'GestionDocente/cambiar_estado_configuracion', {
             grado: grado,
             curso: curso,
@@ -238,6 +258,13 @@
             abreviacion: eliminar,
             nota: nota,
             descontar: descontar
+          },function(){
+                                    $.notify('Se registraron los criterios de evaluación satisfactoriamente.', {
+                                        position: 'b r',
+                                        className:'success',
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
           });
           $("#divGrilla").load(url+'GestionDocente/cargarConfiguracionNotas', {
             grado: grado,
@@ -251,7 +278,14 @@
         } else {
           $("#configuracion_nota")[0].reset();
           $('#result_error').html("");
-          alert(datos);
+
+                                    $.notify(datos.mensaje, {
+                                        position: 'b r',
+                                        className:datos.alert,
+                                        autoHideDelay: 10 * 1000,
+                                        clickToHide: true
+                                    });
+
           $('#DIVcargas_general').dialog('close');
           return true;
         }
