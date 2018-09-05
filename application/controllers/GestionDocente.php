@@ -452,7 +452,9 @@ class GestionDocente extends CI_Controller
         $id_curso=$this->input->post('curso');
         $id_seccion=$this->input->post('seccion');
         $busqueda= array('id_grado'=>$id_grado,'id_bimestre'=>$bimestre,'id_curso'=>$id_curso,'id_seccion'=>$id_seccion);
-
+        if(empty($busqueda['id_bimestre'])){
+            echo "No se puede mostrar esta informacion"; die();
+        }
         if ($bimestre=='codigo') {
             $meri =  $this->Usuarios_model->reporteNotasFinal($busqueda,false);
 

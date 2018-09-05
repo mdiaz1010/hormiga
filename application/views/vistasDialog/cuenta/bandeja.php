@@ -1,6 +1,6 @@
 <?php
 ?>
-<table class="table table-bordered" cellspacing="0" width="100%" id="dataTables-usuario">
+<table class="table table-striped table-bordered table-hover" cellspacing="0" width="100%" id="dataTables-usuario">
     <thead style="color: #fff;background-color: #2A3F54;">
         <tr>
             <th >
@@ -57,15 +57,16 @@
                 </td>
                 <td>
                     <label>
-                        <i class="fa fa-edit"></i>
                         <a href="javascript:" data-toggle="modal" data-target=".bs-example3-modal-lg"  data-id="<?=$cuentasTemp->CODIGO?>" class="Editar">Cuenta</a>
+                        <i class="fa fa-edit"></i>
                     </label>
 
 
                     <label style=" ">
+                        <a data-id="<?=$cuentasTemp->CODIGO?>" name="permisosTrigger" href="javascript:void(0)">Permisos</a>
                         <i class="fa fa-lock"></i>
-                        <a data-id="<?=$cuentasTemp->CODIGO?>" name="permisosTrigger" href="javascript:">Permisos</a>
                     </label>
+
                 </td>
             </tr>
             <?php
@@ -133,7 +134,7 @@
 
 
 <script type="text/javascript">
-$("#dataTables-usuario").dataTable();
+
 
 
 $("#diveditar_boton").click(function () {
@@ -214,8 +215,8 @@ $("#diveditar_boton").click(function () {
 
 
     $(".Editar").click(function () {
-        var codigo = $(this).data("id");
 
+        var codigo = $(this).data("id");
         $.ajax({
             type: 'POST',
             url: url+"Cuenta/vereditarcuenta",
@@ -270,7 +271,10 @@ $("#diveditar_boton").click(function () {
                 var modal = $("#permisosModal");
                 modal.find('.modal-body').html("<p> " + msj + " </p>");
             });
+
         }
+
+
     });
 
     /*LIMPIEZA */
@@ -282,4 +286,5 @@ $("#diveditar_boton").click(function () {
             $(this).find('.modal-footer .nombre').html('');
         });
     });
+    $("#dataTables-usuario").DataTable();
 </script>

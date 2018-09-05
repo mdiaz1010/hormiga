@@ -1,0 +1,149 @@
+<?php if ($bodyData->resultado==1) {
+    ?>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>ORDER DE MÉRITO</h2>
+                <ul class="nav navbar-right panel_toolbox">
+
+                </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+                <form method="post" name="crearusuario" id="crearusuarioss">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                            GRADO
+                            <select name="rol_grado" class="form-control" id='rol_grado' required>
+                                <option value="">Seleccione</option>
+                                <?php
+                                        foreach ($bodyData->valores as $rolesTemp) {
+                                            ?>
+                                <option name='opciones' value="<?=$rolesTemp['id']?>">
+                                    <?=$rolesTemp['nom_grado']?>
+                                </option>
+                                <?php
+                                        } ?>
+                            </select>
+                        </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                            SECCION
+                            <select name="rol_seccion" class="form-control" id='rol_seccion' required></select>
+                        </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                            CURSO
+                            <select name="rol_curso" class="form-control" id='rol_curso' required></select>
+                        </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                            BIMESTRE
+                            <select name="rol_bimestre" class="form-control" id='rol_bimestre' required></select>
+                        </label>
+                    </div>
+                </form>
+
+
+
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="url" id="url" value="<?= base_url(); ?>">
+
+    <div class="col-xs-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Lista de alumnos, orden de mérito
+
+                </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                    <li><button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Leyenda de méritos</button></li>
+
+                    </ul>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <div class="table-responsive" id="bandejaGeneral">Ingresar El bimestre...</div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel2">Leyenda de méritos</h4>
+      </div>
+      <div class="modal-body">
+
+
+        <table>
+              <thead align="center">
+                <tr align="center">
+                <td>  </td>
+                        <td colspan="2"> <p class="circulo"></p>   </td>
+
+                        <td >   Tercio superior       </td>
+
+                </tr>
+
+                <tr ></tr>
+
+                <tr align="center">
+                <td></td>
+                        <td colspan="2">  <p class="circulo2"></p>   </td>
+
+                        <td > Quinto superior    </td>
+                </tr>
+                </thead>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+
+      </div>
+
+    </div>
+  </div>
+<div id="DIVcargas" title="EN PROCESO ... ">
+    Espere mientras se gestiona la informaci&oacute;n.
+    <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
+</div>
+<script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionEducativa_notasTQ.js')?>"></script>
+<?php
+} else {
+                                            echo "No se cuenta con la informacion necesaria registrada.";
+                                        } ?>
+                                        <style>
+.circulo {
+     width: 40px;
+     height: 40px;
+     -moz-border-radius: 50%;
+     -webkit-border-radius: 50%;
+     border-radius: 50%;
+     background: #2E9AFE;
+}
+.circulo2 {
+     width: 40px;
+     height: 40px;
+     -moz-border-radius: 50%;
+     -webkit-border-radius: 50%;
+     border-radius: 50%;
+     background: #084B8A;
+}
+</style>

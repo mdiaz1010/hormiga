@@ -360,6 +360,13 @@ class Usuarios_model extends CI_Model
         $this->db->order_by('nom_grado', 'DESC') ;
         return $this->db->get()->result_object() ;
     }
+    public function get_grados()
+    {
+        $this->db->select(" id,nom_grado,des_grado,usu_creacion,fec_creacion ");
+        $this->db->from("maegrados");
+        $this->db->order_by('nom_grado', 'ASC') ;
+        return $this->db->get()->result_array() ;
+    }
     public function getGradosAno()
     {
         $this->db->distinct();
@@ -381,6 +388,14 @@ class Usuarios_model extends CI_Model
         $this->db->from("maecursos");
         $this->db->order_by('nom_cursos', 'DESC') ;
         return $this->db->get()->result_object() ;
+    }
+    public function get_cursos()
+    {
+        $this->db->select(" id,nom_cursos,des_cursos,cant_horas,cant_capacidades,usu_creacion,fec_creacion ");
+        $this->db->from("maecursos");
+        $this->db->where('ano',date('Y'));
+        $this->db->order_by('nom_cursos', 'ASC') ;
+        return $this->db->get()->result_array() ;
     }
     public function getBimestre()
     {
@@ -526,8 +541,8 @@ class Usuarios_model extends CI_Model
         $this->db->where(array('rnda.id_curso'=>$data['id_curso'],'rnda.id_grado'=>$data['id_grado'],'rnda.id_seccion'=>$data['id_seccion'],'rnda.ano'=>date('Y'))) ;
         $this->db->where('rnd.estado=1  and rnda.estado=1 ');
         $this->db->group_by('rnda.id_grado,rnda.id_seccion,rnda.id_alumno');
+        $this->db->order_by('nota','desc');
         if($boolean==true){
-            $this->db->order_by('nota','desc');
             $this->db->limit(3);
         }
         return $this->db->get()->result_array() ;
@@ -610,6 +625,41 @@ class Usuarios_model extends CI_Model
         $this->db->where(array('ma.id_bimestre'=>$data['id_bimestre'],'rnda.id_curso'=>$data['id_curso'],'rnda.id_grado'=>$data['id_grado'],'rnda.id_seccion'=>$data['id_seccion'],'rnda.ano'=>date('Y'))) ;
         $this->db->where('rnd.estado=1  and rnda.estado=1 ');
         $this->db->group_by('rnda.id_grado,rnda.id_seccion,rnda.id_alumno');
+        $this->db->order_by('nota','desc');
+        if($boolean==true){
+            $this->db->limit(3);
+        }
+        return $this->db->get()->result_array() ;
+    }
+    public function reporteNotasMerito1011($data,$boolean)
+    {
+        if($data['id_curso']!='codigo'){
+            $promedio="round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2)";
+            $groupby=',rnda.id_alumno';
+        }else{
+            $promedio="round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2)";
+            $groupby=',rnda.id_alumno';
+        }
+        $this->db->select("mp.ape_pat_per,rnda.id_alumno,CONCAT(MG.nom_grado,' ',Ms.nom_seccion) as gradosec,rnda.id_grado,rnda.id_seccion,".$promedio." as nota ")
+                 ->from("rel_notas_detalle_alumno rnda")
+                 ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
+                 ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
+                 ->join("maepersona mp"        , "ON rnda.id_alumno =mp.id")
+                 ->join("maegrados   mg"        , "ON rnda.id_grado    =mg.id")
+                 ->join("maeseccion   ms"        , "ON rnda.id_seccion    =ms.id");
+
+                $this->db->where(array('rnda.id_grado'=>$data['id_grado'],'rnda.ano'=>date('Y'))) ;
+                if($data['id_seccion']!='codigo'){
+                    $this->db->where('rnda.id_seccion',$data['id_seccion']);
+                }
+                if($data['id_curso']!='codigo'){
+                    $this->db->where('rnda.id_curso',$data['id_curso']);
+                }
+                if($data['id_bimestre']!='codigo'){
+                    $this->db->where('ma.id_bimestre',$data['id_bimestre']);
+                }
+                    $this->db->where('rnd.estado=1  and rnda.estado=1');
+                    $this->db->group_by('rnda.id_grado,rnda.id_seccion'.$groupby);
         $this->db->order_by('nota','desc');
         if($boolean==true){
             $this->db->limit(3);

@@ -1,3 +1,5 @@
+<script src="<?= base_url('publico/js/exporting.js') ?>"></script>
+<script src="<?= base_url('publico/html_libs/Chart.js/dist/Chart.min.js') ?>"></script>
 <?php ?>
 
 <div class="col-xs-12">
@@ -15,10 +17,6 @@
 
 
 
-
-<script src="<?= base_url('publico/js/highcharts.js') ?>"></script>
-<script src="<?= base_url('publico/js/exporting.js') ?>"></script>
-<script src="<?= base_url('publico/html_libs/Chart.js/dist/Chart.min.js') ?>"></script>
 <script type="text/javascript">
 
     Highcharts.chart('container', {
