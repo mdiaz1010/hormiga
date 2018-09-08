@@ -36,7 +36,7 @@
                     <strong>
                         <center>
                             <font color="#ffffff">
-                                <?=$value['nota'];?>
+                                <?=round($value['nota']);?>
                             </font>
                         </center>
                     </strong>

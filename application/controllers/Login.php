@@ -728,6 +728,7 @@ class Login extends CI_Controller
         if(empty($nota_vacia))
         {$nota_vacia=0;}
         $notas_finales_cursos = $this->Usuarios_model->reporteNotasFinal_alumno($list_salon,$nota_vacia);
+
         $list_criterio=array_column($notas_finales_cursos,'criterio');
         $arreglo=[];
         foreach($list_criterio as $key => $desaprobado){

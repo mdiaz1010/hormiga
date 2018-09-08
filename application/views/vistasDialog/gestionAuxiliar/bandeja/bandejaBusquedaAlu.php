@@ -356,10 +356,10 @@
 
         <?php $i=0;
     foreach ($bodyData->trayecto as $tray): ?>
-        <input type="hidden" name="trayecto[]" id="trayecto" value="<?=round($tray['nota'], 2)?>">
-        <input type="hidden" name="trayectoSal[]" id="trayectoSal" value="<?=round($bodyData->trayectoSal[$i]['nota'], 2)?>">
-        <input type="hidden" name="trayectoGra[]" id="trayectoGra" value="<?=round($bodyData->trayectoGra[$i]['nota'], 2)?>">
-        <input type="hidden" name="trayectoCol[]" id="trayectoCol" value="<?=round($bodyData->trayectoCol[$i]['nota'], 2)?>">
+        <input type="hidden" name="trayecto[]" id="trayecto" value="<?=round($tray['nota'])?>">
+        <input type="hidden" name="trayectoSal[]" id="trayectoSal" value="<?=round($bodyData->trayectoSal[$i]['nota'])?>">
+        <input type="hidden" name="trayectoGra[]" id="trayectoGra" value="<?=round($bodyData->trayectoGra[$i]['nota'])?>">
+        <input type="hidden" name="trayectoCol[]" id="trayectoCol" value="<?=round($bodyData->trayectoCol[$i]['nota'])?>">
         <input type="hidden" name="descripc[]" id="descripc" value="<?=$tray['desc']?>">
         <?php $i++;
     endforeach; ?>

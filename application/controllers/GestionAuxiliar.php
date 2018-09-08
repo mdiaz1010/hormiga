@@ -653,13 +653,13 @@ class GestionAuxiliar extends CI_Controller
             $sum++;
         }
         foreach ($trayectoSalon as $salon) {
-            $arraySalonNot[]=round(($salon->nota/($sum*$s)), 2);
+            $arraySalonNot[]=round(($salon->nota/($sum*$s)));
         }
         foreach ($trayectoGrado as $grado) {
-            $arraySalonGra[]=round(($grado->nota/($sum*$p)), 2);
+            $arraySalonGra[]=round(($grado->nota/($sum*$p)));
         }
         foreach ($trayectoColeg as $coleg) {
-            $arraySalonCol[]=round(($coleg->nota/($sum*$c)), 2);
+            $arraySalonCol[]=round(($coleg->nota/($sum*$c)));
         }
         foreach ($trayecto as $tray) {
             $arrayNotA[]=array('nota'=>round($tray->nota/$sum),

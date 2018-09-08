@@ -305,7 +305,7 @@ class Usuarios_model extends CI_Model
     }
     public function puestoSalon($grado, $seccion)
     {
-        $this->db->select("rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso),2) as nota, (select distinct count(*) from relaulalumno rla where rla.id_grado=rnda.id_grado and rla.id_seccion=rnda.id_seccion) as cantidad");
+        $this->db->select("rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)) as nota, (select distinct count(*) from relaulalumno rla where rla.id_grado=rnda.id_grado and rla.id_seccion=rnda.id_seccion) as cantidad");
         $this->db->from("rel_notas_detalle_alumno rnda");
         $this->db->join("rel_notas_detalle rnd ", "ON rnda.id_nota  =rnd.id");
         $this->db->join("maenotas   ma "        , "ON rnd.id_nota   =ma.id ");
@@ -318,7 +318,7 @@ class Usuarios_model extends CI_Model
     public function puestoSalonTotal()
     {
         $this->db->distinct();
-        $this->db->select("ma.ape_pat_per as alumno,CONCAT(mg.nom_grado,'°',me.nom_seccion) as grado,rl.id_alumno,round(SUM(rl.nota),2) as nota ")->from("relnotas rl")
+        $this->db->select("ma.ape_pat_per as alumno,CONCAT(mg.nom_grado,'°',me.nom_seccion) as grado,rl.id_alumno,round(SUM(rl.nota)) as nota ")->from("relnotas rl")
                 ->join("maenotas mn", "on rl.id_nota=mn.id")
                 ->join("maepersona   ma", "on rl.id_alumno =ma.id")
                 ->join("maegrados    mg", "on rl.id_grado  =mg.id")
@@ -331,7 +331,7 @@ class Usuarios_model extends CI_Model
 
     public function puestoGrado($grado)
     {
-        $this->db->select("rnda.id_alumno,rnda.id_grado,round(sum(rnda.nota*rnd.peso),2) as nota, (select distinct count(*) from relaulalumno rla where rla.id_grado=rnda.id_grado ) as cantidad");
+        $this->db->select("rnda.id_alumno,rnda.id_grado,round(sum(rnda.nota*rnd.peso)) as nota, (select distinct count(*) from relaulalumno rla where rla.id_grado=rnda.id_grado ) as cantidad");
         $this->db->from("rel_notas_detalle_alumno rnda");
         $this->db->join("rel_notas_detalle rnd ", "ON rnda.id_nota  =rnd.id");
         $this->db->join("maenotas   ma "        , "ON rnd.id_nota   =ma.id ");
@@ -343,7 +343,7 @@ class Usuarios_model extends CI_Model
     }
     public function puestoColegio()
     {
-        $this->db->select("rnda.id_alumno,round(sum(rnda.nota*rnd.peso),2) as nota, (select distinct count(*) from relaulalumno rla ) as cantidad");
+        $this->db->select("rnda.id_alumno,round(sum(rnda.nota*rnd.peso)) as nota, (select distinct count(*) from relaulalumno rla ) as cantidad");
         $this->db->from("rel_notas_detalle_alumno rnda");
         $this->db->join("rel_notas_detalle rnd ", "ON rnda.id_nota  =rnd.id");
         $this->db->join("maenotas   ma "        , "ON rnd.id_nota   =ma.id ");
@@ -533,7 +533,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasFinal($data,$boolean)
     {
-        $this->db->select("mp.ape_pat_per,rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota ")
+        $this->db->select("mp.ape_pat_per,rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id)) as nota ")
                  ->from("rel_notas_detalle_alumno rnda")
                  ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
                  ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
@@ -590,7 +590,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasFinal_dir()
     {
-        $this->db->select("mp.ape_pat_per as alumno,CONCAT(mg.nom_grado,' ',ms.nom_seccion) as grado , rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso),2) as nota ")
+        $this->db->select("mp.ape_pat_per as alumno,CONCAT(mg.nom_grado,' ',ms.nom_seccion) as grado , rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)) as nota ")
                  ->from("rel_notas_detalle_alumno rnda")
                  ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
                  ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
@@ -606,7 +606,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasFinal10($data)
     {
-        $this->db->select("mp.ape_pat_per,rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota ")
+        $this->db->select("mp.ape_pat_per,rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id)) as nota ")
                  ->from("rel_notas_detalle_alumno rnda")
                  ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
                  ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
@@ -617,7 +617,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasMerito10($data,$boolean)
     {
-        $this->db->select("mp.ape_pat_per,rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota ")
+        $this->db->select("mp.ape_pat_per,rnda.id_alumno,rnda.id_grado,rnda.id_seccion,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id)) as nota ")
                  ->from("rel_notas_detalle_alumno rnda")
                  ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
                  ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
@@ -634,13 +634,13 @@ class Usuarios_model extends CI_Model
     public function reporteNotasMerito1011($data,$boolean)
     {
         if($data['id_curso']!='codigo'){
-            $promedio="round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2)";
+            $promedio="round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),0)";
             $groupby=',rnda.id_alumno';
         }else{
-            $promedio="round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2)";
-            $groupby=',rnda.id_alumno';
+            $promedio="round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),0)";
+            $groupby=',rnda.id_alumno,rnda.id_curso';
         }
-        $this->db->select("mp.ape_pat_per,rnda.id_alumno,CONCAT(MG.nom_grado,' ',Ms.nom_seccion) as gradosec,rnda.id_grado,rnda.id_seccion,".$promedio." as nota ")
+        $this->db->select("mp.ape_pat_per,rnda.id_alumno,CONCAT(MG.nom_grado,' ',Ms.nom_seccion) as gradosec,Ms.nom_seccion,MG.nom_grado,rnda.id_grado,rnda.id_seccion,".$promedio." as nota ")
                  ->from("rel_notas_detalle_alumno rnda")
                  ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
                  ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
@@ -664,6 +664,29 @@ class Usuarios_model extends CI_Model
         if($boolean==true){
             $this->db->limit(3);
         }
+        return $this->db->get()->result_array() ;
+    }
+    public function reporteNotasMerito1012($grado,$seccion,$bimestre,$id_alumno)
+    {
+            $promedio="mc.id,mc.nom_cursos,ma.id_bimestre,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),0)";
+            $groupby=',rnda.id_alumno,rnda.id_curso';
+        $this->db->select("mp.documento,mp.ape_pat_per,rnda.id_alumno,CONCAT(MG.nom_grado,' ',Ms.nom_seccion) as gradosec,Ms.nom_seccion,MG.nom_grado,rnda.id_grado,rnda.id_seccion,".$promedio." as nota ")
+                 ->from("rel_notas_detalle_alumno rnda")
+                 ->join("rel_notas_detalle rnd", "ON rnda.id_nota   =rnd.id")
+                 ->join("maenotas   ma"        , "ON rnd.id_nota    =ma.id")
+                 ->join("maecursos   mc"        , "ON rnda.id_curso    =mc.id")
+                 ->join("maepersona mp"        , "ON rnda.id_alumno =mp.id")
+                 ->join("maegrados   mg"        , "ON rnda.id_grado    =mg.id")
+                 ->join("maeseccion   ms"        , "ON rnda.id_seccion    =ms.id");
+
+                $this->db->where(array('rnda.id_grado'=>$grado,'rnda.ano'=>date('Y'))) ;
+                    $this->db->where('rnda.id_alumno',$id_alumno);
+                    $this->db->where('rnda.id_seccion',$seccion);
+                    $this->db->where('ma.id_bimestre<='.(int)$bimestre);
+                    $this->db->where('rnd.estado=1  and rnda.estado=1');
+                    $this->db->group_by('rnda.id_grado,rnda.id_seccion,ma.id_bimestre'.$groupby);
+        $this->db->order_by('mp.ape_pat_per,mc.nom_cursos,ma.id_bimestre','ASC');
+
         return $this->db->get()->result_array() ;
     }
     public function reporteNotasMerito101($data,$boolean)
@@ -694,7 +717,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotas2($data)
     {
-        $this->db->select("re.id_alumno,round(avg(re.nota),2) as notas ")
+        $this->db->select("re.id_alumno,round(avg(re.nota)) as notas ")
                 ->from("relnotas re")
                 ->join("maenotas ma", "on re.id_nota=ma.id");
         $this->db->where(array('re.id_curso'=>$data['id_curso'],'re.id_grado'=>$data['id_grado'],'re.id_seccion'=>$data['id_seccion'],'re.id_bimestre'=>$data['id_bimestre'],'re.ano'=>date('Y'))) ;
@@ -704,7 +727,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAlu($data)
     {
-        $this->db->select("round(sum(rnda.nota*rnd.peso),2) as nota,ma.id_bimestre as desci,me.nom_bimestre as desc")
+        $this->db->select("round(sum(rnda.nota*rnd.peso)) as nota,ma.id_bimestre as desci,me.nom_bimestre as desc")
         ->from("rel_notas_detalle_alumno rnda")
         ->join("rel_notas_detalle rnd", "on rnda.id_nota=rnd.id")
         ->join("maenotas ma"          , "on rnd.id_nota =ma.id")
@@ -719,7 +742,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAluCurTol($data)
     {
-        $this->db->select("ma.id_bimestre as desc,me.nom_bimestre as nombi,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota,mc.nom_cursos as nombre ")
+        $this->db->select("ma.id_bimestre as desc,me.nom_bimestre as nombi,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id)) as nota,mc.nom_cursos as nombre ")
         ->from("rel_notas_detalle_alumno rnda")
         ->join('rel_notas_detalle rnd', ' ON rnda.id_nota=rnd.id')
         ->join('maenotas  ma', ' ON rnd.id_nota =ma.id')
@@ -732,7 +755,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAluCur($data)
     {
-        $this->db->select("ma.id_bimestre as desc,me.nom_bimestre as nombi,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota,mc.nom_cursos as nombre ")
+        $this->db->select("ma.id_bimestre as desc,me.nom_bimestre as nombi,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id)) as nota,mc.nom_cursos as nombre ")
 
         ->from("rel_notas_detalle_alumno rnda")
         ->join('rel_notas_detalle rnd', ' on rnda.id_nota=rnd.id')
@@ -747,7 +770,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAluCur_bimestre($data)
     {
-        $this->db->select("ma.id_bimestre as desc,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id),2) as nota,mc.nom_cursos as nombre ")
+        $this->db->select("ma.id_bimestre as desc,round(sum(rnda.nota*rnd.peso)/COUNT(distinct ma.id)) as nota,mc.nom_cursos as nombre ")
 
         ->from("rel_notas_detalle_alumno rnda")
         ->join('rel_notas_detalle rnd', ' on rnda.id_nota=rnd.id')
@@ -761,7 +784,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAluSal($data)
     {
-        $this->db->select("round(sum(rnda.nota*rnd.peso)/(select distinct count(*) from relaulalumno rla  where rla.id_grado=rnda.id_grado and rla.id_seccion=rnda.id_seccion),2) as nota,ma.id_bimestre as desc,rnda.id_grado,rnda.id_seccion")
+        $this->db->select("round(sum(rnda.nota*rnd.peso)/(select distinct count(*) from relaulalumno rla  where rla.id_grado=rnda.id_grado and rla.id_seccion=rnda.id_seccion)) as nota,ma.id_bimestre as desc,rnda.id_grado,rnda.id_seccion")
         ->from("rel_notas_detalle_alumno rnda")
         ->join("rel_notas_detalle rnd", "on rnda.id_nota=rnd.id")
         ->join("maenotas ma"          , "on rnd.id_nota =ma.id")
@@ -776,7 +799,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAluGra($data)
     {
-        $this->db->select("round(sum(rnda.nota*rnd.peso)/(select distinct count(*) from relaulalumno rla  where rla.id_grado=rnda.id_grado ),2) as nota,ma.id_bimestre as desc,rnda.id_grado")
+        $this->db->select("round(sum(rnda.nota*rnd.peso)/(select distinct count(*) from relaulalumno rla  where rla.id_grado=rnda.id_grado )) as nota,ma.id_bimestre as desc,rnda.id_grado")
         ->from("rel_notas_detalle_alumno rnda")
         ->join("rel_notas_detalle rnd", "on rnda.id_nota=rnd.id")
         ->join("maenotas ma"          , "on rnd.id_nota =ma.id")
@@ -790,7 +813,7 @@ class Usuarios_model extends CI_Model
     }
     public function reporteNotasAluCol()
     {
-        $this->db->select("round(sum(rnda.nota*rnd.peso)/(select distinct count(*) from relaulalumno rla   ),2) as nota,ma.id_bimestre as desc")
+        $this->db->select("round(sum(rnda.nota*rnd.peso)/(select distinct count(*) from relaulalumno rla   )) as nota,ma.id_bimestre as desc")
         ->from("rel_notas_detalle_alumno rnda")
         ->join("rel_notas_detalle rnd", "on rnda.id_nota=rnd.id")
         ->join("maenotas ma"          , "on rnd.id_nota =ma.id")
@@ -1342,7 +1365,7 @@ class Usuarios_model extends CI_Model
     public function mostrar_notas_alumnos($dato)
     {
         $this->db->distinct();
-        $this->db->select("ma.des_notas as Capacidad,rnd.abreviacion as Evaluacion,rnd.descripcion AS Descripcion,concat(peso*100 ,'%') as Peso,round(sum(rnda.nota),2) as Nota,ma.id_bimestre as Bimestre,rnd.id ,mc.nom_cursos,ma.id as id_nota")
+        $this->db->select("ma.des_notas as Capacidad,rnd.abreviacion as Evaluacion,rnd.descripcion AS Descripcion,concat(peso*100 ,'%') as Peso,round(sum(rnda.nota)) as Nota,ma.id_bimestre as Bimestre,rnd.id ,mc.nom_cursos,ma.id as id_nota")
         ->from('rel_notas_detalle_alumno rnda')
         ->join('rel_notas_detalle rnd',' on rnda.id_nota=rnd.id')
         ->join('maenotas  ma'         ,' on rnd.id_nota =ma.id ')

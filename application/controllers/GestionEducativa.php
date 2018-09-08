@@ -1214,23 +1214,49 @@ class GestionEducativa extends CI_Controller
             $busqueda= array('id_bimestre'=>$bimestre,'id_curso'=>$curso,'id_grado'=>$grado,'id_seccion'=>$seccion);
 
                 $dotacionPresente =  $this->Usuarios_model->reporteNotasMerito1011($busqueda,false);
+                $list_alumnos= array_values(array_unique(array_column($dotacionPresente,'id_alumno')));
+                $i=1;
+                foreach($list_alumnos as $clave => $valor ){
+                    $contador=0;
+                    $i=0;
+                    foreach($dotacionPresente as $key => $value){
+                            if($valor == $value['id_alumno']){
+                                $i++;
+                                $contador+=$value['nota'];
+                                $list_alumno[$clave]['nota']=round($contador/$i);
+                                $list_alumno[$clave]['id_alumno']=$value['id_alumno'];
+                                $list_alumno[$clave]['gradosec']=$value['gradosec'];
+                                $list_alumno[$clave]['id_grado']=$value['id_grado'];
+                                $list_alumno[$clave]['id_seccion']=$value['id_seccion'];
+                                $list_alumno[$clave]['ape_pat_per']=$value['ape_pat_per'];
+                            }
+                    }
+                }
+                    $array= array_column($list_alumno,'nota');
+                    arsort($array,SORT_NUMERIC);
+                    $ordenados=array_values(array_keys($array));
 
-            if(count($dotacionPresente)==0){
+                    foreach($list_alumno as $key => $alumnos){
+                            $list_alumn[]=$list_alumno[$ordenados[$key]];
+
+                    }
+                    $list_alumno=$list_alumn;
+            if(count($list_alumnos)==0){
                 echo "No existe información registrada"; die();
             }
-            for($i=0;$i<count($dotacionPresente);$i++){
-                if($i<count($dotacionPresente)/5){
-                    $color[]=array('color'=>'#2E9AFE','letra'=>'#ffffff','merito'=>'<b>QUINTO Y TERCIO SUPERIOR</b>');
-                }else if($i<count($dotacionPresente)/3){
-                    $color[]=array('color'=>'#084B8A','letra'=>'#ffffff','merito'=>'<b>TERCIO SUPERIOR</b>');
+            for($i=0;$i<count($list_alumno);$i++){
+                if($i<count($list_alumnos)/5){
+                    $color[]=array('color'=>'#084B8A','letra'=>'#ffffff','merito'=>'<b>QUINTO Y TERCIO SUPERIOR</b>');
+                }else if($i<count($list_alumnos)/3){
+                    $color[]=array('color'=>'#2E9AFE','letra'=>'#ffffff','merito'=>'<b>TERCIO SUPERIOR</b>');
                 }else{
                     $color[]=array('color'=>'#ffffff','letra'=>'#000000','merito'=>'');
                 }
             }
 
             $this->htmlData['bodyData']->color         = $color;
-            $this->htmlData['bodyData']->cantidad         = count($dotacionPresente);
-            $this->htmlData['bodyData']->resultado         = array_slice($dotacionPresente,0,(count($dotacionPresente)-1)/3);
+            $this->htmlData['bodyData']->cantidad         = count($list_alumnos);
+            $this->htmlData['bodyData']->resultado         = array_slice($list_alumno,0,(count($list_alumno)-1)/3);
             $this->htmlData['bodyData']->grado          = $grado ;
             $this->htmlData['bodyData']->seccion        = $seccion ;
             $this->htmlData['bodyData']->curso          = $curso ;
@@ -1245,18 +1271,176 @@ class GestionEducativa extends CI_Controller
     {
         $this->load->model("Usuarios_model", '', true);
         $this->load->model("Rol_model", '', true);
-        $ano= $this->Usuarios_model->getGradosAno();
+        $bimestre = $this->Usuarios_model->busquedaBimestre(date('Y'));
+        $this->htmlData['bodyData']->bimestre=$bimestre;
+        $this->htmlData['bodyData']->resultado=0;
 
-        if (count($ano)!=0) {
-            $this->htmlData['bodyData']->anos=$ano[0]->ano;
-            $this->htmlData['bodyData']->ano=$ano;
-            $this->htmlData['bodyData']->resultado=0;
-        } else {
-            $this->htmlData['bodyData']->resultado=1;
-        }
 
         $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
         $this->load->view('bodys/GestionEducativa/libretas', $this->htmlData);
+    }
+    public function comboBandeLib()
+    {
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Rol_model", '', true);
+        $bimestre = $this->input->post('rol_bimestre');
+        $this->load->library('Pdf1');
+        $pdf = new Pdf1();
+        $datosHeader="COLEGIO POLITECNICO VILLA LOS REYES";
+        $pdf->SetDatosHeader($datosHeader);
+        $pdf->Ln(5);
+        $pdf->SetDatosBody(1,2,1);
+        $pdf->AddPage();
+        $pdf->AliasNbPages();
+        $pdf->SetTitle("Reporte de Notas");
+        $pdf->SetLeftMargin(15);
+        $pdf->SetRightMargin(20);
+        $pdf->SetFillColor(200, 200, 200);
+        $pdf->SetFont('Arial', 'B', 7);
+        $grado   = $this->Usuarios_model->getGrados();
+
+        $seccion  = $this->Usuarios_model->getSecciones();
+        foreach($grado as $grados){
+            foreach($seccion as $seccione){
+                $data=array('id_grado'=>(int)$grados->id,'id_seccion'=>(int)$seccione->id,'ano'=>date('Y'));
+                $salon   = $this->Usuarios_model->buscaralumno($data);
+
+                foreach($salon as $cla => $val){
+
+            $notas_finales_cursos = $this->Usuarios_model->reporteNotasMerito1012($grados->id,$seccione->id,$bimestre,$val->id_alumno);
+
+            $pdf->Cell(80, 14, utf8_decode('Apellidos y nombres: '.$notas_finales_cursos[0]['ape_pat_per']), 0, 0, 'L', '0');
+            $pdf->Ln(7);
+            $pdf->Cell(50, 14, utf8_decode('Código: '.$notas_finales_cursos[0]['documento']), 0, 0, 'L', '0');
+            $pdf->Ln(7);
+            $pdf->Cell(50, 14, utf8_decode('Salón: '.$notas_finales_cursos[0]['gradosec']), 0, 0, 'L', '0');
+            $pdf->Ln(14);
+            $pdf->Cell(90, 14, utf8_decode('ÁREAS - ASIGNATURAS'), 1, 0, 'C', '1');
+            $pdf->Cell(60, 7, 'TRIMESTRES', '1', 1, 'C', '1');
+            $pdf->SetX(105);
+            $pdf->Cell(20, 7, utf8_decode('I'), 1, 0, 'C', '1');
+            $pdf->Cell(20, 7, utf8_decode('II'), 1, 0, 'C', '1');
+            $pdf->Cell(20, 7, utf8_decode('III'), 1, 0, 'C', '1');
+//          $pdf->Cell(15, 7, utf8_decode('IV'), 1, 0, 'C', '1');
+            $pdf->SetY(83);
+            $pdf->SetX(165);
+            $pdf->Cell(25, 14, utf8_decode('PROMEDIO FINAL'), '1', 1, 'C', true);
+
+            $list_cursos= array_values(array_unique(array_column($notas_finales_cursos,'id')));
+            $list_nom_cursos= array_values(array_unique(array_column($notas_finales_cursos,'nom_cursos')));
+            $a=0;
+            $j=0;
+            foreach($list_cursos as $key => $value){
+                for($i=0;$i<$bimestre;$i++){
+                    $list_curso[$value][$i]=$notas_finales_cursos[$j]['nota'];
+                    $j++;
+                }
+            }
+            $nav=0;$nbv=0;$ncv=0;
+            $na=0;$nb=0;$nc=0;$prom_fin=0;$can_prom_fin=0;
+            foreach($list_cursos as $key => $value){
+                    $a+=7;
+                    $prom_fin=0;
+                    $pdf->Cell(90, 7, utf8_decode($list_nom_cursos[$key]), 1, 0, 'l', '0');
+                    $pdf->SetX(105);
+
+                    empty($list_curso[$value][0])?$n1='':$n1=$list_curso[$value][0];
+                    empty($list_curso[$value][1])?$n2='':$n2=$list_curso[$value][1];
+                    empty($list_curso[$value][2])?$n3='':$n3=$list_curso[$value][2];
+                    $pdf->Cell(20, 7, $n1, 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7,$n2, 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7,$n3, 1, 0, 'C', '0');
+
+                    $nav+=$n1;
+                    $nbv+=$n2;
+                    $ncv+=$n3;
+                    $na+=$n1;
+                    $nb+=$n2;
+                    $nc+=$n3;
+
+                    if($nc!=0){
+                        $prom_fin=round(($ncv+$nbv+$nav)/3);
+                        $nav=0;$nbv=0;$ncv=0;
+                        $can_prom_fin+=$prom_fin;
+                    }
+                    //          $pdf->Cell(15, 7, utf8_decode('IV'), 1, 0, 'C', '1');
+                    $prom_fin==0?$prom_fin='':$prom_fin=$prom_fin;
+                    $can_prom_fin==0?$can_prom_fin='':$can_prom_fin=$can_prom_fin;
+                    $pdf->SetY(90+$a);
+                    $pdf->SetX(165);
+                    $pdf->Cell(25, 7, $prom_fin, '1', 1, 'C', false);
+
+            }
+                    $pdf->Ln(3);
+                    $proma='';$promb='';$promc='';
+                    $na==0?$naa='':$naa=$na;$proma = round($naa/count($list_cursos));
+                    $nb==0?$nab='':$nab=$nb;$promb = round($nab/count($list_cursos));
+                    $nc==0?$nac='':$nac=$nc;$promc = round($nac/count($list_cursos));
+                    $proma==0?$proma='':$proma=$proma;
+                    $promb==0?$promb='':$promb=$promb;
+                    $promc==0?$promc='':$promc=$promc;
+                    $prom_final=round(($proma+$promb+$promc)/3);
+                    $pdf->Cell(90, 7,'PUNTAJE', 1, 0, 'l', '0');
+                    $pdf->SetX(105);
+                    $pdf->Cell(20, 7,$naa, 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7,$nab, 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7, $nac, 1, 0, 'C', '0');
+        //          $pdf->Cell(15, 7, utf8_decode('IV'), 1, 0, 'C', '1');
+
+                    $pdf->Cell(25, 7, $can_prom_fin, '1', 1, 'C', false);
+                    $pdf->Cell(90, 7, 'PROMEDIO', 1, 0, 'l', '0');
+                    $pdf->SetX(105);
+                    $pdf->Cell(20, 7, $proma, 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7,$promb, 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7, $promc, 1, 0, 'C', '0');
+        //          $pdf->Cell(15, 7, utf8_decode('IV'), 1, 0, 'C', '1');
+                    if($nac!=''){
+                            $prom_final=$prom_final;
+                    }else{
+                            $prom_final='';
+                    }
+
+                    $pdf->Cell(25, 7, $prom_final, '1', 1, 'C', false);
+                    $pdf->Cell(90, 7, utf8_decode('ORDEN DE MÉRITO'), 1, 0, 'l', '0');
+                    $pdf->SetX(105);
+                    $pdf->Cell(20, 7, '', 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7,'-', 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7, '-', 1, 0, 'C', '0');
+                    $pdf->Cell(25, 7, '-', '1', 1, 'C', false);
+
+                    $pdf->Ln(3);
+                    $pdf->Cell(90, 7, utf8_decode('CONDUCTA'), 1, 0, 'l', '0');
+                    $pdf->SetX(105);
+                    $pdf->Cell(20, 7, '', 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7,'-', 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7, '-', 1, 0, 'C', '0');
+                    $pdf->Cell(25, 7, '-', '1', 1, 'C', false);
+
+                    $pdf->Cell(90, 7, utf8_decode('INASISTENCIA INJUSTIFICADA'), 1, 0, 'l', '0');
+                    $pdf->SetX(105);
+                    $pdf->Cell(20, 7, '', 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7,'-', 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7, '-', 1, 0, 'C', '0');
+                    $pdf->Cell(25, 7, '-', '1', 1, 'C', false);
+
+                    $pdf->Cell(90, 7, utf8_decode('EVASIONES'), 1, 0, 'l', '0');
+                    $pdf->SetX(105);
+                    $pdf->Cell(20, 7, '', 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7,'-', 1, 0, 'C', '0');
+                    $pdf->Cell(20, 7, '-', 1, 0, 'C', '0');
+                    $pdf->Cell(25, 7, '-', '1', 1, 'C', false);
+                    $pdf->Ln(15);
+                    $pdf->Cell(40, 7, utf8_decode('DIRECTOR'), 'T', 0, 'C', '0');
+                    $pdf->SetX(82);
+                    $pdf->Cell(40, 7, 'COORDINADOR','T', 0, 'C', '0');
+                    $pdf->SetX(150);
+                    $pdf->Cell(40, 7, 'TUTOR', 'T', 0, 'C', '0');
+                    $pdf->Ln(30);
+                }
+            }
+        }
+        $pdf->Output("doc.pdf", 'I');
+        $this->load->view('vistasDialog/gestionEducativa/bandejaConsulta/libreta', $this->htmlData);
     }
     public function consultaGeneralDir()
     {
@@ -1433,7 +1617,7 @@ class GestionEducativa extends CI_Controller
                     $i=0;
                     foreach ($reporte as $mostrar2) {
                         if ($mostrar->id_curso==$mostrar2->id_curso) {
-                            $arrayCurso[$mostrar->curso][$i]=round($mostrar2->nota/($mostrar2->cantidad), 2);
+                            $arrayCurso[$mostrar->curso][$i]=round($mostrar2->nota/($mostrar2->cantidad));
                             $i++;
                         }
                     }
@@ -1457,25 +1641,51 @@ class GestionEducativa extends CI_Controller
             $this->load->view('vistasDialog/gestionEducativa/notaGeneral/bandejaGeneral', $this->htmlData);
         }else{
             $busqueda= array('id_bimestre'=>$bimestre,'id_curso'=>$curso,'id_grado'=>$grado,'id_seccion'=>$seccion);
-
+                $contador=0;
                 $dotacionPresente =  $this->Usuarios_model->reporteNotasMerito1011($busqueda,false);
+                $list_alumnos= array_values(array_unique(array_column($dotacionPresente,'id_alumno')));
+                $i=1;
+                foreach($list_alumnos as $clave => $valor ){
+                    $contador=0;
+                    $i=0;
+                    foreach($dotacionPresente as $key => $value){
+                            if($valor == $value['id_alumno']){
+                                $i++;
+                                $contador+=$value['nota'];
+                                $list_alumno[$clave]['nota']=round($contador/$i);
+                                $list_alumno[$clave]['id_alumno']=$value['id_alumno'];
+                                $list_alumno[$clave]['gradosec']=$value['gradosec'];
+                                $list_alumno[$clave]['id_grado']=$value['id_grado'];
+                                $list_alumno[$clave]['id_seccion']=$value['id_seccion'];
+                                $list_alumno[$clave]['ape_pat_per']=$value['ape_pat_per'];
+                            }
+                    }
+                }
+                    $array= array_column($list_alumno,'nota');
+                    arsort($array,SORT_NUMERIC);
+                    $ordenados=array_values(array_keys($array));
 
-            if(count($dotacionPresente)==0){
+                    foreach($list_alumno as $key => $alumnos){
+                            $list_alumn[]=$list_alumno[$ordenados[$key]];
+
+                    }
+                    $list_alumno=$list_alumn;
+            if(count($list_alumno)==0){
                 echo "No existe información registrada"; die();
             }
-            for($i=0;$i<count($dotacionPresente);$i++){
-                if($i<count($dotacionPresente)/5){
-                    $color[]=array('color'=>'#2E9AFE','letra'=>'#ffffff','merito'=>'<b>QUINTO Y TERCIO SUPERIOR</b>');
-                }else if($i<count($dotacionPresente)/3){
-                    $color[]=array('color'=>'#084B8A','letra'=>'#ffffff','merito'=>'<b>TERCIO SUPERIOR</b>');
+            for($i=0;$i<count($list_alumno);$i++){
+                if($i<count($list_alumno)/5){
+                    $color[]=array('color'=>'#084B8A','letra'=>'#ffffff','merito'=>'<b>QUINTO Y TERCIO SUPERIOR</b>');
+                }else if($i<count($list_alumno)/3){
+                    $color[]=array('color'=>'#2E9AFE','letra'=>'#ffffff','merito'=>'<b>TERCIO SUPERIOR</b>');
                 }else{
                     $color[]=array('color'=>'#ffffff','letra'=>'#000000','merito'=>'');
                 }
             }
 
             $this->htmlData['bodyData']->color         = $color;
-            $this->htmlData['bodyData']->cantidad         = count($dotacionPresente);
-            $this->htmlData['bodyData']->resultado         = array_slice($dotacionPresente,0,(count($dotacionPresente)-1)/3);
+            $this->htmlData['bodyData']->cantidad         = count($list_alumno);
+            $this->htmlData['bodyData']->resultado         = array_slice($list_alumno,0,(count($list_alumno)-1)/3);
             $this->htmlData['bodyData']->grado          = $grado ;
             $this->htmlData['bodyData']->seccion        = $seccion ;
             $this->htmlData['bodyData']->curso          = $curso ;
@@ -1492,23 +1702,51 @@ class GestionEducativa extends CI_Controller
         $bimestre=$this->input->post('bimestre');
         $id_curso=$this->input->post('curso');
         $id_seccion=$this->input->post('seccion');
+
         $busqueda= array('id_bimestre'=>$bimestre,'id_curso'=>$id_curso,'id_grado'=>$id_grado,'id_seccion'=>$id_seccion);
         if(empty($busqueda['id_bimestre'])){
             echo "No se puede mostrar esta informacion"; die();
         }
         $dotacionPresente =  $this->Usuarios_model->reporteNotasMerito1011($busqueda,false);
+        $list_alumnos= array_values(array_unique(array_column($dotacionPresente,'id_alumno')));
+                $i=1;
+                foreach($list_alumnos as $clave => $valor ){
+                    $contador=0;
+                    $i=0;
+                    foreach($dotacionPresente as $key => $value){
+                            if($valor == $value['id_alumno']){
+                                $i++;
+                                $contador+=$value['nota'];
+                                $list_alumno[$clave]['nota']=round($contador/$i);
+                                $list_alumno[$clave]['id_alumno']=$value['id_alumno'];
+                                $list_alumno[$clave]['gradosec']=$value['gradosec'];
+                                $list_alumno[$clave]['id_grado']=$value['id_grado'];
+                                $list_alumno[$clave]['id_seccion']=$value['id_seccion'];
+                                $list_alumno[$clave]['ape_pat_per']=$value['ape_pat_per'];
+                            }
+                    }
+                }
+                    $array= array_column($list_alumno,'nota');
+                    arsort($array,SORT_NUMERIC);
+                    $ordenados=array_values(array_keys($array));
 
-        $id_seccion=='codigo'?$sec=$this->Usuarios_model->buscarGrados($id_grado)[0]->nom_grado.' de SEC.':$sec=$dotacionPresente[0]['gradosec'].' de SEC.';
-        $id_curso  =='codigo'?$cur='':$cur='del curso de '.strtoupper($this->Usuarios_model->buscarCursos($id_curso)[0]->nom_cursos);
-        $bimestre  =='codigo'?$bime='':$bime=' en el  '.strtoupper($this->Usuarios_model->buscarBimestre($bimestre)[0]->nom_bimestre);
-            if(count($dotacionPresente)==0){
+                    foreach($list_alumno as $key => $alumnos){
+                            $list_alumn[]=$list_alumno[$ordenados[$key]];
+
+                    }
+                    $list_alumno=$list_alumn;
+
+        $id_seccion!='codigo'?$sec=$this->Usuarios_model->buscarSecciones($id_seccion)[0]->nom_seccion.' de SEC.':$sec='TODOS';
+        $id_curso  =='codigo'?$cur='TODOS':$cur=strtoupper($this->Usuarios_model->buscarCursos($id_curso)[0]->nom_cursos);
+        $bimestre  =='codigo'?$bime='FINAL':$bime=strtoupper($this->Usuarios_model->buscarBimestre($bimestre)[0]->nom_bimestre);
+            if(count($list_alumnos)==0){
                 echo "No existe información registrada"; die();
             }
-            for($i=0;$i<count($dotacionPresente);$i++){
-                if($i<count($dotacionPresente)/5){
-                    $color[]=array('color'=>'#2E9AFE','letra'=>'#ffffff','merito'=>'QUINTO Y TERCIO SUPERIOR');
-                }else if($i<count($dotacionPresente)/3){
-                    $color[]=array('color'=>'#084B8A','letra'=>'#ffffff','merito'=>'TERCIO SUPERIOR');
+            for($i=0;$i<count($list_alumnos);$i++){
+                if($i<floor(count($list_alumnos)/5)){
+                    $color[]=array('color'=>'#084B8A','letra'=>'#ffffff','merito'=>'QUINTO Y TERCIO SUPERIOR');
+                }else if($i<count($list_alumnos)/3){
+                    $color[]=array('color'=>'#2E9AFE','letra'=>'#ffffff','merito'=>'TERCIO SUPERIOR');
                 }else{
                     $color[]=array('color'=>'#ffffff','letra'=>'#000000','merito'=>'');
                 }
@@ -1517,9 +1755,9 @@ class GestionEducativa extends CI_Controller
         $this->load->library('Pdf');
         $pdf = new Pdf();
         $datosHeader="COLEGIO POLITECNICO VILLA LOS REYES";
-        $datosBody="Orden de ".utf8_decode('mérito')." del ".$sec." ".$cur.' '.$bime;
         $pdf->SetDatosHeader($datosHeader);
-        $pdf->SetDatosBody($datosBody);
+        $pdf->Ln(5);
+        $pdf->SetDatosBody($sec,$cur,$bime);
         $pdf->AddPage();
         $pdf->AliasNbPages();
         $pdf->SetTitle("Reporte de Notas");
@@ -1528,28 +1766,57 @@ class GestionEducativa extends CI_Controller
         $pdf->SetFillColor(100, 200, 200);
         $pdf->SetFont('Arial', 'B', 7);
 
-        $tercio = count($dotacionPresente)/3;
-        $quinto = count($dotacionPresente)/5;
+        $tercio = floor(count($list_alumnos)/3);
+        $quinto = floor(count($list_alumnos)/5);
+            $pdf->Ln(30);
+            $pdf->Cell(90, 7, 'GRADO', 'TBL', 0, 'L', '2');
+            $pdf->Cell(90, 7, ($this->Usuarios_model->buscarGrados($id_grado)[0]->nom_grado), 'TBR', 0, 'C', '0');
+            $pdf->Ln(7);
+            $pdf->Cell(90, 7, utf8_decode('SECCIÓN'), 'TBL', 0, 'L', '2');
+            $pdf->Cell(90, 7, ($sec), 'TBR', 0, 'C', 0);
+            $pdf->Ln(7);
+            $pdf->Cell(90, 7, 'CURSO', 'TBL', 0, 'L', '2');
+            $pdf->Cell(90, 7, ($cur), 'TBR', 0, 'C', '0');
+            $pdf->Ln(7);
+            $pdf->Cell(90, 7, 'BIMESTRE', 'TBL', 0, 'L', '2');
+            $pdf->Cell(90, 7, ($bime), 'TBR', 0, 'C', '0');
+
+            $pdf->Ln(30);
+            $pdf->Cell(90, 7, utf8_decode('DETALLE'), 'TBL', 0, 'C', '2');
+            $pdf->Cell(90, 7, 'CANTIDAD', 'TBR', 0, 'C', '2');
+
+            $pdf->Ln(7);
+            $pdf->Cell(90, 7, 'QUINTO SUPERIOR', 'TBL', 0, 'L', 0);
+            $pdf->Cell(90, 7, floor($quinto), 'TBR', 0, 'C', 0);
+
+            $pdf->Ln(7);
+            $pdf->Cell(90, 7, 'TERCIO Y QUINTO SUPERIOR', 'TBL', 0, 'L', 0);
+            $pdf->Cell(90, 7, floor($tercio), 'TBR', 0, 'C', 0);
 
 
+            $pdf->Ln(7);
+            $pdf->Cell(90, 7, 'TOTAL ALUMNOS', 'TBL', 0, 'L', 0);
+            $pdf->Cell(90, 7, count($list_alumnos), 'TBR', 0, 'C', 0);
 
-        $pdf->Cell(15, 7, 'PUESTO', 'TBL', 0, 'C', '1');
-        $pdf->Cell(80, 7, 'APELLIDOS Y NOMBRES', 'TB', 0, 'L', '1');
-        $pdf->Cell(40, 7, utf8_decode('MÉRITO'), 'TB', 0, 'L', '1');
-        $pdf->Cell(30, 7, 'GRADO Y SECCION', 'TB', 0, 'L', '1');
-        $pdf->Cell(15, 7, 'NOTA FINAL', 'TBR', 0, 'C', '1');
+
+            $pdf->Ln(160);
+
+            $pdf->Cell(15, 7, 'PUESTO', 'TBL', 0, 'C', '1');
+            $pdf->Cell(80, 7, 'APELLIDOS Y NOMBRES', 'TB', 0, 'L', '1');
+            $pdf->Cell(40, 7, utf8_decode('MÉRITO'), 'TB', 0, 'L', '1');
+            $pdf->Cell(30, 7, 'GRADO Y SECCION', 'TB', 0, 'L', '1');
+            $pdf->Cell(15, 7, 'NOTA FINAL', 'TBR', 0, 'C', '1');
 
         $pdf->Ln(7);
         $x = 1;
         $a=0;$b=0;$c=0;$d=0;
-
-        for ($i=0;$i<floor(count($dotacionPresente)/3);$i++) {
+        for ($i=0;$i<floor(count($list_alumnos)/3);$i++) {
 
             $pdf->Cell(15, 5, $x++, 'TBL', 0, 'C', '2');
-            $pdf->Cell(80, 5, utf8_decode($dotacionPresente[$i]['ape_pat_per']), 'TB', 0, 'L', 0);
+            $pdf->Cell(80, 5, utf8_decode($list_alumno[$i]['ape_pat_per']), 'TB', 0, 'L', 0);
             $pdf->Cell(40, 5, utf8_decode($color[$i]['merito']), 'TB', 0, 'L', 0);
-            $pdf->Cell(30, 5, $dotacionPresente[$i]['gradosec'], 'TB', 0, 'L', 0);
-            $pdf->Cell(15, 5, utf8_decode($dotacionPresente[$i]['nota']), 'TBR', 0, 'C', 0);
+            $pdf->Cell(30, 5, $list_alumno[$i]['gradosec'], 'TB', 0, 'L', 0);
+            $pdf->Cell(15, 5, utf8_decode($list_alumno[$i]['nota']), 'TBR', 0, 'C', 0);
 
             $pdf->Ln(5);
 
@@ -1557,20 +1824,7 @@ class GestionEducativa extends CI_Controller
         }
 
             $pdf->Ln(7);
-            $pdf->Cell(40, 7, utf8_decode('Mérito'), 'TBL', 0, 'L', '1');
-            $pdf->Cell(20, 7, 'Cantidad', 'TBR', 0, 'L', '1');
 
-            $pdf->Ln(7);
-            $pdf->Cell(40, 7, 'QUINTO SUPERIOR', 'TBL', 0, 'L', 0);
-            $pdf->Cell(20, 7, floor($quinto), 'TBR', 0, 'L', 0);
-
-            $pdf->Ln(7);
-            $pdf->Cell(40, 7, 'TERCIO Y QUINTO SUPERIOR', 'TBL', 0, 'L', 0);
-            $pdf->Cell(20, 7, floor($tercio), 'TBR', 0, 'L', 0);
-
-            $pdf->Ln(7);
-            $pdf->Cell(40, 7, 'TOTAL ALUMNOS', 'TBL', 0, 'L', 0);
-            $pdf->Cell(20, 7, count($dotacionPresente), 'TBR', 0, 'L', 0);
 
 
         $pdf->Output("doc.pdf", 'I');

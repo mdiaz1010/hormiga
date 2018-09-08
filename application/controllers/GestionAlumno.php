@@ -202,7 +202,7 @@ class GestionAlumno extends CI_Controller
 
             foreach ($puesto_colegio as $colegio) { // EXTRAIGO EL PUESTO Y LA NOTA DEL COLEGIO
                 if ($alu==$colegio->id_alumno) {
-                    $arraycolegio=array('puesto'=>$sumc,'nota'=>round($colegio->nota, 2));
+                    $arraycolegio=array('puesto'=>$sumc,'nota'=>round($colegio->nota));
                 }
                 $sumc++;
                 $c++;

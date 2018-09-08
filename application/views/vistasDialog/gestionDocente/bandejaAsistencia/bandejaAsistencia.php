@@ -47,7 +47,7 @@
         if (empty($bodyData->porcentaje[$cuentasTemp->id])) {
             $valor='100';
         } else {
-            $valor=round($bodyData->porcentaje[$cuentasTemp->id], 2);
+            $valor=round($bodyData->porcentaje[$cuentasTemp->id]);
         } ?>
                         <tr>
                             <input type="hidden" name="id_grado" id="id_grado" value="<?php echo $bodyData->filtrog; ?>">

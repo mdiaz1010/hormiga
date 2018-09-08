@@ -14,19 +14,17 @@
             <div class="x_content">
 
 
-                <form method="post" name="crearusuario" id="crearusuarioss">
+                <form method='POST' id='formReport' name="formReport" action="<?=base_url();?>GestionEducativa/comboBandeLib"  target="TheWindow">
                     <div class="form-group">
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">
-                            GRADO
-                            <select name="rol_grado" class="form-control" id='rol_grado' required></select>
-                        </label>
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">
-                            SECCION
-                            <select name="rol_seccion" class="form-control" id='rol_seccion' required></select>
-                        </label>
-                        <label class="control-label col-md-4 col-sm-4 col-xs-12">
+                        <label class="control-label col-md-12 col-sm-12 col-xs-12">
                             BIMESTRE
-                            <select name="rol_bimestre" class="form-control" id='rol_bimestre' required></select>
+                            <select name="rol_bimestre" class="form-control" onchange="this.form.submit()" id='rol_bimestre' required>
+                            <option disabled='true' selected name="bimestre" id="bimestre" value="">Seleccione...</option>
+                            <?php foreach ($bodyData->bimestre as $key => $value):?>
+                            <option name="bimestre" id="bimestre" value="<?=$value['id']?>"><?=$value['nom_bimestre']?></option>
+                            <?php endforeach;?>
+
+                            </select>
                         </label>
                     </div>
                 </form>
@@ -42,7 +40,7 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>Generación de libretas
-                    <?=$bodyData->anos?>
+                    <?=date('Y')?>
                 </h2>
                 <ul class="nav navbar-right panel_toolbox">
 
@@ -66,7 +64,7 @@
  Espere mientras se gestiona la informaci&oacute;n.
 <span class="fa fa-spinner fa-pulse fa-2x fa-fw"></span>
 </div>
-<script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionEducativa_notasTQ.js')?>"></script>
+<script type="text/javascript" src="<?= base_url('publico/js_vistas/js/GestionEducativa_notasLIB.js')?>"></script>
 <?php
 } else {
                                             echo "No se cuenta con la informacion necesaria registrada.";

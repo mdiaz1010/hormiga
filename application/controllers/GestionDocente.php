@@ -485,19 +485,30 @@ class GestionDocente extends CI_Controller
         $pdf->SetTitle("Reporte de Notas");
         $pdf->SetLeftMargin(26);
         $pdf->SetRightMargin(40);
-        $pdf->SetFillColor(200, 200, 200);
+        $pdf->SetFillColor(100, 200, 200);
         $pdf->SetFont('Arial', 'B', 9);
-        $pdf->Cell(15, 7, 'NRO', 'TBL', 0, 'C', '1');
-        $pdf->Cell(80, 7, 'APELLIDOS Y NOMBRES', 'TB', 0, 'L', '1');
-        $pdf->Cell(40, 7, 'ESTADO', 'TB', 0, 'L', '1');
-        $pdf->Cell(22, 7, 'NOTA FINAL', 'TBR', 0, 'C', '1');
+            $pdf->Cell(40, 7, 'Grado', 'TBL', 0, 'L', '2');
+            $pdf->Cell(20, 7, 'Seccion', 'TB', 0, 'L', '2');
+            $pdf->Cell(50, 7, 'Curso', 'TB', 0, 'c', '2');
+            $pdf->Cell(50, 7, 'Bimestre', 'TBR', 0, 'c', '2');
+            $pdf->Ln(7);
+            $pdf->Cell(40, 7, ($nom_grado[0]->nom_grado), 'TBL', 0, 'L', '0');
+            $pdf->Cell(20, 7, $nom_secci[0]->nom_seccion, 'TB', 0, 'L', '0');
+            $pdf->Cell(50, 7, $nom_curso[0]->nom_cursos, 'TB', 0, 'c', '0');
+            $pdf->Cell(50, 7, $bime , 'TBR', 0, 'c', '0');
+            $pdf->Ln(15);
+
+        $pdf->Cell(18, 7, 'NRO', 'TBL', 0, 'C', '2');
+        $pdf->Cell(80, 7, 'APELLIDOS Y NOMBRES', 'TB', 0, 'L', '2');
+        $pdf->Cell(40, 7, 'ESTADO', 'TB', 0, 'L', '2');
+        $pdf->Cell(22, 7, 'NOTA FINAL', 'TBR', 0, 'C', '2');
 
         $pdf->Ln(7);
         $x = 1;
         $a=0;$b=0;$c=0;$d=0;
 
         foreach ($meri as $alumno) {
-            $pdf->Cell(15, 5, $x++, 'BL', 0, 'C', 0);
+            $pdf->Cell(18, 5, $x++, 'BL', 0, 'C', '2');
             $pdf->Cell(80, 5, utf8_decode($alumno['ape_pat_per']), 'B', 0, 'L', 0);
             if (trim($alumno['nota'])>=17.5) {
                 $pdf->Cell(40, 5, 'SATISFACTORIO', 'B', 0, 'L', 0);
@@ -518,14 +529,14 @@ class GestionDocente extends CI_Controller
         }
         $porcentaje=$a+$b+$c+$d;
 
-            $aa=($a==0)?0:round(($a*100)/$porcentaje,2);
-            $bb=($b==0)?0:round(($b*100)/$porcentaje,2);
-            $cc=($c==0)?0:round(($c*100)/$porcentaje,2);
-            $dd=($d==0)?0:round(($d*100)/$porcentaje,2);
+            $aa=($a==0)?0:round(($a*100)/$porcentaje);
+            $bb=($b==0)?0:round(($b*100)/$porcentaje);
+            $cc=($c==0)?0:round(($c*100)/$porcentaje);
+            $dd=($d==0)?0:round(($d*100)/$porcentaje);
             $pdf->Ln(7);
-            $pdf->Cell(40, 7, 'Estado', 'TBL', 0, 'L', '1');
-            $pdf->Cell(20, 7, 'Cantidad', 'TB', 0, 'L', '1');
-            $pdf->Cell(20, 7, 'Porcentaje', 'TBR', 0, 'c', '1');
+            $pdf->Cell(40, 7, 'Estado', 'TBL', 0, 'L', '2');
+            $pdf->Cell(20, 7, 'Cantidad', 'TB', 0, 'L', '2');
+            $pdf->Cell(20, 7, 'Porcentaje', 'TBR', 0, 'c', '2');
             $pdf->Ln(7);
             $pdf->Cell(40, 7, 'Satisfatorio', 'TBL', 0, 'L', 0);
             $pdf->Cell(20, 7, $a, 'TB', 0, 'L', 0);

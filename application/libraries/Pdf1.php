@@ -3,7 +3,7 @@
     require_once APPPATH."/third_party/fpdf/fpdf.php";
 
     //Extendemos la clase Pdf de la clase fpdf para que herede todas sus variables y funciones
-    class Pdf extends FPDF {
+    class Pdf1 extends FPDF {
         public function __construct() {
             parent::__construct();
         }
@@ -13,7 +13,7 @@
             $this->Cell(30);
             $datosHeader = $this->GetDatosHeader();
             $datosBody = $this->GetDatosBody();
-            $this->Image(base_url('publico/media/cabecera_reporte_notas.png'),-5,2,210);
+            $this->Image(base_url('publico/media/cabecera_reporte_libretas.png'),-5,2,210);
 
             $this->Ln('5');
             $this->SetFont('Arial','B',8);
@@ -26,9 +26,9 @@
        }
        // El pie del pdf
        public function Footer(){
-           $this->SetY(-15);
-           $this->SetFont('Arial','I',8);
-           $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+           $this->Image(base_url('publico/media/pie_pagina.png'),22,260,160);
+      //     $this->SetFont('Arial','I',8);
+      //     $this->Cell(0,10,utf8_decode('Página').$this->PageNo().'/{nb}',0,0,'C');
       }
       public function SetDatosHeader( $datos ){
       $this->datosHeader = $datos;
