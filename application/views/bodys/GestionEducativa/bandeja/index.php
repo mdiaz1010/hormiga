@@ -1,4 +1,3 @@
-<!--
     <div class="row row-offcanvas row-offcanvas-left" id="mensajeria-intranet">
     <div class="col-md-2 col-sm-3 sidebar-offcanvas animated fadeInLeft" id="sidebar">
         <div class="col-md-12 col-sm-12 col-xs-12 ibox float-e-margins" style="padding: 0px;">
@@ -187,6 +186,7 @@
 
 </div>
 
--->
+<!--
 
 En construcción...
+-->
