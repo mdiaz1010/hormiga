@@ -170,13 +170,16 @@ class Login extends CI_Controller
 
 
                 switch ($usuario->ROLES) {
-                    case 1: $vista= array('vista'=>'GestionEducativa'); break;
+                    case 1: $vista= array('vista'=>'gestionEducativa'); break;
                     case 2: $vista= array('vista'=>'vistaDirector'); break;
                     case 3: $vista= array('vista'=>'vistaSubDirector'); break;
-                    case 4: $vista= array('vista'=>'GestionDocente'); break;
-                    case 5: $vista= array('vista'=>'GestionAuxiliar'); break;
-                    case 6: $vista= array('vista'=>'GestionAlumno');break;
+                    case 4: $vista= array('vista'=>'gestionDocente'); break;
+                    case 5: $vista= array('vista'=>'gestionAuxiliar'); break;
+                    case 6: $vista= array('vista'=>'gestionAlumno');break;
+                    case 7: $vista= array('vista'=>'gestionPadre');break;
                     }
+
+
                 echo json_encode($vista);
             } else {
                 echo json_encode(array('error'=>1,'vista'=>'index'));die();
@@ -186,6 +189,18 @@ class Login extends CI_Controller
             $this->session->sess_destroy();
             echo json_encode(array('error'=>1,'vista'=>'index'));die();
         }
+    }
+    public function gestionPadre()
+    {
+
+        $this->load->model("Usuarios_model", '', true);
+        $this->load->model("Padre_model", '', true);
+        $cod_apoderado=$this->session->webCasSession->usuario->DOCUMENTO;
+        $list_hijos = $this->Padre_model->consultar_hijos($cod_apoderado);
+        $this->htmlData['headData']->titulo               = "EDUMPRO - SISTEMA EDUCATIVO";
+        $this->htmlData['body'] .= "/gestionPadre";
+        $this->htmlData['bodyData']->list_hijos     = $list_hijos ;
+        $this->load->view('plantillas_base/standar/body', $this->htmlData);
     }
     public function asistencia()
     {

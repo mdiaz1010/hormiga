@@ -183,5 +183,15 @@ if(codigo=='4'){
       uri= "<?=base_url('GestionAlumno/bandeja')?>";
       $("#main-content").load(uri);
     });
+}else if (codigo=='7'){
+    $(".inicio_docente").click(function(){
+      uri= "<?=base_url('GestionPadre/index')?>";
+      $("#main-content").load(uri);
+    });
+    $(".mensajeria_docente").click(function(){
+      uri= "<?=base_url('GestionPadre/bandeja')?>";
+      $("#main-content").load(uri);
+    });
+    $(".reporte_docentes").hide();
 }
 </script>

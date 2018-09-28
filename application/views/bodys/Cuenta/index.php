@@ -102,7 +102,26 @@
                         </label>
 
                     </div>
-
+                    <div class="form-group">
+                        <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                            Apoderado:
+                            <input name="apoderado" id="apoderado" placeholder="apellidos y nombre" type="text" class="form-control" required>
+                        </label>
+                        <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                            Documento apoderado:
+                            <input name="doc_apoderado" id="doc_apoderado" placeholder="documento" type="number" class="form-control" required>
+                        </label>
+                        <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                            Teléfono apoderado:
+                            <input name="tel_apoderado" id="tel_apoderado" placeholder="teléfono " type="number" class="form-control"
+                                 required>
+                        </label>
+                        <label class="control-label col-md-12 col-sm-12 col-xs-12">
+                            Correo apoderado:
+                            <input name="cor_apoderado" id="cor_apoderado" placeholder="email" type="email" class="form-control"
+                                 >
+                        </label>
+                    </div>
 
 
                     <label class="control-label col-md-6 col-sm-6 col-xs-12 right">
